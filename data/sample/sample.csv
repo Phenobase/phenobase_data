@@ -1,0 +1,5 @@
+﻿guid,datasource,verbatim_date,day_of_year,year,latitude,longitude,coordinate_uncertainty_meters,family,scientific_name,taxon_rank,basis_of_record,individualID,occurrenceID,verbatim_trait,trait,observed_image_guid,observed_image_url,certainty,model_uri,error_message
+jd1,sample,"june 5th, 2024",167,2024,47,-123.1234,123,Fagaceae,Quercus agrifolia,species,PreservedSpecimen,1,jd1,Fruiting,fruits present,urn:image_guid,urn:image_guid,Unequivocal,urn:model,
+jd2,sample,"june 10th, 2024",173,2024,47,-124,120,Fagaceae,Quercus agrifolia,species,PreservedSpecimen,1,jd2,Fruiting,fruits present,urn:image_guid,urn:image_guid,Unequivocal,urn:model,
+jd3,sample,"june 5th, 2024",150,2024,45,-123.1234,123,Fagaceae,Quercus agrifolia,species,PreservedSpecimen,1,jd3,Fruiting,fruits present,urn:image_guid,urn:image_guid,Unequivocal,urn:model,
+jd4,sample,"june 10th, 2024",134,2024,43,-124,120,Fagaceae,Quercus agrifolia,species,PreservedSpecimen,1,jd4,Fruiting,flowers present,urn:image_guid,urn:image_guid,Unequivocal,urn:model,
