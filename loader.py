@@ -123,11 +123,10 @@ class ESLoader(object):
             for row in reader:
                 # lookup traits
                 all_traits = self.get_mapped_traits(self.traits_mapping, row['trait'])
-
                 mapped_traits = []
                 for trait in all_traits.split("|"):
                     try:
-                        mapped_traits.append(self.lookup[trait])
+                        mapped_traits.append(trait)
                     except:
                         pass
                 row['mapped_traits'] = mapped_traits
@@ -158,7 +157,7 @@ class ESLoader(object):
                         "verbatim_date": {"type": "text"},
                         "day_of_year": {"type": "integer"},
                         "year": {"type": "integer"},
-                         "latitude": { "type": "float" },
+                        "latitude": { "type": "float" },
                         "longitude": { "type": "float" },
                         "location": { "type": "geo_point" },       
                         "coordinate_uncertainty_meters": {"type": "integer"},
