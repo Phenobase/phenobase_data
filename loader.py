@@ -48,9 +48,20 @@ class ESLoader(object):
         self.index_name = index_name
         self.drop_existing = drop_existing
         self.alias = alias
-        self.es = Elasticsearch(
-            [{'host': self.host, 'port': 80, 'scheme': 'http'}]
-        )
+        try:
+            self.es = Elasticsearch(
+                [{'host': self.host, 'port': 80, 'scheme': 'http'}]
+            )
+
+            # Test the connection
+            if self.es.ping():
+                print("Connected to Elasticsearch at {}:{}".format(self.host, 80))
+            # Further operations can be performed here
+            else:
+                print("Could not connect to Elasticsearch.")
+        except Exception as e:
+            print(f"Error connecting to Elasticsearch: {e}")
+
     def load(self):
         if not self.es.indices.exists(index=self.index_name):
             print('creating index ' + self.index_name)
@@ -67,6 +78,7 @@ class ESLoader(object):
 
         for file in get_files(self.data_dir):
             try:
+                print(file)
                 doc_count += self.__load_file(file)
             except RuntimeError as e:
                 print(e)
@@ -93,7 +105,7 @@ class ESLoader(object):
         return traits_mapping
 
     # return trait mapping from trait
-    def get_mapped_traits(traits_mapping, search_trait):
+    def get_mapped_traits(self, traits_mapping, search_trait):
         return traits_mapping.get(search_trait)
 
     # Load the CSV file into a dictionary once
@@ -128,9 +140,10 @@ class ESLoader(object):
 
                 data.append({k: v for k, v in row.items() if v})  # remove any empty values
 
-            print(json.dumps(data, indent=2))
+            print("loading now")
+            #print(json.dumps(data, indent=2))
 
-            #elasticsearch.helpers.bulk(client=self.es, index=self.index_name, actions=data, raise_on_error=True, chunk_size=10000, request_timeout=60)
+            elasticsearch.helpers.bulk(client=self.es, index=self.index_name, actions=data, raise_on_error=True, chunk_size=10000, request_timeout=60)
             doc_count += len(data)
             print("Indexed {} documents in {}".format(doc_count, f.name))
 
@@ -140,7 +153,7 @@ class ESLoader(object):
         request_body = {
             "mappings": {
                     "properties": {
-                        "guid": { "type": "TEXT"},
+                        "guid": { "type": "text"},
                         "datasource": {"type": "keyword"},
                         "verbatim_date": {"type": "text"},
                         "day_of_year": {"type": "integer"},
@@ -186,10 +199,10 @@ args = parser.parse_args()
 project = args.project
 drop_existing= args.drop_existing
 
-data_dir = '/home/exouser/data/phenobase_data/sample'
+data_dir = '/home/exouser/code/phenobase_data/data/sample'
 index = 'phenobase'
 alias = 'phenobase'
-host =  'tarly.cyverse.org:80'
+host =  'tarly.cyverse.org'
 
 if project is not None and drop_existing is not None:
     loader = ESLoader(data_dir, index, drop_existing, alias, host)
