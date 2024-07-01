@@ -15,7 +15,6 @@ individualID,TEXT
 occurrenceID,TEXT
 verbatim_trait,TEXT
 trait,TEXT
-parent_traits,TEXT
 observed_image_guid,TEXT
 observed_image_url,TEXT
 certainty,TEXT
