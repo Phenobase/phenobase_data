@@ -182,7 +182,7 @@ class ESLoader(object):
                         "longitude": { "type": "float" },
                         "location": { "type": "geo_point" },       
                         "coordinate_uncertainty_meters": {"type": "integer"},
-                        "family": {"type": "text"},
+                        "family": {"type": "keyword"},
                         "scientific_name": {"type": "text"},
                         "taxon_rank": {"type": "text"},
                         "basis_of_record": {"type": "text"},
