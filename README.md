@@ -6,4 +6,4 @@ python loader.py sample true
 
 # Field Definitions
 
-See schema.yaml for field definitions
+See schema.jsonld for field definitions
