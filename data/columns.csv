@@ -1,22 +1,23 @@
-column,type
-guid,TEXT
-datasource,TEXT
-verbatim_date,TEXT
-day_of_year,INTEGER
-year,INTEGER
-latitude,FLOAT
-longitude,FLOAT
-coordinate_uncertainty_meters,INTEGER
-family,TEXT
-scientific_name,TEXT
-taxon_rank,TEXT
-basis_of_record,TEXT
-individualID,TEXT
-occurrenceID,TEXT
-verbatim_trait,TEXT
-trait,TEXT
-observed_image_guid,TEXT
-observed_image_url,TEXT
-certainty,TEXT
-model_uri,TEXT
-error_message,TEXT
+﻿field,datatype,source,definition
+guid,text,user,global unique identifier for the observation
+datasource,keyword,user,name of the datasource
+verbatim_date,text,user,verbatim date
+day_of_year,integer,user,day of the year.  Must be between 1 and 366
+year,integer,user,year of the observation
+latitude,float,user,latitude with precision up to 6 decimal places
+longitude,float,user,longitude with precision up to 6 decimal places
+coordinate_uncertainty_meters,integer,user,coordinate uncertainty in meters
+family,keyword,user,family of the organism
+scientific_name,text,user,scientific name of the observed organism
+taxon_rank,text,user,taxonomic rank of the scientific name
+basis_of_record,text,user,basis of record of oberserved organism.  See darwin core reference for values
+individualID,text,user,individual ID of the observed organism
+occurrenceID,text,user,occurrence ID of the observed organism
+verbatim_trait,text,user,Verbatim description of the trait
+trait,text,user,"Trait tested.  Currently ""flower"" or ""fruit"""
+observed_image_guid,text,user,Globally Unique Identifier of the image
+observed_image_url,text,user,URL for the image
+certainty,keyword,user,Certainy of machine observation (Equivocal or Unequivocal)
+model_uri,text,user,URI of the model
+error_message,text,user,Error messages from processing
+mapped_traits,keyword,system,Pipe delimited list of mapped traits
