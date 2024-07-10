@@ -1,6 +1,3 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/9aba2cd4-5eaa-4879-8e51-2c11c26a1719/deploy-status)](https://app.netlify.com/sites/phenobase/deploys)
-
-
 # Structuring Data
 
 The following tables define the expected structure of incoming data:
