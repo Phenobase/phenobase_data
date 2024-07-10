@@ -104,6 +104,16 @@ class ESLoader(object):
                 traits_mapping[row['trait']] = row['mapped_traits']
         return traits_mapping
 
+    def is_valid_lat_lon(self, value, min_value, max_value):
+        try:
+            num = float(value)
+            if min_value <= num <= max_value:
+                return True
+            else:
+                return False
+        except ValueError:
+            return False
+
     # return trait mapping from trait
     def get_mapped_traits(self, traits_mapping, search_trait):
         return traits_mapping.get(search_trait)
@@ -122,18 +132,29 @@ class ESLoader(object):
 
             for row in reader:
                 # lookup traits
+                # TODO validate trait... see the traits.csv file and the data to make sure they match, for now its all unequivocal
                 all_traits = self.get_mapped_traits(self.traits_mapping, row['trait'])
                 mapped_traits = []
-                for trait in all_traits.split("|"):
-                    try:
-                        mapped_traits.append(trait)
-                    except:
-                        pass
+
+                print(all_traits)
+
+                if all_traits is not None and isinstance(all_traits, str):
+                    for trait in all_traits.split("|"):
+                        try:
+                            mapped_traits.append(trait)
+                        except:
+                            pass
+                else:
+                    print("TODO print error log")
+
                 row['mapped_traits'] = mapped_traits
 
                 # gracefully handle empty locations
-                if  (row['latitude'] == '' or row['longitude'] == ''):
+                if  (row['latitude'] == '' or row['longitude'] == '' or not self.is_valid_lat_lon(row['latitude'], -90, 90) or not self.is_valid_lat_lon(row['longitude'], -180, 180)):
                     row['location'] = ''
+                    row['latitude'] = ''
+                    row['longitude'] = ''
+                    print("TODO print error log")
                 else:
                     row['location'] = row['latitude'] + "," + row['longitude']
 
