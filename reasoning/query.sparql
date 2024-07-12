@@ -1,0 +1,6 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?superclass ?label WHERE {
+    ?class rdfs:label "flower present" .
+    ?class rdfs:subClassOf+ ?superclass .
+    OPTIONAL { ?superclass rdfs:label ?label }
+}
