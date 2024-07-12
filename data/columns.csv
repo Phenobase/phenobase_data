@@ -9,10 +9,10 @@ longitude,decimalLongitude,TRUE,float,user,longitude with precision up to 6 deci
 coordinate_uncertainty_meters,positional_accuracy,FALSE,integer,user,coordinate uncertainty in meters
 family,,TRUE,keyword,user,family of the organism
 count_family,,TRUE,integer,user,Thhe number of records that were annotated at the taxon rank of family associated with the identified occurrence
-genus,,TRUE,text,user,
+genus,,TRUE,keyword,user,
 scientific_name,,TRUE,text,user,scientific name of the observed organism
 taxon_rank,rank,TRUE,text,user,taxonomic rank of the scientific name
-basis_of_record,,FALSE,text,user,basis of record of oberserved organism.  See darwin core reference for values
+basis_of_record,,FALSE,keyword,user,basis of record of oberserved organism.  See darwin core reference for values
 individual_id,individualID,FALSE,text,user,individual ID of the observed organism
 occurrence_id,occurrenceID,FALSE,text,user,occurrence ID of the observed organism
 verbatim_trait,,FALSE,text,user,Verbatim description of the trait
@@ -25,7 +25,7 @@ model_uri,,TRUE,text,user,URI of the model
 error_message,,FALSE,text,user,Error messages from processing
 event_date,eventDate,TRUE,text,user,Date photo was taken
 predition_probability,prediction_prob,TRUE,float,user,"""A score from 0-1 which represent a scaled probability of presence or absence of a trait"""
-prediction_class,prediction_class,TRUE,text,user,"a categorical description of the annotation outcome, in this case either ""Detected"" or ""Not detected"""
+prediction_class,prediction_class,TRUE,keyword,user,"a categorical description of the annotation outcome, in this case either ""Detected"" or ""Not detected"""
 proportion_equivocal_family,,TRUE,text,user,The proportion of the number of equivocal annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
 accuracy_excluding_equivocal_family,,TRUE,text,user,"A metric of accuracy for the annotations of only unequivocal records based on expert, gold standard observations."
 accuracy_family,,TRUE,text,user,"A metric of accuracy for the annotations of all records (equivocal and unequivocal) based on expert, gold standard observations."
