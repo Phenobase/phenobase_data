@@ -29,4 +29,4 @@ prediction_class,prediction_class,TRUE,text,user,"a categorical description of t
 proportion_equivocal_family,,TRUE,text,user,The proportion of the number of equivocal annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
 accuracy_excluding_equivocal_family,,TRUE,text,user,"A metric of accuracy for the annotations of only unequivocal records based on expert, gold standard observations."
 accuracy_family,,TRUE,text,user,"A metric of accuracy for the annotations of all records (equivocal and unequivocal) based on expert, gold standard observations."
-mapped_traits,,,keyword,system,Pipe delimited list of mapped traits
+mapped_traits,,FALSE,keyword,system,System inferred list of mapped traits with each trait separated by a pipe delimiter
