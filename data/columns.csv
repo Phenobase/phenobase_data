@@ -7,9 +7,9 @@ year,,TRUE,integer,user,year of the observation
 latitude,deimalLatitude,TRUE,float,user,latitude with precision up to 6 decimal places
 longitude,decimalLongitude,TRUE,float,user,longitude with precision up to 6 decimal places
 coordinate_uncertainty_meters,positional_accuracy,FALSE,integer,user,coordinate uncertainty in meters
-family,,TRUE,keyword,user,family of the organism
+family,,TRUE,keyword,user,The full scientific name of the family in which the organism is classified.
 count_family,,TRUE,integer,user,Thhe number of records that were annotated at the taxon rank of family associated with the identified occurrence
-genus,,TRUE,keyword,user,
+genus,,TRUE,keyword,user,The full scientific name of the genus in which the organism is classified.
 scientific_name,,TRUE,text,user,scientific name of the observed organism
 taxon_rank,rank,TRUE,text,user,taxonomic rank of the scientific name
 basis_of_record,,FALSE,keyword,user,basis of record of oberserved organism.  See darwin core reference for values
