@@ -19,10 +19,11 @@ verbatim_trait,,FALSE,text,user,Verbatim description of the trait
 trait,,TRUE,text,user,"Trait tested.  Currently ""flower"" or ""fruit"""
 observed_image_guid,photo_id,TRUE,text,user,Globally Unique Identifier of the image
 observed_image_url,,TRUE,text,user,URL for the image
+observed_metadata_url,,TRUE,text,user,For example https://www.inaturalist.org/observations/{observation_uuid}. This will resolve to a record.
 certainty,,TRUE,keyword,user,Certainy of machine observation (Equivocal or Unequivocal)
 model_uri,,TRUE,text,user,URI of the model
 error_message,,FALSE,text,user,Error messages from processing
-event_date,eventDate,TRUE,text,user,
+event_date,eventDate,TRUE,text,user,Date photo was taken
 predition_probability,prediction_prob,TRUE,float,user,"""A score from 0-1 which represent a scaled probability of presence or absence of a trait"""
 prediction_class,prediction_class,TRUE,text,user,"a categorical description of the annotation outcome, in this case either ""Detected"" or ""Not detected"""
 proportion_equivocal_family,,TRUE,text,user,The proportion of the number of equivocal annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
