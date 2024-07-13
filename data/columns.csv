@@ -1,32 +1,32 @@
-﻿field,alias,required,datatype,source,definition
-guid,,TRUE,text,user,global unique identifier for the observation
-datasource,,TRUE,keyword,user,name of the datasource
-verbatim_date,,TRUE,text,user,verbatim date
-day_of_year,,TRUE,integer,user,day of the year.  Must be between 1 and 366
-year,,TRUE,integer,user,year of the observation
-latitude,deimalLatitude,TRUE,float,user,latitude with precision up to 6 decimal places
-longitude,decimalLongitude,TRUE,float,user,longitude with precision up to 6 decimal places
-coordinate_uncertainty_meters,positional_accuracy,FALSE,integer,user,coordinate uncertainty in meters
-family,,TRUE,keyword,user,The full scientific name of the family in which the organism is classified.
-count_family,,TRUE,integer,user,Thhe number of records that were annotated at the taxon rank of family associated with the identified occurrence
-genus,,TRUE,keyword,user,The full scientific name of the genus in which the organism is classified.
-scientific_name,,TRUE,text,user,scientific name of the observed organism
-taxon_rank,rank,TRUE,text,user,taxonomic rank of the scientific name
-basis_of_record,,FALSE,keyword,user,basis of record of oberserved organism.  See darwin core reference for values
-individual_id,individualID,FALSE,text,user,individual ID of the observed organism
-occurrence_id,occurrenceID,FALSE,text,user,occurrence ID of the observed organism
-verbatim_trait,,FALSE,text,user,Verbatim description of the trait
-trait,,TRUE,text,user,"Trait tested.  Currently ""flower"" or ""fruit"""
-observed_image_guid,photo_id,TRUE,text,user,Globally Unique Identifier of the image
-observed_image_url,,TRUE,text,user,URL for the image
-observed_metadata_url,,TRUE,text,user,For example https://www.inaturalist.org/observations/{observation_uuid}. This will resolve to a record.
-certainty,,TRUE,keyword,user,Certainy of machine observation (Equivocal or Unequivocal)
-model_uri,,TRUE,text,user,URI of the model
-error_message,,FALSE,text,user,Error messages from processing
-event_date,eventDate,TRUE,text,user,Date photo was taken
-predition_probability,prediction_prob,TRUE,float,user,"""A score from 0-1 which represent a scaled probability of presence or absence of a trait"""
-prediction_class,prediction_class,TRUE,keyword,user,"a categorical description of the annotation outcome, in this case either ""Detected"" or ""Not detected"""
-proportion_equivocal_family,,TRUE,text,user,The proportion of the number of equivocal annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
-accuracy_excluding_equivocal_family,,TRUE,text,user,"A metric of accuracy for the annotations of only unequivocal records based on expert, gold standard observations."
-accuracy_family,,TRUE,text,user,"A metric of accuracy for the annotations of all records (equivocal and unequivocal) based on expert, gold standard observations."
-mapped_traits,,FALSE,keyword,system,System inferred list of mapped traits with each trait separated by a pipe delimiter
+﻿field,alias,definedBy,required,datatype,source,definition
+guid,,https://biscicol.org/api/v1/inaan/ark:/92250/guid?info,TRUE,text,user,global unique identifier for the observation
+datasource,,http://rs.tdwg.org/dwc/terms/datasetName,TRUE,keyword,user,name of the datasource
+verbatim_date,,https://biscicol.org/api/v1/inaan/ark:/92250/verbatim_date?info,TRUE,text,user,verbatim date
+day_of_year,,https://biscicol.org/api/v1/inaan/ark:/92250/day_of_year?info,TRUE,integer,user,day of the year.  Must be between 1 and 366
+year,,http://rs.tdwg.org/dwc/terms/year,TRUE,integer,user,year of the observation
+latitude,deimalLatitude,http://rs.tdwg.org/dwc/terms/decimalLatitude,TRUE,float,user,latitude with precision up to 6 decimal places
+longitude,decimalLongitude,"	http://rs.tdwg.org/dwc/terms/decimalLongitude",TRUE,float,user,longitude with precision up to 6 decimal places
+coordinate_uncertainty_meters,positional_accuracy,http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters,FALSE,integer,user,coordinate uncertainty in meters
+family,,http://rs.tdwg.org/dwc/terms/family,TRUE,keyword,user,The full scientific name of the family in which the organism is classified.
+count_family,,https://biscicol.org/api/v1/inaan/ark:/92250/count_family?info,TRUE,integer,user,Thhe number of records that were annotated at the taxon rank of family associated with the identified occurrence
+genus,,http://rs.tdwg.org/dwc/terms/genus,TRUE,keyword,user,The full scientific name of the genus in which the organism is classified.
+scientific_name,,http://rs.tdwg.org/dwc/terms/scientificName,TRUE,text,user,scientific name of the observed organism
+taxon_rank,rank,http://rs.tdwg.org/dwc/terms/taxonRank,TRUE,text,user,taxonomic rank of the scientific name
+basis_of_record,,http://rs.tdwg.org/dwc/terms/basisOfRecord,FALSE,keyword,user,basis of record of oberserved organism.  See darwin core reference for values
+individual_id,individualID,https://biscicol.org/api/v1/inaan/ark:/92250/individual_id?info,FALSE,text,user,individual ID of the observed organism
+occurrence_id,occurrenceID,"	http://rs.tdwg.org/dwc/terms/occurrenceID",FALSE,text,user,occurrence ID of the observed organism
+verbatim_trait,,https://biscicol.org/api/v1/inaan/ark:/92250/verbatim_trait?info,FALSE,text,user,Verbatim description of the trait
+trait,,https://biscicol.org/api/v1/inaan/ark:/92250/trait?info,TRUE,text,user,"Trait tested.  Currently ""flower"" or ""fruit"""
+observed_image_guid,photo_id,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_guid?info,TRUE,text,user,Globally Unique Identifier of the image
+observed_image_url,,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_url?info,TRUE,text,user,URL for the image
+observed_metadata_url,inat_URL,https://biscicol.org/api/v1/inaan/ark:/92250/observed_metadata_url?info,TRUE,text,user,For example https://www.inaturalist.org/observations/{observation_uuid}. This will resolve to a record.
+certainty,,https://biscicol.org/api/v1/inaan/ark:/92250/certainty?info,TRUE,keyword,user,Certainy of machine observation (Equivocal or Unequivocal)
+model_uri,,https://biscicol.org/api/v1/inaan/ark:/92250/model_uri?info,TRUE,text,user,URI of the model
+error_message,,https://biscicol.org/api/v1/inaan/ark:/92250/error_message?info,FALSE,text,user,Error messages from processing
+event_date,eventDate,http://rs.tdwg.org/dwc/terms/eventDate,TRUE,text,user,Date photo was taken
+predition_probability,prediction_prob,https://biscicol.org/api/v1/inaan/ark:/92250/prediction_probability?info,TRUE,float,user,"""A score from 0-1 which represent a scaled probability of presence or absence of a trait"""
+prediction_class,prediction_class,https://biscicol.org/api/v1/inaan/ark:/92250/prediction_class?info,TRUE,keyword,user,"a categorical description of the annotation outcome, in this case either ""Detected"" or ""Not detected"""
+proportion_equivocal_family,,https://biscicol.org/api/v1/inaan/ark:/92250/proportion_equivocal_family?info,TRUE,text,user,The proportion of the number of equivocal annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
+accuracy_excluding_equivocal_family,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_excluding_equivocal_family?info,TRUE,text,user,"A metric of accuracy for the annotations of only unequivocal records based on expert, gold standard observations."
+accuracy_family,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_familyl?info,TRUE,text,user,"A metric of accuracy for the annotations of all records (equivocal and unequivocal) based on expert, gold standard observations."
+mapped_traits,,https://biscicol.org/api/v1/inaan/ark:/92250/mapped_traits?info,FALSE,keyword,system,System inferred list of mapped traits with each trait separated by a pipe delimiter
