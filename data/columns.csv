@@ -20,7 +20,7 @@ trait,,https://biscicol.org/api/v1/inaan/ark:/92250/trait?info,TRUE,text,user,"T
 observed_image_guid,photo_id,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_guid?info,TRUE,text,user,Globally Unique Identifier of the image
 observed_image_url,,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_url?info,TRUE,text,user,URL for the image
 observed_metadata_url,inat_URL,https://biscicol.org/api/v1/inaan/ark:/92250/observed_metadata_url?info,TRUE,text,user,For example https://www.inaturalist.org/observations/{observation_uuid}. This will resolve to a record.
-certainty,,https://biscicol.org/api/v1/inaan/ark:/92250/certainty?info,TRUE,keyword,user,Certainy of machine observation (Equivocal or Unequivocal)
+certainty,equivocal,https://biscicol.org/api/v1/inaan/ark:/92250/certainty?info,TRUE,keyword,user,Certainy of machine observation (Equivocal or Unequivocal)
 model_uri,,https://biscicol.org/api/v1/inaan/ark:/92250/model_uri?info,TRUE,text,user,URI of the model
 error_message,,https://biscicol.org/api/v1/inaan/ark:/92250/error_message?info,FALSE,text,user,Error messages from processing
 event_date,eventDate,http://rs.tdwg.org/dwc/terms/eventDate,TRUE,text,user,Date photo was taken
