@@ -20,13 +20,13 @@ trait,,https://biscicol.org/api/v1/inaan/ark:/92250/trait?info,TRUE,text,user,"T
 observed_image_guid,photo_id,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_guid?info,TRUE,text,user,Globally Unique Identifier of the image
 observed_image_url,,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_url?info,TRUE,text,user,URL for the image
 observed_metadata_url,inat_URL,https://biscicol.org/api/v1/inaan/ark:/92250/observed_metadata_url?info,TRUE,text,user,For example https://www.inaturalist.org/observations/{observation_uuid}. This will resolve to a record.
-certainty,equivocal,https://biscicol.org/api/v1/inaan/ark:/92250/certainty?info,TRUE,keyword,user,Certainy of machine observation (Equivocal or Unequivocal)
+certainty,equivocal,https://biscicol.org/api/v1/inaan/ark:/92250/certainty?info,TRUE,keyword,user,Certainy of machine observation (Low or High).  This corresponds to Equivocal (Low) and Uniquevicol (High)   
 model_uri,,https://biscicol.org/api/v1/inaan/ark:/92250/model_uri?info,TRUE,text,user,URI of the model
 error_message,,https://biscicol.org/api/v1/inaan/ark:/92250/error_message?info,FALSE,text,user,Error messages from processing
 event_date,eventDate,http://rs.tdwg.org/dwc/terms/eventDate,TRUE,text,user,Date photo was taken
 predition_probability,prediction_prob,https://biscicol.org/api/v1/inaan/ark:/92250/prediction_probability?info,TRUE,float,user,"""A score from 0-1 which represent a scaled probability of presence or absence of a trait"""
 prediction_class,prediction_class,https://biscicol.org/api/v1/inaan/ark:/92250/prediction_class?info,TRUE,keyword,user,"a categorical description of the annotation outcome, in this case either ""Detected"" or ""Not detected"""
-proportion_equivocal_family,,https://biscicol.org/api/v1/inaan/ark:/92250/proportion_equivocal_family?info,TRUE,text,user,The proportion of the number of equivocal annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
-accuracy_excluding_equivocal_family,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_excluding_equivocal_family?info,TRUE,text,user,"A metric of accuracy for the annotations of only unequivocal records based on expert, gold standard observations."
+proportion_certainty_family,,https://biscicol.org/api/v1/inaan/ark:/92250/proportion_certainty_family?info,TRUE,text,user,The proportion of the number of low certainty annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
+accuracy_excluding_certainty_family,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_excluding_certainty_family?info,TRUE,text,user,"A metric of accuracy for the annotations of only high certainty records based on expert, gold standard observations."
 accuracy_family,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_familyl?info,TRUE,text,user,"A metric of accuracy for the annotations of all records (equivocal and unequivocal) based on expert, gold standard observations."
 mapped_traits,,https://biscicol.org/api/v1/inaan/ark:/92250/mapped_traits?info,FALSE,keyword,system,System inferred list of mapped traits with each trait separated by a pipe delimiter
