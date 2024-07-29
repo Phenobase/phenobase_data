@@ -1,5 +1,5 @@
 ﻿field,alias,definedBy,required,datatype,source,definition
-annotation_id,guid,https://biscicol.org/api/v1/inaan/ark:/92250/guid?info,TRUE,text,user,a unique identifier representing a planned process for an annotation of an image
+machine_learning_annotation_id,guid,https://biscicol.org/api/v1/inaan/ark:/92250/guid?info,TRUE,text,user,A globally unique identifier for an instance of a planned process (http://purl.obolibrary.org/obo/COB_0000082) that assigns a phenological trait annotation to a target plant observation based on machine learning on an image that contains an image of the plant or part of the plant.
 datasource,,http://rs.tdwg.org/dwc/terms/datasetName,TRUE,keyword,user,name of the datasource
 verbatim_date,,https://biscicol.org/api/v1/inaan/ark:/92250/verbatim_date?info,TRUE,text,user,verbatim date
 day_of_year,,https://biscicol.org/api/v1/inaan/ark:/92250/day_of_year?info,TRUE,integer,user,day of the year.  Must be between 1 and 366
