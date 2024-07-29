@@ -133,7 +133,14 @@ class ESLoader(object):
             for row in reader:
                 # lookup traits
                 # TODO validate trait... see the traits.csv file and the data to make sure they match, for now its all unequivocal
-                all_traits = self.get_mapped_traits(self.traits_mapping, row['trait'])
+                # NOTE, here we convert our understanding trait + certainty to a statement of 'flowers present'
+                trait = row['trait'] + "s "
+                if row['certainty'] == 'low':
+                    trait += 'absent'
+                else:
+                    trait += 'present'
+
+                all_traits = self.get_mapped_traits(self.traits_mapping, trait)
                 mapped_traits = []
 
                 print(all_traits)
@@ -185,7 +192,7 @@ class ESLoader(object):
                         "family": {"type": "keyword"},
                         "scientific_name": {"type": "text"},
                         "taxon_rank": {"type": "text"},
-                        "basis_of_record": {"type": "text"},
+                        "basis_of_record": {"type": "keyword"},
                         "individualID": {"type": "text"},
                         "occurrenceID": {"type": "text"},
                         "verbatim_trait": {"type": "text"},
