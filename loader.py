@@ -60,7 +60,7 @@ class ESLoader(object):
 
             # Write header if file is being written for the first time
             if is_first_write or not file_exists:
-                writer.writerow(['guid', 'errors'])
+                writer.writerow(['machine_learning_annotation_id', 'errors'])
 
             # Write error entry
             writer.writerow([guid, '|'.join(errors)])
@@ -172,8 +172,8 @@ class ESLoader(object):
             for row in reader:
                 errors = []
 
-                # handle guid
-                guid = row['annotation_id']
+                # handle machine_learning_annotation_id
+                machine_learning_annotation_id = row['machine_learning_annotation_id']
 
                 # other fields
                 if row['prediction_class'].lower() != 'detected':
@@ -229,7 +229,7 @@ class ESLoader(object):
 
                 # log an error if i can't load it, other wise append
                 if errors:
-                    self.log_error(guid,errors)
+                    self.log_error(machine_learning_annotation_id, errors)
                 else: 
                     data.append({k: v for k, v in row.items() if v})  # remove any empty values
 
@@ -265,7 +265,7 @@ class ESLoader(object):
         request_body = {
             "mappings": {
                     "properties": {
-                        "guid": { "type": "text"},
+                        "machine_learning_annotation_id": { "type": "text"},
                         "datasource": {"type": "keyword"},
                         "verbatim_date": {"type": "text"},
                         "day_of_year": {"type": "integer"},

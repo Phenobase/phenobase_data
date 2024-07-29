@@ -1,4 +1,4 @@
-guid,errors
+machine_learning_annotation_id,errors
 a129698b-1eca-4dcb-bdfa-67d1eb06478b,prediction class must be 'detected'
 1f86ab5e-bbdc-4da1-b402-ba45d7f5fe34,prediction class must be 'detected'
 0ccbbfcc-8cc1-4e43-bc9a-c19e28a59ffc,Field 'coordinate_uncertainty_meters' must be an integer or empty
