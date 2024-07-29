@@ -1,19 +1,19 @@
 guid,errors
 a129698b-1eca-4dcb-bdfa-67d1eb06478b,prediction class must be 'detected'
 1f86ab5e-bbdc-4da1-b402-ba45d7f5fe34,prediction class must be 'detected'
-0ccbbfcc-8cc1-4e43-bc9a-c19e28a59ffc,Field 'coordinate_uncertainty_meters' must be an integer
-866192c8-ea73-4d09-972d-784b3de5c021,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+0ccbbfcc-8cc1-4e43-bc9a-c19e28a59ffc,Field 'coordinate_uncertainty_meters' must be an integer or empty
+866192c8-ea73-4d09-972d-784b3de5c021,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a8686d5a-630e-44d6-9220-7f806631ca9f,prediction class must be 'detected'
 8b2cefd2-bd6f-4479-b763-363849dd126e,prediction class must be 'detected'
 36d94d8b-3857-4047-ae37-6373fdb2a007,prediction class must be 'detected'|certainty must be set to 'high' to load
 4246a0e5-eee0-4f95-a199-85c08a9b305d,prediction class must be 'detected'
 5327b07f-fd88-4989-8300-e7d7fe8a57b9,prediction class must be 'detected'
 8e119bee-7d79-451f-ac96-685a8bfa4a44,prediction class must be 'detected'
-658e2b7d-cebc-4898-8655-653120ab5b87,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-f2490a0c-19d4-4bfa-b544-92fcfbbf762e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+658e2b7d-cebc-4898-8655-653120ab5b87,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f2490a0c-19d4-4bfa-b544-92fcfbbf762e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 bcfcca23-cb84-4c40-9601-40a50fc10796,prediction class must be 'detected'
-a091a23b-600d-47e9-83ef-d86b5dc43abd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-fb6bb601-b61c-4d46-80e3-88bd2de54a7f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+a091a23b-600d-47e9-83ef-d86b5dc43abd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+fb6bb601-b61c-4d46-80e3-88bd2de54a7f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 f2aff8ee-7d96-4c51-b84b-ff863bae2b1d,prediction class must be 'detected'
 4564beeb-f4a4-4c8a-bd16-9bcc9dcbf692,prediction class must be 'detected'
 7c523878-70eb-45ca-ad92-40fb0f9602b4,prediction class must be 'detected'
@@ -23,8 +23,8 @@ caab3a78-9ad7-4b92-8895-bafdafd21e91,prediction class must be 'detected'
 3b1b3599-f008-45e5-bd29-ac0e4d22b78e,prediction class must be 'detected'|certainty must be set to 'high' to load
 ce8bf03d-587e-4375-86bf-73c09bc287ef,prediction class must be 'detected'
 47f3bd63-2325-4a5b-b89a-7f2c50bf856e,prediction class must be 'detected'|certainty must be set to 'high' to load
-dcd6a9ae-8ca6-4ddc-848f-a5126e1edaf7,Field 'coordinate_uncertainty_meters' must be an integer
-6c15df0c-c467-4138-9ae8-2ada759592e3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+dcd6a9ae-8ca6-4ddc-848f-a5126e1edaf7,Field 'coordinate_uncertainty_meters' must be an integer or empty
+6c15df0c-c467-4138-9ae8-2ada759592e3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 7292dd0d-bb32-4ed5-8994-bce472d8b5d7,prediction class must be 'detected'|certainty must be set to 'high' to load
 88d22515-8952-4dda-a15a-0a525bb68a5e,prediction class must be 'detected'
 1472be95-794c-4168-b9a1-cf9a2172f4e9,prediction class must be 'detected'
@@ -34,10 +34,10 @@ a8299313-1ba9-474a-b2a3-62018fb4d9f5,prediction class must be 'detected'
 6bf0a255-58e2-4a45-9030-b0bbcc427394,prediction class must be 'detected'
 bebc7401-0dc2-4c7e-b1c5-b057b7c76e0b,prediction class must be 'detected'
 f70ba645-0739-4b6e-8509-35b4df0f33e9,prediction class must be 'detected'
-b6274951-81a2-453a-9ee2-ed685c2c8836,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-20f766ad-b15b-459a-a259-1ceaa1d50f31,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-c332bb75-c1ee-4750-9b9c-12ca74a05e5d,Field 'coordinate_uncertainty_meters' must be an integer
-d60aa770-b387-46d8-b53c-6e0a942aa055,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+b6274951-81a2-453a-9ee2-ed685c2c8836,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+20f766ad-b15b-459a-a259-1ceaa1d50f31,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+c332bb75-c1ee-4750-9b9c-12ca74a05e5d,Field 'coordinate_uncertainty_meters' must be an integer or empty
+d60aa770-b387-46d8-b53c-6e0a942aa055,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 29521acc-f0d1-472b-8fcd-31dfa66c35a4,prediction class must be 'detected'|certainty must be set to 'high' to load
 7970ce6b-3c18-4c07-9e63-b93edb1f9eb0,prediction class must be 'detected'
 aa77ebca-8bf7-4f6c-bba9-4b6bfa17c58c,prediction class must be 'detected'
@@ -61,8 +61,8 @@ c96829d8-b5af-4ca2-913a-e3c885745647,prediction class must be 'detected'
 cb3405af-7ea7-4ec7-ae40-2144293e814b,prediction class must be 'detected'
 b6d8a664-0783-43da-b5b7-2ea0e4576c7c,prediction class must be 'detected'
 348b6167-6568-44fe-a0a9-815905f91097,prediction class must be 'detected'
-e54b58bf-a239-4492-9daf-e33971b740d6,Field 'coordinate_uncertainty_meters' must be an integer
-6f23adb5-db8d-457c-874a-e10c36578a26,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e54b58bf-a239-4492-9daf-e33971b740d6,Field 'coordinate_uncertainty_meters' must be an integer or empty
+6f23adb5-db8d-457c-874a-e10c36578a26,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 9c1c9627-7161-458e-9b3f-1d78f3526df6,prediction class must be 'detected'|certainty must be set to 'high' to load
 d69cb08b-fc67-4e87-b6b9-d3a742db5933,prediction class must be 'detected'
 e36f6e92-089a-4535-8731-9d989cb07aaa,prediction class must be 'detected'
@@ -82,8 +82,8 @@ c38a3cf2-0733-4d13-9cfb-dd954d848711,prediction class must be 'detected'|certain
 d1f1f91b-4e61-4a96-b62c-b4c2eadfd4b7,prediction class must be 'detected'
 d35ec5af-570c-42b8-8cd8-d8e14f03997d,prediction class must be 'detected'
 1d16a308-2d32-4953-93fe-ed7a78dce6a7,prediction class must be 'detected'
-915641e7-fd0e-4d20-b661-fd076b644c61,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-2eedea92-9900-479c-aaed-75bc9b5486f9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+915641e7-fd0e-4d20-b661-fd076b644c61,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+2eedea92-9900-479c-aaed-75bc9b5486f9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 b1c04c8b-9fc5-4a20-841a-321a2aff92a4,prediction class must be 'detected'
 cf959888-adca-4497-b534-f10325d69dcf,prediction class must be 'detected'
 978c3857-35cd-458d-9a20-0a092cb53821,prediction class must be 'detected'
@@ -97,10 +97,10 @@ ef72513f-459e-4f4f-9364-0197d42c9370,prediction class must be 'detected'
 d118ff0c-b2cb-462e-aa5e-a1547f752b82,prediction class must be 'detected'
 064e6613-7f5a-4b4a-be16-77e978e80094,prediction class must be 'detected'
 5ffbcb5a-0079-4283-84fe-0ea1c9838ff6,prediction class must be 'detected'
-88a4a155-c7e9-4617-8b26-9c9d38f17b35,Field 'coordinate_uncertainty_meters' must be an integer
-3f5b4749-19d1-45e2-a9c3-1d974b9957c6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-9cf4c8bc-8b1f-4be5-a089-05da5938fcaa,Field 'coordinate_uncertainty_meters' must be an integer
-929a4eed-5d0c-4b4c-9ecf-e6cc07c2b68d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+88a4a155-c7e9-4617-8b26-9c9d38f17b35,Field 'coordinate_uncertainty_meters' must be an integer or empty
+3f5b4749-19d1-45e2-a9c3-1d974b9957c6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+9cf4c8bc-8b1f-4be5-a089-05da5938fcaa,Field 'coordinate_uncertainty_meters' must be an integer or empty
+929a4eed-5d0c-4b4c-9ecf-e6cc07c2b68d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 1b90aeae-0651-4484-8c41-ebcd957c26ff,prediction class must be 'detected'
 0ad1fd30-f7f4-468f-93d6-a5c192d1aa1b,prediction class must be 'detected'
 9e06c25a-bbbc-4837-b7e5-fdbfaed45d11,prediction class must be 'detected'
@@ -119,8 +119,8 @@ f0986a2b-ab67-47cc-bd1b-d43ce138c25e,prediction class must be 'detected'
 2951f06a-0505-4217-9f85-5c73555093af,prediction class must be 'detected'
 d1f4e788-836e-4580-b6bd-7b8a20443c2a,prediction class must be 'detected'
 9cddee5b-3659-4a4f-b676-301998722ce8,prediction class must be 'detected'
-9f536456-f03e-4194-ba1d-a46bf62033bb,Field 'coordinate_uncertainty_meters' must be an integer
-88afdf35-8d4a-41da-a13a-d29d6d0c69a8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+9f536456-f03e-4194-ba1d-a46bf62033bb,Field 'coordinate_uncertainty_meters' must be an integer or empty
+88afdf35-8d4a-41da-a13a-d29d6d0c69a8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 c0d57cc2-2838-4464-8c20-09bf9d49fa35,prediction class must be 'detected'
 817b9faa-3487-4bf6-92a4-594857e8f299,prediction class must be 'detected'|certainty must be set to 'high' to load
 a28053cd-c479-46a5-8486-4edc7298ddc7,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -129,30 +129,30 @@ efb13bd9-ffb4-4d64-9704-d85a4a594ad3,prediction class must be 'detected'
 7f4c08cd-4708-4bc0-b82d-39caa131e91f,prediction class must be 'detected'|certainty must be set to 'high' to load
 98db0201-f095-4d37-ab96-b31e54fe0ca0,prediction class must be 'detected'|certainty must be set to 'high' to load
 4c232854-9b99-461b-a661-2ffd12392eba,prediction class must be 'detected'
-a6d1c4f7-a871-4983-8916-e7c490efd5ed,Field 'coordinate_uncertainty_meters' must be an integer
-f229f0c1-164d-4a09-9286-b1243db46242,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+a6d1c4f7-a871-4983-8916-e7c490efd5ed,Field 'coordinate_uncertainty_meters' must be an integer or empty
+f229f0c1-164d-4a09-9286-b1243db46242,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 51d95342-d225-4042-a1bd-4566f88eec4c,prediction class must be 'detected'|certainty must be set to 'high' to load
 7295b3ac-1cc7-4361-975e-fba6863d378b,certainty must be set to 'high' to load
 ec3c5280-0d4a-4dea-a4c5-bf3d717c393c,prediction class must be 'detected'|certainty must be set to 'high' to load
 f3c6ff48-24fb-4db3-810c-486ed39bc646,prediction class must be 'detected'|certainty must be set to 'high' to load
 3187efeb-4478-42c7-be1b-88f38c95e52f,prediction class must be 'detected'
 fff94491-b314-434e-8471-b2b87e7b6a4e,prediction class must be 'detected'
-33159346-c6a8-4fa7-9ad2-ae0a871fb37b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-d72bca34-7ee5-4e51-9517-a7f371e33513,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+33159346-c6a8-4fa7-9ad2-ae0a871fb37b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+d72bca34-7ee5-4e51-9517-a7f371e33513,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 e94d8389-33e2-4846-8282-0eb52dcf9bb7,prediction class must be 'detected'
 9a6551a8-ecce-4046-92c2-7c4b0306686f,prediction class must be 'detected'
-1c41b41d-a57a-4191-9cbc-e734623c629d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-0acc2638-4ece-4309-8856-50d7f9a02e3f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-5cae94c9-50de-4b7f-b409-24262c482b43,Field 'coordinate_uncertainty_meters' must be an integer
-77e4c25d-979d-4a09-8a20-2767182c18b5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+1c41b41d-a57a-4191-9cbc-e734623c629d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+0acc2638-4ece-4309-8856-50d7f9a02e3f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+5cae94c9-50de-4b7f-b409-24262c482b43,Field 'coordinate_uncertainty_meters' must be an integer or empty
+77e4c25d-979d-4a09-8a20-2767182c18b5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 b267a111-230e-4ebb-8466-374544e26f9c,prediction class must be 'detected'
-6f35f494-a9d0-4e46-8428-2ab6be6d1a37,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b2ea57a4-16a9-441d-9dee-feadc4eafe92,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-0b9627b3-614a-47da-b38d-ba7a2f4c5b61,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-db6169d4-e85d-4f8a-8fe9-baee5ee6b050,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+6f35f494-a9d0-4e46-8428-2ab6be6d1a37,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b2ea57a4-16a9-441d-9dee-feadc4eafe92,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+0b9627b3-614a-47da-b38d-ba7a2f4c5b61,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+db6169d4-e85d-4f8a-8fe9-baee5ee6b050,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 8c2b8a5a-9cd2-4fc4-8af8-093d9b0399f3,prediction class must be 'detected'
-76882664-7f18-41aa-b215-fe186ab38c39,Field 'coordinate_uncertainty_meters' must be an integer
-62fff423-07e2-463e-b45a-8765538df201,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+76882664-7f18-41aa-b215-fe186ab38c39,Field 'coordinate_uncertainty_meters' must be an integer or empty
+62fff423-07e2-463e-b45a-8765538df201,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 55bf5d50-ffb5-4f8a-88aa-e7f312a912ab,prediction class must be 'detected'
 b9c95253-285f-40fa-adc3-75e5b5c36079,prediction class must be 'detected'
 314d1615-df5a-4ed5-b8c3-69e06f5004dd,prediction class must be 'detected'
@@ -167,25 +167,25 @@ f14292ab-8b84-4b9b-b0d3-f90886d2dff4,prediction class must be 'detected'
 b756a3a9-da58-4a09-b3e5-5b42dcb82d40,prediction class must be 'detected'|certainty must be set to 'high' to load
 e32c7eb4-a7e2-4fb8-9f85-4031278443b6,prediction class must be 'detected'
 178d3ec9-1053-4673-a211-a8f3b1e44fbc,prediction class must be 'detected'
-6283c565-1d72-44aa-bdb7-54cda5ee0db4,Field 'coordinate_uncertainty_meters' must be an integer
-4f2f629b-83d9-466b-9aed-0ab2edd1f314,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+6283c565-1d72-44aa-bdb7-54cda5ee0db4,Field 'coordinate_uncertainty_meters' must be an integer or empty
+4f2f629b-83d9-466b-9aed-0ab2edd1f314,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 0b22af65-ba83-4656-9b49-a5d21f47b8be,prediction class must be 'detected'
 0e3e0fd3-38d1-4eaa-a1d5-8b3bc2a94202,prediction class must be 'detected'
 6d63104f-1606-47f0-bb68-d52eea71bd0d,prediction class must be 'detected'
 2547f6a8-2be6-4c94-8b13-8621245a4a85,prediction class must be 'detected'
-e99c624d-5b62-457c-8e63-1af8af13285f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-f48b48f6-6dd7-4274-9365-96bb9746f242,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-8b760672-2281-47b3-99ab-6bd6aa112559,Field 'coordinate_uncertainty_meters' must be an integer
-9c5e567c-339b-4711-90db-d1ca08711af9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e99c624d-5b62-457c-8e63-1af8af13285f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f48b48f6-6dd7-4274-9365-96bb9746f242,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+8b760672-2281-47b3-99ab-6bd6aa112559,Field 'coordinate_uncertainty_meters' must be an integer or empty
+9c5e567c-339b-4711-90db-d1ca08711af9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 371a9fce-4979-44db-b01b-ae6132bbced5,prediction class must be 'detected'
 97ad8d58-dda6-4638-8295-99b32ec7dda0,prediction class must be 'detected'
 6b619f59-2362-48a6-9f06-84a438cdb874,prediction class must be 'detected'
 8a4c6886-8a1b-4b08-af47-84b65fe3a089,prediction class must be 'detected'
-61f17a99-0de0-49f3-a171-e1d844c2e736,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-98b587fd-37c3-49fd-8fb6-710a0c4b7629,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+61f17a99-0de0-49f3-a171-e1d844c2e736,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+98b587fd-37c3-49fd-8fb6-710a0c4b7629,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 5087a5b7-6348-4de6-b964-45e302d8e9dd,prediction class must be 'detected'
-590c3aff-0e33-44c0-b992-adc37d80639d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-22b58b7a-a801-46d3-84d0-4d85314f19dd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+590c3aff-0e33-44c0-b992-adc37d80639d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+22b58b7a-a801-46d3-84d0-4d85314f19dd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 e5ccdfcf-5a09-467b-ba11-c3ebfc405f33,prediction class must be 'detected'|certainty must be set to 'high' to load
 e1e49296-1ce7-4398-8b85-a91017ab8d22,prediction class must be 'detected'
 5f3325c7-f2e5-4602-9557-d7fe7a755710,prediction class must be 'detected'
@@ -206,17 +206,17 @@ b96bbeba-5d8e-4df2-85ea-67e8f352507c,prediction class must be 'detected'
 3ce28994-f24d-4a9e-bd98-bfd95dafe32d,prediction class must be 'detected'
 1a026c1e-7cdc-422b-aaf8-ca81dca80c14,prediction class must be 'detected'
 7d12bc78-f2a3-4939-a5a7-4154fbf39485,prediction class must be 'detected'
-5f5c42e3-a1b7-46c4-8d3d-87e707bfd946,Field 'coordinate_uncertainty_meters' must be an integer
-2791ff11-035a-4237-98ce-63e42490394d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ce47fd13-819a-44f6-950a-71e8a136fdf8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-cc4f2711-d5cf-482e-9b82-898b4de81a36,Field 'coordinate_uncertainty_meters' must be an integer
-8c455efd-279b-47fd-9a81-bfb8684791a5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-57645491-834d-472e-bdb0-07e92c533ee8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+5f5c42e3-a1b7-46c4-8d3d-87e707bfd946,Field 'coordinate_uncertainty_meters' must be an integer or empty
+2791ff11-035a-4237-98ce-63e42490394d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ce47fd13-819a-44f6-950a-71e8a136fdf8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+cc4f2711-d5cf-482e-9b82-898b4de81a36,Field 'coordinate_uncertainty_meters' must be an integer or empty
+8c455efd-279b-47fd-9a81-bfb8684791a5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+57645491-834d-472e-bdb0-07e92c533ee8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 4aa17a59-45f0-41c4-aa40-ba171e4c84e8,prediction class must be 'detected'|certainty must be set to 'high' to load
 a0be57b2-9cb1-4df6-bfe9-b1a67faacc99,prediction class must be 'detected'
 fc89b4aa-34aa-40cc-bb43-62131cfc5bd0,prediction class must be 'detected'
-8b1714ea-b372-4237-9fbc-c4c1c5342d47,Field 'coordinate_uncertainty_meters' must be an integer
-5078574c-7c26-420c-9747-f2f179342acc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+8b1714ea-b372-4237-9fbc-c4c1c5342d47,Field 'coordinate_uncertainty_meters' must be an integer or empty
+5078574c-7c26-420c-9747-f2f179342acc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 3adfa54e-8380-47ee-b255-e967f22e7473,prediction class must be 'detected'
 4a490b97-eff2-438e-a67f-2d858393ea31,prediction class must be 'detected'
 459121fc-4360-4ed9-9237-a757638cad8d,prediction class must be 'detected'
@@ -237,50 +237,50 @@ e58fda8e-5b1f-4a1b-aa93-eaa58650b0f1,prediction class must be 'detected'
 f505b197-e00e-44c5-b053-d11945118734,prediction class must be 'detected'
 6bdc7f34-030c-4a35-9a0a-ea426872b660,prediction class must be 'detected'|certainty must be set to 'high' to load
 7140e343-6d81-4ea5-80df-83ad12531de6,prediction class must be 'detected'
-9ea6c397-2e58-48e3-a9a9-7822f1e0fcb3,Field 'coordinate_uncertainty_meters' must be an integer
-8cf37fd9-db39-4b7a-a7cd-cecb9ecc1351,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-6c3495e5-f4d1-4015-bc16-c2b3ca914df6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ff299bd5-4895-4aee-b3eb-1dcfa6cb225d,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+9ea6c397-2e58-48e3-a9a9-7822f1e0fcb3,Field 'coordinate_uncertainty_meters' must be an integer or empty
+8cf37fd9-db39-4b7a-a7cd-cecb9ecc1351,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+6c3495e5-f4d1-4015-bc16-c2b3ca914df6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ff299bd5-4895-4aee-b3eb-1dcfa6cb225d,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 f8015624-8cb8-4af6-bc1d-fe7ed5efc0a3,prediction class must be 'detected'
 d02cf47e-5207-4bbc-93bf-ecba88544305,prediction class must be 'detected'
-0df14e62-d852-4ae2-be40-9c957f1994c4,Field 'coordinate_uncertainty_meters' must be an integer
-dda4aaa3-cb7a-4f50-9444-f4a1c29e47cf,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+0df14e62-d852-4ae2-be40-9c957f1994c4,Field 'coordinate_uncertainty_meters' must be an integer or empty
+dda4aaa3-cb7a-4f50-9444-f4a1c29e47cf,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 9e3cf732-1d77-4358-964e-4e57168fc460,prediction class must be 'detected'
 8c5a16d6-b91c-43bd-aa47-bd26b3dae398,prediction class must be 'detected'
-3dd1d16e-6223-4825-baaa-a4255a153fab,Field 'coordinate_uncertainty_meters' must be an integer
-54ec1f56-b9c9-4d5e-9415-0a0a2a76a94d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+3dd1d16e-6223-4825-baaa-a4255a153fab,Field 'coordinate_uncertainty_meters' must be an integer or empty
+54ec1f56-b9c9-4d5e-9415-0a0a2a76a94d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a265f816-6470-4ef8-893a-a70d7fc346bb,prediction class must be 'detected'
-430530cf-f4ed-42f6-8e07-b03fac4d6f6a,Field 'coordinate_uncertainty_meters' must be an integer
-1ce5c429-851e-460c-9f83-400501030577,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-2b21b452-e7e6-4c22-9324-954542a6930e,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-ae07acc9-a5d2-4def-98a4-0804974f18c9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-38f5a9eb-180a-4cc6-a163-8f1cb2ab1099,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-d9b9275a-0f17-4c96-9218-bc48928b41e1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+430530cf-f4ed-42f6-8e07-b03fac4d6f6a,Field 'coordinate_uncertainty_meters' must be an integer or empty
+1ce5c429-851e-460c-9f83-400501030577,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+2b21b452-e7e6-4c22-9324-954542a6930e,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ae07acc9-a5d2-4def-98a4-0804974f18c9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+38f5a9eb-180a-4cc6-a163-8f1cb2ab1099,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+d9b9275a-0f17-4c96-9218-bc48928b41e1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 cd3c2073-3a0d-4657-925c-f88337ca24a7,prediction class must be 'detected'
-065e555d-988d-422a-9ac7-7bf40d46b3ff,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-a3bb4130-36a1-4dcf-bbb1-c270c1ac6ef9,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-2ad9627e-14d5-4d7c-8b07-b52d9755b396,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a513b2cc-a050-47c0-8181-3f5d9b7e3ffe,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+065e555d-988d-422a-9ac7-7bf40d46b3ff,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a3bb4130-36a1-4dcf-bbb1-c270c1ac6ef9,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+2ad9627e-14d5-4d7c-8b07-b52d9755b396,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a513b2cc-a050-47c0-8181-3f5d9b7e3ffe,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d5235288-cca2-4495-8799-f158d9c4c98a,prediction class must be 'detected'
 a933f57e-9ad9-4943-ab76-3ac39433782b,prediction class must be 'detected'
-198ee8ab-1885-46ed-8689-a38ac6cb11d9,Field 'coordinate_uncertainty_meters' must be an integer
-6c40845a-7536-4c90-8969-24c6c89e2bab,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+198ee8ab-1885-46ed-8689-a38ac6cb11d9,Field 'coordinate_uncertainty_meters' must be an integer or empty
+6c40845a-7536-4c90-8969-24c6c89e2bab,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 2bfcbfb2-2b0b-469b-8d0b-c69c4bf31d93,prediction class must be 'detected'
 84d7cbf0-da68-4c0a-b294-d8fe3a858da6,prediction class must be 'detected'
-aa3203da-5e2d-43d3-b91e-833ab3f6e6cc,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-c693b086-9304-4015-93e9-f5efb7f59fb9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+aa3203da-5e2d-43d3-b91e-833ab3f6e6cc,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+c693b086-9304-4015-93e9-f5efb7f59fb9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d65d38df-4db5-4e9b-8303-2a73d2eb6d4e,prediction class must be 'detected'
 aee50842-29bf-4f3d-bc2d-690454aaaf6a,prediction class must be 'detected'
-2a01f24d-f2b1-4c5a-946e-c6bf289cdbed,Field 'coordinate_uncertainty_meters' must be an integer
-a196f535-feee-4fcc-bdc1-ef49e88c411d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+2a01f24d-f2b1-4c5a-946e-c6bf289cdbed,Field 'coordinate_uncertainty_meters' must be an integer or empty
+a196f535-feee-4fcc-bdc1-ef49e88c411d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 2bf2bfde-42e8-43bd-a21d-c00ab78e0123,prediction class must be 'detected'
 c0e4e11a-3382-4b92-80c0-abd4c096e264,prediction class must be 'detected'
 1e5b1006-e5c6-4e33-b4c6-f1ad5294d1ec,prediction class must be 'detected'|certainty must be set to 'high' to load
-8f2f02a5-4b29-46c3-91bd-22058774c7fa,Field 'coordinate_uncertainty_meters' must be an integer
-be92157e-4190-49be-85a3-cf85f7bbcdb1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+8f2f02a5-4b29-46c3-91bd-22058774c7fa,Field 'coordinate_uncertainty_meters' must be an integer or empty
+be92157e-4190-49be-85a3-cf85f7bbcdb1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 76e36bdc-4ce6-47ef-bc62-5599df2cfc20,prediction class must be 'detected'
-d0c2817d-c1e4-4b45-9b4b-ccf755b9f64e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-24c5100a-92ba-4d6a-af27-c876bcd15de7,Field 'coordinate_uncertainty_meters' must be an integer
+d0c2817d-c1e4-4b45-9b4b-ccf755b9f64e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+24c5100a-92ba-4d6a-af27-c876bcd15de7,Field 'coordinate_uncertainty_meters' must be an integer or empty
 c04370fb-00e9-449b-b6f3-be2db420ac72,prediction class must be 'detected'
 0ae1de49-14c9-4dab-b094-d0cc4ca54164,prediction class must be 'detected'
 c4fca57a-4cc9-48f6-891b-65a78564a46f,prediction class must be 'detected'
@@ -292,8 +292,8 @@ b6773cc6-49ea-4e2d-b680-6743b9d30ed7,prediction class must be 'detected'
 90cb0e09-3bf0-4c39-85f3-1c5fe2e57e18,prediction class must be 'detected'
 7e30759f-c5ef-42a7-841d-3102dca01d9f,prediction class must be 'detected'
 643e3efe-b653-4a09-9ad7-9a866310e4f2,prediction class must be 'detected'
-df8a9d50-c169-421c-b930-bc1b0b46e6ff,Field 'coordinate_uncertainty_meters' must be an integer
-37144ade-01ca-49a1-aeaa-3cbbb496a7ff,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+df8a9d50-c169-421c-b930-bc1b0b46e6ff,Field 'coordinate_uncertainty_meters' must be an integer or empty
+37144ade-01ca-49a1-aeaa-3cbbb496a7ff,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 96c9726c-9c62-4d9e-8bcd-90d47abc1211,prediction class must be 'detected'
 837ff858-5311-4a0d-809c-f03db9622eae,prediction class must be 'detected'
 ddf129cb-a43f-4294-b3eb-a4905ed527f8,prediction class must be 'detected'
@@ -304,11 +304,11 @@ b4eccb98-fd81-4dd2-b7aa-27fe15fdfb27,prediction class must be 'detected'
 d10c12dd-c430-4efb-9525-f1e4e1eb7be5,prediction class must be 'detected'
 cc18497b-1518-4b58-9e0b-e1860068f05b,prediction class must be 'detected'
 d77dbb8f-e0e3-4f64-8c3a-ff35fb967596,prediction class must be 'detected'
-29077250-7f70-4281-bd0d-c62c5e4f674c,Field 'coordinate_uncertainty_meters' must be an integer
-634651be-7163-4aba-97f2-bb90c22fad0d,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+29077250-7f70-4281-bd0d-c62c5e4f674c,Field 'coordinate_uncertainty_meters' must be an integer or empty
+634651be-7163-4aba-97f2-bb90c22fad0d,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 311c1044-c6c8-4a66-851e-a795d8ed4480,prediction class must be 'detected'
-08a686fb-b719-492a-bee9-88bef914d8b6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-da4e02cf-2c80-4b4d-ac68-5758216a7a2d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+08a686fb-b719-492a-bee9-88bef914d8b6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+da4e02cf-2c80-4b4d-ac68-5758216a7a2d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 6a427943-b577-460d-bc67-974083a5a4b2,prediction class must be 'detected'
 3a837da9-97e9-41d2-86da-5996d6143398,prediction class must be 'detected'|certainty must be set to 'high' to load
 588709b4-cbea-43ee-affc-e78188470677,prediction class must be 'detected'
@@ -317,10 +317,10 @@ eb979686-5088-4f72-9b2c-bffcf954eafc,prediction class must be 'detected'
 d08950b5-bc26-4a70-88de-cdd4f30eb3b5,prediction class must be 'detected'
 fd1214b9-8c2b-4c4f-a55d-1177f55465d9,prediction class must be 'detected'|certainty must be set to 'high' to load
 0d3bda6a-1692-477a-a2f5-e4634e68b620,prediction class must be 'detected'
-f8a85ceb-3a69-4d85-b05c-287943dda9cf,Field 'coordinate_uncertainty_meters' must be an integer
-addfcee1-f02d-4166-a3ba-4d2a2f82596a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-81359bd5-2421-43b8-bad9-f864604b8bc8,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-423bba63-11a3-490c-801a-e2061611626b,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+f8a85ceb-3a69-4d85-b05c-287943dda9cf,Field 'coordinate_uncertainty_meters' must be an integer or empty
+addfcee1-f02d-4166-a3ba-4d2a2f82596a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+81359bd5-2421-43b8-bad9-f864604b8bc8,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+423bba63-11a3-490c-801a-e2061611626b,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 91e02f60-afe0-4363-a7d9-4ee882161a96,prediction class must be 'detected'
 2c682208-5559-49c0-b5d3-bc76ef732759,prediction class must be 'detected'
 f52e514d-8787-4212-9e82-0f6cffcb1f10,prediction class must be 'detected'
@@ -332,30 +332,30 @@ e7d70874-e00f-4e05-8257-f17a17e6ba68,prediction class must be 'detected'
 6a90fdc7-7c93-4691-ad55-31cb11764380,prediction class must be 'detected'
 9ebc1015-ed52-4fc9-97f7-51ca29370de8,prediction class must be 'detected'
 f6cfe171-e01d-4e8e-a733-93d25056704d,certainty must be set to 'high' to load
-00d8ead9-6a13-417e-b567-2672cc92963d,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-a9e3f56e-c741-4895-b9b8-4a5240a5a5cf,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+00d8ead9-6a13-417e-b567-2672cc92963d,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a9e3f56e-c741-4895-b9b8-4a5240a5a5cf,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 5119d35c-1b4c-4479-a5d9-6bad995e5686,prediction class must be 'detected'
 dea8c20e-b9cd-4a63-a37b-1b6147a77c43,prediction class must be 'detected'
 ebe0205d-245f-4334-89a6-805c52721771,prediction class must be 'detected'
 c8922b16-9167-407e-b8d9-2b375b5e2252,prediction class must be 'detected'
 161688b9-0ec7-4617-bb29-0457b2e40b37,prediction class must be 'detected'
-d5df1e7a-4d1b-46eb-b09f-2bb1f57888fa,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-552abf42-370e-4156-a737-1a54a810800c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+d5df1e7a-4d1b-46eb-b09f-2bb1f57888fa,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+552abf42-370e-4156-a737-1a54a810800c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 ed923bae-2668-41a2-a357-a03c812ecd41,prediction class must be 'detected'|certainty must be set to 'high' to load
 e4fde6e9-6f7f-46ee-ae2f-2e3c63c55967,prediction class must be 'detected'|certainty must be set to 'high' to load
-3c519f54-200d-49a9-a2f2-5a0bf052cb64,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-1f0cd29e-1f52-4feb-a8fb-cfa91449ba0c,Field 'coordinate_uncertainty_meters' must be an integer
+3c519f54-200d-49a9-a2f2-5a0bf052cb64,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+1f0cd29e-1f52-4feb-a8fb-cfa91449ba0c,Field 'coordinate_uncertainty_meters' must be an integer or empty
 373d7de3-6c81-45e7-8b5c-89323348a548,prediction class must be 'detected'
-02d35f4d-86ad-4088-89cd-ae1200c04bc1,Field 'coordinate_uncertainty_meters' must be an integer
-50409950-73bb-47a8-aa0f-7984f1f0d4f1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-4b91a8e7-6c33-4c83-bf8b-10bb23bcbf43,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-86c9cd96-a5de-4159-9d2e-df7e85769526,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+02d35f4d-86ad-4088-89cd-ae1200c04bc1,Field 'coordinate_uncertainty_meters' must be an integer or empty
+50409950-73bb-47a8-aa0f-7984f1f0d4f1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+4b91a8e7-6c33-4c83-bf8b-10bb23bcbf43,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+86c9cd96-a5de-4159-9d2e-df7e85769526,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 77b6d767-8cac-43e9-b697-7f6d93b6d5f6,prediction class must be 'detected'
 4d53187c-e82d-470d-82b1-3f5bd1d87faf,prediction class must be 'detected'
 d2e150dd-d2dc-45ac-956b-2699422f460f,prediction class must be 'detected'
 356d8b90-8a28-465d-9c39-ae67c824f2b0,prediction class must be 'detected'
-861eb8fa-243a-45a4-9acb-2e9057905a1b,Field 'coordinate_uncertainty_meters' must be an integer
-157ad1ce-96dd-4887-93de-2ed214785f40,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+861eb8fa-243a-45a4-9acb-2e9057905a1b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+157ad1ce-96dd-4887-93de-2ed214785f40,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 6788dbfc-8d93-45f1-8bc4-60eec9a46d22,prediction class must be 'detected'
 fbb43229-98ca-47bb-b410-cc9569d5358c,prediction class must be 'detected'|certainty must be set to 'high' to load
 ef8a3af7-5552-4030-8121-08450cb172b9,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -363,25 +363,25 @@ ef8a3af7-5552-4030-8121-08450cb172b9,prediction class must be 'detected'|certain
 76ad666d-3f2c-42ba-b151-72c35ad1b984,prediction class must be 'detected'
 b84cbc98-df91-439b-b70b-cfd114bfb738,prediction class must be 'detected'|certainty must be set to 'high' to load
 bf0d2419-5505-4179-bfee-e57d2dae3513,prediction class must be 'detected'
-9cb366d6-6e02-42af-b17f-973529608e66,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-a9936aeb-7810-4dd5-808d-0ae2e4d874d5,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+9cb366d6-6e02-42af-b17f-973529608e66,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a9936aeb-7810-4dd5-808d-0ae2e4d874d5,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 165a95b8-67f6-4369-9044-77f453b3ed8d,prediction class must be 'detected'
 2a39e8ac-dbb5-4db3-ae67-e61883597dc6,prediction class must be 'detected'
 a8915ae9-0808-44de-9449-b0630d36c940,prediction class must be 'detected'
 4ebc726d-1f7d-4ceb-a1b7-e78469d1e021,prediction class must be 'detected'
-3ac997ee-340b-481e-bea6-7bd617510dcd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-7e7d4a6f-8980-4216-9343-8bf014853397,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+3ac997ee-340b-481e-bea6-7bd617510dcd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+7e7d4a6f-8980-4216-9343-8bf014853397,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 bd275745-4198-4a3a-a830-49ba83b4e7de,prediction class must be 'detected'
 08163193-f8fb-4bbb-a7b6-23fe66afe574,prediction class must be 'detected'
 85e304cc-f6fb-4d11-b636-6a675ebe3ae9,prediction class must be 'detected'
 4449fb6b-1ea9-4c95-b9ea-07b30edc6ac7,prediction class must be 'detected'
 5c52c15f-1fbd-4e32-95d9-891ff902994d,prediction class must be 'detected'
-34ca7b60-1542-4df3-b285-fd3cda26393d,Field 'coordinate_uncertainty_meters' must be an integer
-180b12c0-1a9d-4512-a17f-7a5419c5f115,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-61a2f6ca-38dd-4623-8743-3e22f174890f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-8a83dab3-e933-4f5f-a646-4006d7b6f48b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b8d4ad8f-706a-424e-8875-e26bea6793e0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-5cf6b533-8045-49f0-abbe-61ce82a8686b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+34ca7b60-1542-4df3-b285-fd3cda26393d,Field 'coordinate_uncertainty_meters' must be an integer or empty
+180b12c0-1a9d-4512-a17f-7a5419c5f115,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+61a2f6ca-38dd-4623-8743-3e22f174890f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+8a83dab3-e933-4f5f-a646-4006d7b6f48b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b8d4ad8f-706a-424e-8875-e26bea6793e0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+5cf6b533-8045-49f0-abbe-61ce82a8686b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 c0ccfc1a-851b-48a5-99bf-06439d7c4c48,prediction class must be 'detected'
 571184a0-e0b7-4b33-ba0d-f981362f27be,Invalid or empty latitude/longitude
 943e46a8-6a37-4e56-b52a-cdccc3b518ac,prediction class must be 'detected'|Invalid or empty latitude/longitude
@@ -395,64 +395,64 @@ e87142fb-5cea-4206-b392-773b44d6205f,prediction class must be 'detected'
 d44af002-9115-484d-a62a-91c48a4485c8,prediction class must be 'detected'
 7fe43b14-1d98-4cae-abc3-47601ff94e74,prediction class must be 'detected'
 0b2644d2-bf4b-4f85-9316-6f3be58f4d0b,prediction class must be 'detected'
-0293711b-089b-435d-8fe5-0679e4950b36,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-773e8a6e-aa11-4333-b16f-80d43272b0b5,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+0293711b-089b-435d-8fe5-0679e4950b36,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+773e8a6e-aa11-4333-b16f-80d43272b0b5,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 baf4b814-ed99-4962-8c07-cb851c753132,prediction class must be 'detected'|certainty must be set to 'high' to load
 de1556a6-0d62-485d-8fec-c8f89c1b034d,prediction class must be 'detected'
 b3df51d6-9fe7-493e-ac46-d7f0591d30e0,prediction class must be 'detected'|certainty must be set to 'high' to load
 94728ca0-4345-45bd-89e4-f08b079a14bd,certainty must be set to 'high' to load
-19078625-2b51-42bd-8a6b-0742a4b69407,Field 'coordinate_uncertainty_meters' must be an integer
-2c93ce48-e719-4102-9af3-02368beb0663,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+19078625-2b51-42bd-8a6b-0742a4b69407,Field 'coordinate_uncertainty_meters' must be an integer or empty
+2c93ce48-e719-4102-9af3-02368beb0663,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 e1acda4a-9b66-44ab-b082-a621d9c5fc7b,prediction class must be 'detected'
 2355e176-3155-4ef4-8c2e-13c5f2e7bab2,prediction class must be 'detected'|certainty must be set to 'high' to load
 5694cd9c-177d-4e03-aea5-9a4a33b60d25,prediction class must be 'detected'|certainty must be set to 'high' to load
 4b196984-5df7-42cd-8e7b-09b83ed6618e,prediction class must be 'detected'
 a2b69ea9-4d0c-4b0e-b071-85b5dfc6eb29,prediction class must be 'detected'
-763cb5d5-f23a-49cd-afac-7f62bda35816,Field 'coordinate_uncertainty_meters' must be an integer
-9a2ebb84-4567-4a8f-8284-c6e3d617456a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b6d03462-1982-445e-a9bc-3369e34f5b21,Field 'coordinate_uncertainty_meters' must be an integer
-e5d596f8-ef3a-417e-9809-2a6c0642149e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-cb7da1a4-4fe6-45d7-9664-6f87ffbc56bc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-c9998464-2e25-4ee5-a528-1bc49e19f87f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+763cb5d5-f23a-49cd-afac-7f62bda35816,Field 'coordinate_uncertainty_meters' must be an integer or empty
+9a2ebb84-4567-4a8f-8284-c6e3d617456a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b6d03462-1982-445e-a9bc-3369e34f5b21,Field 'coordinate_uncertainty_meters' must be an integer or empty
+e5d596f8-ef3a-417e-9809-2a6c0642149e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+cb7da1a4-4fe6-45d7-9664-6f87ffbc56bc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+c9998464-2e25-4ee5-a528-1bc49e19f87f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d0fb6f1c-622a-4e20-ae6d-29e26f6119e9,prediction class must be 'detected'
 c97c697e-2684-4628-8713-38eda04490df,prediction class must be 'detected'
-972792b9-b719-4c4a-92d9-b2b3ee55384b,Field 'coordinate_uncertainty_meters' must be an integer
-c31cc91c-2b2f-4872-a286-09263de02e6b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+972792b9-b719-4c4a-92d9-b2b3ee55384b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c31cc91c-2b2f-4872-a286-09263de02e6b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 05da8b69-c0a6-4f64-adbf-f250bae152a9,prediction class must be 'detected'
 022c76ef-3e21-476d-abff-b43ee7fd8e3c,certainty must be set to 'high' to load
-9e290a9d-61bf-47ea-a3f6-0f6a4ea361b4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-8801a854-dbd4-4fc4-8b86-a9df4a5f7da3,Field 'coordinate_uncertainty_meters' must be an integer
+9e290a9d-61bf-47ea-a3f6-0f6a4ea361b4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+8801a854-dbd4-4fc4-8b86-a9df4a5f7da3,Field 'coordinate_uncertainty_meters' must be an integer or empty
 3a17b8e4-a8de-4dcf-8717-e95c818a9942,prediction class must be 'detected'
-c554d94c-fff4-49ca-8326-43490aa1e226,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-8920126b-f0bc-485f-afbf-2eee396b33f3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-cfbdfa76-b92a-4722-8d34-19ee96ca540f,Field 'coordinate_uncertainty_meters' must be an integer
-096d63ba-22a4-44bd-a898-841211eb0cde,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+c554d94c-fff4-49ca-8326-43490aa1e226,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+8920126b-f0bc-485f-afbf-2eee396b33f3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+cfbdfa76-b92a-4722-8d34-19ee96ca540f,Field 'coordinate_uncertainty_meters' must be an integer or empty
+096d63ba-22a4-44bd-a898-841211eb0cde,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 b1ce6dce-c40f-406b-8fb9-011b6eb6b07d,prediction class must be 'detected'
 5ccf6bde-da0c-4fac-8afc-7c318d25945a,prediction class must be 'detected'
 cfa44e38-9f73-41c0-971f-1790db5b3901,prediction class must be 'detected'
 6987eee7-62d0-4af0-8e6e-e57456e9cada,prediction class must be 'detected'
-aa317a6d-195e-494e-b9d4-8930ce1db70f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-bc925358-7c5a-4108-969c-e491cdfaec7d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b6f55fa7-65aa-4127-9c54-69e31fa3c8ad,Field 'coordinate_uncertainty_meters' must be an integer
-d3f423a6-7a0c-4e64-bff1-bc334e7adcc0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+aa317a6d-195e-494e-b9d4-8930ce1db70f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+bc925358-7c5a-4108-969c-e491cdfaec7d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b6f55fa7-65aa-4127-9c54-69e31fa3c8ad,Field 'coordinate_uncertainty_meters' must be an integer or empty
+d3f423a6-7a0c-4e64-bff1-bc334e7adcc0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 ab41bc40-5db6-4378-b1fe-61cdd66987e1,prediction class must be 'detected'
 adfe2e00-46b3-4931-a13c-208749d16500,prediction class must be 'detected'
-9909d77e-812e-4235-a135-a9739447eb1a,Field 'coordinate_uncertainty_meters' must be an integer
-39220970-8d6a-494e-ac30-24cd911aac62,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a7b6b3ce-ba6c-4d50-882d-94b45ec3b07e,Field 'coordinate_uncertainty_meters' must be an integer
-4298b917-0f33-42ea-9a96-161b83288114,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+9909d77e-812e-4235-a135-a9739447eb1a,Field 'coordinate_uncertainty_meters' must be an integer or empty
+39220970-8d6a-494e-ac30-24cd911aac62,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a7b6b3ce-ba6c-4d50-882d-94b45ec3b07e,Field 'coordinate_uncertainty_meters' must be an integer or empty
+4298b917-0f33-42ea-9a96-161b83288114,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 500d6b5f-9607-4a15-af64-6c484f5a961d,prediction class must be 'detected'
 64eacc22-9785-4d62-8649-d9b254a4fbbf,certainty must be set to 'high' to load
 1b25275c-5a47-4e0a-8e67-a45e097a5847,prediction class must be 'detected'
 d826d1d3-c1e3-435b-99a1-c8d9136c3615,prediction class must be 'detected'
-e16db0d7-e97a-4717-ad07-15864caeec26,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-001be449-dccf-464c-9ab9-74ea43793343,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e16db0d7-e97a-4717-ad07-15864caeec26,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+001be449-dccf-464c-9ab9-74ea43793343,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 85fec5bf-06cb-4296-afa4-cfd1751eee6e,prediction class must be 'detected'
 821684c5-932d-4efd-af5e-35503a9822f2,prediction class must be 'detected'
 76caff7b-d119-4e98-872d-5fea4a904865,prediction class must be 'detected'
 2f317069-2656-45c1-8217-fef9935a5d72,prediction class must be 'detected'
-a7846692-c7d0-4bd4-b5e1-270fa208c46a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-012bf480-d9c2-44cc-83de-8450e1dbfa3d,Field 'coordinate_uncertainty_meters' must be an integer
+a7846692-c7d0-4bd4-b5e1-270fa208c46a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+012bf480-d9c2-44cc-83de-8450e1dbfa3d,Field 'coordinate_uncertainty_meters' must be an integer or empty
 59d0507d-cbbe-474a-a147-9c6efbf25d76,prediction class must be 'detected'
 be5e35bb-4542-42e6-9a16-32f8bbda5108,prediction class must be 'detected'
 a8433ff0-3bbf-48cf-9818-820d35be2b6f,prediction class must be 'detected'
@@ -460,22 +460,22 @@ cd3d3885-a284-438a-a912-8146ea0bc068,prediction class must be 'detected'
 bedccd73-67f5-4117-b850-a322e19e8e91,prediction class must be 'detected'
 102ec8a7-f8ff-4c14-96df-06b86fc9afc9,prediction class must be 'detected'
 3303d7e5-e319-431c-98b2-4753f4348531,prediction class must be 'detected'
-5723371b-22f8-426d-b1aa-3f4c0471196c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-400b92cc-3580-4fd5-860e-1ba7ae3b80af,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+5723371b-22f8-426d-b1aa-3f4c0471196c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+400b92cc-3580-4fd5-860e-1ba7ae3b80af,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 860be9c0-261a-470e-a0a7-4d493e0d9c16,prediction class must be 'detected'
-ffd90138-e0af-4daf-bee1-80b4fd1ffe93,Field 'coordinate_uncertainty_meters' must be an integer
-945d4f3f-5f40-4e95-9bbb-64e86df3ff24,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+ffd90138-e0af-4daf-bee1-80b4fd1ffe93,Field 'coordinate_uncertainty_meters' must be an integer or empty
+945d4f3f-5f40-4e95-9bbb-64e86df3ff24,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 42c7db99-dc37-4d76-a51d-a6a68c24ef7c,prediction class must be 'detected'
 75bcb86d-ac6e-4c39-a49d-8e68cfdfa1c9,prediction class must be 'detected'
 a8c1b58d-9f7f-4ecf-9546-398b34d350f7,prediction class must be 'detected'|certainty must be set to 'high' to load
 36aa9957-6f10-44b5-894a-ad5aaeee4675,prediction class must be 'detected'
-562d4e02-da70-4ca3-bfdd-4c0b52a482e3,Field 'coordinate_uncertainty_meters' must be an integer
-ae2d0098-4ef8-4535-9796-99910243794a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+562d4e02-da70-4ca3-bfdd-4c0b52a482e3,Field 'coordinate_uncertainty_meters' must be an integer or empty
+ae2d0098-4ef8-4535-9796-99910243794a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 24dee26f-b237-4b84-9584-d4ace8935030,prediction class must be 'detected'
-13051ace-ad6b-4b80-92c9-5f887ae168cd,Field 'coordinate_uncertainty_meters' must be an integer
-d2879c14-2cc0-4c69-86a8-dba09530e83c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-50a870d4-5f01-4509-81d1-37439df6417c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-2541bfcd-dc93-4908-8d10-cebe4a554063,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+13051ace-ad6b-4b80-92c9-5f887ae168cd,Field 'coordinate_uncertainty_meters' must be an integer or empty
+d2879c14-2cc0-4c69-86a8-dba09530e83c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+50a870d4-5f01-4509-81d1-37439df6417c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+2541bfcd-dc93-4908-8d10-cebe4a554063,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 10c7ed32-81ab-4773-b418-06601889b5b5,prediction class must be 'detected'
 3e544b41-1a85-46d2-8e2c-2b73ea5d634c,prediction class must be 'detected'
 b454817c-4335-4f75-94af-6e4d8058283d,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -484,18 +484,18 @@ b454817c-4335-4f75-94af-6e4d8058283d,prediction class must be 'detected'|certain
 a5a17184-e21d-4519-9a5c-e282346ccd57,prediction class must be 'detected'
 0eca2b2f-324f-4290-b8b8-fc52118f1e4e,prediction class must be 'detected'
 f7f0c1eb-9f91-4784-b56f-94716f406dc5,prediction class must be 'detected'|certainty must be set to 'high' to load
-a3879e65-2616-4451-ba77-8d72d9c22f07,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-3c9b5a37-9f85-485c-be89-abaec016e0d6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+a3879e65-2616-4451-ba77-8d72d9c22f07,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+3c9b5a37-9f85-485c-be89-abaec016e0d6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 8a232191-358c-40be-a1ed-0a0916ce3577,prediction class must be 'detected'
 f9759d33-69ea-4284-b09c-743fb1d9c3d2,prediction class must be 'detected'
 9eee7a6f-f59b-4721-bed4-94074987f77a,prediction class must be 'detected'
 15091d9c-7676-480d-8077-96f8dc5a1a71,prediction class must be 'detected'
-e0f7a7f0-92b2-449f-af3d-1fe3583a0dab,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-52637c42-d5d6-49f4-9a22-3e9cc11d2745,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-bf27ac70-5537-42fc-a7e5-3c9d9df379af,Field 'coordinate_uncertainty_meters' must be an integer
-5d60875f-5e5a-46e5-acc7-a0cd37017609,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a7411f51-4335-4d6d-b676-cfa4cf02b88b,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-f7dcaec5-8147-4f1b-a966-e97b5e42b900,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e0f7a7f0-92b2-449f-af3d-1fe3583a0dab,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+52637c42-d5d6-49f4-9a22-3e9cc11d2745,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+bf27ac70-5537-42fc-a7e5-3c9d9df379af,Field 'coordinate_uncertainty_meters' must be an integer or empty
+5d60875f-5e5a-46e5-acc7-a0cd37017609,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a7411f51-4335-4d6d-b676-cfa4cf02b88b,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f7dcaec5-8147-4f1b-a966-e97b5e42b900,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 e8df07cc-4a99-4e3c-af0c-f9bc54bd2cc0,prediction class must be 'detected'
 c932cca3-81b7-4acb-8afc-bbf438a49414,prediction class must be 'detected'
 b8c998b8-3a45-4735-8d71-64c14e730282,prediction class must be 'detected'
@@ -508,16 +508,16 @@ f03ed0b9-1502-4232-a32a-2f711d4c56fc,prediction class must be 'detected'
 4dd3b287-76f7-4960-84df-f9b926d4520d,Invalid or empty latitude/longitude
 ad49a540-7ac5-49dd-9a9e-be81ca5bea17,prediction class must be 'detected'|Invalid or empty latitude/longitude
 d4b71b6b-fe8a-4645-82b2-ec10783f194a,prediction class must be 'detected'|certainty must be set to 'high' to load
-1ff028d6-fb03-494a-acb6-345d8afa692b,Field 'coordinate_uncertainty_meters' must be an integer
-4ffac794-43c3-4dfb-9d2a-b0a54d5f2266,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+1ff028d6-fb03-494a-acb6-345d8afa692b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+4ffac794-43c3-4dfb-9d2a-b0a54d5f2266,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 17273361-2de4-4253-a7b2-efec6c284b97,prediction class must be 'detected'
-6cb09a5b-9693-4927-b947-ead958ef68c9,Field 'coordinate_uncertainty_meters' must be an integer
-7d3f835d-9aed-40a4-8dd5-18d61e5ef8fc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+6cb09a5b-9693-4927-b947-ead958ef68c9,Field 'coordinate_uncertainty_meters' must be an integer or empty
+7d3f835d-9aed-40a4-8dd5-18d61e5ef8fc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 2996ce1c-5afb-4199-af06-03e01894760a,prediction class must be 'detected'
 a35cda50-1947-4717-b1ba-c4fc670b71df,prediction class must be 'detected'
 1917050d-2e77-43ef-adff-b1d28d90aa3e,prediction class must be 'detected'
-34e08fe7-013b-47cd-bdb9-80d4e07f8030,Field 'coordinate_uncertainty_meters' must be an integer
-3b88214b-2e99-4ea1-8bba-de06b4fe3fd0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+34e08fe7-013b-47cd-bdb9-80d4e07f8030,Field 'coordinate_uncertainty_meters' must be an integer or empty
+3b88214b-2e99-4ea1-8bba-de06b4fe3fd0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 b58b2f6d-0f60-4f75-986e-50d1dd9223c8,prediction class must be 'detected'
 d8e4b4b6-38a5-4bbf-852f-dece627dcfab,prediction class must be 'detected'
 da186697-ab6d-45a7-ba67-e6d7e38f0292,prediction class must be 'detected'
@@ -532,8 +532,8 @@ bbc8f459-5c78-4545-8f6e-524389d513f2,prediction class must be 'detected'
 8c3c3fb5-cc32-404f-8412-703ab5b161fe,prediction class must be 'detected'
 34afad33-c694-410f-952c-5412220bb38a,prediction class must be 'detected'
 7c042651-cf30-4eb6-9cb5-d10996c2cd25,prediction class must be 'detected'
-89384fe0-3b4e-4180-97b1-26a1e33343e7,Field 'coordinate_uncertainty_meters' must be an integer
-6a82192f-c89b-44e8-9df3-7b309859fd7c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+89384fe0-3b4e-4180-97b1-26a1e33343e7,Field 'coordinate_uncertainty_meters' must be an integer or empty
+6a82192f-c89b-44e8-9df3-7b309859fd7c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 e58835f1-f085-4e1c-8463-db25b392fbd8,prediction class must be 'detected'|certainty must be set to 'high' to load
 945530da-6f16-4ad5-9e59-aaa76b169440,prediction class must be 'detected'
 b9e12cf2-3a6a-4807-8afa-801e4332bd4f,prediction class must be 'detected'
@@ -543,12 +543,12 @@ b9e12cf2-3a6a-4807-8afa-801e4332bd4f,prediction class must be 'detected'
 c53506ad-b8aa-4290-b636-1131c23895a0,prediction class must be 'detected'
 aa103da7-78e8-4f51-abfa-a7692c4c3576,prediction class must be 'detected'
 37ef584a-7a85-4b2b-a01c-90d2e2e06cc0,prediction class must be 'detected'
-94b28250-a5f3-45b3-8d9a-4a24b9e294b8,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-14ad93ca-513f-4766-9c98-386108b49236,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+94b28250-a5f3-45b3-8d9a-4a24b9e294b8,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+14ad93ca-513f-4766-9c98-386108b49236,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 ded01dbb-7449-4cd2-97db-81f3d74ce50d,prediction class must be 'detected'
 33abda93-2b7c-4f78-a76a-6cf8ce3f548b,prediction class must be 'detected'
-21905182-aaf5-420f-b6fe-b9fe649edbc7,Field 'coordinate_uncertainty_meters' must be an integer
-d1284a3b-c128-4117-abfc-d5393305cbc9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+21905182-aaf5-420f-b6fe-b9fe649edbc7,Field 'coordinate_uncertainty_meters' must be an integer or empty
+d1284a3b-c128-4117-abfc-d5393305cbc9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 0f5de79d-da0b-4aed-a208-2a20d52876b7,prediction class must be 'detected'
 bb073ffd-9359-417f-86fb-2a0819692447,prediction class must be 'detected'
 81f7c18a-768c-4bbe-8ff9-8e0795b9772a,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -556,14 +556,14 @@ bb073ffd-9359-417f-86fb-2a0819692447,prediction class must be 'detected'
 1619d0d3-bd11-4fc2-861e-8eab44486a3f,prediction class must be 'detected'|certainty must be set to 'high' to load
 48576a4b-3329-446f-bf77-4b7aee4c7a92,certainty must be set to 'high' to load
 f0ed41a0-3d64-4514-80f6-4bae3f82302c,prediction class must be 'detected'
-c0f8465a-8039-4551-a6bb-78ff44235b48,Field 'coordinate_uncertainty_meters' must be an integer
-71d981cb-ebcd-495b-8fc1-1183209f09d5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-756e2aaa-a0fc-447e-8645-84b35e6a1c4b,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-2b5020cc-f27b-4b78-9320-11779987fa51,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-6ddeaad1-a3e0-4da6-8186-48c8ce0d4a17,Field 'coordinate_uncertainty_meters' must be an integer
-10ff585f-5eef-4eb8-82e7-38fe1d4481c9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ea3f3663-9971-492c-9d07-72abba7b5441,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-cf4a282d-7e9f-4975-827b-423266408f45,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+c0f8465a-8039-4551-a6bb-78ff44235b48,Field 'coordinate_uncertainty_meters' must be an integer or empty
+71d981cb-ebcd-495b-8fc1-1183209f09d5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+756e2aaa-a0fc-447e-8645-84b35e6a1c4b,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+2b5020cc-f27b-4b78-9320-11779987fa51,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+6ddeaad1-a3e0-4da6-8186-48c8ce0d4a17,Field 'coordinate_uncertainty_meters' must be an integer or empty
+10ff585f-5eef-4eb8-82e7-38fe1d4481c9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ea3f3663-9971-492c-9d07-72abba7b5441,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+cf4a282d-7e9f-4975-827b-423266408f45,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 7e4c2650-7125-4671-9714-be6838864cf3,prediction class must be 'detected'
 7ee4859d-1ccd-4e1a-8a49-2d814b346157,prediction class must be 'detected'
 c29c3bf3-57f7-45b8-afd4-9ae6d35e9658,prediction class must be 'detected'
@@ -572,27 +572,27 @@ c29c3bf3-57f7-45b8-afd4-9ae6d35e9658,prediction class must be 'detected'
 99781ec8-3085-4c94-b8ef-4008f38a6f4c,prediction class must be 'detected'
 a04ed282-6070-417c-8c02-36df54f39b3e,prediction class must be 'detected'
 b80ac69f-6a13-4046-999a-8b31625ec104,prediction class must be 'detected'
-e61e5e3b-20ea-4646-9bfc-c79ecacc55fc,Field 'coordinate_uncertainty_meters' must be an integer
-6610f43a-5b2c-4043-be50-217163f0670f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e61e5e3b-20ea-4646-9bfc-c79ecacc55fc,Field 'coordinate_uncertainty_meters' must be an integer or empty
+6610f43a-5b2c-4043-be50-217163f0670f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 4c2197a7-d7dd-410a-a4f1-4343cb5b62a3,prediction class must be 'detected'
-148ba4d8-2460-4fbd-a59f-853f164ee1c0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-f1957126-40a3-4885-88d4-0c231ca4ecc9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+148ba4d8-2460-4fbd-a59f-853f164ee1c0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f1957126-40a3-4885-88d4-0c231ca4ecc9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 09fd7ec6-c10f-42ae-9fb3-09a8e7e7659e,prediction class must be 'detected'
 0fe62484-2d01-4bd0-ad19-2bdc2666f6ba,prediction class must be 'detected'|certainty must be set to 'high' to load
 ad42c8f8-454d-4342-abaa-45ac1c3d4ddb,prediction class must be 'detected'|certainty must be set to 'high' to load
 f0742a5a-c495-4610-ac7f-3e91b6414f67,prediction class must be 'detected'
 22772f2e-b085-4fa2-ae83-252caf0f3807,prediction class must be 'detected'|certainty must be set to 'high' to load
 15c442c8-0962-41f7-8b89-9b8338df542d,prediction class must be 'detected'|certainty must be set to 'high' to load
-80227a1e-b20a-48e6-b804-394d715b6e6f,Field 'coordinate_uncertainty_meters' must be an integer
-10e37bf3-1f49-4c86-b087-7a07ad7a201d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+80227a1e-b20a-48e6-b804-394d715b6e6f,Field 'coordinate_uncertainty_meters' must be an integer or empty
+10e37bf3-1f49-4c86-b087-7a07ad7a201d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 27f5207e-2dd4-48de-886e-d8f9f5426dac,prediction class must be 'detected'
 196b35ac-8119-45af-ac42-11240884b888,prediction class must be 'detected'|certainty must be set to 'high' to load
 a6f199e4-7b6d-4594-a0cf-50c169494e83,prediction class must be 'detected'
 575b1801-8528-4371-bfdb-328b0fc84dae,prediction class must be 'detected'
-77f917b7-b33c-484d-a537-df5aa06886ed,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-b1b3e3bd-6ca2-4bf2-884f-692bc1aeb4d6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ca928102-065f-438f-b228-ffc30839c33b,Field 'coordinate_uncertainty_meters' must be an integer
-cb50bfc4-e694-4dba-a743-3312a76a53f4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+77f917b7-b33c-484d-a537-df5aa06886ed,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b1b3e3bd-6ca2-4bf2-884f-692bc1aeb4d6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ca928102-065f-438f-b228-ffc30839c33b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+cb50bfc4-e694-4dba-a743-3312a76a53f4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 30ffa605-8858-4d3b-a8e7-99c4c7576f47,prediction class must be 'detected'
 9fa3e00e-d597-4ceb-ad36-4de782e261fe,prediction class must be 'detected'
 a8c94be0-b314-4e24-b768-9550e0f18654,prediction class must be 'detected'
@@ -609,31 +609,31 @@ eaeec792-f785-4b0e-9fa6-b17b9813cd84,prediction class must be 'detected'
 29fb1ee2-7cb7-467d-9052-0b3e17ea7afe,prediction class must be 'detected'
 e7c96a2e-017e-4dd2-92f2-2e1d55c94c18,prediction class must be 'detected'|certainty must be set to 'high' to load
 31e1042f-2540-4ee5-9bd6-93280beca26c,prediction class must be 'detected'|certainty must be set to 'high' to load
-3ebd9d3d-f6d4-445d-b1dc-c59fca4e819b,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-0c87b609-1ca8-454d-9a1f-adebd00aa4b2,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+3ebd9d3d-f6d4-445d-b1dc-c59fca4e819b,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+0c87b609-1ca8-454d-9a1f-adebd00aa4b2,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 f7478d53-6374-4d38-acd4-1a642a7051af,prediction class must be 'detected'
 68ee15f6-e006-4538-a0be-03e8609a1cbb,prediction class must be 'detected'
-165e2d39-9ef2-415e-9b04-91c68267d0de,Field 'coordinate_uncertainty_meters' must be an integer
-053be751-480c-422b-8939-6c93a3cfdcfd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+165e2d39-9ef2-415e-9b04-91c68267d0de,Field 'coordinate_uncertainty_meters' must be an integer or empty
+053be751-480c-422b-8939-6c93a3cfdcfd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 3641bf03-173b-4bf6-90d8-1145a5e6a651,prediction class must be 'detected'
-e5ce679a-06cf-4965-b803-15dfd017a055,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-0661d2e2-620b-4ba3-b523-ae5cab9d65a6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e5ce679a-06cf-4965-b803-15dfd017a055,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+0661d2e2-620b-4ba3-b523-ae5cab9d65a6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 abedbbc9-0244-480e-927b-8236fc29275c,prediction class must be 'detected'
 edd391dd-3f79-43ad-bb3e-bca835d4ceb8,prediction class must be 'detected'|certainty must be set to 'high' to load
 f539ba60-5655-4b91-bdef-933b6d9b06bd,prediction class must be 'detected'
 deab3dbd-b2e2-4e0d-93e1-443f94fe752e,prediction class must be 'detected'
 bb18db28-3e6f-4d21-92f2-e29607d21544,prediction class must be 'detected'
-099983a8-9ab7-474b-a05b-647531e6f415,Field 'coordinate_uncertainty_meters' must be an integer
-9ca11228-956a-4ecd-8c7c-3eb7016829f6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-c7f864e3-995c-41d1-bcc0-3e67abf92895,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-982fd022-375d-45af-af47-1cd832a412af,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+099983a8-9ab7-474b-a05b-647531e6f415,Field 'coordinate_uncertainty_meters' must be an integer or empty
+9ca11228-956a-4ecd-8c7c-3eb7016829f6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+c7f864e3-995c-41d1-bcc0-3e67abf92895,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+982fd022-375d-45af-af47-1cd832a412af,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 bc497e99-4427-413c-9ee1-01a9908b06e5,prediction class must be 'detected'|certainty must be set to 'high' to load
 326ebd78-ad23-4f6f-9571-a3f73c1678e9,prediction class must be 'detected'|certainty must be set to 'high' to load
 2ebc34a4-4e0a-4e86-a618-1f0421ae00aa,prediction class must be 'detected'
 eb6958e6-8c59-4eaf-9ef8-91fae71a32c4,prediction class must be 'detected'
 f160a5fd-e2f9-4768-97df-89cf94d193c2,prediction class must be 'detected'|certainty must be set to 'high' to load
-1c126948-a2f0-4ddd-93eb-18bdf7c1dd41,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-b81eaf05-8c31-41be-9126-d7c6156978bc,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+1c126948-a2f0-4ddd-93eb-18bdf7c1dd41,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b81eaf05-8c31-41be-9126-d7c6156978bc,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 7f8a172e-3039-420f-949c-da7e84af0fb6,prediction class must be 'detected'
 930d922f-b7ab-4d19-b634-276d1410e149,prediction class must be 'detected'
 8f1de89e-de8f-4fb3-865e-58b4450625b7,prediction class must be 'detected'
@@ -641,14 +641,14 @@ b81eaf05-8c31-41be-9126-d7c6156978bc,certainty must be set to 'high' to load|Fie
 adb6a66c-2a43-4d7d-8fa0-0f93c8729719,prediction class must be 'detected'
 5183ed44-fd65-4414-a147-e0496a9d6917,prediction class must be 'detected'
 8b56e1b3-4191-45df-8227-bd802f95454c,prediction class must be 'detected'
-29459270-1c58-4444-97c2-7982157f8be5,Field 'coordinate_uncertainty_meters' must be an integer
-ee0402f5-be56-43ba-9969-856e3fa715b1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+29459270-1c58-4444-97c2-7982157f8be5,Field 'coordinate_uncertainty_meters' must be an integer or empty
+ee0402f5-be56-43ba-9969-856e3fa715b1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 025a00e2-174b-4268-9e8f-107607dd6d28,prediction class must be 'detected'
-708264b7-1dc1-4a5d-aadd-749447e77347,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-6be53e03-72e4-4438-9167-3590b2e025b3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+708264b7-1dc1-4a5d-aadd-749447e77347,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+6be53e03-72e4-4438-9167-3590b2e025b3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 31090d24-4800-414f-9a1b-a7b88539599e,prediction class must be 'detected'
-cc445485-2f50-4ceb-ab7d-4629c5ce0e42,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-1d43866d-54fe-4f29-bbaf-9cb4f2831225,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+cc445485-2f50-4ceb-ab7d-4629c5ce0e42,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+1d43866d-54fe-4f29-bbaf-9cb4f2831225,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 5c9673bf-47db-4392-9e23-579fc350f408,prediction class must be 'detected'
 0fdeb862-2fb9-42f4-9999-e8e11d3c7371,prediction class must be 'detected'
 34f211f0-6455-4323-bfc2-2005521c892f,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -656,8 +656,8 @@ cc445485-2f50-4ceb-ab7d-4629c5ce0e42,prediction class must be 'detected'|Field '
 58be36d6-00dd-401d-833d-0dcfb2a98f8d,prediction class must be 'detected'
 307c8f56-82ee-4aa2-89ad-011bd088b4f9,prediction class must be 'detected'
 c4901d4f-d238-41c4-abb9-8c8bd55674a8,prediction class must be 'detected'
-66406d7d-0a95-4556-8e89-a4848d3b0688,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-d201b210-4881-4353-9814-93409a85197c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+66406d7d-0a95-4556-8e89-a4848d3b0688,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+d201b210-4881-4353-9814-93409a85197c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 dc3fceb1-bef1-4025-8b06-2916301b41ac,prediction class must be 'detected'
 4499b656-b43b-4ecf-94aa-810fbe563ae8,prediction class must be 'detected'
 60d28a0d-e48c-4d22-bfc6-6547fb527e55,prediction class must be 'detected'
@@ -670,28 +670,28 @@ db609915-b138-4f79-818a-ef83bac3b2ca,prediction class must be 'detected'
 08104ef5-ee9d-470c-ac23-3febcf0f3871,prediction class must be 'detected'
 30e5dab2-41da-4b53-80ad-7e3ef98493b9,prediction class must be 'detected'
 dbf099df-a6d1-462e-a862-2d158e1a5a4b,prediction class must be 'detected'
-21a59ad3-f728-46df-aac3-d544ee1e1e15,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-7169ae63-f1bd-43ab-be61-be1806b84f3a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+21a59ad3-f728-46df-aac3-d544ee1e1e15,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+7169ae63-f1bd-43ab-be61-be1806b84f3a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 56492a8a-5a5f-4a08-aaec-8da53f82deb6,prediction class must be 'detected'
 98effb1e-b449-4eea-83b6-87a599b5aff3,prediction class must be 'detected'
 e8e4d975-a680-4653-a9df-9cc65208c951,prediction class must be 'detected'|certainty must be set to 'high' to load
-5560344e-795e-4f1d-8022-77326dc70c5b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-f6503ad1-eebb-45d5-976e-297b40fb1ea1,Field 'coordinate_uncertainty_meters' must be an integer
+5560344e-795e-4f1d-8022-77326dc70c5b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f6503ad1-eebb-45d5-976e-297b40fb1ea1,Field 'coordinate_uncertainty_meters' must be an integer or empty
 d5d8ffc0-2a12-4ee5-a2dc-4ee57259373b,prediction class must be 'detected'
 60fd490c-f1bf-4aa5-b922-547f16722e00,prediction class must be 'detected'
 d08e5769-ce53-4853-8428-e230d4bc0997,prediction class must be 'detected'
-1857778c-0ac3-4a73-a334-a44a8d2fde2f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-db522c2b-b4d8-418c-911b-cbecf80fbc5f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+1857778c-0ac3-4a73-a334-a44a8d2fde2f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+db522c2b-b4d8-418c-911b-cbecf80fbc5f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 268c0b01-b483-4c44-b703-5f947a27d761,prediction class must be 'detected'
 4de3b844-5626-4930-8dc7-0ad3579f2a75,prediction class must be 'detected'
-99c877f4-871d-473a-978e-70176c831411,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-4a276ade-3945-41de-8016-38e4742b9833,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-38b5ad39-00e6-4170-b19d-3fe509511f79,Field 'coordinate_uncertainty_meters' must be an integer
-21936f44-791a-4552-bd59-01d72d7f717e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+99c877f4-871d-473a-978e-70176c831411,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+4a276ade-3945-41de-8016-38e4742b9833,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+38b5ad39-00e6-4170-b19d-3fe509511f79,Field 'coordinate_uncertainty_meters' must be an integer or empty
+21936f44-791a-4552-bd59-01d72d7f717e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 98ed71fb-6130-49b0-9178-c505d4d1e908,prediction class must be 'detected'
 ca8f706f-acd9-41ca-8451-026444640a0b,prediction class must be 'detected'
-913bced3-ffdb-4584-8a5f-d47ca019024a,Field 'coordinate_uncertainty_meters' must be an integer
-317f7424-d27a-45de-8d66-4548153ea4e6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+913bced3-ffdb-4584-8a5f-d47ca019024a,Field 'coordinate_uncertainty_meters' must be an integer or empty
+317f7424-d27a-45de-8d66-4548153ea4e6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a6413fa0-c9c1-4d48-af70-914a5cb3a8cd,prediction class must be 'detected'
 a0d59dea-441a-43d6-8b46-8d014759b233,prediction class must be 'detected'
 db3d59b5-6869-4a68-87f6-b6afde0eecbf,prediction class must be 'detected'
@@ -702,8 +702,8 @@ c24141c6-7e82-4d24-973a-f490aa7be6e6,prediction class must be 'detected'
 1b020ded-93a5-49ef-821d-0ff89893774b,prediction class must be 'detected'
 ae03db8f-7dd4-4cf7-b030-21adf735c1e1,prediction class must be 'detected'
 d1931553-5349-4f85-a396-bc56849b9aaf,prediction class must be 'detected'|certainty must be set to 'high' to load
-b2a6eb14-878e-45e3-95f5-170f3562cafd,Field 'coordinate_uncertainty_meters' must be an integer
-39b5586d-0c39-4c1e-b16a-c3a3e1c9ba29,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+b2a6eb14-878e-45e3-95f5-170f3562cafd,Field 'coordinate_uncertainty_meters' must be an integer or empty
+39b5586d-0c39-4c1e-b16a-c3a3e1c9ba29,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 c297525c-be09-4168-86fc-97a9b00e3644,prediction class must be 'detected'
 9608bbfe-3a13-4da3-9e54-126b7be99e18,prediction class must be 'detected'
 3ad8be0e-a450-4127-ac07-9e5805c4ef70,prediction class must be 'detected'
@@ -719,8 +719,8 @@ ff9eea0c-086b-4a28-94ce-d29f5af0cf16,prediction class must be 'detected'|certain
 bb41051a-c717-4d89-9ccc-5e7c270f8ed0,prediction class must be 'detected'
 9c35b4aa-9e53-4b69-a9cf-2e7f42757f48,prediction class must be 'detected'
 d03e8222-47ad-479c-90a4-6d4b2f80ba14,prediction class must be 'detected'
-d54333d1-cc52-4d57-a6b8-05d490200100,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-5fbd86cb-2530-47f2-95f2-7a452543a247,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+d54333d1-cc52-4d57-a6b8-05d490200100,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+5fbd86cb-2530-47f2-95f2-7a452543a247,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 cf02bbbc-a2cf-45a3-8ecd-2dea603f064a,prediction class must be 'detected'
 d34f2804-d4bf-44ae-a705-45a51d57741c,prediction class must be 'detected'
 4b4ff2c5-3eb6-43da-9c44-435b46ab2ea0,prediction class must be 'detected'
@@ -730,8 +730,8 @@ ce0b7395-81d1-4ff9-96d3-50e8e597181d,prediction class must be 'detected'
 f9788858-b9d2-4661-95e9-793358ebff8c,prediction class must be 'detected'
 6f3d79a2-e672-40f5-8d66-175f7f6cce21,prediction class must be 'detected'|certainty must be set to 'high' to load
 393ddf16-d899-4759-992b-bea60a9b85d7,prediction class must be 'detected'
-bf91559c-592e-4c6c-8b89-064a57ebba5a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-d2c27adc-e516-4d7b-b3f3-1e29cfcd7a7b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+bf91559c-592e-4c6c-8b89-064a57ebba5a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+d2c27adc-e516-4d7b-b3f3-1e29cfcd7a7b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 665f3fdc-ba50-4dd1-96aa-44ed4dfe79d9,prediction class must be 'detected'
 6c65588e-ea31-47d3-997e-2462fdefe9a9,prediction class must be 'detected'
 bc898dbb-adc5-4aaa-81a5-254eb6db5288,certainty must be set to 'high' to load
@@ -743,50 +743,50 @@ bc898dbb-adc5-4aaa-81a5-254eb6db5288,certainty must be set to 'high' to load
 cd21e2cd-aac7-49c6-ae53-f7f507c4d17d,prediction class must be 'detected'
 8235495c-838c-4234-b0d7-9e3891c0e410,prediction class must be 'detected'
 d0ec45c1-43bc-41f5-b654-89c91edce014,prediction class must be 'detected'
-3667c8ec-e644-4732-b8fa-bb18ce88730d,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-6bdde7d1-704b-4a41-a5d3-a473527a4ee1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+3667c8ec-e644-4732-b8fa-bb18ce88730d,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+6bdde7d1-704b-4a41-a5d3-a473527a4ee1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 104c2e23-d8b0-4ae2-9d2f-4748f4057735,prediction class must be 'detected'
-d0eeffd1-9011-4fbf-8768-22c50c56d87b,Field 'coordinate_uncertainty_meters' must be an integer
-aaefb043-4bac-4206-83db-144d02c8550f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+d0eeffd1-9011-4fbf-8768-22c50c56d87b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+aaefb043-4bac-4206-83db-144d02c8550f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 7aee62f1-bb7c-473d-b88e-e02a694c2d14,prediction class must be 'detected'
 f04d4e17-7a60-438f-ae4b-82a1993161ed,prediction class must be 'detected'|certainty must be set to 'high' to load
 1e1e6c1a-17f8-4c3b-a430-3355626b2e57,prediction class must be 'detected'
 56f05267-17ea-47e3-93bd-55c5f13531b4,prediction class must be 'detected'
 a7c28dbd-8dde-4c3c-8d01-cae525dac40c,prediction class must be 'detected'
-e8341d11-ef51-4ca3-be5b-f98944a92ad5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-83bf9b47-dd8a-4e08-b607-f79ae9705b98,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e8341d11-ef51-4ca3-be5b-f98944a92ad5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+83bf9b47-dd8a-4e08-b607-f79ae9705b98,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d0f2fb2a-14eb-414d-8624-c7ff9e078c17,prediction class must be 'detected'
 63918380-32d8-414d-a891-12375523d4f4,prediction class must be 'detected'
-0cebc027-9176-4dd3-8a0b-2fb974dbe897,Field 'coordinate_uncertainty_meters' must be an integer
-ec4b4076-862b-453d-807c-eaa78d5ba682,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+0cebc027-9176-4dd3-8a0b-2fb974dbe897,Field 'coordinate_uncertainty_meters' must be an integer or empty
+ec4b4076-862b-453d-807c-eaa78d5ba682,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 7f5535b8-2563-4f16-a306-46698d959f31,prediction class must be 'detected'
 0407f485-dada-47f5-bb6b-0597cb630fc7,prediction class must be 'detected'
 33b4d359-c513-4aef-870f-155a60485aae,prediction class must be 'detected'
 665378b5-e826-4ac6-b657-2acdb38ae2ff,prediction class must be 'detected'
 56ffe22e-1756-4106-bfbf-8e07f5446106,prediction class must be 'detected'
-20059187-65f1-4ded-a885-dd4da5011cc1,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-964412f1-ffec-4ccd-8efd-af9698b2ac80,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+20059187-65f1-4ded-a885-dd4da5011cc1,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+964412f1-ffec-4ccd-8efd-af9698b2ac80,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 aaf89174-0b38-4b43-9afe-696a216c8ff2,prediction class must be 'detected'
 33e58154-9057-40af-966c-8aa39e5f6801,prediction class must be 'detected'
 d40546ba-e52a-4cf0-9ec9-afee7296e3fb,prediction class must be 'detected'
-91c198c7-99b8-4db5-9250-9f4c9311fc8a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-9553769c-dbc1-410a-b3d1-b64bb143f40b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+91c198c7-99b8-4db5-9250-9f4c9311fc8a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+9553769c-dbc1-410a-b3d1-b64bb143f40b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a06f6c57-44f0-43a4-8617-b19cf7608650,prediction class must be 'detected'
 1309f611-fb29-42e0-af0c-654e4df7b61e,prediction class must be 'detected'
 49f66a45-3829-4a85-afca-ea32b9141605,prediction class must be 'detected'
-a5c34797-e316-46d2-9d2e-2f289e9a5d58,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-7da00efa-ff69-4459-a6e9-7a3df5d79134,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+a5c34797-e316-46d2-9d2e-2f289e9a5d58,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+7da00efa-ff69-4459-a6e9-7a3df5d79134,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 f51c0d45-bb17-4d1c-a79e-31774f9310bf,prediction class must be 'detected'|certainty must be set to 'high' to load
 0b86cba2-883f-4a7f-a260-e72e0bf4c0ca,prediction class must be 'detected'
-13a7db6f-7f3b-4d63-998c-8af9a360c8e8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ef012d75-2416-4510-a082-63ef0b73e6ec,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+13a7db6f-7f3b-4d63-998c-8af9a360c8e8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ef012d75-2416-4510-a082-63ef0b73e6ec,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 9ee576d8-781f-4126-9acb-b2dd69db0dbc,prediction class must be 'detected'
 902bec40-eac5-4bbe-99d0-0ccdd7f6a499,prediction class must be 'detected'
 11af83c7-b361-488a-81d1-3fabd91aa98a,prediction class must be 'detected'
-26ae2a3a-7204-4e11-8ce3-f1a322efc4c9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-f60862a3-8d11-4141-8a35-e067741c7e15,Field 'coordinate_uncertainty_meters' must be an integer
-c3aa9bef-f203-44ef-b333-f4eea1320fbe,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-cc609dbd-c4d3-4578-8383-4e2cfaca52c3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+26ae2a3a-7204-4e11-8ce3-f1a322efc4c9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f60862a3-8d11-4141-8a35-e067741c7e15,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c3aa9bef-f203-44ef-b333-f4eea1320fbe,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+cc609dbd-c4d3-4578-8383-4e2cfaca52c3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 f37e9198-3104-4b29-a290-8c4d618db8b7,prediction class must be 'detected'
 2c7b02df-668f-4c6d-be39-f8c85e37aed4,prediction class must be 'detected'
 08491a2c-78bd-42c8-bd51-26aaa154bb21,prediction class must be 'detected'
@@ -794,15 +794,15 @@ f37e9198-3104-4b29-a290-8c4d618db8b7,prediction class must be 'detected'
 0ea870b6-7626-4497-a5b4-2b830bb7f5ef,prediction class must be 'detected'
 6adb6eaf-b3c3-41c3-a3a4-f5f188a920d5,prediction class must be 'detected'
 23a29aec-ed4b-4bb8-b93f-373934f84689,prediction class must be 'detected'
-2acdda39-6ccb-4dc2-8743-c305d3b36498,Field 'coordinate_uncertainty_meters' must be an integer
-e9f9ec6f-4962-40e2-bfee-e63272dc8c5a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-32b7c757-46b2-48a0-ae07-d6f55ec27750,Field 'coordinate_uncertainty_meters' must be an integer
-ecdb71a0-3502-493d-9d5d-161b1c2438e9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a3c98972-dc88-4ecc-9fab-09b8d89aa2c1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-d587c897-b754-4d48-a36b-e8f70f2114c5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+2acdda39-6ccb-4dc2-8743-c305d3b36498,Field 'coordinate_uncertainty_meters' must be an integer or empty
+e9f9ec6f-4962-40e2-bfee-e63272dc8c5a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+32b7c757-46b2-48a0-ae07-d6f55ec27750,Field 'coordinate_uncertainty_meters' must be an integer or empty
+ecdb71a0-3502-493d-9d5d-161b1c2438e9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a3c98972-dc88-4ecc-9fab-09b8d89aa2c1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+d587c897-b754-4d48-a36b-e8f70f2114c5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 24404aaa-97f1-45c6-9e5f-19a03716e846,certainty must be set to 'high' to load
-725e4caf-adbb-4f7f-93c5-a1fc56ff1f5c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-ae8f90b8-1d09-4ac4-920a-b4c1c59c234b,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+725e4caf-adbb-4f7f-93c5-a1fc56ff1f5c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ae8f90b8-1d09-4ac4-920a-b4c1c59c234b,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 ef0e71af-2831-4d21-96cd-a113b1ddaf7d,prediction class must be 'detected'
 25d7bfe0-40f3-427e-b2ba-0adace05a8ed,prediction class must be 'detected'
 eee53d69-6e9f-41b2-9a79-d70e042aab39,prediction class must be 'detected'
@@ -815,8 +815,8 @@ f492d858-d0da-4d53-bfd0-b564c9294da4,prediction class must be 'detected'
 694ec12b-a98f-49df-a222-74058dc60989,prediction class must be 'detected'
 146253a9-6719-4ec8-94f1-3d23ab7fa57b,prediction class must be 'detected'|certainty must be set to 'high' to load
 65efe351-12b4-4d8c-b66f-ec4f5188fa6a,prediction class must be 'detected'
-aa50b512-c92f-4396-9637-c26ac62a4c5e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a36cfa36-63bb-4860-ab12-1e1d3daf98c2,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+aa50b512-c92f-4396-9637-c26ac62a4c5e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a36cfa36-63bb-4860-ab12-1e1d3daf98c2,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 932442b0-32d6-41ea-bb4e-debeacf64eb9,prediction class must be 'detected'
 5c7ce175-378f-45c9-8230-590b8a1ec069,prediction class must be 'detected'
 dd78c330-5b95-4c90-b585-236516bfa687,prediction class must be 'detected'
@@ -831,10 +831,10 @@ f1e288d5-8bd6-4e35-ac17-6e13f742cc2d,prediction class must be 'detected'
 a28005f4-d12a-4787-a7b5-5dd777b74aa8,prediction class must be 'detected'
 ff17f8de-5138-4bd0-9816-a48d65ce84bc,prediction class must be 'detected'
 ff85716f-4e47-4051-96ad-6c12e8a89ff5,prediction class must be 'detected'
-7dd31528-7213-4448-8e35-73fe0fcd82d2,Field 'coordinate_uncertainty_meters' must be an integer
-77154936-bdd8-4667-85a6-169e8e82e9fb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-607f2d61-015e-42aa-b053-d9ebbd75d1d9,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-3145a2f2-c25b-4dda-91a7-5416dc5f81f1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+7dd31528-7213-4448-8e35-73fe0fcd82d2,Field 'coordinate_uncertainty_meters' must be an integer or empty
+77154936-bdd8-4667-85a6-169e8e82e9fb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+607f2d61-015e-42aa-b053-d9ebbd75d1d9,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+3145a2f2-c25b-4dda-91a7-5416dc5f81f1,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a2fa0a70-2323-42ec-a6e4-b483c25187fe,prediction class must be 'detected'|certainty must be set to 'high' to load
 61cbf02f-9c76-423b-a1d0-92261907992c,prediction class must be 'detected'|certainty must be set to 'high' to load
 e971dcc9-518d-4f69-bf5b-d0daf410f3a6,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -850,27 +850,27 @@ cea941a5-334b-40ea-b995-3eb12a438885,prediction class must be 'detected'|certain
 a71fca85-548c-449f-85d1-17a90d6120f8,prediction class must be 'detected'|certainty must be set to 'high' to load
 6e5431ca-969c-44ba-9e44-2107e740f548,prediction class must be 'detected'
 2b1ebc83-c3df-4a75-a45a-cd289471d755,prediction class must be 'detected'
-f21a0af6-3a7c-4457-ad58-4f8104e1406d,Field 'coordinate_uncertainty_meters' must be an integer
-40bae4cb-0fee-4745-a8a9-27a3f4c6a007,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+f21a0af6-3a7c-4457-ad58-4f8104e1406d,Field 'coordinate_uncertainty_meters' must be an integer or empty
+40bae4cb-0fee-4745-a8a9-27a3f4c6a007,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 3001ed47-6b07-4321-98ab-7b0a7c0968e0,prediction class must be 'detected'
 4311edb1-2823-49b2-9f3d-d50dc1a01863,prediction class must be 'detected'
 9fe2775e-8231-43f0-bfb6-6e1f35416f3c,prediction class must be 'detected'
 c466cf15-3d0b-4a88-8637-16a1fb3ae6a2,prediction class must be 'detected'
 64d6d9a6-445f-4442-afbd-47cd1fcd8d9d,prediction class must be 'detected'
-71a72e09-9f95-46c8-aa67-19b12bfb5134,Field 'coordinate_uncertainty_meters' must be an integer
-802e49c8-491f-41f7-a6bf-e2419f0fca53,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+71a72e09-9f95-46c8-aa67-19b12bfb5134,Field 'coordinate_uncertainty_meters' must be an integer or empty
+802e49c8-491f-41f7-a6bf-e2419f0fca53,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 c278982f-75b1-408a-9ea6-153572d2cc92,prediction class must be 'detected'
 eef567cb-94a1-40a1-9690-9dab9601e3f1,prediction class must be 'detected'
 d90329ed-198b-42d9-b937-5641cd9573ff,prediction class must be 'detected'
-0748f5cb-2404-4391-8a38-d682fb5c6129,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-fe42de5a-e626-4f04-b406-99c01d54f3ed,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+0748f5cb-2404-4391-8a38-d682fb5c6129,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+fe42de5a-e626-4f04-b406-99c01d54f3ed,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d70994cd-00c7-4d45-8487-5c10caa5df6a,prediction class must be 'detected'|certainty must be set to 'high' to load
 4ce6acac-95c9-4973-984d-4f89b8f722b9,certainty must be set to 'high' to load
 02ab47cf-0668-49a2-b160-6d4b12ac9ce9,prediction class must be 'detected'
 d37e3250-9197-43f2-bcf5-9624836dcb96,prediction class must be 'detected'
 3b17d459-5074-473c-9357-6f9d5334e7eb,prediction class must be 'detected'
-1594de4e-d385-4dd1-9fc1-12ab46bb46b7,Field 'coordinate_uncertainty_meters' must be an integer
-2663ed68-a7a9-4d41-a721-a3aea001419b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+1594de4e-d385-4dd1-9fc1-12ab46bb46b7,Field 'coordinate_uncertainty_meters' must be an integer or empty
+2663ed68-a7a9-4d41-a721-a3aea001419b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 9b52db0b-cbee-4be0-a845-9483488fcab2,prediction class must be 'detected'
 01c28920-2f2c-4c28-a7c6-d62fc79651c6,prediction class must be 'detected'
 802dddbd-01b5-4cf6-aa39-63317cffc8e2,certainty must be set to 'high' to load
@@ -880,10 +880,10 @@ b86ea6d8-33d1-4119-8acb-098c9c96d05b,certainty must be set to 'high' to load
 3377487d-e6ab-4c8f-b7ea-99932ba521f9,prediction class must be 'detected'
 1a693461-5128-443f-af8b-b12c75b2a5f7,prediction class must be 'detected'
 3e539623-4ce0-419d-a3ab-57a578b74eb7,prediction class must be 'detected'
-ec9203a3-1dd9-4ccb-9be8-6320eae2aac4,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-2bc0621a-f882-4c6c-a78f-0953e5398c54,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-b32ae33a-2844-4c45-8c94-a3b621aeabe8,Field 'coordinate_uncertainty_meters' must be an integer
-76243238-1478-4a57-a822-297b39f5665a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+ec9203a3-1dd9-4ccb-9be8-6320eae2aac4,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+2bc0621a-f882-4c6c-a78f-0953e5398c54,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b32ae33a-2844-4c45-8c94-a3b621aeabe8,Field 'coordinate_uncertainty_meters' must be an integer or empty
+76243238-1478-4a57-a822-297b39f5665a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 9f83010b-8e9f-4063-9171-89ee807d5d74,prediction class must be 'detected'
 c99e9468-08e0-48ab-8b1c-f192e167e13b,prediction class must be 'detected'
 068ffe04-b9ff-4d17-a93b-d95f6b886f1d,prediction class must be 'detected'
@@ -892,53 +892,53 @@ c99e9468-08e0-48ab-8b1c-f192e167e13b,prediction class must be 'detected'
 5f42529d-53ae-4b26-ab30-3662bfc62244,certainty must be set to 'high' to load
 6a82af8d-93ad-446c-a794-be807f498ac2,prediction class must be 'detected'
 b7c5a22c-01c7-4f3e-9d7b-3d1dde9a3d59,prediction class must be 'detected'
-8318bbc1-cb63-4ab5-9695-970cdf2ed453,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-35f9d578-e563-464a-90ef-58f2862464b4,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+8318bbc1-cb63-4ab5-9695-970cdf2ed453,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+35f9d578-e563-464a-90ef-58f2862464b4,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a0397958-f1d6-4a17-848f-9ef08388fd6d,prediction class must be 'detected'|certainty must be set to 'high' to load
-dfc69948-4386-4796-8a6e-89c146fdff3e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b81c6188-c961-4368-b29a-9ad7f257051a,Field 'coordinate_uncertainty_meters' must be an integer
-945d8c3f-8a6c-42da-9f1d-81cd6896e3ec,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ffa9fb43-c712-46b0-9ca1-128cc707c7f8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-f0af2dd6-4e56-446a-98f8-43960be8a464,Field 'coordinate_uncertainty_meters' must be an integer
-25fd4ff6-b6c7-49b0-85bb-409a86003fa2,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+dfc69948-4386-4796-8a6e-89c146fdff3e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b81c6188-c961-4368-b29a-9ad7f257051a,Field 'coordinate_uncertainty_meters' must be an integer or empty
+945d8c3f-8a6c-42da-9f1d-81cd6896e3ec,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ffa9fb43-c712-46b0-9ca1-128cc707c7f8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f0af2dd6-4e56-446a-98f8-43960be8a464,Field 'coordinate_uncertainty_meters' must be an integer or empty
+25fd4ff6-b6c7-49b0-85bb-409a86003fa2,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 1821f322-6444-42f2-b4ce-53109d0165c1,prediction class must be 'detected'
-3ec96cdf-de7b-4add-ba2d-ea29b165a18a,Field 'coordinate_uncertainty_meters' must be an integer
-9c8718ed-92b5-4fe3-aeaf-342705f950e5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+3ec96cdf-de7b-4add-ba2d-ea29b165a18a,Field 'coordinate_uncertainty_meters' must be an integer or empty
+9c8718ed-92b5-4fe3-aeaf-342705f950e5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a7cc869b-91ac-4703-a55a-3cbb513df1ac,prediction class must be 'detected'
-e4285a8c-fc17-44e6-9cf2-6abdb6622092,Field 'coordinate_uncertainty_meters' must be an integer
-9499b40e-e3c3-4314-8de2-d93858c0bdbc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e4285a8c-fc17-44e6-9cf2-6abdb6622092,Field 'coordinate_uncertainty_meters' must be an integer or empty
+9499b40e-e3c3-4314-8de2-d93858c0bdbc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 325133a2-c68e-446a-ad0d-2a717f2380be,prediction class must be 'detected'
-08bd50a2-7e0d-47de-869f-a6c59a2f78a6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-6d3d3224-71a8-4a98-8132-9d88ddb41374,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+08bd50a2-7e0d-47de-869f-a6c59a2f78a6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+6d3d3224-71a8-4a98-8132-9d88ddb41374,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 0ee60a9b-2320-4f0e-9d2f-81fed2353fce,prediction class must be 'detected'
-58ec39c8-ec39-437a-ba90-8604ed56e968,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-9715f90c-b9a8-4edc-9008-f4ee68a0626f,Field 'coordinate_uncertainty_meters' must be an integer
+58ec39c8-ec39-437a-ba90-8604ed56e968,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+9715f90c-b9a8-4edc-9008-f4ee68a0626f,Field 'coordinate_uncertainty_meters' must be an integer or empty
 b82fa398-8d94-4c0d-a08d-1be630d3efd5,prediction class must be 'detected'
-f45aaaf1-220f-4907-9ffa-7c19ed7679e9,Field 'coordinate_uncertainty_meters' must be an integer
-2ee40e9a-8ee3-4352-ba8a-11b48a844e58,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-5c637d9b-6530-477e-9402-e592ac4886ee,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-336495eb-cd7b-4cb3-aa06-f59bde66642c,Field 'coordinate_uncertainty_meters' must be an integer
+f45aaaf1-220f-4907-9ffa-7c19ed7679e9,Field 'coordinate_uncertainty_meters' must be an integer or empty
+2ee40e9a-8ee3-4352-ba8a-11b48a844e58,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+5c637d9b-6530-477e-9402-e592ac4886ee,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+336495eb-cd7b-4cb3-aa06-f59bde66642c,Field 'coordinate_uncertainty_meters' must be an integer or empty
 52e02027-4398-4bd7-8348-f4c4d49b2c11,prediction class must be 'detected'
 144324c6-c582-4d92-9373-8249bd68a55a,prediction class must be 'detected'|certainty must be set to 'high' to load
 a635580c-8ee7-40a8-9f43-d95f78ad0eea,prediction class must be 'detected'|certainty must be set to 'high' to load
 a5b61746-6efc-4bc2-a087-55b6b73ce1f0,prediction class must be 'detected'
-cc807f67-4d07-4076-abab-59ebc9981be0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-9c482c04-c4ba-4e28-a5c3-dbe6233e0db7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+cc807f67-4d07-4076-abab-59ebc9981be0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+9c482c04-c4ba-4e28-a5c3-dbe6233e0db7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 406e854c-473e-4684-8517-63a5d21a7f41,prediction class must be 'detected'|certainty must be set to 'high' to load
 42405048-97ed-40cb-b23f-c69c6f6ffa24,prediction class must be 'detected'
 a630806c-da22-4814-b3fd-438a143c4f1d,prediction class must be 'detected'
 0baeac80-e8d8-4c3a-befc-519255e42cee,prediction class must be 'detected'
-ffa7f071-5eef-4cdb-81fe-bc1e75cbcba8,Field 'coordinate_uncertainty_meters' must be an integer
-5f6bc31c-12d5-41fb-9a90-c1b4535af0a0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+ffa7f071-5eef-4cdb-81fe-bc1e75cbcba8,Field 'coordinate_uncertainty_meters' must be an integer or empty
+5f6bc31c-12d5-41fb-9a90-c1b4535af0a0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 96c2c02e-62e2-4bc0-9842-3dd117e70528,prediction class must be 'detected'
 e3f6ae51-7b21-4a7d-b157-2317fc118789,prediction class must be 'detected'
-5bee14d3-b704-4d50-b60c-abb27350a1e5,Field 'coordinate_uncertainty_meters' must be an integer
-8204c82d-a451-4c28-9388-08c9a69d1fa5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-0c31f3d0-2a96-448f-af47-e3db946b5198,Field 'coordinate_uncertainty_meters' must be an integer
-f98d7b48-4bfb-431d-b0b8-c19c64f4481e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+5bee14d3-b704-4d50-b60c-abb27350a1e5,Field 'coordinate_uncertainty_meters' must be an integer or empty
+8204c82d-a451-4c28-9388-08c9a69d1fa5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+0c31f3d0-2a96-448f-af47-e3db946b5198,Field 'coordinate_uncertainty_meters' must be an integer or empty
+f98d7b48-4bfb-431d-b0b8-c19c64f4481e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a756cbcd-20b6-4a71-8030-ab03a8a13417,prediction class must be 'detected'
-eeb227a9-408f-4f13-98ab-85bc822709ff,Field 'coordinate_uncertainty_meters' must be an integer
-1c2d40cb-a7fe-44e0-8144-bd315b9dd2c7,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+eeb227a9-408f-4f13-98ab-85bc822709ff,Field 'coordinate_uncertainty_meters' must be an integer or empty
+1c2d40cb-a7fe-44e0-8144-bd315b9dd2c7,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 93a36126-1a76-4773-b576-41cec50c1535,prediction class must be 'detected'|certainty must be set to 'high' to load
 d9bf2b3c-cbff-4ed7-8543-81ec818542c9,prediction class must be 'detected'
 4a8f0c04-0ab7-4f8c-8d72-bad5e15bd719,prediction class must be 'detected'
@@ -953,75 +953,75 @@ b89fae9e-b7e6-431b-be7d-9ed1b2653b7b,prediction class must be 'detected'
 c6c12232-d74d-4eda-8440-213a2ed50baf,prediction class must be 'detected'
 36da84d3-221c-4604-90ea-d1d224dbb144,prediction class must be 'detected'
 e1ea241f-1f80-4cda-9352-52ee7c9b3235,prediction class must be 'detected'
-3465853e-7d82-4666-8c24-46c8e62aa026,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-fbc5c4fb-f258-444e-92b2-328f318fae4d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-d7ceebf8-336f-40b5-a1ef-db5993ce9cde,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b2f9b829-b1de-4281-8e9c-344c97dae69f,Field 'coordinate_uncertainty_meters' must be an integer
+3465853e-7d82-4666-8c24-46c8e62aa026,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+fbc5c4fb-f258-444e-92b2-328f318fae4d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+d7ceebf8-336f-40b5-a1ef-db5993ce9cde,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b2f9b829-b1de-4281-8e9c-344c97dae69f,Field 'coordinate_uncertainty_meters' must be an integer or empty
 f2565c09-2083-41c1-b214-cb4aee79d6fe,prediction class must be 'detected'
 44e75a7a-205e-4741-b2e0-89a9321d078d,prediction class must be 'detected'
 6e0b037a-2dc0-4933-a9fc-71367f90f7a7,prediction class must be 'detected'
-a8dd2f61-ac15-4b8c-b64d-c12adeb52744,Field 'coordinate_uncertainty_meters' must be an integer
-9d0282de-60da-47ee-98b6-769191fbce7c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+a8dd2f61-ac15-4b8c-b64d-c12adeb52744,Field 'coordinate_uncertainty_meters' must be an integer or empty
+9d0282de-60da-47ee-98b6-769191fbce7c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 b5ffa703-9116-4928-931e-0ef6a6b69978,prediction class must be 'detected'
 3cafb5d6-321c-4a88-b95e-f42cec796e80,prediction class must be 'detected'
-1aa8edda-652d-4827-baf7-908049837ed4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-da1bb0ad-3519-406d-8dde-e94e95187b1f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-92915d31-cd09-4acb-a7b3-49c5d2c52d19,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b801aa57-2f43-47e9-8e06-697d60de0177,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-539075c6-6235-4589-bab3-a6fcad779b35,Field 'coordinate_uncertainty_meters' must be an integer
-2278cf36-63b3-4c28-95ef-856bb06b5a65,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+1aa8edda-652d-4827-baf7-908049837ed4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+da1bb0ad-3519-406d-8dde-e94e95187b1f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+92915d31-cd09-4acb-a7b3-49c5d2c52d19,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b801aa57-2f43-47e9-8e06-697d60de0177,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+539075c6-6235-4589-bab3-a6fcad779b35,Field 'coordinate_uncertainty_meters' must be an integer or empty
+2278cf36-63b3-4c28-95ef-856bb06b5a65,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d66df8de-9c5e-464b-81d5-532579ee03ab,prediction class must be 'detected'
 443cdaf4-5ce4-43b1-b1be-f1e862e93176,prediction class must be 'detected'
 4cd763cc-b6ec-4b94-947b-0933a76b9f46,prediction class must be 'detected'
-c560a180-ce26-4bfd-b1fc-d65be695dd6f,Field 'coordinate_uncertainty_meters' must be an integer
-f8097855-f7ac-46df-b7ab-30a6847e9644,Field 'coordinate_uncertainty_meters' must be an integer
+c560a180-ce26-4bfd-b1fc-d65be695dd6f,Field 'coordinate_uncertainty_meters' must be an integer or empty
+f8097855-f7ac-46df-b7ab-30a6847e9644,Field 'coordinate_uncertainty_meters' must be an integer or empty
 64394eb8-73dc-49ec-a742-7bccd12c80e8,prediction class must be 'detected'
 45a00df3-1b07-4938-a168-4916ac6d1f2c,prediction class must be 'detected'
-16d0eb83-5623-4d63-9999-996feab2c5e4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ad9ba2b6-fcab-4443-b1d9-5692c0acd676,Field 'coordinate_uncertainty_meters' must be an integer
+16d0eb83-5623-4d63-9999-996feab2c5e4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ad9ba2b6-fcab-4443-b1d9-5692c0acd676,Field 'coordinate_uncertainty_meters' must be an integer or empty
 3df3f91f-0641-4652-bf3e-2cc59da1937e,prediction class must be 'detected'
 1d772bae-6ed7-452f-afef-5089001d825b,prediction class must be 'detected'
 d40ecbee-f2a8-4a9f-be67-0c3e8b9663ec,prediction class must be 'detected'|certainty must be set to 'high' to load
 a91c672d-fe69-4e3b-9b3f-216ce593d958,prediction class must be 'detected'
-0e0d10c8-32f1-4f1a-a90c-4c29618d298b,Field 'coordinate_uncertainty_meters' must be an integer
-d0ff6d6f-fb0e-48de-9fc1-fdcadbc4e79b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+0e0d10c8-32f1-4f1a-a90c-4c29618d298b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+d0ff6d6f-fb0e-48de-9fc1-fdcadbc4e79b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 72f2759a-cdfb-4ea7-b6ae-1bbe9f3d5512,prediction class must be 'detected'|certainty must be set to 'high' to load
-87dd19a1-1329-4453-8962-9e15087a3f42,Field 'coordinate_uncertainty_meters' must be an integer
-930f1d99-7aec-4e8c-8335-2108522ea6b4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-e89d69f4-a6db-4297-a92a-913f49de0f66,Field 'coordinate_uncertainty_meters' must be an integer
-c5c8a954-3404-4008-994a-8c4f82461278,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-9691b0b9-e2f5-49b8-aa3e-a7da57796eeb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-e996e07e-6561-4f5f-8c82-9c992dfc8495,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+87dd19a1-1329-4453-8962-9e15087a3f42,Field 'coordinate_uncertainty_meters' must be an integer or empty
+930f1d99-7aec-4e8c-8335-2108522ea6b4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+e89d69f4-a6db-4297-a92a-913f49de0f66,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c5c8a954-3404-4008-994a-8c4f82461278,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+9691b0b9-e2f5-49b8-aa3e-a7da57796eeb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+e996e07e-6561-4f5f-8c82-9c992dfc8495,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 1ed44e99-9026-47bd-bf78-ad085248e3c8,prediction class must be 'detected'
 922162d9-0985-4a1d-9587-2ee6f0dc77e6,prediction class must be 'detected'
-28906f45-1f49-4250-bdb9-8a062fd7714b,Field 'coordinate_uncertainty_meters' must be an integer
-2d209729-49dd-47a8-ac54-7bc0e3e6c0f3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+28906f45-1f49-4250-bdb9-8a062fd7714b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+2d209729-49dd-47a8-ac54-7bc0e3e6c0f3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d93f5cc2-b745-4e8d-aafb-e5fada1e6151,prediction class must be 'detected'
-d608d68c-13df-4fff-a404-fafcc8c10333,Field 'coordinate_uncertainty_meters' must be an integer
-114d691a-8bb2-43ec-9944-3e009e00600f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+d608d68c-13df-4fff-a404-fafcc8c10333,Field 'coordinate_uncertainty_meters' must be an integer or empty
+114d691a-8bb2-43ec-9944-3e009e00600f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 cd211c5e-c82b-47ce-a5e7-98327047b678,prediction class must be 'detected'
-07009d32-81ad-47dd-abb9-107c21f12748,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-7bc8071e-c72a-408f-a784-4eaf26d2b085,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-5f0f65d2-d113-4113-86de-f28bfaa2c87a,Field 'coordinate_uncertainty_meters' must be an integer
-c14c5380-f0b1-40aa-8365-556077f4e1d6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+07009d32-81ad-47dd-abb9-107c21f12748,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+7bc8071e-c72a-408f-a784-4eaf26d2b085,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+5f0f65d2-d113-4113-86de-f28bfaa2c87a,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c14c5380-f0b1-40aa-8365-556077f4e1d6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 5c23e073-9981-47ae-8802-ac34b69b6906,Invalid or empty latitude/longitude
 2caa409f-24a8-4862-966d-d56c08afaf1b,prediction class must be 'detected'|Invalid or empty latitude/longitude
 2af2b8bf-5ec8-47f0-a23c-1faeec0795de,prediction class must be 'detected'
-996c9357-3a67-40b1-a721-a21cf24a6efb,Field 'coordinate_uncertainty_meters' must be an integer
-4a404922-a01e-429c-a778-2da732ce4aa0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+996c9357-3a67-40b1-a721-a21cf24a6efb,Field 'coordinate_uncertainty_meters' must be an integer or empty
+4a404922-a01e-429c-a778-2da732ce4aa0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d46351c6-b183-4482-94b1-929ac4375e47,prediction class must be 'detected'
 dba024e2-2b63-4aba-ab5a-b0880f329567,prediction class must be 'detected'
-c9922516-8f84-405c-976f-2c40889aebb3,Field 'coordinate_uncertainty_meters' must be an integer
-2a190be0-d722-44b5-8dd9-576d60714e8e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+c9922516-8f84-405c-976f-2c40889aebb3,Field 'coordinate_uncertainty_meters' must be an integer or empty
+2a190be0-d722-44b5-8dd9-576d60714e8e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d23588bd-ae0f-4b91-840e-4ff240c0ae83,prediction class must be 'detected'
 f809cbbb-d898-4947-a0df-d6d66a573f00,prediction class must be 'detected'
 42061abe-dbd4-41e7-b52a-3f4ba74ca9a6,prediction class must be 'detected'
-01b56813-1b61-4bfd-91c8-dd63adf0c5be,Field 'coordinate_uncertainty_meters' must be an integer
-c38c127a-5c4f-4532-96a7-34b365bccea7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+01b56813-1b61-4bfd-91c8-dd63adf0c5be,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c38c127a-5c4f-4532-96a7-34b365bccea7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 8b2cf0ea-211d-46b0-b0b2-9b80c911a00b,prediction class must be 'detected'
 cbc55aac-b951-494a-9a96-0a75ca5c6830,prediction class must be 'detected'
-db1788ec-2dfd-41bf-9530-b7d34a6e8428,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-ce64b733-e9b6-4c0e-a58f-22e8aba2b5b4,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+db1788ec-2dfd-41bf-9530-b7d34a6e8428,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ce64b733-e9b6-4c0e-a58f-22e8aba2b5b4,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 f4637332-90a9-4305-8de7-72f7c3fc145e,prediction class must be 'detected'|certainty must be set to 'high' to load
 21f4df41-0028-40f3-9d18-2f745d9aaa03,certainty must be set to 'high' to load
 1493c21e-feba-43de-aaf7-bd3c9e8bce8c,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -1033,8 +1033,8 @@ b82023a8-c1f8-4c4c-aeee-69cb99b88e17,prediction class must be 'detected'
 47e48194-4090-4884-b4a2-8260cd38ef02,prediction class must be 'detected'
 84b9f14b-994b-42df-8991-f7a9e859e35d,prediction class must be 'detected'|certainty must be set to 'high' to load
 fb63daec-8b8c-417c-b2c0-beb39f57d98e,prediction class must be 'detected'|certainty must be set to 'high' to load
-64d19bdc-87ea-4fda-a5e3-a2b14aacb5f7,Field 'coordinate_uncertainty_meters' must be an integer
-35456de1-77e8-4a2b-8e2f-a5ff4841dfdc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+64d19bdc-87ea-4fda-a5e3-a2b14aacb5f7,Field 'coordinate_uncertainty_meters' must be an integer or empty
+35456de1-77e8-4a2b-8e2f-a5ff4841dfdc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 367e205b-3ee6-4e0e-bccd-e4d6cde1902a,prediction class must be 'detected'
 8ba22499-0d28-4961-84cf-92a9c15f6cb2,prediction class must be 'detected'|certainty must be set to 'high' to load
 48cc0025-0c71-489a-a893-433b420b277e,prediction class must be 'detected'
@@ -1042,8 +1042,8 @@ fb63daec-8b8c-417c-b2c0-beb39f57d98e,prediction class must be 'detected'|certain
 78c44521-38c0-4940-a34e-3b8a44cb4e6e,prediction class must be 'detected'
 05f5b5a8-56d9-4968-b3db-b904828b3639,prediction class must be 'detected'
 0452066c-5c74-4c9b-a61d-e7988505d14e,prediction class must be 'detected'
-d2d4d705-3fde-4977-a3b8-68775228eef7,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-2796c5b3-f48d-4fc3-b5e6-8668c4fbbee6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+d2d4d705-3fde-4977-a3b8-68775228eef7,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+2796c5b3-f48d-4fc3-b5e6-8668c4fbbee6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 833b8388-2432-44f2-9c71-0aab03ab9e15,prediction class must be 'detected'
 41c72973-e4cf-41af-b444-8edd586de566,prediction class must be 'detected'
 aa744619-b14b-4cfb-a2ac-faf3611158b0,prediction class must be 'detected'
@@ -1074,23 +1074,23 @@ fcd5ed67-7b3a-40a5-af15-886996af15a6,prediction class must be 'detected'|certain
 cdf0288c-8a25-4a15-bd11-dd60e2bc9366,prediction class must be 'detected'
 20552ddf-0cbf-4b55-91f6-5d0669a91457,prediction class must be 'detected'
 6df33922-cb17-4927-9cc7-067174a9e642,prediction class must be 'detected'
-49da275f-2853-4e35-acc1-77b85bc4dbf3,Field 'coordinate_uncertainty_meters' must be an integer
-fa60c806-05a7-497e-b8fc-2578c94a5dce,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+49da275f-2853-4e35-acc1-77b85bc4dbf3,Field 'coordinate_uncertainty_meters' must be an integer or empty
+fa60c806-05a7-497e-b8fc-2578c94a5dce,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 7c6f4c09-96c6-4df5-954d-13cc6ff145c1,prediction class must be 'detected'
 a85ec65c-f802-4fae-b332-dfec706035e2,prediction class must be 'detected'
 bb752050-1dfa-4872-a848-5711f88f0d0a,prediction class must be 'detected'
 9fbb3e4f-62b4-417b-a602-1ad37abf830d,prediction class must be 'detected'
-ad58fc45-5fc2-47a2-a073-84fe50d5e6b6,Field 'coordinate_uncertainty_meters' must be an integer
-29339430-60a6-4ed3-8d1e-2d5093d25bc5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+ad58fc45-5fc2-47a2-a073-84fe50d5e6b6,Field 'coordinate_uncertainty_meters' must be an integer or empty
+29339430-60a6-4ed3-8d1e-2d5093d25bc5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 fe5c8a46-ac65-4314-a63e-ddec963aef6e,prediction class must be 'detected'
 4fe2189f-f486-40f3-b78c-3fe8f62deb20,prediction class must be 'detected'
-0157eefb-7da9-4a25-86b1-850934ddad47,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ac5cfb01-e3bc-4624-b1d2-91bef9be77d0,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+0157eefb-7da9-4a25-86b1-850934ddad47,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ac5cfb01-e3bc-4624-b1d2-91bef9be77d0,certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 c9ec45e3-712f-45af-a899-8b8d53be7157,prediction class must be 'detected'
 cd1dfe24-2df8-45c6-a542-d9e7f03a23f4,prediction class must be 'detected'
 e4c36250-724f-4e99-a2dc-ebc2ea9ae3ca,prediction class must be 'detected'
-6af7314d-f5da-48f3-a7c8-d55e5a53b85a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-58a79707-e932-46cb-afb6-a0f6aa860169,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+6af7314d-f5da-48f3-a7c8-d55e5a53b85a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+58a79707-e932-46cb-afb6-a0f6aa860169,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 97c0748e-80cc-401a-9de8-bf1f2ee4c728,prediction class must be 'detected'
 eec0d6cd-45df-4d95-9ec4-b3719d763df9,prediction class must be 'detected'
 f3bcc011-13d3-485c-a1fb-1c4b32c4507a,prediction class must be 'detected'
@@ -1099,57 +1099,57 @@ df5675b7-1963-40c3-9fa5-2fd2d922a10d,prediction class must be 'detected'
 79653ca4-b64d-423a-9e5b-a5fa1e56e065,prediction class must be 'detected'
 a6818924-be9b-4aea-8237-06ddcbf9a75f,prediction class must be 'detected'
 4e948ec7-b8be-4cf2-b0e5-1364aa13758d,prediction class must be 'detected'
-59706282-f427-41e9-a352-2df3d4fe516b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-9bab22f6-83bf-4fec-8e79-122c6a3264e5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+59706282-f427-41e9-a352-2df3d4fe516b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+9bab22f6-83bf-4fec-8e79-122c6a3264e5,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 8308125e-d8aa-4dbd-9a0b-f7502c9b326d,prediction class must be 'detected'
 adbdd219-b7d1-4b09-a8bd-c32ba368bf89,prediction class must be 'detected'|certainty must be set to 'high' to load
 6d66dc93-befd-4055-aef7-72fabef475cd,prediction class must be 'detected'|certainty must be set to 'high' to load
-55a6eb8f-1685-4e89-bf2a-537a85cc5c09,Field 'coordinate_uncertainty_meters' must be an integer
-24ae2d4c-14ab-429a-ac5d-cd6a843cd3fe,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+55a6eb8f-1685-4e89-bf2a-537a85cc5c09,Field 'coordinate_uncertainty_meters' must be an integer or empty
+24ae2d4c-14ab-429a-ac5d-cd6a843cd3fe,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 bbe512a7-f302-438e-85d0-8a9b344f92db,prediction class must be 'detected'|certainty must be set to 'high' to load
 d7740e44-0552-4f02-8292-01891da23a15,certainty must be set to 'high' to load
 d84134e7-dae4-48ab-833c-7aae282fbdcd,prediction class must be 'detected'
 b3446611-0af1-4228-9a17-a4d6e20a74a9,prediction class must be 'detected'
-1cfc29a6-4b6a-4380-ab3b-9fd09fc6eb82,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ccd5a92b-1c4e-40a1-9099-a6e4cf344c16,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+1cfc29a6-4b6a-4380-ab3b-9fd09fc6eb82,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ccd5a92b-1c4e-40a1-9099-a6e4cf344c16,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 2c5288b3-6ae5-49a4-9251-14c05e3ff741,prediction class must be 'detected'
-e1de42d1-2dbf-4f73-8621-01d3a7cb769b,Field 'coordinate_uncertainty_meters' must be an integer
-78b89ab0-9c48-418e-a657-78a224c5a54c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e1de42d1-2dbf-4f73-8621-01d3a7cb769b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+78b89ab0-9c48-418e-a657-78a224c5a54c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 35da798e-43a6-4c73-938b-36ebee0e7c59,prediction class must be 'detected'
 3c094446-fdb7-4ecf-9892-3138ac059895,prediction class must be 'detected'|certainty must be set to 'high' to load
 4a4b0265-5c98-4cd8-ab31-5551f1c4ed7f,prediction class must be 'detected'
-098b0f2f-8852-4331-a108-b6e5a5590043,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-71362824-80bc-4d45-ba3f-4b0510a3980b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+098b0f2f-8852-4331-a108-b6e5a5590043,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+71362824-80bc-4d45-ba3f-4b0510a3980b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 1540b7ca-4ccd-45ca-8f22-a4897750f829,prediction class must be 'detected'
-9ae0bc57-89c5-41d0-b857-9409d4125f0f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a3eadee1-4284-4354-9f4a-b219ec1ff643,Field 'coordinate_uncertainty_meters' must be an integer
+9ae0bc57-89c5-41d0-b857-9409d4125f0f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a3eadee1-4284-4354-9f4a-b219ec1ff643,Field 'coordinate_uncertainty_meters' must be an integer or empty
 8d3042a3-8556-4113-84f8-14adb5437d34,prediction class must be 'detected'
 4646d6ef-a1af-4875-b0fa-fd8702b80715,prediction class must be 'detected'
 11ff3e62-2694-42ad-80e2-0c66adc9e150,prediction class must be 'detected'|certainty must be set to 'high' to load
 1a88dc1a-4eeb-40db-8bc2-40915445a4db,prediction class must be 'detected'
 562f6276-3696-4820-a6fd-33ed15038aa1,prediction class must be 'detected'
-7a897d93-342d-4526-9a74-0e2bccc339b9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b9212db7-a2b4-40a0-b29c-ba12c20993dc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+7a897d93-342d-4526-9a74-0e2bccc339b9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b9212db7-a2b4-40a0-b29c-ba12c20993dc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 bc3b9059-762a-494a-9d62-9f526a61ab8c,prediction class must be 'detected'
 a90a3d9a-28c3-42b8-9ba5-2ac3e899d6a7,prediction class must be 'detected'
 c0b1db7f-5f3a-4378-872f-83d583ccf83f,prediction class must be 'detected'
 1b9edbc2-8855-4146-878b-9cb1f43552c4,prediction class must be 'detected'
-10eb014c-0e0a-4ad6-b97a-d33482af9500,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-81987f57-6b6e-4312-b229-25081aeb7b24,Field 'coordinate_uncertainty_meters' must be an integer
+10eb014c-0e0a-4ad6-b97a-d33482af9500,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+81987f57-6b6e-4312-b229-25081aeb7b24,Field 'coordinate_uncertainty_meters' must be an integer or empty
 f09cdedb-40ae-448e-ba4c-e3fc8c218e56,prediction class must be 'detected'|certainty must be set to 'high' to load
 92fc4115-5a32-4edb-91ad-46a82149debf,prediction class must be 'detected'
 8e65cc79-3efa-4d4b-a6a2-56663d06db8d,prediction class must be 'detected'
 d7330824-825e-40bb-bd38-f62f8d683982,prediction class must be 'detected'
-c4945c9c-236a-4d3d-8266-ae69947a3438,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-0be284d3-697d-4b61-bbaf-f567eea9b9ea,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+c4945c9c-236a-4d3d-8266-ae69947a3438,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+0be284d3-697d-4b61-bbaf-f567eea9b9ea,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 63aae792-bccd-4f99-a6f5-adbe589a4086,prediction class must be 'detected'|certainty must be set to 'high' to load
 4104697a-2a85-4a3a-aa50-ff39e65d4bf3,certainty must be set to 'high' to load
 d833a822-d064-4738-8956-5ac6b38a6f15,prediction class must be 'detected'
 33a32a68-6d9c-453a-bb90-0175b594b217,prediction class must be 'detected'
 382c8a41-ad44-495b-9309-92f8ae6eb06f,certainty must be set to 'high' to load
 cad5a46b-0425-488b-92a6-8e43eb5dd2f4,prediction class must be 'detected'
-b73ac998-ba60-464f-8333-4aa34def6305,Field 'coordinate_uncertainty_meters' must be an integer
-8a930c7d-e58f-4b3c-973e-0f384977a4ab,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+b73ac998-ba60-464f-8333-4aa34def6305,Field 'coordinate_uncertainty_meters' must be an integer or empty
+8a930c7d-e58f-4b3c-973e-0f384977a4ab,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 37e29d79-206c-440e-8b9c-c79a39a567c9,prediction class must be 'detected'
 2b665bb7-a9e4-4075-9964-a0b63568e712,prediction class must be 'detected'
 c04e3efc-bc17-4180-9ce7-38283e8c7b8e,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -1159,34 +1159,34 @@ c3a5547c-d128-46d4-9979-510de1e61fab,prediction class must be 'detected'
 e101180f-04a1-4c11-97e8-2c6e430b0d95,prediction class must be 'detected'
 90bf9675-b827-41e3-81c8-85624e0b6ff6,prediction class must be 'detected'
 64737a4e-7287-4bf7-82b1-1062d39bba64,prediction class must be 'detected'
-aea28b67-17be-4f17-8c5d-844f09706746,Field 'coordinate_uncertainty_meters' must be an integer
-5db34648-3865-4ddb-be98-99aac06e6822,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+aea28b67-17be-4f17-8c5d-844f09706746,Field 'coordinate_uncertainty_meters' must be an integer or empty
+5db34648-3865-4ddb-be98-99aac06e6822,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 0fdd1cd6-5551-48b9-ba32-1db665afa317,prediction class must be 'detected'
 fc8066ac-39b3-47d6-9444-98fd84b738fd,prediction class must be 'detected'
 918c2007-a642-45a6-b6f3-b71bb818699c,prediction class must be 'detected'
 5fea814e-0c6c-4f31-a644-5559811a8502,prediction class must be 'detected'
-b3e8d358-bd0f-479c-a30f-fdcaed82435b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-dfbcf294-3c79-4222-b846-6bb9247486c2,Field 'coordinate_uncertainty_meters' must be an integer
+b3e8d358-bd0f-479c-a30f-fdcaed82435b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+dfbcf294-3c79-4222-b846-6bb9247486c2,Field 'coordinate_uncertainty_meters' must be an integer or empty
 bed5fafb-74aa-4410-9298-9ce0700ad748,prediction class must be 'detected'
 8fd1a0e9-b4b9-4d35-935b-6a602360eca4,prediction class must be 'detected'
 3ff085b5-a4b6-4916-bdfb-e817c9fd01f7,prediction class must be 'detected'
 81923c83-075c-4baf-be8a-7b1b6f04d815,prediction class must be 'detected'|certainty must be set to 'high' to load
-06bf3f10-b15b-49dc-9a79-5a780d06756e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-9f8d447d-8bc6-4e09-b178-223844bc430d,Field 'coordinate_uncertainty_meters' must be an integer
+06bf3f10-b15b-49dc-9a79-5a780d06756e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+9f8d447d-8bc6-4e09-b178-223844bc430d,Field 'coordinate_uncertainty_meters' must be an integer or empty
 97da01f8-f0aa-4beb-af6a-4d9ed35526e1,prediction class must be 'detected'
 454b356f-68c6-458d-b42f-68fa858d55e0,prediction class must be 'detected'
 97ed6cee-c41f-4df3-82ed-5851a673001e,prediction class must be 'detected'
 d799e5e0-a485-4027-9536-6c71c4b295b0,prediction class must be 'detected'
 193cdb1f-285a-4811-9da9-f868ff835994,prediction class must be 'detected'
-31143771-a241-4da0-98b5-1d4f08d774bd,Field 'coordinate_uncertainty_meters' must be an integer
-7eb65872-7a5d-47fd-b522-b2733abd79d8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-88bced41-b8f0-4d4c-817a-a7e390fa817b,Field 'coordinate_uncertainty_meters' must be an integer
-c2f692c6-afd5-4dee-bfac-cd266b3c8e5c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+31143771-a241-4da0-98b5-1d4f08d774bd,Field 'coordinate_uncertainty_meters' must be an integer or empty
+7eb65872-7a5d-47fd-b522-b2733abd79d8,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+88bced41-b8f0-4d4c-817a-a7e390fa817b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c2f692c6-afd5-4dee-bfac-cd266b3c8e5c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 401229fc-3b48-4a5a-bf5e-540db60a0019,prediction class must be 'detected'
 2a76d900-3bf7-4b54-9529-e6e52978334a,prediction class must be 'detected'
 57963cc1-d98c-4bc6-9e10-abc4c5528830,prediction class must be 'detected'
-0a357c90-f2aa-400f-a921-6e40c6d7c538,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-07bd07ab-fac5-425e-a55a-c9814c30c541,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+0a357c90-f2aa-400f-a921-6e40c6d7c538,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+07bd07ab-fac5-425e-a55a-c9814c30c541,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 5da9f26b-041a-461e-a96e-528c2c7721b3,prediction class must be 'detected'|certainty must be set to 'high' to load
 cf7d08e4-a2fd-42cf-9476-38dcbf6f9136,prediction class must be 'detected'|certainty must be set to 'high' to load
 0b403c2f-8f8e-4211-bee1-23231a504324,prediction class must be 'detected'
@@ -1221,30 +1221,30 @@ e351030b-6489-4a0c-a4e5-983ba353838f,prediction class must be 'detected'
 cd45c968-c4dd-4c5d-8fee-492a60824b03,prediction class must be 'detected'
 cc285e63-237c-4c57-8571-61cf0bd4ffe8,prediction class must be 'detected'
 fad71012-c3fe-4c98-b51c-a786314b38b3,prediction class must be 'detected'
-30ab3af4-7383-4789-bb29-98e546036592,Field 'coordinate_uncertainty_meters' must be an integer
-b543e0fe-0162-4dc0-9c5c-ab4f2aee4d47,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+30ab3af4-7383-4789-bb29-98e546036592,Field 'coordinate_uncertainty_meters' must be an integer or empty
+b543e0fe-0162-4dc0-9c5c-ab4f2aee4d47,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 1c026797-7158-4ecd-b903-d7ef97a53bca,prediction class must be 'detected'
 6ee9eb57-2466-4f1c-b36b-da9d2b34f27b,prediction class must be 'detected'
 9637c182-81ae-49a8-82bd-8ac0d64b4592,prediction class must be 'detected'
 3d3b96cc-7bca-4808-90b5-1890e71d7d67,prediction class must be 'detected'
-5e196e55-66ad-4515-9fa2-0fafc9c16066,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-2b2bb5da-6edc-494e-9037-96231646ee15,Field 'coordinate_uncertainty_meters' must be an integer
+5e196e55-66ad-4515-9fa2-0fafc9c16066,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+2b2bb5da-6edc-494e-9037-96231646ee15,Field 'coordinate_uncertainty_meters' must be an integer or empty
 7890f462-6f73-46c3-b38c-7d96480fdbfa,prediction class must be 'detected'
 991bceb5-da66-4bd8-b9cf-8dd0c4aefbf4,prediction class must be 'detected'
 47454552-13bd-4743-9316-f39f7d15b72d,prediction class must be 'detected'
-998c36c2-9ae6-4daa-9466-8e2de5c38b51,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-aed58e2c-0635-4e7e-a838-4d506dc0b3e6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+998c36c2-9ae6-4daa-9466-8e2de5c38b51,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+aed58e2c-0635-4e7e-a838-4d506dc0b3e6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 8349690a-83d8-4206-ba20-388e152646a5,prediction class must be 'detected'|certainty must be set to 'high' to load
 5dcad6fc-b35f-4863-954d-884e9c6affb2,prediction class must be 'detected'
 581aae7a-e645-48cb-81cf-06eed71a896a,prediction class must be 'detected'
 3f52ffbd-6e9e-45fe-bdc1-5cacc0e9b1cc,prediction class must be 'detected'
 778f3222-3106-4a69-8ce9-c9c42229494b,prediction class must be 'detected'
-518b71a6-a449-42f4-ae30-ae888d99d3ab,Field 'coordinate_uncertainty_meters' must be an integer
-ba42e22c-61ba-4166-aa1b-1e01fc1b4944,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+518b71a6-a449-42f4-ae30-ae888d99d3ab,Field 'coordinate_uncertainty_meters' must be an integer or empty
+ba42e22c-61ba-4166-aa1b-1e01fc1b4944,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 b581e589-5f2f-46fe-997c-0d1e04af3b8b,prediction class must be 'detected'|certainty must be set to 'high' to load
 22f6841b-10e3-4e49-b5db-aa942c777d7d,prediction class must be 'detected'
-8bf576a4-d337-43ef-9ec6-167011800308,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-b94c7e5a-fca2-4f28-9e74-e522afb39958,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+8bf576a4-d337-43ef-9ec6-167011800308,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b94c7e5a-fca2-4f28-9e74-e522afb39958,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 edafa1cc-8d7e-4676-9bc2-36d76f374db8,prediction class must be 'detected'
 2a920743-943c-48cd-9ff9-f43726c75442,prediction class must be 'detected'
 449db60f-9a89-4a72-a607-4feb20729d18,prediction class must be 'detected'
@@ -1263,10 +1263,10 @@ a07aaa0d-f8a4-4497-99af-d0f0e7f96419,prediction class must be 'detected'
 01cec3d1-bce9-4377-9a13-06a32e13c2c0,prediction class must be 'detected'
 f9d0b8bb-94d4-4364-8da0-8ea2a3091838,prediction class must be 'detected'
 bad20ccf-e5a3-4999-80f1-016f5d6301a6,prediction class must be 'detected'
-9e6f4b09-f624-4808-be77-f398befc3f24,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-df844855-7fe6-462c-a417-eccc7614634f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-58f3fc36-e2f8-4770-a22e-659da88e353f,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-61f156f4-a75c-4cea-a5e9-1e018b7dc271,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+9e6f4b09-f624-4808-be77-f398befc3f24,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+df844855-7fe6-462c-a417-eccc7614634f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+58f3fc36-e2f8-4770-a22e-659da88e353f,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+61f156f4-a75c-4cea-a5e9-1e018b7dc271,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 33a2ba3a-018e-4f26-8208-623c3c430fe2,prediction class must be 'detected'|certainty must be set to 'high' to load
 48774d52-c67e-4bf6-ab8d-1b9e75a30a56,prediction class must be 'detected'
 6ab6e474-2f4d-46c8-aa39-b7bdd617157a,prediction class must be 'detected'
@@ -1275,21 +1275,21 @@ df844855-7fe6-462c-a417-eccc7614634f,prediction class must be 'detected'|Field '
 bb418c68-45df-483a-a345-70fa66920175,prediction class must be 'detected'
 c22030e4-366c-42c8-8661-26ea3765d5d0,prediction class must be 'detected'
 060f22d7-0014-4aa6-8c7c-f282e6e94fcd,prediction class must be 'detected'
-bfc85d75-8c2c-453e-b223-64ef71161c71,Field 'coordinate_uncertainty_meters' must be an integer
-927b284b-c16c-45b8-b326-ea3c9923685f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-1c90644e-a81c-45aa-8564-5389a06aa0eb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-5233e149-0c21-44b3-b249-1bed455e931d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+bfc85d75-8c2c-453e-b223-64ef71161c71,Field 'coordinate_uncertainty_meters' must be an integer or empty
+927b284b-c16c-45b8-b326-ea3c9923685f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+1c90644e-a81c-45aa-8564-5389a06aa0eb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+5233e149-0c21-44b3-b249-1bed455e931d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 47aedb82-e972-4e41-90e3-e88b3a9e0a60,prediction class must be 'detected'|certainty must be set to 'high' to load
 c2aeec10-4772-4afa-b3cc-fd9016d8e88c,prediction class must be 'detected'
 21c865a3-c569-4aae-90df-70da39841f96,prediction class must be 'detected'
 06003ff7-1133-4b8d-984c-de3da86a3b24,prediction class must be 'detected'|certainty must be set to 'high' to load
 ccd20c2a-9f21-4664-9d4a-7c5f9fa341a7,prediction class must be 'detected'|certainty must be set to 'high' to load
 abadcae7-ad9d-4768-871d-1e747f919316,prediction class must be 'detected'
-93da4e07-e774-49a9-ac26-d5a881b6ec53,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-8e12e5c5-7e4b-4b94-9e45-7ce4ca509b0a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+93da4e07-e774-49a9-ac26-d5a881b6ec53,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+8e12e5c5-7e4b-4b94-9e45-7ce4ca509b0a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 ec5db4f1-c7ab-459f-835a-1aa161112e16,prediction class must be 'detected'
-43c91664-ceaf-4d3c-9ca6-2717540aaa57,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a38d690b-1c09-4279-89e4-225c1414cb71,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+43c91664-ceaf-4d3c-9ca6-2717540aaa57,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a38d690b-1c09-4279-89e4-225c1414cb71,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 96b1daa9-e017-410b-a189-fc8594a07316,prediction class must be 'detected'|certainty must be set to 'high' to load
 4fea62db-91fb-4fe9-869e-d34355941d16,prediction class must be 'detected'
 8ed947c6-791f-49f8-8b2c-8aeffe4666ca,prediction class must be 'detected'|certainty must be set to 'high' to load
@@ -1298,16 +1298,16 @@ c12331df-3b53-47d5-a9ed-c1cd8e7340a7,prediction class must be 'detected'|certain
 63ab579e-67d1-418d-ae62-ef244ee37774,prediction class must be 'detected'
 2275a38d-a36b-491d-acac-381f958be895,prediction class must be 'detected'
 d97a1c1f-6574-4183-bfc4-3c724225482c,prediction class must be 'detected'
-4a083f6e-9382-4c6f-a881-673e3655b13c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-b276a5cf-6781-4838-9160-5187ffd25eeb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+4a083f6e-9382-4c6f-a881-673e3655b13c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b276a5cf-6781-4838-9160-5187ffd25eeb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 e5558c1c-0d72-480b-b44b-d2d4b4d1ad9f,prediction class must be 'detected'|certainty must be set to 'high' to load
 8f1b4ba4-4a71-459d-a39a-32ee7601c6bd,prediction class must be 'detected'
 c04f188b-b988-4e79-819f-2ed740007df1,prediction class must be 'detected'
 f96c4df2-bb37-4781-81b8-24b68472280e,prediction class must be 'detected'
 348dbe6d-dc7e-475b-8325-7b3d5e75ea99,prediction class must be 'detected'
 7704704d-0398-499c-9e94-bdd21b2b84de,prediction class must be 'detected'
-04f6a1d2-88f4-4553-81ba-a65287679280,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-0793c789-a2e4-433e-a2f9-762b57468c3b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+04f6a1d2-88f4-4553-81ba-a65287679280,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+0793c789-a2e4-433e-a2f9-762b57468c3b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 793add5b-e885-4b36-8f35-53fef393f738,prediction class must be 'detected'
 cb6bdb2b-efe9-49d8-99ec-6ac12802b09f,prediction class must be 'detected'
 8d7c3d44-ffa6-41c5-a297-8bc0e4bccca1,prediction class must be 'detected'
@@ -1317,14 +1317,14 @@ cb6bdb2b-efe9-49d8-99ec-6ac12802b09f,prediction class must be 'detected'
 d93fc4a0-fb61-4b17-87e7-8ae1d1bb2a43,prediction class must be 'detected'
 4f5e76a4-688c-4fb0-a05f-b2de1f280754,prediction class must be 'detected'|certainty must be set to 'high' to load
 176cd0d1-b037-463d-9d12-3e5c566fbfb1,prediction class must be 'detected'|certainty must be set to 'high' to load
-8b0571f7-2e7e-42f5-8d31-545c0947eee9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-aea45749-4645-4dbb-b163-f3eb4cda5b0c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+8b0571f7-2e7e-42f5-8d31-545c0947eee9,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+aea45749-4645-4dbb-b163-f3eb4cda5b0c,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 4e086455-b87d-435a-b452-38304f9b893b,prediction class must be 'detected'
-55b0edac-8fdf-45bb-9922-dcd75fc3821d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-3b27af21-95a8-487e-a919-4e6e9924469b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+55b0edac-8fdf-45bb-9922-dcd75fc3821d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+3b27af21-95a8-487e-a919-4e6e9924469b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 fce08e18-dfd0-4753-80be-8f437ddd511d,prediction class must be 'detected'
-55ce3ea2-4151-47c2-a7c4-229d547c86f7,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-c26f4970-59ff-41c4-a467-9cf8aa8953bf,Field 'coordinate_uncertainty_meters' must be an integer
+55ce3ea2-4151-47c2-a7c4-229d547c86f7,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+c26f4970-59ff-41c4-a467-9cf8aa8953bf,Field 'coordinate_uncertainty_meters' must be an integer or empty
 95fefc0c-f2d6-462d-a45d-326f4f515322,prediction class must be 'detected'
 142464f9-7d23-4409-a18d-a80766d0eb6b,prediction class must be 'detected'|certainty must be set to 'high' to load
 296f2375-2e8d-4f9c-86d4-605862af0e82,prediction class must be 'detected'
@@ -1332,27 +1332,27 @@ c26f4970-59ff-41c4-a467-9cf8aa8953bf,Field 'coordinate_uncertainty_meters' must 
 3f36a4c6-9643-4c2f-9e2d-1f2f06d97492,prediction class must be 'detected'
 32198f5b-b8a3-407d-8cd9-138f86fc43f6,prediction class must be 'detected'
 a3a3d79a-0e26-42bd-86f4-c0ac6c805268,prediction class must be 'detected'
-3fce1739-00b8-402c-9284-1135f36cde85,Field 'coordinate_uncertainty_meters' must be an integer
-b73c6641-6a50-408e-a875-00ec7dda578b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-91ec8bb0-530e-4a19-83cf-67f19658a076,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-296f6868-2259-4787-a085-aa9285293dcd,Field 'coordinate_uncertainty_meters' must be an integer
+3fce1739-00b8-402c-9284-1135f36cde85,Field 'coordinate_uncertainty_meters' must be an integer or empty
+b73c6641-6a50-408e-a875-00ec7dda578b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+91ec8bb0-530e-4a19-83cf-67f19658a076,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+296f6868-2259-4787-a085-aa9285293dcd,Field 'coordinate_uncertainty_meters' must be an integer or empty
 2603a8ae-a361-48f3-9084-894f1123732d,prediction class must be 'detected'
 fe118598-8cff-4201-a204-7619270f395e,prediction class must be 'detected'
 3e9de9b9-9bcd-4f5f-a35c-ee3892dddb77,prediction class must be 'detected'
-9660da45-6133-45b6-8f92-3c67ec99ecf3,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-059d515d-cae4-4dac-b6b9-1b1a9f87a147,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+9660da45-6133-45b6-8f92-3c67ec99ecf3,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+059d515d-cae4-4dac-b6b9-1b1a9f87a147,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 ca49c4d9-9995-41c6-bade-0cac596eccd8,prediction class must be 'detected'
 30b68126-5695-41c7-b4c2-cf23331fcb95,prediction class must be 'detected'
-5ee00e50-579e-40cb-9d56-2bd3519f79c7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-cba7f327-d44e-4b75-a453-1169a12007c3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+5ee00e50-579e-40cb-9d56-2bd3519f79c7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+cba7f327-d44e-4b75-a453-1169a12007c3,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 27f8f5f1-c2dc-4a77-b8a2-5c7a2df607e9,prediction class must be 'detected'|certainty must be set to 'high' to load
 b81f20fb-2ba0-486b-8418-f02e2d044f22,prediction class must be 'detected'|certainty must be set to 'high' to load
 6cc557ec-9c2d-4494-8f4a-7b42a072b98d,prediction class must be 'detected'
 0b12ae91-9047-4bd6-9452-144aac1d440d,prediction class must be 'detected'
 0314ef51-f59e-4e5b-98ad-de4b19e032a5,prediction class must be 'detected'
 c7a15309-92fe-428d-8283-08491b984115,prediction class must be 'detected'
-b3efe084-d4ee-4e42-9e1d-f5482ad6db3b,Field 'coordinate_uncertainty_meters' must be an integer
-67572528-8bfc-4614-b99e-75a73dc82a27,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+b3efe084-d4ee-4e42-9e1d-f5482ad6db3b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+67572528-8bfc-4614-b99e-75a73dc82a27,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 9e41e553-be90-4bc4-870c-3acdb53ce59e,prediction class must be 'detected'
 a3ea9857-3872-4b60-b069-c64000db2ff1,prediction class must be 'detected'
 d4598cf8-e51f-48fd-8206-9c60f13864dc,prediction class must be 'detected'
@@ -1383,22 +1383,22 @@ d5c72c58-058d-4ddd-8389-5e602f4bfc8b,prediction class must be 'detected'|certain
 0c585e3f-8bd4-4f16-a8b7-ada629c6fad7,prediction class must be 'detected'|certainty must be set to 'high' to load
 48520ead-bbfa-48d0-a3c5-d711c10e3272,prediction class must be 'detected'
 3c273e46-9e7d-41c9-90e9-cab6cee56495,prediction class must be 'detected'
-d80a92ff-0f41-48d5-98d6-00a2cfe34e93,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-97d82cc7-7567-4140-955c-68668cda5603,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+d80a92ff-0f41-48d5-98d6-00a2cfe34e93,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+97d82cc7-7567-4140-955c-68668cda5603,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 e25b1d34-fd46-41b1-8f4c-cf9410281171,prediction class must be 'detected'
 a7c447a6-4b41-4ee4-ac5f-8d688ecd35cf,prediction class must be 'detected'|certainty must be set to 'high' to load
-9d181951-ffdf-4686-80a5-0f9523d5ecb6,Field 'coordinate_uncertainty_meters' must be an integer
-a0f75e98-047a-4f80-a71c-d3121b616f4d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-ad42e71f-1579-4196-af67-63d81461763d,Field 'coordinate_uncertainty_meters' must be an integer
-c0b687ee-083a-447c-bf59-86440a29f2d4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+9d181951-ffdf-4686-80a5-0f9523d5ecb6,Field 'coordinate_uncertainty_meters' must be an integer or empty
+a0f75e98-047a-4f80-a71c-d3121b616f4d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+ad42e71f-1579-4196-af67-63d81461763d,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c0b687ee-083a-447c-bf59-86440a29f2d4,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 a66d793d-754f-4d97-ab6d-aa01c532e1b0,prediction class must be 'detected'
 3014fa81-404c-45dc-b7af-04c59e6ca395,prediction class must be 'detected'
 812b845d-f3ba-4f0e-b289-a784c2f31689,prediction class must be 'detected'|certainty must be set to 'high' to load
 b2352455-b059-4744-af2c-c68cc0fbc6aa,certainty must be set to 'high' to load
-c235c0ab-8dfe-4b2b-974a-d41ffa10dc4d,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-aa10b20a-c17e-4323-8518-0ba52ce1f417,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-115d5c76-2c1c-484f-b87f-c03c1e3da77b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-1e0394fc-db3d-42d3-bbf7-bcba4014b1e0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+c235c0ab-8dfe-4b2b-974a-d41ffa10dc4d,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+aa10b20a-c17e-4323-8518-0ba52ce1f417,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+115d5c76-2c1c-484f-b87f-c03c1e3da77b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+1e0394fc-db3d-42d3-bbf7-bcba4014b1e0,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 25ee7c19-c7b4-4103-a559-b50c304403b4,prediction class must be 'detected'
 c3202522-1cee-4a7d-97f1-725c02b6bca6,prediction class must be 'detected'
 c2dc5026-3346-4cd0-9939-c0941a0a1425,prediction class must be 'detected'
@@ -1406,18 +1406,18 @@ c2dc5026-3346-4cd0-9939-c0941a0a1425,prediction class must be 'detected'
 526e8f56-e499-4b6d-a7b1-406528c9116a,prediction class must be 'detected'
 1f3ee6d5-d21f-4557-8683-0146ca1a7fe4,prediction class must be 'detected'
 49f4f861-b6c4-4094-b7ab-99eaee196500,prediction class must be 'detected'
-391d2968-5235-4e5c-a747-726e14c02ca6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-e312c8b2-dbfa-47c1-a108-d6f5ef8ba375,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a3aa5399-39a8-4827-97b2-7876d37115b1,Field 'coordinate_uncertainty_meters' must be an integer
-a85a5133-2eaf-4008-8c3a-53336e708fd7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-a2565fd2-b5e3-4719-a457-dbadae4d013c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-f6cf7ce8-44db-4cc6-a28a-02fa63838a68,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+391d2968-5235-4e5c-a747-726e14c02ca6,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+e312c8b2-dbfa-47c1-a108-d6f5ef8ba375,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a3aa5399-39a8-4827-97b2-7876d37115b1,Field 'coordinate_uncertainty_meters' must be an integer or empty
+a85a5133-2eaf-4008-8c3a-53336e708fd7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+a2565fd2-b5e3-4719-a457-dbadae4d013c,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f6cf7ce8-44db-4cc6-a28a-02fa63838a68,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 de8649f2-6708-43dc-9493-8a72d4d43c46,prediction class must be 'detected'
 08af949d-646e-4214-8842-a380d3546fd6,prediction class must be 'detected'
 fb2360e5-4dd0-4c3b-a971-85fcfecdaa7e,prediction class must be 'detected'
 e2d06d60-db84-4ce7-b723-5709ec9a1723,prediction class must be 'detected'
-e335c272-b375-42b8-b21c-8424fd43e686,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-8ec94ec5-acb1-4a52-9c0f-9598dcea5490,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+e335c272-b375-42b8-b21c-8424fd43e686,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+8ec94ec5-acb1-4a52-9c0f-9598dcea5490,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 c2c02930-6918-4262-b6ea-c3d5c4c36867,prediction class must be 'detected'
 963a73e8-5156-4ede-874d-1754a9c07170,prediction class must be 'detected'
 aa67fccf-0261-44c2-abc8-91572e775155,prediction class must be 'detected'
@@ -1428,42 +1428,42 @@ aa67fccf-0261-44c2-abc8-91572e775155,prediction class must be 'detected'
 9145207d-149f-4d12-bdb8-6896835e030a,prediction class must be 'detected'
 b1e666ab-2796-40ab-8be6-f87eadc9ad5d,prediction class must be 'detected'
 19e5d473-001c-4e17-8c36-677835cbe4fa,prediction class must be 'detected'
-a3bc6e47-0f43-4072-80ca-265358ccc1a2,Field 'coordinate_uncertainty_meters' must be an integer
-fc245b0c-d4c7-4731-992f-bfbdb11397ce,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-f0e0717d-4627-4e99-b50e-6c5b6eb3fad2,Field 'coordinate_uncertainty_meters' must be an integer
-ad915d52-df95-4ac8-80ec-13e757d36294,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+a3bc6e47-0f43-4072-80ca-265358ccc1a2,Field 'coordinate_uncertainty_meters' must be an integer or empty
+fc245b0c-d4c7-4731-992f-bfbdb11397ce,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+f0e0717d-4627-4e99-b50e-6c5b6eb3fad2,Field 'coordinate_uncertainty_meters' must be an integer or empty
+ad915d52-df95-4ac8-80ec-13e757d36294,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 79485889-8736-4cd0-a18b-7aa3c70da903,prediction class must be 'detected'
-74f9f4aa-2c65-421b-ab81-476d6d7f111a,Field 'coordinate_uncertainty_meters' must be an integer
-67f60748-f3df-4760-920a-f108e57acd2d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+74f9f4aa-2c65-421b-ab81-476d6d7f111a,Field 'coordinate_uncertainty_meters' must be an integer or empty
+67f60748-f3df-4760-920a-f108e57acd2d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 bc3d7528-6283-4aac-8717-d3a267ec326d,prediction class must be 'detected'
 90a945db-4868-4351-b0db-63002a5e4e0e,prediction class must be 'detected'
 dfe078cf-d1a2-4ec9-8610-ce4627228bc3,prediction class must be 'detected'
 be7b7219-724b-4134-ad80-0671768547ba,prediction class must be 'detected'
 5cc39865-d6fe-4ed3-8abd-93dd59360660,prediction class must be 'detected'|certainty must be set to 'high' to load
-50b58ea2-872a-4200-ae6e-f9448fbb9c3d,Field 'coordinate_uncertainty_meters' must be an integer
-a3f398d1-237c-4ab5-92cf-fc8e967d1612,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+50b58ea2-872a-4200-ae6e-f9448fbb9c3d,Field 'coordinate_uncertainty_meters' must be an integer or empty
+a3f398d1-237c-4ab5-92cf-fc8e967d1612,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 d7c23434-b185-4a33-be22-341b47162b3a,prediction class must be 'detected'
 75238f31-e556-463e-a8b3-0a3d028bbb60,prediction class must be 'detected'
 3216312e-ddca-41a7-8d57-bd6c2299fedb,prediction class must be 'detected'
 2925afd0-9c09-49b3-9d53-b91a0e461ad2,prediction class must be 'detected'
 561f04fd-94a2-4aa6-b46e-ff9cfed5a217,prediction class must be 'detected'
 830eb0f7-8dc4-4f04-8e97-c917035b0605,prediction class must be 'detected'
-2903174a-c93e-4bc6-8982-54630c04019b,Field 'coordinate_uncertainty_meters' must be an integer
-4a91e155-8c3f-4467-b676-3b59300e2593,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+2903174a-c93e-4bc6-8982-54630c04019b,Field 'coordinate_uncertainty_meters' must be an integer or empty
+4a91e155-8c3f-4467-b676-3b59300e2593,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 e2068b05-b70f-4a5f-9922-27bcc1a6e6c5,prediction class must be 'detected'
 77e7e8db-7c97-442c-9032-e9caa7e11cf7,certainty must be set to 'high' to load
-84f56480-427e-4559-b79b-a410dd226ab4,Field 'coordinate_uncertainty_meters' must be an integer
-f93d2132-3509-4925-977b-e0cae54ac19d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-b9d8568c-636f-4160-b7bd-87a12c05f7bb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-3726f256-9f49-4aa7-8eca-da8da3fb4085,Field 'coordinate_uncertainty_meters' must be an integer
-f978347e-4c4f-4614-ab3c-270a3ac3f941,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-dad48ec8-742c-4f01-9189-1a51e8ac52ac,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+84f56480-427e-4559-b79b-a410dd226ab4,Field 'coordinate_uncertainty_meters' must be an integer or empty
+f93d2132-3509-4925-977b-e0cae54ac19d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+b9d8568c-636f-4160-b7bd-87a12c05f7bb,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+3726f256-9f49-4aa7-8eca-da8da3fb4085,Field 'coordinate_uncertainty_meters' must be an integer or empty
+f978347e-4c4f-4614-ab3c-270a3ac3f941,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+dad48ec8-742c-4f01-9189-1a51e8ac52ac,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 84474bea-7842-4bb1-8646-6aea9d7a34e0,prediction class must be 'detected'
 985cb569-ffeb-4eca-ad60-e3818031c8ba,prediction class must be 'detected'
-42b21b5e-5866-4cfa-8534-45258c6cc827,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-dfb92af5-06c5-40a3-ac98-b019424121a9,Field 'coordinate_uncertainty_meters' must be an integer
-bc6d4db4-b7b1-4fcb-bf21-e72ce5d6edf0,Field 'coordinate_uncertainty_meters' must be an integer
-b129fa7d-b84d-436f-bd2a-4809aa153abe,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+42b21b5e-5866-4cfa-8534-45258c6cc827,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+dfb92af5-06c5-40a3-ac98-b019424121a9,Field 'coordinate_uncertainty_meters' must be an integer or empty
+bc6d4db4-b7b1-4fcb-bf21-e72ce5d6edf0,Field 'coordinate_uncertainty_meters' must be an integer or empty
+b129fa7d-b84d-436f-bd2a-4809aa153abe,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
 7d1ab1e6-3c7b-4003-96e7-dd4b32ff5bba,prediction class must be 'detected'
 b1fe0564-a352-4f17-acbe-eb7a381abf10,prediction class must be 'detected'
 a28318b8-a998-4fcf-8457-4d4d939caad5,prediction class must be 'detected'
@@ -1479,58 +1479,58 @@ ccb933ce-8f0b-4ba1-b044-0c4e73ea1851,prediction class must be 'detected'
 98b898b4-d4eb-42b9-86be-667db9a152ff,prediction class must be 'detected'|certainty must be set to 'high' to load
 225666a7-82fb-463c-9a76-61fe32b655cd,prediction class must be 'detected'
 7a6ff0e3-1a85-4ff7-9a5d-3bbb8f606504,prediction class must be 'detected'
-17b66200-82c7-48b5-930b-b0d085b05b79,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-3bf77dcf-dcca-4064-95f5-2746b41d8fa7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+17b66200-82c7-48b5-930b-b0d085b05b79,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+3bf77dcf-dcca-4064-95f5-2746b41d8fa7,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 2c80cda9-b1c9-49d0-b4d7-96ec7d306610,prediction class must be 'detected'
 b6100c5b-3e35-4ad3-9151-089e8740744f,prediction class must be 'detected'
-f94348a3-b024-4636-a829-9df6639a22cf,Field 'coordinate_uncertainty_meters' must be an integer
-7b877da9-e6c0-48e9-9f95-09943069f2cc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+f94348a3-b024-4636-a829-9df6639a22cf,Field 'coordinate_uncertainty_meters' must be an integer or empty
+7b877da9-e6c0-48e9-9f95-09943069f2cc,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 23b46b0b-c29e-4f9d-91ea-c6f1ec2b5806,prediction class must be 'detected'
 162ed929-9213-43f1-9a57-590a84a8058c,prediction class must be 'detected'
-52342582-2555-4ce2-acc8-fa74bc4f4b4f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-1b0a2f66-5f2a-4530-9d8a-54d116e7016e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+52342582-2555-4ce2-acc8-fa74bc4f4b4f,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+1b0a2f66-5f2a-4530-9d8a-54d116e7016e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 26ae3ccd-e3f3-4bdf-aeb2-6c55a79ed03d,prediction class must be 'detected'
 6d5b3d81-d49c-4bc1-b25e-eeeed962cc25,prediction class must be 'detected'
 5484f735-0b35-4f1b-a6b6-b5ec6f6caf25,prediction class must be 'detected'
 a81f9102-6f38-4297-ae19-3fcb0bbb5c7b,prediction class must be 'detected'
 e1cdfb7b-55dc-42a5-ade6-2ec9fdc83587,prediction class must be 'detected'
 27cd3b83-01b8-4c4e-a723-1a4c65232cb2,prediction class must be 'detected'
-b956ff31-13fb-4539-8748-bbc00a652487,Field 'coordinate_uncertainty_meters' must be an integer
-7bfafc0c-51cd-4d89-96dc-f506445c4063,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-dc2f037a-d152-435a-90c0-1ddc6a41569e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-5a48b53b-bacb-4247-a327-85d33b0d672e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+b956ff31-13fb-4539-8748-bbc00a652487,Field 'coordinate_uncertainty_meters' must be an integer or empty
+7bfafc0c-51cd-4d89-96dc-f506445c4063,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+dc2f037a-d152-435a-90c0-1ddc6a41569e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+5a48b53b-bacb-4247-a327-85d33b0d672e,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 4bff244d-7347-47ed-ac47-516cf8feb24e,prediction class must be 'detected'
 039bad33-2f71-4ccc-9d43-2d5bc83718e0,prediction class must be 'detected'
-4f3226f0-c02c-4cc4-ad31-bc7dabf69502,Field 'coordinate_uncertainty_meters' must be an integer
-c4e9cd17-ec77-4b59-9536-d7577f1fc67a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+4f3226f0-c02c-4cc4-ad31-bc7dabf69502,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c4e9cd17-ec77-4b59-9536-d7577f1fc67a,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 617af56f-73c3-4e65-ad21-08a8bb2166c0,prediction class must be 'detected'
 cbe96a81-36b0-4b95-becb-5f1b62455486,prediction class must be 'detected'
 562fefdb-e3ac-4ae8-be0e-20e30a7e136e,prediction class must be 'detected'
 7f2b1bb6-6303-4ae8-a6bc-f16b4b5d53d4,prediction class must be 'detected'
-af81eb06-0b29-4daa-b7b8-16055c6e0d86,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-9c6ff3d1-63e4-416c-89c5-9801ee11e3fa,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+af81eb06-0b29-4daa-b7b8-16055c6e0d86,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+9c6ff3d1-63e4-416c-89c5-9801ee11e3fa,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 c63fd998-c33d-4e87-bb78-d331460ad314,prediction class must be 'detected'|certainty must be set to 'high' to load
 0bb05145-5c04-400c-ab00-14dfb30360c3,certainty must be set to 'high' to load
 9e045473-70f6-4e04-b819-84d8c65196cc,prediction class must be 'detected'
 d6de9089-fc80-4840-872c-d25bf355e638,prediction class must be 'detected'
-5f44efd6-dc5d-4f09-b9ec-ea066a51c1dd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
-c398e3a8-3ba3-4136-8efe-28e9b2f0c165,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+5f44efd6-dc5d-4f09-b9ec-ea066a51c1dd,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
+c398e3a8-3ba3-4136-8efe-28e9b2f0c165,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 9e4a5aea-7add-4005-877a-fe8f11ee6c8a,prediction class must be 'detected'
 b232d14d-d0a7-4c82-9b2a-17e91642276d,prediction class must be 'detected'
 a1751e75-53b6-401c-8d8d-76ee29ebc0ea,prediction class must be 'detected'
-fce2f10a-da81-4332-9b80-e883e9448ecf,Field 'coordinate_uncertainty_meters' must be an integer
-3ee02e4d-fc81-4849-9472-735e31e00f2d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+fce2f10a-da81-4332-9b80-e883e9448ecf,Field 'coordinate_uncertainty_meters' must be an integer or empty
+3ee02e4d-fc81-4849-9472-735e31e00f2d,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 23c477de-2991-4ab0-a7ea-f56c4a3b2faa,prediction class must be 'detected'
 eb201fc6-9421-43c5-b9df-db347cd549d3,prediction class must be 'detected'|certainty must be set to 'high' to load
 3caf7da8-917b-47d5-8342-d0bd9fb2b676,prediction class must be 'detected'
-5007c337-c01d-4ccd-b12d-451d4b090cde,Field 'coordinate_uncertainty_meters' must be an integer
-c4043353-710a-42a0-9f45-18609cdaf954,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+5007c337-c01d-4ccd-b12d-451d4b090cde,Field 'coordinate_uncertainty_meters' must be an integer or empty
+c4043353-710a-42a0-9f45-18609cdaf954,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 f547e76e-e6e2-4476-8643-a9c55fa5d9cb,prediction class must be 'detected'
 839cba35-2d97-4ccf-b58e-11e857711f73,prediction class must be 'detected'
 10fb4d15-ab4c-4f14-8785-3e41238fb1c7,prediction class must be 'detected'
 ba4a2f01-4294-4777-90bf-e4d1f9310697,prediction class must be 'detected'
-41050ba6-4333-4f0f-a4ba-430041bc3d87,Field 'coordinate_uncertainty_meters' must be an integer
-8eb55ff3-75a9-4d77-9185-7c743401400b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer
+41050ba6-4333-4f0f-a4ba-430041bc3d87,Field 'coordinate_uncertainty_meters' must be an integer or empty
+8eb55ff3-75a9-4d77-9185-7c743401400b,prediction class must be 'detected'|Field 'coordinate_uncertainty_meters' must be an integer or empty
 7256501e-fd46-4a9a-8b9a-9d3c2740aeb9,prediction class must be 'detected'
-e47baef7-3941-42b5-90a0-977034ef16e3,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
-5746b6c5-d325-40b5-bff7-6792abe97db4,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer
+e47baef7-3941-42b5-90a0-977034ef16e3,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty
+5746b6c5-d325-40b5-bff7-6792abe97db4,prediction class must be 'detected'|certainty must be set to 'high' to load|Field 'coordinate_uncertainty_meters' must be an integer or empty

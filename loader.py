@@ -185,15 +185,15 @@ class ESLoader(object):
 
                 # Validate coordinate_uncertainty_meters as integer
                 if not self.is_integer(row['coordinate_uncertainty_meters']):
-                    errors.append("Field 'coordinate_uncertainty_meters' must be an integer")
+                    errors.append("Field 'coordinate_uncertainty_meters' must be an integer or empty")
 
                 # Validate year as integer
                 if not self.is_integer(row['year']):
-                    errors.append("Field 'year' must be an integer")
+                    errors.append("Field 'year' must be an integer or empty")
 
                 # Validate coordinate_uncertainty_meters as integer
                 if not self.is_integer(row['day_of_year']):
-                    errors.append("Field 'day_of_year' must be an integer")
+                    errors.append("Field 'day_of_year' must be an integer or empty")
 
                 # handle traits
                 # here we convert our understanding trait + certainty to a statement of 'flowers present'
