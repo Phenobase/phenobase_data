@@ -1,2 +1,2 @@
 #!/bin/sh
-python loader.py sample true
+python loader.py sample2 true
