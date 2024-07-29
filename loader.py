@@ -48,14 +48,14 @@ class ESLoader(object):
         return errors
 
     def backup_existing_log():
-        if os.path.exists('loading_errors.txt'):
+        if os.path.exists('loading_errors.csv'):
             timestamp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-            os.rename('loading_errors.txt', f'loading_errors.txt.{timestamp}')
+            os.rename('loading_errors.csv', f'loading_errors.csv.{timestamp}')
 
     def log_error(self,guid, errors, is_first_write=False):
-        file_exists = os.path.isfile('loading_errors.txt')
+        file_exists = os.path.isfile('loading_errors.csv')
 
-        with open('loading_errors.txt', 'a', newline='') as f:
+        with open('loading_errors.csv', 'a', newline='') as f:
             writer = csv.writer(f)
 
             # Write header if file is being written for the first time
