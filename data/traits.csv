@@ -1,5 +1,5 @@
 trait_urn,trait,mapped_traits
-PPO:0002330,flowers present,flowers present|plant structures present|reproductive structures present|floral structures present
-PPO:0002342,fruits present,fruits present|plant structures present|reproductive structures presen
-PPO:0002620,flowers absent,flowers absent|pollen-releasing flower heads absent|open flower heads absent|open flowers absent|non-senesced flowers absent
-PPO:0002641,fruits absent,fruits absent|ripening fruits absent|unripe fruits absent
+PPO:0002330,flower present,flower present|plant structure present|reproductive structure present|floral structure present
+PPO:0002342,fruit present,fruit present|plant structure present|reproductive structure present
+PPO:0002620,flower absent,flower absent|pollen-releasing flower head absent|open flower head absent|open flower absent|non-senesced flower absent
+PPO:0002641,fruit absent,fruit absent|ripening fruit absent|unripe fruit absent
