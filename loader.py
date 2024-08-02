@@ -147,14 +147,15 @@ class ESLoader(object):
     def get_mapped_traits(self, traits_mapping, search_trait):
         return traits_mapping.get(search_trait)
 
-
-    def is_integer(self,value):
-        """Check if the given value can be converted to an integer."""
+    def is_integer(self, value):
+        """Check if the given value can be converted to an integer or should be treated as blank."""
+        if value.lower() == 'na':
+            return True, ''  # Treat 'na' as a blank string
         try:
             int(value)
-            return True
+            return True, value
         except ValueError:
-            return False
+            return False, value:
 
     # Load the CSV file into a dictionary once
     csv_file_path = 'data/traits.csv'  # Replace with the path to your CSV file
@@ -174,6 +175,9 @@ class ESLoader(object):
 
                 # handle machine_learning_annotation_id
                 machine_learning_annotation_id = row['machine_learning_annotation_id']
+                # try annotation_id as an alias
+                if not machine_learning_annotation_id:
+                    machine_learning_annotation_id = row['annotation_id']
 
                 # other fields
                 if row['prediction_class'].lower() != 'detected':
@@ -183,16 +187,20 @@ class ESLoader(object):
                 if row['certainty'].lower() != 'high':
                     errors.append("certainty must be set to 'high' to load")
 
-                # Validate coordinate_uncertainty_meters as integer
-                if not self.is_integer(row['coordinate_uncertainty_meters']):
+                # Validate coordinate_uncertainty_meters as integer or convert 'na' to blank
+                is_valid, row['coordinate_uncertainty_meters'] = self.is_integer(row['coordinate_uncertainty_meters'])
+                if not is_valid:
                     errors.append("Field 'coordinate_uncertainty_meters' must be an integer or empty")
 
+
                 # Validate year as integer
-                if not self.is_integer(row['year']):
+                is_valid, row['year'] = self.is_integer(row['year'])
+                if not is_valid:
                     errors.append("Field 'year' must be an integer or empty")
 
                 # Validate coordinate_uncertainty_meters as integer
-                if not self.is_integer(row['day_of_year']):
+                is_valid, row['day_of_year'] = self.is_integer(row['day_of_year'])
+                if not is_valid:
                     errors.append("Field 'day_of_year' must be an integer or empty")
 
                 # handle traits
