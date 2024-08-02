@@ -155,7 +155,7 @@ class ESLoader(object):
             int(value)
             return True, value
         except ValueError:
-            return False, value:
+            return False, value
 
     # Load the CSV file into a dictionary once
     csv_file_path = 'data/traits.csv'  # Replace with the path to your CSV file
@@ -175,9 +175,6 @@ class ESLoader(object):
 
                 # handle machine_learning_annotation_id
                 machine_learning_annotation_id = row['machine_learning_annotation_id']
-                # try annotation_id as an alias
-                if not machine_learning_annotation_id:
-                    machine_learning_annotation_id = row['annotation_id']
 
                 # other fields
                 if row['prediction_class'].lower() != 'detected':
@@ -205,7 +202,7 @@ class ESLoader(object):
 
                 # handle traits
                 # here we convert our understanding trait + certainty to a statement of 'flowers present'
-                trait = row['trait'] + "s "
+                trait = row['trait'] + " "
                 if row['certainty'] == 'low':
                     trait += 'absent'
                 else:
@@ -253,8 +250,9 @@ class ESLoader(object):
                        chunk_size=10000,
                        request_timeout=60
                    )
-                   print("response")
+                   print("***begin***")
                    print(response)
+                   print("****end****")
                    
                    # Extract errors from the response
                    errors = self.handle_bulk_errors(response)
