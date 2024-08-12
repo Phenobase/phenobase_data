@@ -1,4 +1,2 @@
 datasource,pi_name,pi_email,citation,license_name,location,date_loaded,records_good,records_error
-sample,John Deck,jdeck88@gmail.com,4 record sample data,CCBY,https://googledrivelocation/,2024-08-08,4,0
-sample2,Daijiang Lee,daijianglee@gmail.com,300 record sample data,CCBY,https://googledrivelocation/,2024-08-08,200,100
-iNaturalist,Russell Dinnage,r.dinnage@gmail.com,1000 record sample data,CCBY,https://googledrivelocation/,2024-08-08,990,10
+iNaturalist,Daijiang Lee,daijianglee@gmail.com,sample data,CCBY,https://drive.google.com/file/d/12CSWmB7mrc3dIh-xswYH09uOSFd0zLZk/view?usp=drive_link,2024-08-08,,
