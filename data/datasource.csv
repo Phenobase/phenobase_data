@@ -1,2 +1,2 @@
-datasource,pi_name,pi_email,citation,license_name,location,date_loaded,records_good,records_error
-iNaturalist,Russell Dinnage,r.dinnage@gmail.com,,CCBY,https://drive.google.com/file/d/12CSWmB7mrc3dIh-xswYH09uOSFd0zLZk/view?usp=drive_link,2024-08-08,3231162,0
+datasource,pi_name,pi_email,notes,license_name,location,date_loaded,records_good,records_error
+iNaturalist,Russell Dinnage,r.dinnage@gmail.com,First set,CCBY,https://drive.google.com/file/d/12CSWmB7mrc3dIh-xswYH09uOSFd0zLZk/view?usp=drive_link,2024-08-08,3231162,0
