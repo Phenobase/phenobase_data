@@ -16,6 +16,7 @@ We can visualize data that is loaded at our beta [Phenobase Query Page](https://
 # Script for loading data
 
 ```
-python loader.py sample true
+# load 09.06.2024 and do not drop existing records (default option is False)
+python loader.py /home/exouser/code/phenobase_data/data/iNaturalist.09.06.2024 
 ```
 

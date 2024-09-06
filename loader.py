@@ -250,9 +250,6 @@ class ESLoader(object):
                        chunk_size=10000,
                        request_timeout=60
                    )
-                   print("***begin***")
-                   print(response)
-                   print("****end****")
                    
                    # Extract errors from the response
                    errors = self.handle_bulk_errors(response)
@@ -311,18 +308,17 @@ def get_files(dir, ext='csv'):
 
 
 parser = argparse.ArgumentParser(description='Load ES data.')
-parser.add_argument('project')
+parser.add_argument('data_dir')
 parser.add_argument('drop_existing', default=False, help="Drop index before proceeding")
 
 args = parser.parse_args()
-project = args.project
+data_dir = args.data_dir
 drop_existing= args.drop_existing
 
-data_dir = '/home/exouser/code/phenobase_data/data/iNaturalist'
 index = 'phenobase'
 alias = 'phenobase'
 host =  'tarly.cyverse.org'
 
-if project is not None and drop_existing is not None:
+if data_dir is not None and drop_existing is not None:
     loader = ESLoader(data_dir, index, drop_existing, alias, host)
     loader.load()
