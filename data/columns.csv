@@ -1,32 +1,32 @@
-﻿field,alias,definedBy,required,datatype,source,definition
-machine_learning_annotation_id,guid,https://biscicol.org/api/v1/inaan/ark:/92250/guid?info,TRUE,text,user,A globally unique identifier for an instance of a planned process (http://purl.obolibrary.org/obo/COB_0000082) that assigns a phenological trait annotation to a target plant observation based on machine learning on an image that contains an image of the plant or part of the plant.
-datasource,,http://rs.tdwg.org/dwc/terms/datasetName,TRUE,keyword,user,name of the datasource
-verbatim_date,,https://biscicol.org/api/v1/inaan/ark:/92250/verbatim_date?info,TRUE,text,user,verbatim date
-day_of_year,,https://biscicol.org/api/v1/inaan/ark:/92250/day_of_year?info,TRUE,integer,user,day of the year.  Must be between 1 and 366
-year,,http://rs.tdwg.org/dwc/terms/year,TRUE,integer,user,year of the observation
-latitude,deimalLatitude,http://rs.tdwg.org/dwc/terms/decimalLatitude,TRUE,float,user,latitude with precision up to 6 decimal places
-longitude,decimalLongitude,"	http://rs.tdwg.org/dwc/terms/decimalLongitude",TRUE,float,user,longitude with precision up to 6 decimal places
-coordinate_uncertainty_meters,positional_accuracy,http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters,FALSE,integer,user,coordinate uncertainty in meters
-family,,http://rs.tdwg.org/dwc/terms/family,TRUE,keyword,user,The full scientific name of the family in which the organism is classified.
-count_family,,https://biscicol.org/api/v1/inaan/ark:/92250/count_family?info,TRUE,integer,user,Thhe number of records that were annotated at the taxon rank of family associated with the identified occurrence
-genus,,http://rs.tdwg.org/dwc/terms/genus,TRUE,keyword,user,The full scientific name of the genus in which the organism is classified.
-scientific_name,,http://rs.tdwg.org/dwc/terms/scientificName,TRUE,text,user,scientific name of the observed organism
-taxon_rank,rank,http://rs.tdwg.org/dwc/terms/taxonRank,TRUE,text,user,taxonomic rank of the scientific name
-basis_of_record,,http://rs.tdwg.org/dwc/terms/basisOfRecord,FALSE,keyword,user,basis of record of oberserved organism.  See darwin core reference for values
-individual_id,individualID,https://biscicol.org/api/v1/inaan/ark:/92250/individual_id?info,FALSE,text,user,individual ID of the observed organism
-occurrence_id,occurrenceID,"	http://rs.tdwg.org/dwc/terms/occurrenceID",FALSE,text,user,occurrence ID of the observed organism
-verbatim_trait,,https://biscicol.org/api/v1/inaan/ark:/92250/verbatim_trait?info,FALSE,text,user,Verbatim description of the trait
-trait,,https://biscicol.org/api/v1/inaan/ark:/92250/trait?info,TRUE,text,user,"Trait tested.  Currently ""flower"" or ""fruit"""
-observed_image_guid,photo_id,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_guid?info,TRUE,text,user,Globally Unique Identifier of the image
-observed_image_url,,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_url?info,TRUE,text,user,URL for the image
-observed_metadata_url,inat_URL,https://biscicol.org/api/v1/inaan/ark:/92250/observed_metadata_url?info,TRUE,text,user,For example https://www.inaturalist.org/observations/{observation_uuid}. This will resolve to a record.
-certainty,equivocal,https://biscicol.org/api/v1/inaan/ark:/92250/certainty?info,TRUE,keyword,user,Certainy of machine observation (Low or High).  This corresponds to Equivocal (Low) and Uniquevicol (High)   
-model_uri,,https://biscicol.org/api/v1/inaan/ark:/92250/model_uri?info,TRUE,text,user,URI of the model
-error_message,,https://biscicol.org/api/v1/inaan/ark:/92250/error_message?info,FALSE,text,user,Error messages from processing
-event_date,eventDate,http://rs.tdwg.org/dwc/terms/eventDate,TRUE,text,user,Date photo was taken
-predition_probability,prediction_prob,https://biscicol.org/api/v1/inaan/ark:/92250/prediction_probability?info,TRUE,float,user,"""A score from 0-1 which represent a scaled probability of presence or absence of a trait"""
-prediction_class,prediction_class,https://biscicol.org/api/v1/inaan/ark:/92250/prediction_class?info,TRUE,keyword,user,"a categorical description of the annotation outcome, in this case either ""Detected"" or ""Not detected"""
-proportion_certainty_family,,https://biscicol.org/api/v1/inaan/ark:/92250/proportion_certainty_family?info,TRUE,text,user,The proportion of the number of low certainty annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
-accuracy_excluding_certainty_family,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_excluding_certainty_family?info,TRUE,text,user,"A metric of accuracy for the annotations of only high certainty records based on expert, gold standard observations."
-accuracy_family,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_familyl?info,TRUE,text,user,"A metric of accuracy for the annotations of all records (equivocal and unequivocal) based on expert, gold standard observations."
-mapped_traits,,https://biscicol.org/api/v1/inaan/ark:/92250/mapped_traits?info,FALSE,keyword,system,System inferred list of mapped traits with each trait separated by a pipe delimiter
+﻿field,in_situ_relevance,machine_annotation_inat_relevance,machine_annotation_herbarium_relevance,human_observation_herbarium_relevance,alias,definedBy,datatype,source,definition
+machine_learning_annotation_id,NOT APPLICABLE,REQUIRED,REQUIRED,NOT APPLICABLE,guid,https://biscicol.org/api/v1/inaan/ark:/92250/guid?info,text,user,A globally unique identifier for an instance of a planned process (http://purl.obolibrary.org/obo/COB_0000082) that assigns a phenological trait annotation to a target plant observation based on machine learning on an image that contains an image of the plant or part of the plant.
+human_observation_annotation_id,REQUIRED,NOT APPLICABLE,NOT APPLICABLE,REQUIRED,,https://biscicol.org/api/v1/inaan/ark:/92250/guid?info,text,user,A globally unique identifier for an instance of a planned process (http://purl.obolibrary.org/obo/COB_0000082) that assigns a phenological trait annotation to a target plant observation based on human observation of a plant or part of the plant.
+datasource,REQUIRED,REQUIRED,REQUIRED,REQUIRED,,http://rs.tdwg.org/dwc/terms/datasetName,keyword,user,name of the datasource
+verbatim_date,APPLICABLE,APPLICABLE,APPLICABLE,APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/verbatim_date?info,text,user,verbatim observation date
+day_of_year,REQUIRED,REQUIRED,REQUIRED,REQUIRED,,https://biscicol.org/api/v1/inaan/ark:/92250/day_of_year?info,integer,user,day of the year.  Must be between 1 and 366
+year,REQUIRED,REQUIRED,REQUIRED,REQUIRED,,http://rs.tdwg.org/dwc/terms/year,integer,user,year of the observation
+latitude,REQUIRED,REQUIRED,REQUIRED,REQUIRED,deimalLatitude,http://rs.tdwg.org/dwc/terms/decimalLatitude,float,user,latitude with precision up to 6 decimal places
+longitude,REQUIRED,REQUIRED,REQUIRED,REQUIRED,decimalLongitude,"	http://rs.tdwg.org/dwc/terms/decimalLongitude",float,user,longitude with precision up to 6 decimal places
+coordinate_uncertainty_meters,APPLICABLE,APPLICABLE,APPLICABLE,APPLICABLE,positional_accuracy,http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters,integer,user,coordinate uncertainty in meters
+family,APPLICABLE,REQUIRED,REQUIRED,APPLICABLE,,http://rs.tdwg.org/dwc/terms/family,keyword,user,The full scientific name of the family in which the organism is classified.
+count_family,NOT APPLICABLE,APPLICABLE,APPLICABLE,NOT APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/count_family?info,integer,user,The number of records that were annotated at the taxon rank of family associated with the identified occurrence
+genus,APPLICABLE,APPLICABLE,APPLICABLE,APPLICABLE,,http://rs.tdwg.org/dwc/terms/genus,keyword,user,The full scientific name of the genus in which the organism is classified.
+scientific_name,REQUIRED,REQUIRED,REQUIRED,REQUIRED,,http://rs.tdwg.org/dwc/terms/scientificName,text,user,scientific name of the observed organism
+taxon_rank,APPLICABLE,APPLICABLE,APPLICABLE,APPLICABLE,rank,http://rs.tdwg.org/dwc/terms/taxonRank,text,user,taxonomic rank of the scientific name
+basis_of_record,REQUIRED,REQUIRED,REQUIRED,REQUIRED,,http://rs.tdwg.org/dwc/terms/basisOfRecord,keyword,user,basis of record of oberserved organism.  See darwin core reference for values
+individual_id,APPLICABLE,APPLICABLE,APPLICABLE,APPLICABLE,individualID,https://biscicol.org/api/v1/inaan/ark:/92250/individual_id?info,text,user,individual ID of the observed organism
+occurrence_id,APPLICABLE,APPLICABLE,APPLICABLE,APPLICABLE,occurrenceID,"	http://rs.tdwg.org/dwc/terms/occurrenceID",text,user,occurrence ID of the observed organism
+verbatim_trait,APPLICABLE,APPLICABLE,APPLICABLE,APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/verbatim_trait?info,text,user,Verbatim description of the trait
+trait,REQUIRED,REQUIRED,REQUIRED,REQUIRED,,https://biscicol.org/api/v1/inaan/ark:/92250/trait?info,text,user,"Trait tested.  Use trait values in traits.csv file corresponding to trait terms in the Plant Phenology Ontology.  E.g.  ""flower present"", ""fruit present"", ""flower absent"", or ""fruit absent"""
+observed_image_guid,NOT APPLICABLE,REQUIRED,REQUIRED,REQUIRED,photo_id,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_guid?info,text,user,Globally Unique Identifier of the image
+observed_image_url,NOT APPLICABLE,REQUIRED,REQUIRED,APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/observed_image_url?info,text,user,URL for the image
+observed_metadata_url,APPLICABLE,APPLICABLE,APPLICABLE,APPLICABLE,inat_URL,https://biscicol.org/api/v1/inaan/ark:/92250/observed_metadata_url?info,text,user,URL for the observation metadata hosted by the datasource.  For example https://www.inaturalist.org/observations/{observation_uuid}. This will resolve to a record.
+certainty,NOT APPLICABLE,REQUIRED,REQUIRED,NOT APPLICABLE,equivocal,https://biscicol.org/api/v1/inaan/ark:/92250/certainty?info,keyword,user,Certainy of machine observation (Low or High).  This corresponds to Equivocal (Low) and Uniquevicol (High)   
+model_uri,NOT APPLICABLE,REQUIRED,REQUIRED,NOT APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/model_uri?info,text,user,URI landing page describing the model that was used.
+error_message,NOT APPLICABLE,APPLICABLE,APPLICABLE,NOT APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/error_message?info,text,user,Error messages from processing
+predition_probability,NOT APPLICABLE,REQUIRED,REQUIRED,NOT APPLICABLE,prediction_prob,https://biscicol.org/api/v1/inaan/ark:/92250/prediction_probability?info,float,user,"""A score from 0-1 which represent a scaled probability of presence or absence of a trait"""
+prediction_class,NOT APPLICABLE,REQUIRED,REQUIRED,NOT APPLICABLE,prediction_class,https://biscicol.org/api/v1/inaan/ark:/92250/prediction_class?info,keyword,user,"a categorical description of the annotation outcome, in this case either ""Detected"" or ""Not detected"""
+proportion_certainty_family,NOT APPLICABLE,REQUIRED,REQUIRED,NOT APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/proportion_certainty_family?info,text,user,The proportion of the number of low certainty annotations divided by all annotations for iNaturalist observations in the taxonomic family. A metric of how successful the annotation process for observations in that family.
+accuracy_excluding_certainty_family,NOT APPLICABLE,REQUIRED,REQUIRED,NOT APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_excluding_certainty_family?info,text,user,"A metric of accuracy for the annotations of only high certainty records based on expert, gold standard observations."
+accuracy_family,NOT APPLICABLE,REQUIRED,REQUIRED,NOT APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/accuracy_familyl?info,text,user,"A metric of accuracy for the annotations of all records (equivocal and unequivocal) based on expert, gold standard observations."
+mapped_traits,NOT APPLICABLE,NOT APPLICABLE,NOT APPLICABLE,NOT APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/mapped_traits?info,keyword,system,System inferred list of mapped traits with each trait separated by a pipe delimiter
