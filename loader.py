@@ -17,6 +17,8 @@ if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unveri
 
 TYPE = 'record'
 
+def str_to_bool(s):
+    return s.lower() == "true"
 
 # see https://github.com/elastic/elasticsearch-py/issues/374
 class JSONSerializerPython2(serializer.JSONSerializer):
@@ -79,7 +81,7 @@ class ESLoader(object):
         self.alias = alias
         try:
             self.es = Elasticsearch(
-                [{'host': self.host, 'port': 80, 'scheme': 'http'}]
+                [{'host': self.host, 'port': 80, 'scheme': 'http'}],timeout=60
             )
 
             # Test the connection
@@ -92,28 +94,29 @@ class ESLoader(object):
             print(f"Error connecting to Elasticsearch: {e}")
 
     def load(self):
+        print(f"Running index '{self.index_name}'")
+        #indices = self.es.indices.get_alias(index="*")
+
+        #print("List of indices in Elasticsearch:")
+        #for index in indices:
+        #    print(index)
         if not self.es.indices.exists(index=self.index_name):
-            print('creating index ' + self.index_name)
+            print(f"Creating index '{self.index_name}'")
             self.__create_index()
         elif self.drop_existing:
-            print('deleting index ' + self.index_name)
+            print(f"Dropping and re-creating index '{self.index_name}'")
             self.es.indices.delete(index=self.index_name)
-            print('creating index ' + self.index_name)
             self.__create_index()
 
-        print('indexing ' + self.data_dir)
-
+        print(f"Indexing data from '{self.data_dir}'")
         doc_count = 0
-
         for file in get_files(self.data_dir):
             try:
-                print(file)
+                print(f"Processing file: {file}")
                 doc_count += self.__load_file(file)
             except RuntimeError as e:
-                print(e)
-                print("Failed to load file {}".format(file))
-
-        print("Indexed {} documents total".format(doc_count))
+                print(f"Error loading file {file}: {e}")
+        print(f"Indexed {doc_count} documents in total.")
 
     def __create_index(self):
         # Implement your index creation logic here
@@ -238,26 +241,29 @@ class ESLoader(object):
                 else: 
                     data.append({k: v for k, v in row.items() if v})  # remove any empty values
 
-            print("loading now")
-
- #           elasticsearch.helpers.bulk(client=self.es, index=self.index_name, actions=data, raise_on_error=True, chunk_size=10000, request_timeout=60)
             try:
-                   response = elasticsearch.helpers.bulk(
-                       client=self.es,
-                       index=self.index_name,
-                       actions=data,
-                       raise_on_error=False,  # Set to False to handle errors manually
-                       chunk_size=10000,
-                       request_timeout=60
-                   )
-                   
-                   # Extract errors from the response
-                   errors = self.handle_bulk_errors(response)
+                chunk_size = 100  # Set the chunk size to 100 documents
 
-                   if errors:
-                       log_error('bulk_insert', errors, is_first_write)
+                for i in range(0, len(data), chunk_size):
+                    bulk_data = data[i:i + chunk_size]
+                    response, errors = elasticsearch.helpers.bulk(
+                        client=self.es,
+                        index=self.index_name,
+                        actions=bulk_data,
+                        raise_on_error=True,
+                        chunk_size=chunk_size
+                    )
+
+                    #print(f"Successfully indexed {response} documents in this chunk!")
+                    if errors:
+                        print("Errors encountered during indexing:")
+                        for error in errors:
+                            print(error)
+                    bulk_data = []
+
             except Exception as e:
-                error_message = f"Bulk insert exception: {e}"
+                print(f"Bulk insert exception: {e}")
+
 
             doc_count += len(data)
             print("Indexed {} documents in {}".format(doc_count, f.name))
@@ -313,11 +319,11 @@ parser.add_argument('drop_existing', default=False, help="Drop index before proc
 
 args = parser.parse_args()
 data_dir = args.data_dir
-drop_existing= args.drop_existing
+drop_existing = str_to_bool(args.drop_existing)
 
 index = 'phenobase'
 alias = 'phenobase'
-host =  'tarly.cyverse.org'
+host =  '149.165.170.158'
 
 if data_dir is not None and drop_existing is not None:
     loader = ESLoader(data_dir, index, drop_existing, alias, host)
