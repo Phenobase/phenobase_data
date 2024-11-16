@@ -4,7 +4,7 @@ const axios = require('axios');
 const { format, addMonths, parseISO, isAfter } = require('date-fns');
 
 // API URL
-const apiUrl = 'https://services.usanpn.org/npn_portal/observations/getObservations.json';
+const apiUrl = 'https://services.usanpn.org/npn_portal/observations/getObservations.json?additional_field=dataset_id';
 
 // Command-line arguments: start_date, end_date
 const [start_date, end_date] = process.argv.slice(2);
@@ -15,8 +15,8 @@ if (!start_date || !end_date) {
   process.exit(1);
 }
 
-// Output file path
-const outputPath = 'observations.csv';
+// Output file path with dynamic name
+const outputPath = `npn_observations_${start_date}_to_${end_date}.csv`;
 
 // Function to split the date range into one-month chunks
 function getDateChunks(startDate, endDate) {
@@ -60,21 +60,29 @@ async function fetchData(startDate, endDate) {
   }
 }
 
+
 // Extract and format the data as CSV
 function formatDataAsCSV(observations) {
-  return observations.map((observation) => ({
-    genus: observation.genus,
-    species: observation.species,
-    observation_id: observation.observation_id,
-    observation_date: observation.observation_date,
-    year: new Date(observation.observation_date).getFullYear(),
-    dataset_id: 'Unknown', // Replace with actual dataset ID if available
-    day_of_year: observation.day_of_year,
-    latitude: observation.latitude,
-    longitude: observation.longitude,
-    phenophase_description: observation.phenophase_description,
-    phenophase_status: observation.phenophase_status === 1 ? 'Observed' : 'Not Observed',
-  }));
+  return observations.map((observation) => {
+    // Remove text inside parentheses and trim spaces
+    const cleanedDescription = observation.phenophase_description
+      ? observation.phenophase_description.replace(/\s*\(.*?\)\s*/g, '').trim()
+      : '';
+
+    return {
+      genus: observation.genus,
+      species: observation.species,
+      observation_id: observation.observation_id,
+      observation_date: observation.observation_date,
+      year: new Date(observation.observation_date).getFullYear(),
+      dataset_id: observation.dataset_id,
+      day_of_year: observation.day_of_year,
+      latitude: observation.latitude,
+      longitude: observation.longitude,
+      phenophase_description: cleanedDescription,
+      phenophase_status: observation.phenophase_status === 1 ? 'Observed' : 'Not Observed',
+    };
+  });
 }
 
 // Write CSV data incrementally to a file
@@ -99,6 +107,8 @@ function writeCSVIncrementally(csvData, outputPath, isFirstChunk) {
 async function main() {
   const dateChunks = getDateChunks(start_date, end_date);
   let isFirstChunk = true;
+
+  console.log(`Output file: ${outputPath}`);
 
   for (const chunk of dateChunks) {
     const observations = await fetchData(chunk.startDate, chunk.endDate);
