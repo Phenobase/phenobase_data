@@ -1,51 +1,68 @@
 const fs = require('fs');
 const fastcsv = require('fast-csv');
 const axios = require('axios');
+const { format, addMonths, parseISO, isAfter } = require('date-fns');
 
 // API URL
 const apiUrl = 'https://services.usanpn.org/npn_portal/observations/getObservations.json';
 
-// Command-line arguments: start_date, end_date, append
-const [start_date, end_date, append] = process.argv.slice(2);
+// Command-line arguments: start_date, end_date
+const [start_date, end_date] = process.argv.slice(2);
 
 // Validate input parameters
-if (!start_date || !end_date || (append !== 'TRUE' && append !== 'FALSE')) {
-  console.error('Usage: node fetchObservations.js <start_date> <end_date> <append: TRUE|FALSE>');
+if (!start_date || !end_date) {
+  console.error('Usage: node fetchObservations.js <start_date> <end_date>');
   process.exit(1);
 }
 
 // Output file path
 const outputPath = 'observations.csv';
 
-// Parameters for the API request
-const params = {
-  start_date,
-  end_date,
-  request_src: 'custom_script',
-};
+// Function to split the date range into one-month chunks
+function getDateChunks(startDate, endDate) {
+  const chunks = [];
+  let currentStartDate = parseISO(startDate);
 
-// Fetch data from the API
-async function fetchData() {
+  while (isAfter(parseISO(endDate), currentStartDate)) {
+    const currentEndDate = addMonths(currentStartDate, 1);
+    const chunkEndDate = isAfter(currentEndDate, parseISO(endDate))
+      ? endDate
+      : format(currentEndDate, 'yyyy-MM-dd');
+
+    chunks.push({ startDate: format(currentStartDate, 'yyyy-MM-dd'), endDate: chunkEndDate });
+    currentStartDate = currentEndDate;
+  }
+
+  return chunks;
+}
+
+// Fetch data from the API for a given date range
+async function fetchData(startDate, endDate) {
+  const params = {
+    start_date: startDate,
+    end_date: endDate,
+    request_src: 'custom_script',
+  };
+
   try {
-    console.log(`Fetching data from API for dates: ${start_date} to ${end_date}...`);
+    console.log(`Fetching data from API for dates: ${startDate} to ${endDate}...`);
     const response = await axios.get(apiUrl, { params });
 
-    // Check if the response contains an array of observations
     if (Array.isArray(response.data)) {
       return response.data;
     } else {
       console.error('Invalid response structure:', response.data);
-      return null;
+      return [];
     }
   } catch (error) {
-    console.error('Error fetching data:', error.message);
-    return null;
+    console.error(`Error fetching data for dates: ${startDate} to ${endDate}:`, error.message);
+    return [];
   }
 }
 
 // Extract and format the data as CSV
 function formatDataAsCSV(observations) {
-  const csvData = observations.map((observation) => ({
+  return observations.map((observation) => ({
     genus: observation.genus,
     species: observation.species,
     observation_id: observation.observation_id,
@@ -58,20 +75,12 @@ function formatDataAsCSV(observations) {
     phenophase_description: observation.phenophase_description,
     phenophase_status: observation.phenophase_status === 1 ? 'Observed' : 'Not Observed',
   }));
-
-  return csvData;
 }
 
-// Write CSV data to a file (with or without appending)
-function writeCSV(csvData, outputPath, append) {
-  const writeStream = fs.createWriteStream(outputPath, { flags: append === 'TRUE' ? 'a' : 'w' });
-
-  // If appending, ensure we start on a new line
-  if (append === 'TRUE') {
-    writeStream.write('\n');
-  }
-
-  const csvStream = fastcsv.format({ headers: append !== 'TRUE' });
+// Write CSV data incrementally to a file
+function writeCSVIncrementally(csvData, outputPath, isFirstChunk) {
+  const writeStream = fs.createWriteStream(outputPath, { flags: isFirstChunk ? 'w' : 'a' });
+  const csvStream = fastcsv.format({ headers: isFirstChunk });
 
   csvStream.pipe(writeStream);
 
@@ -82,21 +91,27 @@ function writeCSV(csvData, outputPath, append) {
   csvStream.end();
 
   writeStream.on('finish', () => {
-    console.log(`Data successfully ${append === 'TRUE' ? 'appended to' : 'written to'} ${outputPath}`);
+    console.log(`Chunk successfully written to ${outputPath}`);
   });
 }
 
-
 // Main function
 async function main() {
-  const observations = await fetchData();
-  if (!observations) {
-    console.log('No data to process.');
-    return;
+  const dateChunks = getDateChunks(start_date, end_date);
+  let isFirstChunk = true;
+
+  for (const chunk of dateChunks) {
+    const observations = await fetchData(chunk.startDate, chunk.endDate);
+    if (observations.length > 0) {
+      const csvData = formatDataAsCSV(observations);
+      writeCSVIncrementally(csvData, outputPath, isFirstChunk);
+      isFirstChunk = false; // Only write the header for the first chunk
+    } else {
+      console.log(`No data found for dates: ${chunk.startDate} to ${chunk.endDate}`);
+    }
   }
 
-  const csvData = formatDataAsCSV(observations);
-  writeCSV(csvData, outputPath, append);
+  console.log('Data fetching and writing complete.');
 }
 
 main();
