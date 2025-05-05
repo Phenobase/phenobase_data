@@ -18,8 +18,7 @@ To generate all_traits.csv, give chat the following:
 ```I’m working with the Plant Phenology Ontology at  
 https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl  
  
-• Find every phenology class that ends in “present” or “absent”.  
-• Keep ONLY those presence/absence classes (no “bud”, “structure”, etc. unless the label itself ends in present/absent).  
+• Look only for classes that are PATO:quality  
 • For each of those classes, list the full ancestor chain **upward until you reach**  
   – “plant structure present” or “plant structure absent”  
   (stop there—do not include higher nodes like *individual plant phenology*).  
