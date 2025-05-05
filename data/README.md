@@ -30,8 +30,7 @@ https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl
     4. `mapped_traits` (the ancestor chain you found, in order, separated with a pipe `|`)  
 • Output ONLY the CSV block in the reply—no extra narrative.
 ```
-Or, create this using ROBOT: 
-```
+
 ### Robot one‑liner to create `ppo_traits.csv`
 
 ```bash
