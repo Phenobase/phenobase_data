@@ -1,5 +1,6 @@
-trait_urn,trait,mapped_traits
+trait_urn,trait,mappedTraits
 PPO:0002330,flower present,flower present|plant structure present|reproductive structure present|floral structure present
 PPO:0002342,fruit present,fruit present|plant structure present|reproductive structure present
 PPO:0002620,flower absent,flower absent|pollen-releasing flower head absent|open flower head absent|open flower absent|non-senesced flower absent
 PPO:0002641,fruit absent,fruit absent|ripening fruit absent|unripe fruit absent
+PPO:9999999,green leaves present,green leaves present|structure present|old people
