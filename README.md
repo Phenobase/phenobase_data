@@ -88,4 +88,4 @@ pip install -r requirements.txt
 
 ## Author
 
-PhenoBase Project | Deck Family Farm
+PhenoBase Project | Biocode, LLC
