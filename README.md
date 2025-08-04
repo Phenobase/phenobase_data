@@ -6,7 +6,7 @@ This script loads tabular data into Elasticsearch from CSV/TSV files. It perform
 
 The script supports three loading modes:
 - `machine`: for loading machine observation data
-- `inat`: for iNaturalist observation data
+- `in_situ`: for in_situ observations
 - `herbarium`: for herbarium record data
 
 Each mode uses specific required fields defined in `columns.csv`.
@@ -16,7 +16,7 @@ Each mode uses specific required fields defined in `columns.csv`.
 ## Usage
 
 ```bash
-python loader.py [--data_dir DIR] [--drop_index] --mode {machine,inat,herbarium}
+python loader.py [--data_dir DIR] [--drop_index] --mode {machine,in_situ,herbarium}
 ```
 
 ### Options
@@ -37,9 +37,7 @@ python loader.py --data_dir ./data --drop_index --mode inat
 
 ### `traits.csv`
 
-- This file contains individual records to load into Elasticsearch.
-- Each row is validated based on the required fields specified for the selected mode.
-- Invalid rows are reported (with reason) but skipped from indexing.
+- This file contains trait mappings from ontology trait terms to a pipe delimited list of parent terms
 
 ### `columns.csv`
 
@@ -51,6 +49,23 @@ python loader.py --data_dir ./data --drop_index --mode inat
 - Used for two purposes:
   1. Validating presence of required fields.
   2. Building Elasticsearch mappings dynamically.
+
+### `transform.yaml` (Optional)
+
+A per-dataset YAML file for applying simple value transformations before ingestion.
+If transform.yaml is present in the data_dir, it is loaded automatically.
+Only the trait field is currently transformed using this mechanism.
+
+Format:
+```
+trait_mappings:
+  green leaves present: non-senescing unfolded true leaves present
+  senescent leaves: senescing leaves present
+  red leaves: colored leaves (non-green)
+```
+If a value in the trait column matches a key in trait_mappings (case-insensitive), it is replaced by the corresponding value before validation or Elasticsearch indexing.
+
+This allows for normalizing heterogeneous trait values across datasets without modifying the main loader script.
 
 ### Elasticsearch Mapping
 
@@ -88,4 +103,4 @@ pip install -r requirements.txt
 
 ## Author
 
-PhenoBase Project | Deck Family Farm
+PhenoBase Project | Biocode, LLC

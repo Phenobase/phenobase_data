@@ -7,6 +7,7 @@ import argparse
 from elasticsearch import Elasticsearch, helpers
 import uuid
 import datetime
+import yaml
 
 # Suppress all warnings including LibreSSL ones
 warnings.filterwarnings("ignore")
@@ -48,6 +49,30 @@ def load_traits_mapping(path='data/traits.csv'):
 
 traits_mapping = load_traits_mapping()
 
+
+
+def load_yaml_mapping(path):
+    if not os.path.exists(path):
+        print(f"⚠️ No transform.yaml found at {path}")
+        return {}
+
+    with open(path, 'r', encoding='utf-8') as f:
+        return yaml.safe_load(f)
+
+def make_row_transformer(transform_path):
+    yaml_rules = load_yaml_mapping(transform_path)
+
+    def transform_row(row):
+        trait_val = row.get('trait', '').strip().lower()
+        if trait_val and 'trait_mappings' in yaml_rules:
+            mapped = yaml_rules['trait_mappings'].get(trait_val)
+            if mapped:
+                row['trait'] = mapped
+        return row
+
+    return transform_row
+
+
 class ESLoader:
     def __init__(self, data_dir, index_name, drop_existing=False,
                  host='149.165.170.158', column_metadata=None, mode='machine', test_mode=False, traits_mapping=None):
@@ -68,8 +93,8 @@ class ESLoader:
         self.test_mode = test_mode;
         relevance_field = {
             'machine': 'machine_annotation_inat_relevance',
-            'inat': 'machine_annotation_inat_relevance',
-            'herbarium': 'machine_annotation_herbarium_relevance'
+            'herbarium': 'machine_annotation_herbarium_relevance',
+            'in_situ': 'machine_annotation_inat_relevance'
         }[mode]
 
         self.required_fields = [
@@ -86,9 +111,13 @@ class ESLoader:
         else:
             print("🧪 Running in TEST mode — Elasticsearch will not be used.")
 
-
+        transform_path = os.path.join(self.data_dir, 'transform.yaml')
+        if os.path.exists(transform_path):
+            self.transform_row = make_row_transformer(transform_path)
+            print(f"🔁 Using transform.yaml from {transform_path}")
+        else:
+            self.transform_row = None
     
-    import uuid
 
     def assign_system_fields(self, row, errors):
         if 'annotationID' in self.system_fields:
@@ -119,6 +148,10 @@ class ESLoader:
             for row in reader:
                 errors = []
 
+                # ✅ Transform this row only
+                if self.transform_row:
+                    row = self.transform_row(row)
+
                 # Validate required fields (excluding system-assigned)
                 for field in self.required_fields:
                     if field in self.system_fields:
@@ -126,7 +159,7 @@ class ESLoader:
                     if not row.get(field):
                         errors.append(f"{field} is required but missing")
 
-                # Assign system-generated fields (may add more errors)
+                # Assign system-generated fields
                 self.assign_system_fields(row, errors)
 
                 if errors:
@@ -137,10 +170,8 @@ class ESLoader:
                             print("   -", err)
                     self.log_error(row.get('annotationID', 'UNKNOWN'), errors)
                 else:
-                    cleaned = {
-                        k: v for k, v in row.items()
-                        if v.strip() and k not in self.system_fields
-                    }
+                    cleaned = {k: v for k, v in row.items()
+                            if isinstance(v, str) and v.strip() and k not in self.system_fields}
                     for field in self.system_fields:
                         cleaned[field] = row[field]
                     data.append(cleaned)
@@ -152,7 +183,6 @@ class ESLoader:
                     print(doc)
             else:
                 helpers.bulk(self.es, index=self.index_name, actions=data)
-
             count += len(data)
 
         print(f"📊 Total rows read: {reader.line_num}")
@@ -203,7 +233,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Load data into Elasticsearch.')
     parser.add_argument('data_dir', help='Directory containing CSV files to load')
     parser.add_argument('drop_existing', help='Whether to drop the existing index (True/False)')
-    parser.add_argument('--mode', required=True, choices=['machine', 'inat', 'herbarium'], help='Relevance mode')
+    parser.add_argument('--mode', required=True, choices=['machine', 'in_situ', 'herbarium'], help='Relevance mode')
     parser.add_argument('--test', action='store_true', help='Run in test mode (no ES insert, just print rows)')
 
     args = parser.parse_args()
