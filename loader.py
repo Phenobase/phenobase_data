@@ -266,7 +266,10 @@ class ESLoader:
                 errors.append(f"Trait '{trait_raw}' not found in traits mapping.")
                 row['mappedTraits'] = ''
             else:
-                row['mappedTraits'] = mapped
+                if isinstance(mapped, str):
+                    row['mappedTraits'] = [x.strip() for x in mapped.split("|") if x.strip()]
+                else:
+                    row['mappedTraits'] = mapped
 
     def __load_file(self, file):
         count = 0
