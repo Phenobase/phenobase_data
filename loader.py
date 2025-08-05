@@ -72,11 +72,134 @@ def make_row_transformer(transform_path):
 
     return transform_row
 
+from datetime import datetime
+
+def _lower_str(x):
+    return x.lower().strip() if isinstance(x, str) else x
+
+def _is_null_token(v, yaml_rules):
+    nulls = set([_lower_str(n) for n in (yaml_rules.get('null_values') or [])])
+    return isinstance(v, str) and _lower_str(v) in nulls
+
+def _parse_bool(v, yaml_rules):
+    rules = yaml_rules.get('coercions', {}).get('boolean', {})
+    tvals = set([_lower_str(x) for x in rules.get('true_values', [])])
+    fvals = set([_lower_str(x) for x in rules.get('false_values', [])])
+    lv = _lower_str(v)
+    if lv in tvals: return True
+    if lv in fvals: return False
+    raise ValueError(f"Invalid boolean: {v}")
+
+def _parse_date(v, field_rules, global_rules):
+    # field-specific formats override global formats
+    fmts = field_rules.get('input_formats') or global_rules.get('coercions', {}).get('date', {}).get('input_formats') or ["%Y-%m-%d"]
+    out = field_rules.get('output_format') or global_rules.get('coercions', {}).get('date', {}).get('output_format') or "%Y-%m-%d"
+    last_err = None
+    for fmt in fmts:
+        try:
+            dt = datetime.strptime(v, fmt)
+            return dt.strftime(out)
+        except Exception as e:
+            last_err = e
+    raise ValueError(f"Invalid date '{v}'; tried formats {fmts}. Last error: {last_err}")
+
+def _effective_datatype(field, column_metadata, yaml_rules):
+    # field-specific override wins; else columns.csv datatype
+    fld = yaml_rules.get('fields', {}).get(field, {})
+    dt = (fld.get('datatype') or column_metadata.get(field, {}).get('datatype') or 'text').strip().lower()
+    return dt, fld  # return also the field-specific rules
+
+def coerce_value(field, value, column_metadata, yaml_rules):
+    """
+    Returns (coerced_value, error_or_none).
+    - coerced_value may be None (meaning omit / null)
+    - error_or_none is a string if in strict mode you'd want to reject the row
+    """
+    if value is None:
+        return None, None
+    if isinstance(value, str):
+        value = value.strip()
+
+    # NA/null handling
+    if value == "" or _is_null_token(value, yaml_rules):
+        return None, None
+
+    dtype, field_rules = _effective_datatype(field, column_metadata, yaml_rules)
+    errors = None
+    try:
+        if dtype in ('integer', 'long'):
+            try:
+                iv = int(value)
+            except Exception:
+                if yaml_rules.get('coercions', {}).get('integer', {}).get('drop_invalid', True):
+                    return None, f"{field}: expected integer, got '{value}'"
+                raise
+            # bounds
+            if 'min' in field_rules and iv < field_rules['min']:
+                return None, f"{field}: {iv} < min {field_rules['min']}"
+            if 'max' in field_rules and iv > field_rules['max']:
+                return None, f"{field}: {iv} > max {field_rules['max']}"
+            return iv, None
+
+        elif dtype in ('float', 'double', 'scaled_float'):
+            try:
+                fv = float(value)
+            except Exception:
+                if yaml_rules.get('coercions', {}).get('float', {}).get('drop_invalid', True):
+                    return None, f"{field}: expected float, got '{value}'"
+                raise
+            if 'min' in field_rules and fv < field_rules['min']:
+                return None, f"{field}: {fv} < min {field_rules['min']}"
+            if 'max' in field_rules and fv > field_rules['max']:
+                return None, f"{field}: {fv} > max {field_rules['max']}"
+            return fv, None
+
+        elif dtype in ('boolean', 'bool'):
+            try:
+                bv = _parse_bool(value, yaml_rules)
+            except Exception as e:
+                if yaml_rules.get('coercions', {}).get('boolean', {}).get('drop_invalid', True):
+                    return None, f"{field}: {e}"
+                raise
+            return bv, None
+
+        elif dtype in ('date',):
+            try:
+                dv = _parse_date(value, field_rules, yaml_rules)
+            except Exception as e:
+                if yaml_rules.get('coercions', {}).get('date', {}).get('drop_invalid', True):
+                    return None, f"{field}: {e}"
+                raise
+            return dv, None
+
+        elif dtype in ('keyword', 'text'):
+            # strings: apply trait map if this is 'trait'
+            if field == 'trait':
+                # trait mapping was already applied in your row-transformer, so nothing here
+                pass
+            return value, None
+
+        elif dtype == 'geo_point':
+            # Expect "lat,lon" or dict. If not valid, null it.
+            if isinstance(value, str) and ',' in value:
+                lat, lon = value.split(',', 1)
+                return {'lat': float(lat.strip()), 'lon': float(lon.strip())}, None
+            return None, f"{field}: invalid geo_point '{value}'"
+
+        else:
+            # Unknown: pass-through as text
+            return value, None
+
+    except Exception as e:
+        # Any unexpected error -> null with reason
+        return None, f"{field}: coercion exception {e}"
 
 class ESLoader:
     def __init__(self, data_dir, index_name, drop_existing=False,
                  host='149.165.170.158', column_metadata=None, mode='machine', test_mode=False, traits_mapping=None):
         self.traits_mapping = traits_mapping or {}
+        self.strict = test_mode and False  # default false unless set below
+
 
         self.host = host
         self.data_dir = data_dir
@@ -103,7 +226,7 @@ class ESLoader:
         ]
 
         if not self.test_mode:
-            self.es = Elasticsearch([{'host': self.host, 'port': 9200, 'scheme': 'http'}])
+            self.es = Elasticsearch([{'host': self.host, 'port': 8081, 'scheme': 'http'}])
             if self.es.ping():
                 print(f"✅ Connected to Elasticsearch at {self.host}")
             else:
@@ -111,13 +234,21 @@ class ESLoader:
         else:
             print("🧪 Running in TEST mode — Elasticsearch will not be used.")
 
+        # Load per-dataset YAML rules + optional row transformer
         transform_path = os.path.join(self.data_dir, 'transform.yaml')
-        if os.path.exists(transform_path):
+
+        self.yaml_rules = {}
+        self.transform_row = None
+
+        if os.path.isfile(transform_path):
+            # Full rules used by coercion/validation
+            self.yaml_rules = load_yaml_mapping(transform_path) or {}
+            # Optional row-level transform (e.g., trait_mappings)
             self.transform_row = make_row_transformer(transform_path)
             print(f"🔁 Using transform.yaml from {transform_path}")
         else:
-            self.transform_row = None
-    
+            print("ℹ️ No transform.yaml found; proceeding without per‑dataset transforms.")
+ 
 
     def assign_system_fields(self, row, errors):
         if 'annotationID' in self.system_fields:
@@ -148,40 +279,56 @@ class ESLoader:
             for row in reader:
                 errors = []
 
-                # ✅ Transform this row only
+                # Transform trait value if applicable
                 if self.transform_row:
                     row = self.transform_row(row)
 
-                # Validate required fields (excluding system-assigned)
-                for field in self.required_fields:
-                    if field in self.system_fields:
-                        continue
-                    if not row.get(field):
-                        errors.append(f"{field} is required but missing")
+                    cleaned = {}
+                    field_errors = []
 
-                # Assign system-generated fields
-                self.assign_system_fields(row, errors)
+                    for k, v in row.items():
+                        if k in self.system_fields:
+                            continue
 
-                if errors:
-                    error_count += 1
-                    if self.test_mode:
-                        print(f"❌ Row rejected: {row.get('annotationID', 'UNKNOWN')}")
-                        for err in errors:
-                            print("   -", err)
-                    self.log_error(row.get('annotationID', 'UNKNOWN'), errors)
-                else:
-                    cleaned = {k: v for k, v in row.items()
-                            if isinstance(v, str) and v.strip() and k not in self.system_fields}
+                        coerced, err = coerce_value(k, v, self.column_metadata, self.yaml_rules)
+                        if err:
+                            field_errors.append(err)
+
+                        # Store coerced value; let None through for now (we’ll prune Nones later)
+                        cleaned[k] = coerced
+
+                    # If strict mode, reject rows with any coercion error
+                    if self.strict and field_errors:
+                        errors.extend(field_errors)
+
+                    # Assign system-generated fields (e.g., annotationID, mappedTraits)
+                    self.assign_system_fields(row, errors)
+
+                    # Merge system fields into cleaned row
                     for field in self.system_fields:
-                        cleaned[field] = row[field]
-                    data.append(cleaned)
+                        cleaned[field] = row.get(field)
+
+                    if errors:
+                        error_count += 1
+                        if self.test_mode:
+                            print(f"❌ Row rejected: {row.get('annotationID', 'UNKNOWN')}")
+                            for err in (errors + field_errors):
+                                print("   -", err)
+                        self.log_error(row.get('annotationID', 'UNKNOWN'), errors + field_errors)
+                    else:
+                        # Prune any fields with value None
+                        cleaned = {k: v for k, v in cleaned.items() if v is not None}
+                        data.append(cleaned)
 
         if data:
             if self.test_mode:
                 print("🧪 Valid rows that would be inserted:")
-                for doc in data:
+                for doc in data[:5]:
                     print(doc)
+                if len(data) > 5:
+                    print(f"... {len(data) - 5} more rows omitted.")
             else:
+                print("Inserting data into ES...")
                 helpers.bulk(self.es, index=self.index_name, actions=data)
             count += len(data)
 
@@ -235,6 +382,8 @@ if __name__ == '__main__':
     parser.add_argument('drop_existing', help='Whether to drop the existing index (True/False)')
     parser.add_argument('--mode', required=True, choices=['machine', 'in_situ', 'herbarium'], help='Relevance mode')
     parser.add_argument('--test', action='store_true', help='Run in test mode (no ES insert, just print rows)')
+    parser.add_argument('--strict', action='store_true', help='Reject rows with invalid field values after coercion/validation')
+
 
     args = parser.parse_args()
 
@@ -251,4 +400,5 @@ if __name__ == '__main__':
         test_mode=args.test,
         traits_mapping=traits_mapping
     )
+    loader.strict = args.strict;
     loader.load()
