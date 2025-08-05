@@ -1,0 +1,4 @@
+trait_mappings:
+  green leaves present: non-senescing unfolded true leaf present
+  breaking buds present: breaking vegetative bud present
+  colored leaves present: senescing true leaf present
