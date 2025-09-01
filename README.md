@@ -28,7 +28,9 @@ python loader.py [--data_dir DIR] [--drop_index] --mode {machine,in_situ,herbari
 ### Example
 
 ```bash
-python loader.py --data_dir ./data --drop_index --mode inat
+# here is an example load script
+python loader.py --mode=machine data/annotations.07.25.2025/ false --batch-size 5000 --progress-every 50000
+python loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ false --batch-size 5000 --progress-every 50000
 ```
 
 ---
