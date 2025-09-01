@@ -11,7 +11,7 @@ const axios = require('axios');
 const { format, addMonths, parseISO, isAfter } = require('date-fns');
 
 // -------------------- Config --------------------
-const apiUrl = 'https://services.usanpn.org/npn_portal/observations/getObservations.json?additional_field=dataset_id&additional_field=family';
+const apiUrl = 'https://services.usanpn.org/npn_portal/observations/getObservations.json?additional_field=dataset_id';
 
 // Command-line arguments: start_date, end_date, [mappings_path]
 const [start_date, end_date, mappingsArg] = process.argv.slice(2);
@@ -312,7 +312,7 @@ const family = (spById?.family || spByGS?.family || '').trim();
     family,
     genus: o.genus,
     species: o.species,
-    annotationID: o.observation_id,
+    annotationID: 'npn:'+o.observation_id,
     date: o.observation_date,
     year: new Date(o.observation_date).getFullYear(),
     dataset_id: o.dataset_id,
