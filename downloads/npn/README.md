@@ -122,10 +122,10 @@ After a successful run, copy the generated CSV into your dated folder:
 
 ```bash
 # Make sure the destination directory exists
-mkdir -p ../../data/npn.09.01.2025
+mkdir -p ../../data/npn.08.01.2025-08.02.2025
 
 # Replace the filename below with the actual output name from your run
-cp npn_observations_2025-08-01_to_2025-08-02.csv ../../data/npn.09.01.2025/
+cp npn_observations_2025-08-01_to_2025-08-02.csv ../../data/npn.08.01.2025-08.02.2025/
 ```
 
 If you run multiple ranges, copy each resulting `npn_observations_*.csv` you want to keep into the same folder.
