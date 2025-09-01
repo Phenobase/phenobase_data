@@ -14,23 +14,8 @@ from the specified directory so we do not load records twice
 $ python split_csv.py
 Usage: python split_csv.py <input_filename> <lines_per_file>
 ```
-To generate all_traits.csv, give chat the following:
-```I’m working with the Plant Phenology Ontology at  
-https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl  
- 
-• Look only for classes that are PATO:quality  
-• For each of those classes, list the full ancestor chain **upward until you reach**  
-  – “plant structure present” or “plant structure absent”  
-  (stop there—do not include higher nodes like *individual plant phenology*).  
-• Return the result as a CSV with four columns:  
-    1. `trait_id` (the PPO IRI)  
-    2. `trait_name` (the label)  
-    3. `category` (always `phenology`)  
-    4. `mapped_traits` (the ancestor chain you found, in order, separated with a pipe `|`)  
-• Output ONLY the CSV block in the reply—no extra narrative.
-```
 
-### Robot one‑liner to create `ppo_traits.csv`
+### Robot one‑liner to create `traits.csv`
 
 ```bash
 # Download PPO, reason it, query for every class whose label ends in
