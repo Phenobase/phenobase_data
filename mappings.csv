@@ -1,0 +1,126 @@
+verbatim_trait,status,trait
+First leaf (historic lilac/honeysuckle),1,{breaking vegetative bud present}
+Emerging leaves (1 location),0,{breaking vegetative bud absent}
+Emerging leaves (1 location),1,{breaking vegetative bud present}
+Breaking leaf buds,0,{breaking vegetative bud absent}
+Breaking leaf buds,1,{breaking vegetative bud present}
+Breaking leaf buds (lilac/honeysuckle),0,{breaking vegetative bud absent}
+Breaking leaf buds (lilac/honeysuckle),1,{breaking vegetative bud present}
+Breaking needle buds (conifers),0,{breaking vegetative bud absent}
+Breaking needle buds (conifers),1,{breaking vegetative bud present}
+Breaking needle buds (deciduous),0,{breaking vegetative bud absent}
+Breaking needle buds (deciduous),1,{breaking vegetative bud present}
+Initial growth (forbs),0,{new shoot system absent}
+Initial growth (forbs),1,{new shoot system present}
+Initial growth (grasses/sedges),0,{new shoot system absent}
+Initial growth (grasses/sedges),1,{new shoot system present}
+Emerging needles (pines),0,{unfolding true leaf absent}
+Emerging needles (pines),1,{unfolding true leaf present}
+Initial growth (rushes),0,{new shoot system absent}
+Initial growth (rushes),1,{new shoot system present}
+"Young unfolded leaves (evergreen, 1 location)",0,{immature unfolded true leaf absent}
+"Young unfolded leaves (evergreen, 1 location)",1,{immature unfolded true leaf present}
+Increasing leaf size,0,
+Increasing leaf size,1,{expanding unfolded true leaf present}
+Young leaves (tree/shrub),0,{immature unfolded true leaf absent}
+Young leaves (tree/shrub),1,{immature unfolded true leaf present}
+Young needles (conifers),0,{immature unfolded true leaf absent}
+Young needles (conifers),1,{immature unfolded true leaf present}
+Young needles (pines),0,{immature unfolded true leaf absent}
+Young needles (pines),1,{immature unfolded true leaf present}
+Young leaves (forbs),0,{immature unfolded true leaf absent}
+Young leaves (forbs),1,{immature unfolded true leaf present}
+Full leaf (historic lilac/honeysuckle),1,{unfolded true leaf present}
+Leaves,0,{unfolded true leaf absent}
+Leaves,1,{unfolded true leaf present}
+Needles (deciduous),0,{unfolded true leaf absent}
+Needles (deciduous),1,{unfolded true leaf present}
+Leaves (forbs),0,{unfolded true leaf absent}
+Leaves (forbs),1,{unfolded true leaf present}
+Leaves (grasses),0,{unfolded true leaf absent}
+Leaves (grasses),1,{unfolded true leaf present}
+Leaves (sedges),0,{unfolded true leaf absent}
+Leaves (sedges),1,{unfolded true leaf present}
+Leaves (rushes),0,{unfolded true leaf absent}
+Leaves (rushes),1,{unfolded true leaf present}
+Colored leaves,0,{senescing true leaf absent}
+Colored leaves,1,{senescing true leaf present}
+Colored needles,0,{senescing true leaf absent}
+Colored needles,1,{senescing true leaf present}
+>=50% of leaves fallen (deciduous),0,
+>=50% of leaves fallen (deciduous),1,{abscised leaf present}
+All leaves fallen (deciduous),0,
+All leaves fallen (deciduous),1,{abscised leaf present}
+All leaves withered (herbaceous and grasses),0,
+All leaves withered (herbaceous and grasses),1,{senesced true leaf present}
+>=50% of needles fallen (larch),0,
+>=50% of needles fallen (larch),1,{abscised leaf present}
+All needles fallen (larch),0,
+All needles fallen (larch),1,{abscised leaf present}
+Falling leaves,0,
+Falling leaves,1,{abscised leaf present}
+Falling needles,0,
+Falling needles,1,{abscised leaf present}
+Flower buds (1 location),0,{unopened reproductive shoot system absent}
+Flower buds (1 location),1,{unopened reproductive shoot system present}
+Pollen cones (conifers),0,{non-senesced microsporangiate strobilus absent}
+Pollen cones (conifers),1,{non-senesced microsporangiate strobilus present}
+Flower heads (grasses/sedges),0,{non-senesced inflorescence absent}
+Flower heads (grasses/sedges),1,{non-senesced inflorescence present}
+Flowers or flower buds,0,{non-senesced reproductive shoot system absent}
+Flowers or flower buds,1,{non-senesced reproductive shoot system present}
+First bloom (historic eastern lilac),1,{open flower present}
+Full bloom (historic lilac/western honeysuckle),1,{open flower present}
+Full flowering (50%),0,
+Full flowering (50%),1,{open flower present}
+Open flowers (1 location),0,{open flower absent}
+Open flowers (1 location),1,{open flower present}
+Open flowers (lilac),0,{open flower absent}
+Open flowers (lilac),1,{open flower present}
+Full flowering (lilac),0,
+Full flowering (lilac),1,{open flower present}
+Open flowers (honeysuckle),0,{open flower absent}
+Open flowers (honeysuckle),1,{open flower present}
+Full flowering (honeysuckle),0,
+Full flowering (honeysuckle),1,{open flower present}
+First bloom (historic western lilac),1,{open flower present}
+First bloom (historic honeysuckle),1,{open flower present}
+Full bloom (historic eastern honeysuckle),1,{open flower present}
+Open flowers (grasses/sedges),0,{open flower absent}
+Open flowers (grasses/sedges),1,{open flower present}
+Open pollen cones (conifers),0,{open microsporangiate strobilus absent}
+Open pollen cones (conifers),1,{open microsporangiate strobilus present}
+Open flowers,0,{open flower absent}
+Open flowers,1,{open flower present}
+Full pollen release (angiosperms),0,
+Full pollen release (angiosperms),1,{pollen-releasing flower present}
+Full pollen release (conifers),0,
+Full pollen release (conifers),1,{pollen-releasing microsporangiate strobilus present}
+Pollen release (flowers),0,{pollen-releasing flower absent}
+Pollen release (flowers),1,{pollen-releasing flower present}
+Pollen release (conifers),0,{pollen-releasing microsporangiate strobilus absent}
+Pollen release (conifers),1,{pollen-releasing microsporangiate strobilus present}
+End bloom (historic lilac/eastern honeysuckle),1,{senesced flower present}
+End of flowering (lilac/honeysuckle),0,
+End of flowering (lilac/honeysuckle),1,{senesced flower present}
+End bloom (historic western honeysuckle),1,{senesced flower present}
+Fruits,0,{simple fruit or compound fruit absent}
+Fruits,1,{simple fruit or compound fruit present}
+Unripe seed cones,0,{immature post-fertilization megasporangiate strobilus absent}
+Unripe seed cones,1,{immature post-fertilization megasporangiate strobilus present}
+Ripe fruits (1 location),0,{ripe fruit absent}
+Ripe fruits (1 location),1,{ripe fruit present}
+Ripe seeds (grasses),0,{ripe fruit absent}
+Ripe seeds (grasses),1,{ripe fruit present}
+Ripe fruits,0,{ripe fruit absent}
+Ripe fruits,1,{ripe fruit present}
+Ripe seed cones,0,{mature megasporangiate strobilus absent}
+Ripe seed cones,1,{mature megasporangiate strobilus present}
+First red berry (historic western honeysuckle),1,{ripe fruit present}
+Full red berries (historic western honeysuckle),1,{ripe fruit present}
+First shriveled berry (historic western honeysuckle),1,{ripe fruit present}
+Full shriveled berries (historic western honeysuckle),1,{ripe fruit present}
+Recent cone or seed drop,0,{abscised megasporangiate strobilus absent}
+Recent cone or seed drop,1,{abscised megasporangiate strobilus present}
+Recent fruit or seed drop,0,{abscised fruit absent}
+Recent fruit or seed drop,1,{abscised fruit present}
