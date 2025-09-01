@@ -11,7 +11,7 @@ const axios = require('axios');
 const { format, addMonths, parseISO, isAfter } = require('date-fns');
 
 // -------------------- Config --------------------
-const apiUrl = 'https://services.usanpn.org/npn_portal/observations/getObservations.json?additional_field=dataset_id';
+const apiUrl = 'https://services.usanpn.org/npn_portal/observations/getObservations.json?additional_field=dataset_id&additional_field=family';
 
 // Command-line arguments: start_date, end_date, [mappings_path]
 const [start_date, end_date, mappingsArg] = process.argv.slice(2);
@@ -195,10 +195,50 @@ function writeCSVIncrementally(csvData, outputPath, isFirstChunk) {
   });
 }
 
+// // Fetch the species catalog once, then let us do fast lookups:
+// - byId:    species_id -> { family, genus, species, ... }
+// - byGS:    "genus|species" (lowercased) -> same object
+async function fetchSpeciesCatalog() {
+  const url = 'https://services.usanpn.org/npn_portal/species/getSpecies.json';
+  try {
+    const { data } = await axios.get(url, { params: { request_src: 'custom_script' } });
+
+    const byId = new Map();
+    const byGS = new Map();
+
+    if (Array.isArray(data)) {
+      for (const s of data) {
+        const id = Number(s.species_id);
+        const genus = String(s.genus || '').trim();
+        const species = String(s.species || '').trim();
+        const keyGS = `${genus}|${species}`.toLowerCase();
+
+        const rec = {
+          species_id: id,
+          family: s.family || s.family_name || '',
+          genus,
+          species,
+        };
+
+        if (!Number.isNaN(id)) byId.set(id, rec);
+        if (genus && species) byGS.set(keyGS, rec);
+      }
+    }
+
+    console.log(`Loaded species catalog: ${byId.size} by id, ${byGS.size} by genus/species.`);
+    return { byId, byGS };
+  } catch (err) {
+    console.error('Failed to load species catalog:', err.message);
+    return { byId: new Map(), byGS: new Map() };
+  }
+}
+
 // -------------------- Main --------------------
 async function main() {
   console.log(`Output file: ${outputPath}`);
+  const speciesCatalog = await fetchSpeciesCatalog();
 
+ 
   // Load mappings once
   const { index: mappingIndex } = await loadMappings(MAPPINGS_PATH);
 
@@ -224,6 +264,7 @@ let droppedBadObsStatus = 0; // NEW
     const transformed = [];
 
 for (const o of observations) {
+  //console.log(o)
   const cleanedDescription = norm(o.phenophase_description);
   const key = normalizeKey(cleanedDescription);
 
@@ -257,10 +298,18 @@ for (const o of observations) {
   let verbatimTrait = cleanedDescription + " ("+obsStatus +")"
   let scientificName = o.genus + " " + o.species;
   
+  // // Try by species_id first, then fall back to genus+species
+const spById = speciesCatalog.byId.get(Number(o.species_id));
+const gsKey = `${String(o.genus || '').trim()}|${String(o.species || '').trim()}`.toLowerCase();
+const spByGS = speciesCatalog.byGS.get(gsKey);
+const family = (spById?.family || spByGS?.family || '').trim();
   // 5) Keep
   transformed.push({
     dataSource: "National Phenology Network",
     scientificName: scientificName,
+    taxonRank: "species",
+    basisOfRecord: "Human Observation",
+    family,
     genus: o.genus,
     species: o.species,
     annotationID: o.observation_id,
