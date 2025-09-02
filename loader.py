@@ -487,16 +487,20 @@ class ESLoader:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Load data into Elasticsearch.')
     parser.add_argument('data_dir', help='Directory containing CSV files to load')
-    parser.add_argument('drop_existing', help='Whether to drop the existing index (True/False)')
     parser.add_argument('--mode', required=True, choices=['machine', 'in_situ', 'herbarium'], help='Relevance mode')
     parser.add_argument('--test', action='store_true', help='Run in test mode (no ES insert, just print rows)')
     parser.add_argument('--strict', action='store_true', help='Reject rows with invalid field values after coercion/validation')
     parser.add_argument('--batch-size', type=int, default=5000, help='Docs per bulk request (default: 5000)')
     parser.add_argument('--progress-every', type=int, default=50000, help='Print progress every N rows (default: 50000)')
+    parser.add_argument(
+        '--drop-existing',
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help='Drop the existing index before loading (default: false)'
+    )
 
     args = parser.parse_args()
-
-    drop_existing = args.drop_existing.lower() == 'true'
+    drop_existing = args.drop_existing
     column_metadata = load_column_metadata()
 
     loader = ESLoader(

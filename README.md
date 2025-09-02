@@ -16,21 +16,33 @@ Each mode uses specific required fields defined in `columns.csv`.
 ## Usage
 
 ```bash
-python loader.py [--data_dir DIR] [--drop_index] --mode {machine,in_situ,herbarium}
+usage: loader.py [-h] --mode {machine,in_situ,herbarium} [--test] [--strict] [--batch-size BATCH_SIZE] [--progress-every PROGRESS_EVERY] data_dir drop_existing
+loader.py: error: the following arguments are required: data_dir, drop_existing, --mode
 ```
 
 ### Options
 
-- `--data_dir DIR`: Optional. Directory containing data files to be loaded (e.g., TSV/CSV files). Defaults to current directory.
-- `--drop_index`: Optional. If specified, drops the existing Elasticsearch index before loading.
-- `--mode {machine,inat,herbarium}`: Required. Specifies the type of data being loaded. Determines required fields and validation rules.
+```
+Positional
+
+data_dir Directory containing CSV files to load.
+
+Options
+
+--mode {machine,in_situ,herbarium} (required)
+--drop-existing / --no-drop-existing (default: --no-drop-existing)
+--test Test mode (no ES insert).
+--strict Reject rows with invalid field values after coercion.
+--batch-size N Docs per bulk request (default: 5000).
+--progress-every N Print progress every N rows (default: 50000).
+```
 
 ### Example
 
 ```bash
 # here is an example load script
-python loader.py --mode=machine data/annotations.07.25.2025/ false --batch-size 5000 --progress-every 50000
-python loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ false --batch-size 5000 --progress-every 50000
+python loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing --batch-size 5000 --progress-every 50000
+python loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
 ```
 
 ---
