@@ -1,8 +1,8 @@
-// File: fetchObservations.js
+// File: fetchAndTransformNPNData.js
 // Usage:
-//   node fetchObservations.js <start_date> <end_date> [mappings_csv_path]
+//   node fetchAndTransformNPNData.js <start_date> <end_date> [mappings_csv_path]
 // Example:
-//   node fetchObservations.js 2025-08-01 2025-08-02 ./mappings.csv
+//   node fetchAndTransformNPNData.js 2025-08-01 2025-08-02 ./mappings.csv
 
 const fs = require('fs');
 const fastcsv = require('fast-csv');
@@ -238,7 +238,7 @@ async function main() {
   console.log(`Output file: ${outputPath}`);
   const speciesCatalog = await fetchSpeciesCatalog();
 
- 
+
   // Load mappings once
   const { index: mappingIndex } = await loadMappings(MAPPINGS_PATH);
 
@@ -247,11 +247,11 @@ async function main() {
   let isFirstChunk = true;
 
   // Counters
-let keptCount = 0;
-let droppedByMinusOne = 0;
-let droppedEmptyTrait = 0;
-let droppedNoMap = 0;
-let droppedBadObsStatus = 0; // NEW
+  let keptCount = 0;
+  let droppedByMinusOne = 0;
+  let droppedEmptyTrait = 0;
+  let droppedNoMap = 0;
+  let droppedBadObsStatus = 0; // NEW
 
   for (const chunk of dateChunks) {
     const observations = await fetchData(chunk.startDate, chunk.endDate);
@@ -263,67 +263,67 @@ let droppedBadObsStatus = 0; // NEW
 
     const transformed = [];
 
-for (const o of observations) {
-  //console.log(o)
-  const cleanedDescription = norm(o.phenophase_description);
-  const key = normalizeKey(cleanedDescription);
+    for (const o of observations) {
+      //console.log(o)
+      const cleanedDescription = norm(o.phenophase_description);
+      const key = normalizeKey(cleanedDescription);
 
-  // 1) Validate observation status from API: must be exactly 0 or 1
-  const raw = Number(o.phenophase_status);
-  if (raw !== 0 && raw !== 1) {
-    // add this counter in your declarations: let droppedBadObsStatus = 0;
-    droppedBadObsStatus++;
-    continue;
-  }
-  const obsStatus = raw; // 0 or 1 only
+      // 1) Validate observation status from API: must be exactly 0 or 1
+      const raw = Number(o.phenophase_status);
+      if (raw !== 0 && raw !== 1) {
+        // add this counter in your declarations: let droppedBadObsStatus = 0;
+        droppedBadObsStatus++;
+        continue;
+      }
+      const obsStatus = raw; // 0 or 1 only
 
-  // 2) Resolve mapping AFTER we know obsStatus is valid
-  const decision = resolveTraitMapping(mappingIndex, key, obsStatus);
+      // 2) Resolve mapping AFTER we know obsStatus is valid
+      const decision = resolveTraitMapping(mappingIndex, key, obsStatus);
 
-  // 3) Apply drop rules from mapping
-  if (decision?.drop) {
-    if (decision.drop === 'minus1')      droppedByMinusOne++;
-    else if (decision.drop === 'empty')  droppedEmptyTrait++;
-    else                                 droppedNoMap++;      // 'no-map'
-    continue;
-  }
+      // 3) Apply drop rules from mapping
+      if (decision?.drop) {
+        if (decision.drop === 'minus1')      droppedByMinusOne++;
+        else if (decision.drop === 'empty')  droppedEmptyTrait++;
+        else                                 droppedNoMap++;      // 'no-map'
+        continue;
+      }
 
-  // 4) Safety: no trait -> treat as no-map
-  if (!decision?.trait) {
-    droppedNoMap++;
-    continue;
-  }
+      // 4) Safety: no trait -> treat as no-map
+      if (!decision?.trait) {
+        droppedNoMap++;
+        continue;
+      }
 
-  obsStatus === 1 ? 'Observed' : 'Not Observed';
-  let verbatimTrait = cleanedDescription + " ("+obsStatus +")"
-  let scientificName = o.genus + " " + o.species;
-  
-  // // Try by species_id first, then fall back to genus+species
-const spById = speciesCatalog.byId.get(Number(o.species_id));
-const gsKey = `${String(o.genus || '').trim()}|${String(o.species || '').trim()}`.toLowerCase();
-const spByGS = speciesCatalog.byGS.get(gsKey);
-const family = (spById?.family || spByGS?.family || '').trim();
-  // 5) Keep
-  transformed.push({
-    dataSource: "National Phenology Network",
-    scientificName: scientificName,
-    taxonRank: "species",
-    basisOfRecord: "Human Observation",
-    family,
-    genus: o.genus,
-    species: o.species,
-    annotationID: 'npn:'+o.observation_id,
-    date: o.observation_date,
-    year: new Date(o.observation_date).getFullYear(),
-    dataset_id: o.dataset_id,
-    dayOfYear: o.day_of_year,
-    latitude: o.latitude,
-    longitude: o.longitude,
-    verbatimTrait: verbatimTrait,
-    trait: decision.trait
-  });
-  keptCount++;
-}
+      obsStatus === 1 ? 'Observed' : 'Not Observed';
+      let verbatimTrait = cleanedDescription + " ("+obsStatus +")"
+      let scientificName = o.genus + " " + o.species;
+
+      // // Try by species_id first, then fall back to genus+species
+      const spById = speciesCatalog.byId.get(Number(o.species_id));
+      const gsKey = `${String(o.genus || '').trim()}|${String(o.species || '').trim()}`.toLowerCase();
+      const spByGS = speciesCatalog.byGS.get(gsKey);
+      const family = (spById?.family || spByGS?.family || '').trim();
+      // 5) Keep
+      transformed.push({
+        dataSource: "National Phenology Network",
+        scientificName: scientificName,
+        taxonRank: "species",
+        basisOfRecord: "Human Observation",
+        family,
+        genus: o.genus,
+        species: o.species,
+        annotationID: 'npn:'+o.observation_id,
+        date: o.observation_date,
+        year: new Date(o.observation_date).getFullYear(),
+        dataset_id: o.dataset_id,
+        dayOfYear: o.day_of_year,
+        latitude: o.latitude,
+        longitude: o.longitude,
+        verbatimTrait: verbatimTrait,
+        trait: decision.trait
+      });
+      keptCount++;
+    }
 
     if (transformed.length > 0) {
       writeCSVIncrementally(transformed, outputPath, isFirstChunk);
@@ -334,9 +334,9 @@ const family = (spById?.family || spByGS?.family || '').trim();
   }
 
   console.log('Data fetching and writing complete.');
-console.log(
-  `Kept rows: ${keptCount} | Dropped (-1 map): ${droppedByMinusOne} | Dropped (empty trait): ${droppedEmptyTrait} | Dropped (no map): ${droppedNoMap} | Dropped (bad obs status): ${droppedBadObsStatus}`
-);
+  console.log(
+    `Kept rows: ${keptCount} | Dropped (-1 map): ${droppedByMinusOne} | Dropped (empty trait): ${droppedEmptyTrait} | Dropped (no map): ${droppedNoMap} | Dropped (bad obs status): ${droppedBadObsStatus}`
+  );
 
 }
 
