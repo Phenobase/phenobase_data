@@ -305,23 +305,28 @@ async function main() {
       const family = (spById?.family || spByGS?.family || '').trim();
       // 5) Keep
       transformed.push({
-        dataSource: "National Phenology Network",
+        dataSource: String(o.dataset_id) === '16'
+          ? 'National Ecological Observatory Network (USA)'
+          : 'USA National Phenology Network',
         scientificName: scientificName,
-        taxonRank: "species",
-        basisOfRecord: "Human Observation",
+        taxonRank: 'species',
+        basisOfRecord: 'Human Observation',
         family,
         genus: o.genus,
         species: o.species,
-        annotationID: 'npn:'+o.observation_id,
+        annotationID: 'npn:' + o.observation_id,
         date: o.observation_date,
         year: new Date(o.observation_date).getFullYear(),
         dataset_id: o.dataset_id,
+        site_id: o.site_id,
+        individual_id: o.individual_id,
         dayOfYear: o.day_of_year,
         latitude: o.latitude,
         longitude: o.longitude,
         verbatimTrait: verbatimTrait,
         trait: decision.trait
       });
+
       keptCount++;
     }
 
