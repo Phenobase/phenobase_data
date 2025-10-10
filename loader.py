@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import csv
 import sys
 import gc
@@ -70,14 +71,109 @@ def load_yaml_mapping(path):
         return yaml.safe_load(f) or {}
 
 def make_row_transformer(transform_path):
+    """
+    Build a row transformer from YAML.
+
+    Supported per-field steps (applied in order):
+      - {op: strip}
+      - {op: case, rule: lower|upper|title|capitalize_first|scientific_name_standard}
+      - {op: regex_sub, pattern: '...', replacement: '...', flags: 'IGNORECASE|MULTILINE|DOTALL' }
+      - {op: regex_map, pattern: '...', to: '...', flags: '...' }   # if matches, replace whole value with 'to'
+      - {op: null_if_in, values: ['na','n/a','-'] }                  # case-insensitive
+      - {op: map, values: {'from':'to', 'x':'y'} }                   # exact match, case-sensitive
+
+    Also supports top-level:
+      trait_mappings:
+        raw_trait_lower: mapped value
+    """
     yaml_rules = load_yaml_mapping(transform_path)
+
+    # --- Compile field transforms once ---
+    fields_cfg = yaml_rules.get('fields', {}) or {}
+    compiled = {}  # field -> [callables]
+
+    def _compile_flags(flag_str):
+        if not flag_str:
+            return 0
+        f = 0
+        s = str(flag_str).upper()
+        if 'IGNORECASE' in s or s == 'I' or ' I ' in s: f |= re.IGNORECASE
+        if 'MULTILINE'  in s or s == 'M' or ' M ' in s: f |= re.MULTILINE
+        if 'DOTALL'     in s or s == 'S' or ' S ' in s: f |= re.DOTALL
+        return f
+
+    for field, cfg in fields_cfg.items():
+        steps = []
+        for step in (cfg.get('transforms') or []):
+            op = (step.get('op') or '').strip().lower()
+
+            if op == 'strip':
+                def _fn(row, field=field):
+                    v = row.get(field)
+                    if isinstance(v, str):
+                        row[field] = v.strip()
+                steps.append(_fn)
+
+            elif op == 'case':
+                rule = (step.get('rule') or '').strip()
+                def _fn(row, field=field, rule=rule):
+                    v = row.get(field)
+                    if isinstance(v, str) and v != '':
+                        row[field] = _apply_case(v, rule)
+                steps.append(_fn)
+
+            elif op == 'regex_sub' and 'pattern' in step:
+                pat = re.compile(step['pattern'], _compile_flags(step.get('flags')))
+                repl = step.get('replacement', '')
+                def _fn(row, field=field, pat=pat, repl=repl):
+                    v = row.get(field)
+                    if v is not None:
+                        row[field] = pat.sub(repl, str(v))
+                steps.append(_fn)
+
+            elif op == 'regex_map' and 'pattern' in step and 'to' in step:
+                pat = re.compile(step['pattern'], _compile_flags(step.get('flags')))
+                to_val = step['to']
+                def _fn(row, field=field, pat=pat, to_val=to_val):
+                    v = row.get(field)
+                    if v is not None and pat.match(str(v)):
+                        row[field] = to_val
+                steps.append(_fn)
+
+            elif op == 'null_if_in' and 'values' in step:
+                vals = set([str(x).strip().lower() for x in (step.get('values') or [])])
+                def _fn(row, field=field, vals=vals):
+                    v = row.get(field)
+                    if isinstance(v, str) and v.strip().lower() in vals:
+                        row[field] = None
+                steps.append(_fn)
+
+            elif op == 'map' and 'values' in step:
+                mapping = step.get('values') or {}
+                def _fn(row, field=field, mapping=mapping):
+                    v = row.get(field)
+                    if v in mapping:
+                        row[field] = mapping[v]
+                steps.append(_fn)
+
+        if steps:
+            compiled[field] = steps
+
     def transform_row(row):
+        # 1) Apply field transforms first (so later trait mapping sees normalized values if needed)
+        for field, fns in compiled.items():
+            for fn in fns:
+                fn(row)
+
+        # 2) Apply trait_mappings (lowercased lookup) if configured
         trait_val = (row.get('trait') or '').strip().lower()
         if trait_val and 'trait_mappings' in yaml_rules:
             mapped = yaml_rules['trait_mappings'].get(trait_val)
             if mapped:
                 row['trait'] = mapped
+
         return row
+
     return transform_row
 
 # ----------------------------
@@ -362,7 +458,7 @@ class ESLoader:
                 total_read += 1
                 errors = []
 
-                # Optional row transform
+                # Optional row transform (from transform.yaml)
                 if self.transform_row:
                     row = self.transform_row(row)
 
