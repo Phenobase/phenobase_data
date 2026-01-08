@@ -124,6 +124,11 @@ def slugify(value):
     return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
 
 
+def extract_genus(scientific_name):
+    parts = scientific_name.split()
+    return parts[0] if parts else ""
+
+
 def normalize_date(value):
     value = (value or "").strip()
     if not value:
@@ -175,6 +180,7 @@ def build_rows(raw_path, coords):
                 else:
                     continue
 
+                genus = extract_genus(species)
                 trait_slug = slugify(trait)
                 annotation_id = f"{occurrence_id}:{trait_slug}"
 
@@ -192,6 +198,7 @@ def build_rows(raw_path, coords):
                     "annotationID": annotation_id,
                     "dataSource": DATA_SOURCE,
                     "scientificName": species,
+                    "genus": genus,
                     "trait": trait,
                     "family": "",
                     "year": year,
@@ -213,6 +220,7 @@ def main():
         "annotationID",
         "dataSource",
         "scientificName",
+        "genus",
         "trait",
         "family",
         "year",
