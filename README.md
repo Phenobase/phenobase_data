@@ -2,7 +2,7 @@
 
 ## Overview
 
-This script loads tabular data into Elasticsearch from CSV/TSV files. It performs validation using rules defined in `columns.csv` and data presence in `traits.csv`.
+The `loader.py` script loads tabular data into Elasticsearch from CSV/TSV files. It performs validation using rules defined in `data/columns.csv` and data presence in `data/traits.csv`.
 
 The script supports three loading modes:
 - `machine`: for loading machine observation data
