@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import csv
 import sys
 import gc
@@ -10,7 +11,7 @@ from elasticsearch import Elasticsearch, helpers
 import yaml
 from datetime import datetime
 
-# Suppress all warnings including LibreSSL ones
+# Suppress warnings (e.g., LibreSSL)
 warnings.filterwarnings("ignore")
 
 # ----------------------------
@@ -70,14 +71,101 @@ def load_yaml_mapping(path):
         return yaml.safe_load(f) or {}
 
 def make_row_transformer(transform_path):
+    """
+    Build a row transformer from YAML.
+    Supported per-field steps (applied in order):
+      - {op: strip}
+      - {op: case, rule: lower|upper|title|capitalize_first|scientific_name_standard}
+      - {op: regex_sub, pattern: '...', replacement: '...', flags: 'IGNORECASE|MULTILINE|DOTALL' }
+      - {op: regex_map, pattern: '...', to: '...', flags: '...' }
+      - {op: null_if_in, values: ['na','n/a','-'] }
+      - {op: map, values: {'from':'to', 'x':'y'} }
+    Also supports top-level:
+      trait_mappings:
+        raw_trait_lower: mapped value
+    """
     yaml_rules = load_yaml_mapping(transform_path)
+    fields_cfg = yaml_rules.get('fields', {}) or {}
+    compiled = {}
+
+    def _compile_flags(flag_str):
+        if not flag_str:
+            return 0
+        f = 0
+        s = str(flag_str).upper()
+        if 'IGNORECASE' in s or s == 'I' or ' I ' in s: f |= re.IGNORECASE
+        if 'MULTILINE'  in s or s == 'M' or ' M ' in s: f |= re.MULTILINE
+        if 'DOTALL'     in s or s == 'S' or ' S ' in s: f |= re.DOTALL
+        return f
+
+    for field, cfg in fields_cfg.items():
+        steps = []
+        for step in (cfg.get('transforms') or []):
+            op = (step.get('op') or '').strip().lower()
+
+            if op == 'strip':
+                def _fn(row, field=field):
+                    v = row.get(field)
+                    if isinstance(v, str):
+                        row[field] = v.strip()
+                steps.append(_fn)
+
+            elif op == 'case':
+                rule = (step.get('rule') or '').strip()
+                def _fn(row, field=field, rule=rule):
+                    v = row.get(field)
+                    if isinstance(v, str) and v != '':
+                        row[field] = _apply_case(v, rule)
+                steps.append(_fn)
+
+            elif op == 'regex_sub' and 'pattern' in step:
+                pat = re.compile(step['pattern'], _compile_flags(step.get('flags')))
+                repl = step.get('replacement', '')
+                def _fn(row, field=field, pat=pat, repl=repl):
+                    v = row.get(field)
+                    if v is not None:
+                        row[field] = pat.sub(repl, str(v))
+                steps.append(_fn)
+
+            elif op == 'regex_map' and 'pattern' in step and 'to' in step:
+                pat = re.compile(step['pattern'], _compile_flags(step.get('flags')))
+                to_val = step['to']
+                def _fn(row, field=field, pat=pat, to_val=to_val):
+                    v = row.get(field)
+                    if v is not None and pat.match(str(v)):
+                        row[field] = to_val
+                steps.append(_fn)
+
+            elif op == 'null_if_in' and 'values' in step:
+                vals = set([str(x).strip().lower() for x in (step.get('values') or [])])
+                def _fn(row, field=field, vals=vals):
+                    v = row.get(field)
+                    if isinstance(v, str) and v.strip().lower() in vals:
+                        row[field] = None
+                steps.append(_fn)
+
+            elif op == 'map' and 'values' in step:
+                mapping = step.get('values') or {}
+                def _fn(row, field=field, mapping=mapping):
+                    v = row.get(field)
+                    if v in mapping:
+                        row[field] = mapping[v]
+                steps.append(_fn)
+
+        if steps:
+            compiled[field] = steps
+
     def transform_row(row):
+        for field, fns in compiled.items():
+            for fn in fns:
+                fn(row)
         trait_val = (row.get('trait') or '').strip().lower()
         if trait_val and 'trait_mappings' in yaml_rules:
             mapped = yaml_rules['trait_mappings'].get(trait_val)
             if mapped:
                 row['trait'] = mapped
         return row
+
     return transform_row
 
 # ----------------------------
@@ -142,7 +230,6 @@ def coerce_value(field, value, column_metadata, yaml_rules):
         return None, None
     if isinstance(value, str):
         value = value.strip()
-
     if value == "" or _is_null_token(value, yaml_rules):
         return None, None
 
@@ -221,11 +308,14 @@ class ESLoader:
     def __init__(self, data_dir, index_name, drop_existing=False,
                  host='149.165.170.158', column_metadata=None, mode='machine',
                  test_mode=False, traits_mapping=None,
-                 batch_size=5000, progress_every=50000):
+                 batch_size=5000, progress_every=50000,
+                 port=8081, scheme='http'):
         self.traits_mapping = traits_mapping or {}
-        self.strict = False  # default; can be overridden by CLI
+        self.strict = False
 
         self.host = host
+        self.port = port
+        self.scheme = scheme
         self.data_dir = data_dir
         self.index_name = index_name
         self.drop_existing = drop_existing
@@ -252,14 +342,19 @@ class ESLoader:
             if (meta.get(relevance_field) or '').strip().upper() == 'REQUIRED'
         ]
 
-        if not self.test_mode:
-            self.es = Elasticsearch([{'host': self.host, 'port': 8081, 'scheme': 'http'}])
-            if self.es.ping():
-                print(f"✅ Connected to Elasticsearch at {self.host}")
-            else:
-                print("❌ Could not connect to Elasticsearch.")
-        else:
-            print("🧪 Running in TEST mode — Elasticsearch will not be used.")
+        # ES client
+        self.es = None
+        try:
+            self.es = Elasticsearch([{'host': self.host, 'port': self.port, 'scheme': self.scheme}])
+            if not self.test_mode:
+                if self.es.ping():
+                    print(f"✅ Connected to Elasticsearch at {self.host}")
+                else:
+                    print("❌ Could not connect to Elasticsearch.")
+        except Exception as e:
+            if not self.test_mode:
+                print(f"❌ ES client init failed: {e}")
+            self.es = None
 
         # Load per-dataset YAML rules + optional row transformer
         transform_path = os.path.join(self.data_dir, 'transform.yaml')
@@ -272,6 +367,9 @@ class ESLoader:
             print(f"🔁 Using transform.yaml from {transform_path}")
         else:
             print("ℹ️ No transform.yaml found; proceeding without per-dataset transforms.")
+
+        # For test-mode run-wide fallback simulation
+        self._sim_seen_ids = set()
 
     def assign_system_fields(self, row, errors):
         """
@@ -308,10 +406,13 @@ class ESLoader:
         accepted = 0
         rejected = 0
         err_docs = 0
+        created = 0
+        updated = 0
         seen_ids = set()  # detect duplicates inside this input file only
 
         # Batch buffer
         batch_actions = []
+        batch_ids = []
 
         def print_progress(force=False):
             elapsed = max(time.time() - start_ts, 1e-6)
@@ -324,20 +425,63 @@ class ESLoader:
                 sys.stdout.write("\r" + msg)
                 sys.stdout.flush()
 
+        def index_exists():
+            try:
+                return bool(self.es and self.es.indices.exists(index=self.index_name))
+            except Exception:
+                return False
+
         def flush_batch():
-            nonlocal batch_actions, accepted, err_docs
+            nonlocal batch_actions, batch_ids, accepted, err_docs, created, updated
             if not batch_actions:
                 return
+
             if self.test_mode:
+                # Default in test mode: attempt ES mget to check existence; otherwise simulate.
+                if self.es and index_exists():
+                    try:
+                        # Build docs for mget; support ES 7/8 signatures
+                        docs = [{"_index": self.index_name, "_id": _id} for _id in batch_ids]
+                        try:
+                            resp = self.es.mget(body={"docs": docs})
+                        except TypeError:
+                            resp = self.es.mget(docs=docs)
+                        # Count found vs not found
+                        for d in resp.get('docs', []):
+                            if d.get('found'):
+                                updated += 1
+                            else:
+                                created += 1
+                    except Exception as e:
+                        # On any failure, fallback to run-wide simulation
+                        for _id in batch_ids:
+                            if _id in self._sim_seen_ids:
+                                updated += 1
+                            else:
+                                created += 1
+                                self._sim_seen_ids.add(_id)
+                else:
+                    # Fallback: simulate within this run across files
+                    for _id in batch_ids:
+                        if _id in self._sim_seen_ids:
+                            updated += 1
+                        else:
+                            created += 1
+                            self._sim_seen_ids.add(_id)
+
                 accepted += len(batch_actions)
+                # Clear batch
                 batch_actions = []
+                batch_ids = []
+                gc.collect()
                 return
 
+            # Non-test mode: do actual bulk index and count by result
             try:
                 for ok, item in helpers.streaming_bulk(
                     self.es,
                     actions=batch_actions,
-                    chunk_size=len(batch_actions),   # already batched
+                    chunk_size=len(batch_actions),
                     max_retries=2,
                     request_timeout=120,
                     raise_on_error=False,
@@ -345,6 +489,13 @@ class ESLoader:
                 ):
                     if ok:
                         accepted += 1
+                        meta = next(iter(item.values()))
+                        res = meta.get('result')
+                        status = meta.get('status', 0)
+                        if res == 'created' or status == 201:
+                            created += 1
+                        elif res == 'updated' or status in (200, 409):
+                            updated += 1
                     else:
                         err_docs += 1
             except Exception as e:
@@ -352,6 +503,7 @@ class ESLoader:
                 err_docs += len(batch_actions)
             finally:
                 batch_actions = []
+                batch_ids = []
                 gc.collect()
 
         # newline='' prevents csv module from interpreting line endings twice
@@ -362,7 +514,7 @@ class ESLoader:
                 total_read += 1
                 errors = []
 
-                # Optional row transform
+                # Optional row transform (from transform.yaml)
                 if self.transform_row:
                     row = self.transform_row(row)
 
@@ -420,6 +572,7 @@ class ESLoader:
                         **cleaned
                     }
                     batch_actions.append(action)
+                    batch_ids.append(aid)
 
                     # Flush a full batch
                     if len(batch_actions) >= self.batch_size:
@@ -437,6 +590,8 @@ class ESLoader:
         print(f"📄 File done: {os.path.basename(file)}")
         print(f"📊 Total rows read: {total_read:,}")
         print(f"✅ Accepted (indexed or would index): {accepted:,}")
+        print(f"🆕 Created (new docs): {created:,}")
+        print(f"🔁 Updated (existing docs): {updated:,}")
         print(f"🚫 Rejected (validation/duplicate): {rejected:,}")
         print(f"❌ ES errors during bulk: {err_docs:,}")
 
@@ -444,11 +599,11 @@ class ESLoader:
 
     def load(self):
         if not self.test_mode:
-            if self.drop_existing and self.es.indices.exists(index=self.index_name):
+            if self.drop_existing and self.es and self.es.indices.exists(index=self.index_name):
                 print(f"🔁 Dropping index '{self.index_name}'")
                 self.es.indices.delete(index=self.index_name)
 
-            if not self.es.indices.exists(index=self.index_name):
+            if self.es and not self.es.indices.exists(index=self.index_name):
                 print(f"📦 Creating index '{self.index_name}'")
                 self.__create_index()
         else:
@@ -487,22 +642,25 @@ class ESLoader:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Load data into Elasticsearch.')
     parser.add_argument('data_dir', help='Directory containing CSV files to load')
-    parser.add_argument('drop_existing', help='Whether to drop the existing index (True/False)')
     parser.add_argument('--mode', required=True, choices=['machine', 'in_situ', 'herbarium'], help='Relevance mode')
-    parser.add_argument('--test', action='store_true', help='Run in test mode (no ES insert, just print rows)')
+    parser.add_argument('--test', action='store_true', help='Run in test mode (no ES writes; check existing via ES if available)')
     parser.add_argument('--strict', action='store_true', help='Reject rows with invalid field values after coercion/validation')
     parser.add_argument('--batch-size', type=int, default=5000, help='Docs per bulk request (default: 5000)')
     parser.add_argument('--progress-every', type=int, default=50000, help='Print progress every N rows (default: 50000)')
+    parser.add_argument(
+        '--drop-existing',
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help='Drop the existing index before loading (default: false)'
+    )
 
     args = parser.parse_args()
-
-    drop_existing = args.drop_existing.lower() == 'true'
     column_metadata = load_column_metadata()
 
     loader = ESLoader(
         data_dir=args.data_dir,
         index_name='phenobase2',
-        drop_existing=drop_existing,
+        drop_existing=args.drop_existing,
         host='149.165.170.158',
         column_metadata=column_metadata,
         mode=args.mode,

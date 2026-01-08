@@ -1,2 +1,4 @@
 data/*
 downloads/*
+loading_errors.csv
+nohup.out
