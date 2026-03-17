@@ -45,6 +45,26 @@ python loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing 
 python loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
 ```
 
+### Backfill `decadeStart` on the live index
+
+Use the helper script in the repo root to add the mapping and run `_update_by_query` against the existing index without reloading source files:
+
+```bash
+python update_decade_start.py
+```
+
+Wait for completion synchronously:
+
+```bash
+python update_decade_start.py --wait
+```
+
+Throttle the job if needed:
+
+```bash
+python update_decade_start.py --requests-per-second 200
+```
+
 ---
 
 ## Under the Hood

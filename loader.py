@@ -374,13 +374,21 @@ class ESLoader:
     def assign_system_fields(self, row, errors):
         """
         Enforce annotationID is present and non-empty. Do NOT generate it.
-        Also compute mappedTraits if required by schema.
+        Also compute derived system fields required by schema.
         """
         aid = (row.get('annotationID') or '').strip()
         if not aid:
             errors.append("Missing mandatory annotationID.")
         else:
             row['annotationID'] = aid  # normalized
+
+        if 'decadeStart' in self.system_fields:
+            year_raw = row.get('year')
+            try:
+                year_val = int(float(str(year_raw).strip()))
+                row['decadeStart'] = (year_val // 10) * 10
+            except (TypeError, ValueError):
+                row['decadeStart'] = None
 
         if 'mappedTraits' in self.system_fields:
             trait_raw = (row.get('trait') or '').strip().lower()
@@ -671,4 +679,3 @@ if __name__ == '__main__':
     )
     loader.strict = args.strict
     loader.load()
-
