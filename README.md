@@ -65,6 +65,45 @@ Throttle the job if needed:
 python update_decade_start.py --requests-per-second 200
 ```
 
+### Download a CSV dump through the API
+
+Use the helper script in the repo root to call the public Phenobase query API and scroll through the index until all matching rows are written to a local CSV.
+
+The script follows the same double-slash proxy convention already used by `phenobase_interface`, so it works with the current `biscicol-server` path-rewrite behavior.
+
+```bash
+python download_csv_dump.py
+```
+
+By default this:
+
+- queries the `phenobase2` index
+- uses a Lucene query of `*`
+- requests 5,000 rows per scroll page
+- keeps scrolling until the API returns no more hits
+- writes the CSV to `downloads/phenobase_dump.csv`
+
+Export a filtered subset with a Lucene query:
+
+```bash
+python download_csv_dump.py --query 'genus:Quercus AND year:[2000 TO 2025]' --output downloads/quercus.csv
+```
+
+Cap the export locally if needed:
+
+```bash
+python download_csv_dump.py --limit 100000
+```
+
+Tune the scroll page size or point at a different API base URL:
+
+```bash
+python download_csv_dump.py --batch-size 10000 --scroll 1m
+python download_csv_dump.py --base-url https://biscicol.org/phenobase/api/v1/query --index phenobase2
+```
+
+This script uses `data/columns.csv` to define CSV column order, which keeps the output aligned with the schema used by the loader.
+
 ---
 
 ## Under the Hood
