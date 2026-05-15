@@ -18,19 +18,6 @@ This repository supports the Phenobase data pipeline around three core jobs:
 
 The trait reasoning step comes first. The loader depends on `data/traits.csv` to expand each incoming `trait` into the derived `mappedTraits` hierarchy used later for indexing and querying.
 
-### Recommended Order
-
-For a new release, the usual sequence is:
-
-1. Rebuild `data/traits.csv` from the latest PPO ontology.
-2. Review the ontology version and diff the regenerated traits file.
-3. Prepare the source dataset directory and optional `transform.yaml`.
-4. Run a dry ingestion pass with `loader.py --test`.
-5. Review `loading_errors.csv` and fix source-data or transform issues.
-6. Run the real ingestion.
-7. If needed, backfill `decadeStart` on the live index.
-8. Optionally export or inspect the live index with the CSV dump helper.
-
 ### Reasoning
 
 Reasoning is the first step because it generates the trait lookup consumed during ingestion.
