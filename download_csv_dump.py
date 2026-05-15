@@ -5,7 +5,9 @@ import argparse
 import csv
 import json
 import os
+import socket
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -19,6 +21,7 @@ DEFAULT_SCROLL = "2m"
 DEFAULT_LIMIT = 0
 DEFAULT_OUTPUT = "downloads/phenobase_dump.csv"
 DEFAULT_COLUMNS_PATH = "data/columns.csv"
+DEFAULT_REQUEST_TIMEOUT = 60
 
 
 def parse_args():
@@ -66,6 +69,12 @@ def parse_args():
         "--columns-path",
         default=DEFAULT_COLUMNS_PATH,
         help=f"Schema file used for CSV column order (default: {DEFAULT_COLUMNS_PATH})",
+    )
+    parser.add_argument(
+        "--request-timeout",
+        type=float,
+        default=DEFAULT_REQUEST_TIMEOUT,
+        help=f"Per-request timeout in seconds for API calls (default: {DEFAULT_REQUEST_TIMEOUT})",
     )
     return parser.parse_args()
 
@@ -121,7 +130,7 @@ def build_initial_body(query, batch_size):
     }
 
 
-def post_json(url, payload):
+def post_json(url, payload, timeout_seconds):
     body = json.dumps(payload).encode("utf-8")
     request = urllib.request.Request(
         url,
@@ -132,7 +141,7 @@ def post_json(url, payload):
         },
         method="POST",
     )
-    with urllib.request.urlopen(request) as response:
+    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
         return json.load(response)
 
 
@@ -162,14 +171,27 @@ def build_csv_row(source, field_order):
     return row
 
 
-def fetch_initial_page(base_url, index_name, query, batch_size, scroll):
+def fetch_initial_page(base_url, index_name, query, batch_size, scroll, timeout_seconds):
     url = build_es_url(base_url, f"{index_name}/_search", {"scroll": scroll})
-    return post_json(url, build_initial_body(query, batch_size))
+    return post_json(url, build_initial_body(query, batch_size), timeout_seconds)
 
 
-def fetch_scroll_page(base_url, scroll_id, scroll):
+def fetch_scroll_page(base_url, scroll_id, scroll, timeout_seconds):
     url = build_es_url(base_url, "_search/scroll")
-    return post_json(url, {"scroll": scroll, "scroll_id": scroll_id})
+    return post_json(url, {"scroll": scroll, "scroll_id": scroll_id}, timeout_seconds)
+
+
+def print_page_progress(page_number, page_hits, total_written, expected_total, page_elapsed):
+    if expected_total:
+        print(
+            f"Page {page_number}: fetched {page_hits:,} rows in {page_elapsed:.1f}s; "
+            f"wrote {total_written:,}/{expected_total:,} total rows."
+        )
+    else:
+        print(
+            f"Page {page_number}: fetched {page_hits:,} rows in {page_elapsed:.1f}s; "
+            f"wrote {total_written:,} total rows."
+        )
 
 
 def export_rows(args):
@@ -180,7 +202,15 @@ def export_rows(args):
     ensure_parent_dir(args.output)
 
     total_written = 0
-    response = fetch_initial_page(args.base_url, args.index, args.query, args.batch_size, args.scroll)
+    page_number = 0
+    response = fetch_initial_page(
+        args.base_url,
+        args.index,
+        args.query,
+        args.batch_size,
+        args.scroll,
+        args.request_timeout,
+    )
     expected_total = get_total_hits(response)
     scroll_id = response.get("_scroll_id")
 
@@ -189,8 +219,11 @@ def export_rows(args):
         writer.writeheader()
 
         while True:
+            page_number += 1
+            page_started_at = time.monotonic()
             hits = ((response or {}).get("hits") or {}).get("hits") or []
             if not hits:
+                print(f"Page {page_number}: fetched 0 rows; export complete.")
                 break
 
             for hit in hits:
@@ -199,15 +232,16 @@ def export_rows(args):
                     return total_written, expected_total
                 writer.writerow(build_csv_row(hit.get("_source") or {}, field_order))
                 total_written += 1
-                if (total_written % args.batch_size) == 0:
-                    print(f"Wrote {total_written:,} rows...")
+            fh.flush()
+            page_elapsed = time.monotonic() - page_started_at
+            print_page_progress(page_number, len(hits), total_written, expected_total, page_elapsed)
 
             if args.limit > 0 and total_written >= args.limit:
                 break
             if not scroll_id:
                 break
 
-            response = fetch_scroll_page(args.base_url, scroll_id, args.scroll)
+            response = fetch_scroll_page(args.base_url, scroll_id, args.scroll, args.request_timeout)
             scroll_id = response.get("_scroll_id")
 
     return total_written, expected_total
@@ -221,6 +255,9 @@ def main():
     if args.limit < 0:
         print("--limit must be 0 or greater.", file=sys.stderr)
         return 1
+    if args.request_timeout <= 0:
+        print("--request-timeout must be greater than 0.", file=sys.stderr)
+        return 1
 
     try:
         written, expected_total = export_rows(args)
@@ -232,6 +269,12 @@ def main():
         return 1
     except urllib.error.URLError as exc:
         print(f"Network error: {exc.reason}", file=sys.stderr)
+        return 1
+    except socket.timeout:
+        print(
+            f"Network timeout: the API did not respond within {args.request_timeout} seconds.",
+            file=sys.stderr,
+        )
         return 1
     except RuntimeError as exc:
         print(str(exc), file=sys.stderr)

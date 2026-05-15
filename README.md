@@ -4,6 +4,12 @@
 
 The `loader.py` script loads tabular data into Elasticsearch from CSV/TSV files. It performs validation using rules defined in `data/columns.csv` and data presence in `data/traits.csv`.
 
+Published Pages:
+
+- Workflow and reasoning overview: `https://phenobase.github.io/phenobase_data/`
+- Rendered traits explorer: `https://phenobase.github.io/phenobase_data/traits.html`
+- Published traits CSV: `https://phenobase.github.io/phenobase_data/traits.csv`
+
 The script supports three loading modes:
 - `machine`: for loading machine observation data
 - `in_situ`: for in_situ observations
@@ -102,7 +108,76 @@ python download_csv_dump.py --batch-size 10000 --scroll 1m
 python download_csv_dump.py --base-url https://biscicol.org/phenobase/api/v1/query --index phenobase2
 ```
 
+Set a per-request timeout so stalled API calls fail fast instead of hanging indefinitely:
+
+```bash
+python download_csv_dump.py --request-timeout 60
+```
+
 This script uses `data/columns.csv` to define CSV column order, which keeps the output aligned with the schema used by the loader.
+
+### Rebuild `traits.csv` From PPO
+
+The trait hierarchy mapping in `data/traits.csv` is central to ingestion. It determines how an incoming `trait` value is expanded into the pipe-delimited `mappedTraits` list consumed by the loader.
+
+The reproducible rebuild workflow lives under [reasoning/README.md](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/README.md:1) and uses the PPO ontology hosted on GitHub `main`:
+
+`https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl`
+
+Run the rebuild from the repo root:
+
+```bash
+python3 reasoning/refresh_traits.py
+```
+
+This will:
+
+- download the current PPO ontology from GitHub `main`
+- snapshot the exact ontology used under `reasoning/<version>/ppo.owl`
+- regenerate `data/traits.csv`
+- publish `docs/traits.csv` for GitHub Pages
+- write build metadata to `reasoning/traits_build_metadata.json`
+
+Compatibility wrapper:
+
+```bash
+./reasoning/get_traits.sh
+```
+
+Quick verification after a rebuild:
+
+```bash
+python3 -m json.tool reasoning/traits_build_metadata.json
+git diff -- data/traits.csv
+```
+
+The rebuild also updates the static Pages viewer payload at `docs/traits-data.json`, which is rendered at:
+
+- `https://phenobase.github.io/phenobase_data/traits.html`
+
+### Ingest Procedure
+
+The recommended ingest sequence for a new Phenobase release is:
+
+1. Refresh the ontology-driven trait mapping with `python3 reasoning/refresh_traits.py`.
+2. Review `reasoning/traits_build_metadata.json` and diff `data/traits.csv`.
+3. Prepare the source dataset directory and add `transform.yaml` if source-specific trait normalization is required.
+4. Run a dry ingestion pass with `python3 loader.py --mode=<mode> --test --no-drop-existing <data_dir>`.
+5. Review `loading_errors.csv` and fix source-data or transform issues before the real load.
+6. Run the real load with `python3 loader.py --mode=<mode> --no-drop-existing <data_dir>`.
+7. If needed on a live index, backfill `decadeStart` with `python3 update_decade_start.py --wait`.
+8. Optionally validate the live index or export a review sample with `python3 download_csv_dump.py`.
+
+### Reasoning
+
+Trait reasoning is not ancillary metadata in this repository. It is the lookup layer that turns an observed trait into the derived `mappedTraits` hierarchy used during ingestion and later querying.
+
+Current reproducible reasoning artifacts:
+
+- [reasoning/refresh_traits.py](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/refresh_traits.py:1): refresh driver
+- [reasoning/traits_build_metadata.json](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/traits_build_metadata.json:1): exact source URL and ontology version used for the latest build
+- [reasoning/2026-05-06/ppo.owl](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/2026-05-06/ppo.owl:1): current ontology snapshot used for the latest regenerated traits file
+- [docs/index.html](/Users/jdeck/IdeaProjects/phenobase_data/docs/index.html:1) and [docs/traits.html](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits.html:1): static GitHub Pages documentation and rendered trait explorer
 
 ---
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhenoBase Data</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="site-home">
+  <div class="background-orb orb-a"></div>
+  <div class="background-orb orb-b"></div>
+  <main class="page-shell">
+    <section class="hero-card">
+      <p class="eyebrow">Phenobase Data</p>
+      <h1>Reasoning, trait hierarchy, and ingest workflow.</h1>
+      <p class="hero-copy">
+        This site publishes the reproducible PPO trait reasoning workflow used to generate
+        <code>data/traits.csv</code>, along with a shareable browser view of the current
+        rendered trait hierarchy.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="traits.html">Open Traits Explorer</a>
+        <a class="button button-secondary" href="traits-data.json">View Generated JSON</a>
+      </div>
+    </section>
+
+    <section class="info-grid">
+      <article class="info-card">
+        <p class="card-kicker">Reasoning</p>
+        <h2>How the traits file is derived</h2>
+        <p>
+          The source of truth is the PPO ontology hosted on GitHub <code>main</code>. The
+          refresh workflow downloads the ontology, snapshots the exact source version under
+          <code>reasoning/&lt;version&gt;/ppo.owl</code>, and regenerates the trait lookup table.
+        </p>
+        <pre><code>python3 reasoning/refresh_traits.py</code></pre>
+        <p>
+          The output includes:
+        </p>
+        <ul class="flat-list">
+          <li><code>data/traits.csv</code></li>
+          <li><code>reasoning/traits_build_metadata.json</code></li>
+          <li><code>docs/traits-data.json</code></li>
+        </ul>
+      </article>
+
+      <article class="info-card">
+        <p class="card-kicker">Ingest Procedure</p>
+        <h2>Recommended sequence for a new data release</h2>
+        <ol class="flat-list ordered-list">
+          <li>Refresh the PPO-based trait mapping with <code>python3 reasoning/refresh_traits.py</code>.</li>
+          <li>Review the ontology version and diff <code>data/traits.csv</code>.</li>
+          <li>Place release CSV files under the appropriate data directory and add <code>transform.yaml</code> if normalization is needed.</li>
+          <li>Dry-run ingestion with <code>python3 loader.py --mode=&lt;mode&gt; --test ...</code>.</li>
+          <li>Run the real load with <code>python3 loader.py --mode=&lt;mode&gt; --no-drop-existing ...</code> or rebuild from scratch if required.</li>
+          <li>Use <code>python3 update_decade_start.py --wait</code> if the live index needs the derived <code>decadeStart</code> field backfilled.</li>
+          <li>Export or inspect the live datastore with <code>python3 download_csv_dump.py</code> when you need a post-load verification sample or full dump.</li>
+        </ol>
+      </article>
+    </section>
+
+    <section class="feature-card">
+      <div>
+        <p class="card-kicker">Current Output</p>
+        <h2>Rendered traits file</h2>
+        <p>
+          The current generated traits table has a browser-friendly explorer with search,
+          filtering, direct parent/child links, and full mapped ancestor chains.
+        </p>
+      </div>
+      <div class="feature-actions">
+        <a class="button button-primary" href="traits.html">Open Rendered Traits File</a>
+        <a class="button button-secondary" href="traits.csv">Published CSV</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

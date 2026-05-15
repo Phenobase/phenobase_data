@@ -1,5 +1,5 @@
-curl -o ppo.owl https://raw.githubusercontent.com/PlantPhenoOntology/ppo/odk-conversion/ppo.owl
+#!/bin/sh
+set -eu
 
-robot query --input ppo.owl --query query.sparql results.tsv
-
-cat results.tsv
+cd "$(dirname "$0")/.."
+python3 reasoning/refresh_traits.py "$@"
