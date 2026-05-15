@@ -2,9 +2,9 @@
 
 ## User Guide
 
-- [Workflow overview](https://phenobase.github.io/phenobase_data/)
+Phenobase data loading prepares source observation releases for indexing in the Phenobase Elasticsearch datastore. The workflow begins by rebuilding the ontology-derived trait hierarchy, then uses that trait mapping during dataset normalization, validation, and loading so incoming observations can be indexed with consistent `trait` and `mappedTraits` values. For the current published trait outputs, use the [traits viewer](https://phenobase.github.io/phenobase_data/traits.html) and the [published `traits.csv`](https://phenobase.github.io/phenobase_data/traits.csv).
+
 - [View Traits](https://phenobase.github.io/phenobase_data/traits.html)
-- [Published traits CSV](https://phenobase.github.io/phenobase_data/traits.csv)
 
 ## Technical Details And Implementation Guide
 
