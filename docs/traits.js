@@ -171,8 +171,12 @@ function attachEvents() {
 }
 
 async function boot() {
-  const response = await fetch("traits-data.json", { cache: "no-store" });
-  traitData = await response.json();
+  if (window.TRAITS_DATA) {
+    traitData = window.TRAITS_DATA;
+  } else {
+    const response = await fetch("traits-data.json", { cache: "no-store" });
+    traitData = await response.json();
+  }
   updateStats();
   attachEvents();
   renderTraitList();

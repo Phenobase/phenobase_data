@@ -3,100 +3,251 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PhenoBase Data</title>
+  <title>Phenobase Data</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="site-home">
-  <div class="background-orb orb-a"></div>
-  <div class="background-orb orb-b"></div>
+  <div class="grid-field" aria-hidden="true"></div>
   <main class="page-shell">
-    <section class="hero-card">
-      <p class="eyebrow">Phenobase Data</p>
-      <h1>Reasoning first, then ingest, then maintenance.</h1>
-      <p class="hero-copy">
-        This page mirrors the main repository workflow. The first step is rebuilding the PPO-based
-        trait hierarchy in <code>data/traits.csv</code>. After that come ingest, validation, export,
-        and maintenance helpers.
-      </p>
-      <div class="hero-actions">
-        <a class="button button-primary" href="traits.html">Open Traits Explorer</a>
-        <a class="button button-secondary" href="traits.csv">Open Published Traits CSV</a>
+    <header class="site-bar">
+      <a class="site-mark" href="index.html">
+        <span class="site-mark-dot"></span>
+        <span>Phenobase Data</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#reasoning">Reasoning</a>
+        <a href="#ingest">Ingest</a>
+        <a href="#utilities">Utilities</a>
+        <a href="traits.html">Traits Explorer</a>
+      </nav>
+    </header>
+
+    <section class="hero-layout">
+      <div class="hero-copy-block">
+        <p class="eyebrow">Research Systems Design</p>
+        <h1>Phenology data, made research-ready.</h1>
+        <p class="hero-copy">
+          Phenobase starts with ontology reasoning, not styling or dashboards. First rebuild the
+          PPO-derived trait hierarchy. Then ingest, validate, and maintain the live datastore with
+          a workflow that stays legible under real release pressure.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="traits.html">Open Traits Explorer</a>
+          <a class="button button-secondary" href="traits.csv">Open Published Traits CSV</a>
+        </div>
       </div>
+
+      <aside class="hero-aside">
+        <section class="signal-card">
+          <p class="card-kicker">Current Build</p>
+          <div class="signal-grid">
+            <div>
+              <span class="signal-label">Ontology</span>
+              <strong class="signal-value" id="heroVersion">Loading...</strong>
+            </div>
+            <div>
+              <span class="signal-label">Traits</span>
+              <strong class="signal-value" id="heroRowCount">-</strong>
+            </div>
+            <div>
+              <span class="signal-label">Present</span>
+              <strong class="signal-value" id="heroPresentCount">-</strong>
+            </div>
+            <div>
+              <span class="signal-label">Absent</span>
+              <strong class="signal-value" id="heroAbsentCount">-</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="ontology-card">
+          <p class="card-kicker">Semantic Flow</p>
+          <svg class="ontology-diagram" viewBox="0 0 420 260" role="img" aria-label="Ontology reasoning and ingest flow">
+            <defs>
+              <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="currentColor"></path>
+              </marker>
+            </defs>
+            <g class="diagram-node-group">
+              <rect x="18" y="26" width="124" height="56" rx="16"></rect>
+              <text x="34" y="49">ppo.owl</text>
+              <text x="34" y="69">GitHub main</text>
+            </g>
+            <g class="diagram-node-group">
+              <rect x="154" y="102" width="132" height="60" rx="16"></rect>
+              <text x="173" y="127">refresh_traits.py</text>
+              <text x="173" y="148">reasoning pass</text>
+            </g>
+            <g class="diagram-node-group">
+              <rect x="298" y="28" width="106" height="54" rx="16"></rect>
+              <text x="317" y="50">traits.csv</text>
+              <text x="317" y="69">lookup table</text>
+            </g>
+            <g class="diagram-node-group">
+              <rect x="298" y="176" width="106" height="54" rx="16"></rect>
+              <text x="315" y="198">loader.py</text>
+              <text x="315" y="217">ingest</text>
+            </g>
+            <path class="diagram-line" d="M142 54 C170 54, 176 88, 186 102"></path>
+            <path class="diagram-line" d="M286 120 C314 118, 323 95, 330 82"></path>
+            <path class="diagram-line" d="M286 144 C313 154, 320 168, 330 176"></path>
+            <path class="diagram-line diagram-line-soft" d="M351 82 C352 118, 352 140, 352 176"></path>
+          </svg>
+        </section>
+      </aside>
     </section>
 
-    <section class="info-grid">
-      <article class="info-card">
-        <p class="card-kicker">Reasoning</p>
-        <h2>Start here for every release</h2>
-        <p>
-          The source of truth is the PPO ontology hosted on GitHub <code>main</code>. The refresh
-          workflow downloads the ontology, snapshots the exact version under
-          <code>reasoning/&lt;version&gt;/ppo.owl</code>, regenerates <code>data/traits.csv</code>,
-          and publishes the Pages viewer artifacts.
-        </p>
-        <pre><code>python3 reasoning/refresh_traits.py</code></pre>
-        <p>
-          Generated outputs:
-        </p>
-        <ul class="flat-list">
-          <li><code>data/traits.csv</code></li>
-          <li><code>docs/traits.csv</code></li>
-          <li><code>reasoning/traits_build_metadata.json</code></li>
-          <li><code>docs/traits-data.json</code></li>
-        </ul>
+    <section class="summary-strip">
+      <article class="summary-card">
+        <p class="card-kicker">Purpose</p>
+        <h2>Reduce ambiguity before loading data.</h2>
+        <p>Trait reasoning, transform rules, and explicit release steps keep scientific data workflows inspectable.</p>
       </article>
+      <article class="summary-card">
+        <p class="card-kicker">Tone</p>
+        <h2>Minimal, computational, calm.</h2>
+        <p>White space, restrained color, and modular sections are used to lower cognitive load during release work.</p>
+      </article>
+      <article class="summary-card">
+        <p class="card-kicker">Output</p>
+        <h2>Shareable trait hierarchy.</h2>
+        <p>The current ontology-derived trait table is published as both a CSV and an interactive browser view.</p>
+      </article>
+    </section>
 
-      <article class="info-card">
-        <p class="card-kicker">Ingest Procedure</p>
-        <h2>Recommended sequence for a new data release</h2>
-        <ol class="flat-list ordered-list">
-          <li>Refresh the PPO-based trait mapping with <code>python3 reasoning/refresh_traits.py</code>.</li>
-          <li>Review the ontology version and diff <code>data/traits.csv</code>.</li>
-          <li>Prepare the source dataset directory and optional <code>transform.yaml</code>.</li>
-          <li>Dry-run ingestion with <code>python3 loader.py --mode=&lt;mode&gt; --test ...</code>.</li>
-          <li>Review <code>loading_errors.csv</code> and fix transform or source-data issues.</li>
-          <li>Run the real load with <code>python3 loader.py --mode=&lt;mode&gt; --no-drop-existing ...</code>.</li>
-          <li>Use <code>python3 update_decade_start.py --wait</code> if the live index needs <code>decadeStart</code> backfilled.</li>
-          <li>Export or inspect the live datastore with <code>python3 download_csv_dump.py</code> if needed.</li>
+    <section id="reasoning" class="section-block">
+      <div class="section-head">
+        <p class="eyebrow">Reasoning</p>
+        <h2>Do this first for every release.</h2>
+      </div>
+
+      <div class="section-grid">
+        <article class="info-card">
+          <h3>Canonical source</h3>
+          <p>
+            The current workflow intentionally uses the PPO ontology on GitHub <code>main</code>.
+            The trait hierarchy is rebuilt from that source and versioned locally under
+            <code>reasoning/&lt;version&gt;/ppo.owl</code>.
+          </p>
+          <pre><code>python3 reasoning/refresh_traits.py</code></pre>
+        </article>
+
+        <article class="info-card">
+          <h3>Generated artifacts</h3>
+          <ul class="flat-list">
+            <li><code>data/traits.csv</code></li>
+            <li><code>docs/traits.csv</code></li>
+            <li><code>docs/traits-data.json</code></li>
+            <li><code>reasoning/traits_build_metadata.json</code></li>
+          </ul>
+        </article>
+      </div>
+
+      <article class="timeline-card">
+        <div class="timeline-head">
+          <p class="card-kicker">Reasoning Sequence</p>
+          <h3>Trait rebuild path</h3>
+        </div>
+        <ol class="timeline-list">
+          <li>
+            <span class="timeline-step">01</span>
+            <div>
+              <strong>Pull the current PPO ontology.</strong>
+              <p>Download the GitHub-hosted <code>ppo.owl</code> source used for the release.</p>
+            </div>
+          </li>
+          <li>
+            <span class="timeline-step">02</span>
+            <div>
+              <strong>Snapshot the exact ontology version.</strong>
+              <p>Store the build input under a versioned directory in <code>reasoning/</code>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="timeline-step">03</span>
+            <div>
+              <strong>Regenerate the trait lookup.</strong>
+              <p>Create <code>data/traits.csv</code> and publish the matching Pages outputs.</p>
+            </div>
+          </li>
+          <li>
+            <span class="timeline-step">04</span>
+            <div>
+              <strong>Review the semantic diff.</strong>
+              <p>Check new traits, renamed labels, and metadata before any ingest work begins.</p>
+            </div>
+          </li>
         </ol>
       </article>
     </section>
 
-    <section class="info-grid">
-      <article class="info-card">
-        <p class="card-kicker">Loading</p>
-        <h2>Main ingest command</h2>
-        <p>
-          The loader validates required fields using <code>data/columns.csv</code>, expands trait
-          mappings through <code>data/traits.csv</code>, and bulk indexes into Elasticsearch.
-        </p>
-        <pre><code>python3 loader.py --mode=&lt;machine|in_situ|herbarium&gt; --test --no-drop-existing &lt;data_dir&gt;</code></pre>
-      </article>
+    <section id="ingest" class="section-block">
+      <div class="section-head">
+        <p class="eyebrow">Ingest</p>
+        <h2>Structured loading, dry run first.</h2>
+      </div>
 
-      <article class="info-card">
-        <p class="card-kicker">Utilities</p>
-        <h2>Export and maintenance helpers</h2>
-        <ul class="flat-list">
-          <li><code>python3 download_csv_dump.py</code> for live API CSV exports</li>
-          <li><code>python3 update_decade_start.py --wait</code> for live index backfills</li>
-        </ul>
-      </article>
+      <div class="section-grid section-grid-wide">
+        <article class="info-card">
+          <h3>Release procedure</h3>
+          <ol class="flat-list ordered-list">
+            <li>Refresh the PPO-based trait mapping.</li>
+            <li>Review ontology version, traits diff, and metadata.</li>
+            <li>Prepare the dataset directory and optional <code>transform.yaml</code>.</li>
+            <li>Run a dry ingest with <code>loader.py --test</code>.</li>
+            <li>Resolve issues in <code>loading_errors.csv</code>.</li>
+            <li>Run the real ingest.</li>
+            <li>Backfill derived fields on the live index if needed.</li>
+          </ol>
+        </article>
+
+        <article class="info-card">
+          <h3>Main loader command</h3>
+          <pre><code>python3 loader.py \
+  --mode=&lt;machine|in_situ|herbarium&gt; \
+  --test \
+  --no-drop-existing \
+  &lt;data_dir&gt;</code></pre>
+          <p>
+            The loader validates required fields from <code>data/columns.csv</code>, expands
+            trait mappings through <code>data/traits.csv</code>, applies optional dataset-local
+            transforms, and bulk indexes into Elasticsearch.
+          </p>
+        </article>
+      </div>
     </section>
 
-    <section class="feature-card">
-      <div>
-        <p class="card-kicker">Current Output</p>
-        <h2>Rendered traits file</h2>
-        <p>
-          The current generated traits table has a browser-friendly explorer with search,
-          filtering, direct parent/child links, and full mapped ancestor chains.
-        </p>
+    <section id="utilities" class="section-block">
+      <div class="section-head">
+        <p class="eyebrow">Utilities</p>
+        <h2>Inspection and maintenance, after ingest.</h2>
       </div>
-      <div class="feature-actions">
-        <a class="button button-primary" href="traits.html">Open Rendered Traits File</a>
-        <a class="button button-secondary" href="traits.csv">Published CSV</a>
+
+      <div class="utility-grid">
+        <article class="utility-card">
+          <p class="card-kicker">Export</p>
+          <h3>CSV dump from the public query API</h3>
+          <p>Scroll through the live index and write a local CSV for review, sampling, or archival checks.</p>
+          <pre><code>python3 download_csv_dump.py --request-timeout 60</code></pre>
+        </article>
+
+        <article class="utility-card">
+          <p class="card-kicker">Maintenance</p>
+          <h3>Backfill <code>decadeStart</code></h3>
+          <p>Update the live index when the derived decade field needs to be added after a release.</p>
+          <pre><code>python3 update_decade_start.py --wait</code></pre>
+        </article>
+
+        <article class="utility-card">
+          <p class="card-kicker">Shared Output</p>
+          <h3>Rendered traits hierarchy</h3>
+          <p>Use the explorer for a quick ontology-facing review of direct parents, children, and mapped ancestor chains.</p>
+          <a class="text-link" href="traits.html">Open the current rendered traits file</a>
+        </article>
       </div>
     </section>
   </main>
+  <script src="traits-data.js"></script>
+  <script src="home.js"></script>
 </body>
 </html>

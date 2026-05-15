@@ -7,13 +7,24 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="traits-page">
-  <div class="background-orb orb-a"></div>
-  <div class="background-orb orb-b"></div>
   <main class="page-shell traits-shell">
+    <header class="site-bar">
+      <a class="site-mark" href="index.html">
+        <span class="site-mark-dot"></span>
+        <span>Phenobase Data</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html#reasoning">Reasoning</a>
+        <a href="index.html#ingest">Ingest</a>
+        <a href="index.html#utilities">Utilities</a>
+        <a href="traits.html">Traits Explorer</a>
+      </nav>
+    </header>
+
     <header class="traits-header">
       <div>
         <p class="eyebrow">Traits Explorer</p>
-        <h1>Rendered PPO trait hierarchy</h1>
+        <h1>Rendered PPO trait hierarchy.</h1>
         <p class="hero-copy">
           Search the generated <code>traits.csv</code>, browse the direct hierarchy, and inspect
           the mapped ancestor chain used during ingest.
@@ -102,6 +113,7 @@
       </section>
     </section>
   </main>
+  <script src="traits-data.js"></script>
   <script src="traits.js"></script>
 </body>
 </html>

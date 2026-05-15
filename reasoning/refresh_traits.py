@@ -18,6 +18,7 @@ DEFAULT_OUTPUT = "data/traits.csv"
 DEFAULT_REASONING_DIR = "reasoning"
 DEFAULT_DOCS_DATA = "docs/traits-data.json"
 DEFAULT_DOCS_CSV = "docs/traits.csv"
+DEFAULT_DOCS_DATA_JS = "docs/traits-data.js"
 
 NS = {
     "owl": "http://www.w3.org/2002/07/owl#",
@@ -54,6 +55,11 @@ def parse_args():
         "--docs-csv",
         default=DEFAULT_DOCS_CSV,
         help=f"Destination CSV path for GitHub Pages publishing (default: {DEFAULT_DOCS_CSV})",
+    )
+    parser.add_argument(
+        "--docs-data-js",
+        default=DEFAULT_DOCS_DATA_JS,
+        help=f"Destination JS path for filesystem-friendly trait viewer data (default: {DEFAULT_DOCS_DATA_JS})",
     )
     parser.add_argument(
         "--request-timeout",
@@ -279,6 +285,14 @@ def write_docs_payload(payload, output_path):
         json.dump(payload, fh, indent=2, sort_keys=True)
 
 
+def write_docs_payload_js(payload, output_path):
+    ensure_parent_dir(output_path)
+    with open(output_path, "w", encoding="utf-8") as fh:
+        fh.write("window.TRAITS_DATA = ")
+        json.dump(payload, fh, indent=2, sort_keys=True)
+        fh.write(";\n")
+
+
 def write_build_metadata(reasoning_dir, source_url, snapshot_path, ontology_meta, rows, output_path):
     metadata = {
         "generated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
@@ -303,9 +317,11 @@ def main():
     output_path = os.path.abspath(args.output)
     docs_data_path = os.path.abspath(args.docs_data)
     docs_csv_path = os.path.abspath(args.docs_csv)
+    docs_data_js_path = os.path.abspath(args.docs_data_js)
     ensure_parent_dir(output_path)
     ensure_parent_dir(docs_data_path)
     ensure_parent_dir(docs_csv_path)
+    ensure_parent_dir(docs_data_js_path)
     os.makedirs(reasoning_dir, exist_ok=True)
 
     with tempfile.TemporaryDirectory(prefix="ppo_refresh_") as temp_dir:
@@ -324,6 +340,7 @@ def main():
     copy_docs_csv(output_path, docs_csv_path)
     docs_payload = build_docs_payload(rows, ontology_meta, args.source_url)
     write_docs_payload(docs_payload, docs_data_path)
+    write_docs_payload_js(docs_payload, docs_data_js_path)
     metadata_path = write_build_metadata(
         reasoning_dir,
         args.source_url,
@@ -341,6 +358,7 @@ def main():
     print(f"Output CSV: {output_path}")
     print(f"Published CSV: {docs_csv_path}")
     print(f"Viewer data: {docs_data_path}")
+    print(f"Viewer data JS: {docs_data_js_path}")
     print(f"Build metadata: {metadata_path}")
     return 0
 

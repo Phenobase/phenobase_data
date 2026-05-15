@@ -1,4 +1,4 @@
-{
+window.TRAITS_DATA = {
   "absent_count": 94,
   "generated_at_utc": "2026-05-15T15:44:20+00:00",
   "nodes": [
@@ -4526,4 +4526,4 @@
   "source_url": "https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl",
   "version_info": "2026-05-06",
   "version_iri": "http://purl.obolibrary.org/obo/ppo/releases/2026-05-06/ppo.owl"
-}
+};
