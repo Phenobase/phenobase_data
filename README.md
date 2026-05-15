@@ -49,13 +49,13 @@ What this rebuild does:
 
 Current reasoning artifacts:
 
-- [reasoning/refresh_traits.py](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/refresh_traits.py:1)
-- [reasoning/traits_build_metadata.json](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/traits_build_metadata.json:1)
-- [reasoning/2025-05-05/ppo.owl](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/2025-05-05/ppo.owl:1)
-- [reasoning/2026-05-06/ppo.owl](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/2026-05-06/ppo.owl:1)
-- [data/traits.csv](/Users/jdeck/IdeaProjects/phenobase_data/data/traits.csv:1)
-- [docs/traits.csv](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits.csv:1)
-- [docs/traits-data.json](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits-data.json:1)
+- [reasoning/refresh_traits.py](reasoning/refresh_traits.py)
+- [reasoning/traits_build_metadata.json](reasoning/traits_build_metadata.json)
+- [reasoning/2025-05-05/ppo.owl](reasoning/2025-05-05/ppo.owl)
+- [reasoning/2026-05-06/ppo.owl](reasoning/2026-05-06/ppo.owl)
+- [data/traits.csv](data/traits.csv)
+- [docs/traits.csv](docs/traits.csv)
+- [docs/traits-data.json](docs/traits-data.json)
 
 Quick verification after a rebuild:
 
@@ -120,7 +120,7 @@ python3 update_decade_start.py --wait
 
 ## Loading Data
 
-The main loader is [loader.py](/Users/jdeck/IdeaProjects/phenobase_data/loader.py:1).
+The main loader is [loader.py](loader.py).
 
 What the loader does during a run:
 
@@ -309,7 +309,7 @@ trait_mappings:
 
 ### Download A CSV Dump
 
-Use [download_csv_dump.py](/Users/jdeck/IdeaProjects/phenobase_data/download_csv_dump.py:1) to scroll through the public Phenobase query API and write a local CSV.
+Use [download_csv_dump.py](download_csv_dump.py) to scroll through the public Phenobase query API and write a local CSV.
 
 ```bash
 python3 download_csv_dump.py
@@ -326,7 +326,7 @@ python3 download_csv_dump.py --request-timeout 60
 
 ### Backfill `decadeStart`
 
-Use [update_decade_start.py](/Users/jdeck/IdeaProjects/phenobase_data/update_decade_start.py:1) to add the mapping and backfill `decadeStart` on an existing live index without reloading source files.
+Use [update_decade_start.py](update_decade_start.py) to add the mapping and backfill `decadeStart` on an existing live index without reloading source files.
 
 ```bash
 python3 update_decade_start.py
@@ -340,19 +340,19 @@ The `docs/` folder is intended for GitHub Pages publication and for quick sharin
 
 Published outputs:
 
-- [docs/index.html](/Users/jdeck/IdeaProjects/phenobase_data/docs/index.html:1): workflow overview page
-- [docs/traits.html](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits.html:1): rendered trait explorer
-- [docs/traits.csv](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits.csv:1): published CSV copy
-- [docs/traits-data.json](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits-data.json:1): viewer payload
+- [docs/index.html](docs/index.html): GitHub Pages entry point redirecting to the traits viewer
+- [docs/traits.html](docs/traits.html): rendered trait explorer
+- [docs/traits.csv](docs/traits.csv): published CSV copy
+- [docs/traits-data.json](docs/traits-data.json): viewer payload
 
 ## Core Files
 
-- [data/traits.csv](/Users/jdeck/IdeaProjects/phenobase_data/data/traits.csv:1): ontology-derived trait mapping
-- [data/columns.csv](/Users/jdeck/IdeaProjects/phenobase_data/data/columns.csv:1): field definitions and schema metadata
-- [loader.py](/Users/jdeck/IdeaProjects/phenobase_data/loader.py:1): ingestion driver
-- [reasoning/refresh_traits.py](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/refresh_traits.py:1): reasoning rebuild driver
-- [download_csv_dump.py](/Users/jdeck/IdeaProjects/phenobase_data/download_csv_dump.py:1): API export helper
-- [update_decade_start.py](/Users/jdeck/IdeaProjects/phenobase_data/update_decade_start.py:1): live index backfill helper
+- [data/traits.csv](data/traits.csv): ontology-derived trait mapping
+- [data/columns.csv](data/columns.csv): field definitions and schema metadata
+- [loader.py](loader.py): ingestion driver
+- [reasoning/refresh_traits.py](reasoning/refresh_traits.py): reasoning rebuild driver
+- [download_csv_dump.py](download_csv_dump.py): API export helper
+- [update_decade_start.py](update_decade_start.py): live index backfill helper
 
 ## Requirements
 
