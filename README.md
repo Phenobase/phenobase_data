@@ -1,128 +1,44 @@
-# Elasticsearch Loader Script
+# Phenobase Data Workflow
 
-## Overview
+Rendered traits explorer:
 
-The `loader.py` script loads tabular data into Elasticsearch from CSV/TSV files. It performs validation using rules defined in `data/columns.csv` and data presence in `data/traits.csv`.
+- `https://phenobase.github.io/phenobase_data/traits.html`
 
-Published Pages:
+Other published Pages:
 
-- Workflow and reasoning overview: `https://phenobase.github.io/phenobase_data/`
-- Rendered traits explorer: `https://phenobase.github.io/phenobase_data/traits.html`
+- Workflow overview: `https://phenobase.github.io/phenobase_data/`
 - Published traits CSV: `https://phenobase.github.io/phenobase_data/traits.csv`
 
-The script supports three loading modes:
-- `machine`: for loading machine observation data
-- `in_situ`: for in_situ observations
-- `herbarium`: for herbarium record data
+## What This Repo Does
 
-Each mode uses specific required fields defined in `columns.csv`.
+This repository supports the Phenobase data pipeline around three core jobs:
 
----
+1. Rebuild the ontology-derived trait hierarchy in `data/traits.csv`.
+2. Load source CSV or TSV datasets into the Elasticsearch index used by Phenobase.
+3. Maintain and inspect the live datastore with export and backfill helpers.
 
-## Usage
+The trait reasoning step comes first. The loader depends on `data/traits.csv` to expand each incoming `trait` into the derived `mappedTraits` hierarchy used later for indexing and querying.
 
-```bash
-usage: loader.py [-h] --mode {machine,in_situ,herbarium} [--test] [--strict] [--batch-size BATCH_SIZE] [--progress-every PROGRESS_EVERY] data_dir drop_existing
-loader.py: error: the following arguments are required: data_dir, drop_existing, --mode
-```
+## Recommended Order
 
-### Options
+For a new release, the usual sequence is:
 
-```
-Positional
+1. Rebuild `data/traits.csv` from the latest PPO ontology.
+2. Review the ontology version and diff the regenerated traits file.
+3. Prepare the source dataset directory and optional `transform.yaml`.
+4. Run a dry ingestion pass with `loader.py --test`.
+5. Review `loading_errors.csv` and fix source-data or transform issues.
+6. Run the real ingestion.
+7. If needed, backfill `decadeStart` on the live index.
+8. Optionally export or inspect the live index with the CSV dump helper.
 
-data_dir Directory containing CSV files to load.
+## Reasoning
 
-Options
+Reasoning is the first step because it generates the trait lookup consumed during ingestion.
 
---mode {machine,in_situ,herbarium} (required)
---drop-existing / --no-drop-existing (default: --no-drop-existing)
---test Test mode (no ES insert).
---strict Reject rows with invalid field values after coercion.
---batch-size N Docs per bulk request (default: 5000).
---progress-every N Print progress every N rows (default: 50000).
-```
+Source of truth for the current workflow:
 
-### Example
-
-```bash
-# here is an example load script
-python loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing --batch-size 5000 --progress-every 50000
-python loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
-```
-
-### Backfill `decadeStart` on the live index
-
-Use the helper script in the repo root to add the mapping and run `_update_by_query` against the existing index without reloading source files:
-
-```bash
-python update_decade_start.py
-```
-
-Wait for completion synchronously:
-
-```bash
-python update_decade_start.py --wait
-```
-
-Throttle the job if needed:
-
-```bash
-python update_decade_start.py --requests-per-second 200
-```
-
-### Download a CSV dump through the API
-
-Use the helper script in the repo root to call the public Phenobase query API and scroll through the index until all matching rows are written to a local CSV.
-
-The script follows the same double-slash proxy convention already used by `phenobase_interface`, so it works with the current `biscicol-server` path-rewrite behavior.
-
-```bash
-python download_csv_dump.py
-```
-
-By default this:
-
-- queries the `phenobase2` index
-- uses a Lucene query of `*`
-- requests 5,000 rows per scroll page
-- keeps scrolling until the API returns no more hits
-- writes the CSV to `downloads/phenobase_dump.csv`
-
-Export a filtered subset with a Lucene query:
-
-```bash
-python download_csv_dump.py --query 'genus:Quercus AND year:[2000 TO 2025]' --output downloads/quercus.csv
-```
-
-Cap the export locally if needed:
-
-```bash
-python download_csv_dump.py --limit 100000
-```
-
-Tune the scroll page size or point at a different API base URL:
-
-```bash
-python download_csv_dump.py --batch-size 10000 --scroll 1m
-python download_csv_dump.py --base-url https://biscicol.org/phenobase/api/v1/query --index phenobase2
-```
-
-Set a per-request timeout so stalled API calls fail fast instead of hanging indefinitely:
-
-```bash
-python download_csv_dump.py --request-timeout 60
-```
-
-This script uses `data/columns.csv` to define CSV column order, which keeps the output aligned with the schema used by the loader.
-
-### Rebuild `traits.csv` From PPO
-
-The trait hierarchy mapping in `data/traits.csv` is central to ingestion. It determines how an incoming `trait` value is expanded into the pipe-delimited `mappedTraits` list consumed by the loader.
-
-The reproducible rebuild workflow lives under [reasoning/README.md](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/README.md:1) and uses the PPO ontology hosted on GitHub `main`:
-
-`https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl`
+- PPO GitHub `main`: `https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl`
 
 Run the rebuild from the repo root:
 
@@ -130,124 +46,157 @@ Run the rebuild from the repo root:
 python3 reasoning/refresh_traits.py
 ```
 
-This will:
-
-- download the current PPO ontology from GitHub `main`
-- snapshot the exact ontology used under `reasoning/<version>/ppo.owl`
-- regenerate `data/traits.csv`
-- publish `docs/traits.csv` for GitHub Pages
-- write build metadata to `reasoning/traits_build_metadata.json`
-
 Compatibility wrapper:
 
 ```bash
 ./reasoning/get_traits.sh
 ```
 
+What this rebuild does:
+
+- downloads the current PPO ontology from GitHub `main`
+- snapshots the exact ontology used under `reasoning/<version>/ppo.owl`
+- regenerates `data/traits.csv`
+- publishes `docs/traits.csv` for GitHub Pages
+- publishes `docs/traits-data.json` for the static viewer
+- writes `reasoning/traits_build_metadata.json`
+
+Current reasoning artifacts:
+
+- [reasoning/refresh_traits.py](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/refresh_traits.py:1)
+- [reasoning/traits_build_metadata.json](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/traits_build_metadata.json:1)
+- [reasoning/2025-05-05/ppo.owl](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/2025-05-05/ppo.owl:1)
+- [reasoning/2026-05-06/ppo.owl](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/2026-05-06/ppo.owl:1)
+- [data/traits.csv](/Users/jdeck/IdeaProjects/phenobase_data/data/traits.csv:1)
+- [docs/traits.csv](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits.csv:1)
+- [docs/traits-data.json](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits-data.json:1)
+
 Quick verification after a rebuild:
 
 ```bash
 python3 -m json.tool reasoning/traits_build_metadata.json
-git diff -- data/traits.csv
+git diff -- data/traits.csv docs/traits.csv docs/traits-data.json
 ```
 
-The rebuild also updates the static Pages viewer payload at `docs/traits-data.json`, which is rendered at:
+Trait mapping rules used by the rebuild:
 
-- `https://phenobase.github.io/phenobase_data/traits.html`
+- labels ending in ` present` are included
+- labels ending in ` absent` are included
+- `present` traits map to themselves plus transitive named PPO superclass traits that also end in ` present`
+- `absent` traits map only to themselves
 
-### Ingest Procedure
+## Ingest Procedure
 
-The recommended ingest sequence for a new Phenobase release is:
+Use this sequence for a new Phenobase data release:
 
 1. Refresh the ontology-driven trait mapping with `python3 reasoning/refresh_traits.py`.
 2. Review `reasoning/traits_build_metadata.json` and diff `data/traits.csv`.
-3. Prepare the source dataset directory and add `transform.yaml` if source-specific trait normalization is required.
-4. Run a dry ingestion pass with `python3 loader.py --mode=<mode> --test --no-drop-existing <data_dir>`.
-5. Review `loading_errors.csv` and fix source-data or transform issues before the real load.
-6. Run the real load with `python3 loader.py --mode=<mode> --no-drop-existing <data_dir>`.
-7. If needed on a live index, backfill `decadeStart` with `python3 update_decade_start.py --wait`.
-8. Optionally validate the live index or export a review sample with `python3 download_csv_dump.py`.
+3. Place source files in the correct data directory.
+4. Add `transform.yaml` if source-specific trait normalization is needed.
+5. Run a dry ingestion pass:
 
-### Reasoning
-
-Trait reasoning is not ancillary metadata in this repository. It is the lookup layer that turns an observed trait into the derived `mappedTraits` hierarchy used during ingestion and later querying.
-
-Current reproducible reasoning artifacts:
-
-- [reasoning/refresh_traits.py](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/refresh_traits.py:1): refresh driver
-- [reasoning/traits_build_metadata.json](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/traits_build_metadata.json:1): exact source URL and ontology version used for the latest build
-- [reasoning/2026-05-06/ppo.owl](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/2026-05-06/ppo.owl:1): current ontology snapshot used for the latest regenerated traits file
-- [docs/index.html](/Users/jdeck/IdeaProjects/phenobase_data/docs/index.html:1) and [docs/traits.html](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits.html:1): static GitHub Pages documentation and rendered trait explorer
-
----
-
-## Under the Hood
-
-### `traits.csv`
-
-- This file contains trait mappings from ontology trait terms to a pipe delimited list of parent terms
-
-### `columns.csv`
-
-- Defines schema for all fields that can be used in the Elasticsearch index.
-- Contains columns:
-  - `field`: The name of the field in the data.
-  - `datatype`: The expected type (e.g., `text`, `integer`, `float`, `boolean`, `date`, `keyword`, etc.)
-  - `machine_required`, `inat_required`, `herbarium_required`: Indicates if the field is required for a given mode.
-- Used for two purposes:
-  1. Validating presence of required fields.
-  2. Building Elasticsearch mappings dynamically.
-
-### `transform.yaml` (Optional)
-
-A per-dataset YAML file for applying simple value transformations before ingestion.
-If transform.yaml is present in the data_dir, it is loaded automatically.
-Only the trait field is currently transformed using this mechanism.
-
-Format:
+```bash
+python3 loader.py --mode=<machine|in_situ|herbarium> --test --no-drop-existing <data_dir>
 ```
-trait_mappings:
-  green leaves present: non-senescing unfolded true leaves present
-  senescent leaves: senescing leaves present
-  red leaves: colored leaves (non-green)
+
+6. Review `loading_errors.csv`.
+7. Run the real ingestion:
+
+```bash
+python3 loader.py --mode=<machine|in_situ|herbarium> --no-drop-existing <data_dir>
 ```
-If a value in the trait column matches a key in trait_mappings (case-insensitive), it is replaced by the corresponding value before validation or Elasticsearch indexing.
 
-This allows for normalizing heterogeneous trait values across datasets without modifying the main loader script.
+8. If the live index needs `decadeStart`, run:
 
-### Elasticsearch Mapping
+```bash
+python3 update_decade_start.py --wait
+```
 
-- The script uses `columns.csv` to generate the index mapping.
-- If `--drop_index` is passed, the script deletes the existing index and re-creates it using the generated mapping.
+## Loading Data
 
-### Error Reporting
+The main loader is [loader.py](/Users/jdeck/IdeaProjects/phenobase_data/loader.py:1).
 
-- Rows missing required fields or containing invalid values are logged.
-- A summary count of invalid rows is displayed after loading.
+Supported loading modes:
 
----
+- `machine`
+- `in_situ`
+- `herbarium`
+
+Example commands:
+
+```bash
+python3 loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
+```
+
+Main options:
+
+- `--test`: validate and simulate without writing to Elasticsearch
+- `--strict`: reject rows with coercion or validation problems
+- `--drop-existing`: recreate the target index before loading
+- `--batch-size`: bulk size for indexing
+- `--progress-every`: progress logging interval
+
+What the loader relies on:
+
+- `data/columns.csv` for schema and required fields
+- `data/traits.csv` for trait-to-`mappedTraits` expansion
+- optional dataset-local `transform.yaml` for normalization rules
+
+## Export And Maintenance Utilities
+
+### Download A CSV Dump
+
+Use [download_csv_dump.py](/Users/jdeck/IdeaProjects/phenobase_data/download_csv_dump.py:1) to scroll through the public Phenobase query API and write a local CSV.
+
+```bash
+python3 download_csv_dump.py
+```
+
+Useful variations:
+
+```bash
+python3 download_csv_dump.py --query 'genus:Quercus AND year:[2000 TO 2025]' --output downloads/quercus.csv
+python3 download_csv_dump.py --limit 100000
+python3 download_csv_dump.py --batch-size 10000 --scroll 1m
+python3 download_csv_dump.py --request-timeout 60
+```
+
+### Backfill `decadeStart`
+
+Use [update_decade_start.py](/Users/jdeck/IdeaProjects/phenobase_data/update_decade_start.py:1) to add the mapping and backfill `decadeStart` on an existing live index without reloading source files.
+
+```bash
+python3 update_decade_start.py
+python3 update_decade_start.py --wait
+python3 update_decade_start.py --requests-per-second 200
+```
+
+## Pages And Shared Outputs
+
+The `docs/` folder is intended for GitHub Pages publication and for quick sharing with collaborators.
+
+Published outputs:
+
+- [docs/index.html](/Users/jdeck/IdeaProjects/phenobase_data/docs/index.html:1): workflow overview page
+- [docs/traits.html](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits.html:1): rendered trait explorer
+- [docs/traits.csv](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits.csv:1): published CSV copy
+- [docs/traits-data.json](/Users/jdeck/IdeaProjects/phenobase_data/docs/traits-data.json:1): viewer payload
+
+## Core Files
+
+- [data/traits.csv](/Users/jdeck/IdeaProjects/phenobase_data/data/traits.csv:1): ontology-derived trait mapping
+- [data/columns.csv](/Users/jdeck/IdeaProjects/phenobase_data/data/columns.csv:1): field definitions and schema metadata
+- [loader.py](/Users/jdeck/IdeaProjects/phenobase_data/loader.py:1): ingestion driver
+- [reasoning/refresh_traits.py](/Users/jdeck/IdeaProjects/phenobase_data/reasoning/refresh_traits.py:1): reasoning rebuild driver
+- [download_csv_dump.py](/Users/jdeck/IdeaProjects/phenobase_data/download_csv_dump.py:1): API export helper
+- [update_decade_start.py](/Users/jdeck/IdeaProjects/phenobase_data/update_decade_start.py:1): live index backfill helper
 
 ## Requirements
 
 - Python 3.8+
-- Elasticsearch running locally or remotely (endpoint configured in script or via `.env` file)
-- `pandas`, `elasticsearch`, `python-dotenv`
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Notes
-
-- The index name is determined by mode (e.g., `inat-records`, `machine-records`, etc.)
-- Validation logic may be extended by modifying the script.
-- Ensure that `columns.csv` and `traits.csv` are present in the working directory or specified via `--data_dir`.
-
----
+- Java 11+ is available locally, though the current trait rebuild script uses only the Python standard library
+- Elasticsearch reachable for ingestion or maintenance commands
 
 ## Author
 
