@@ -26,7 +26,14 @@ Source of truth for the current workflow:
 
 - PPO GitHub `main`: `https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl`
 
-Run the rebuild from the repo root:
+For repeatability, this repo supports two ways to regenerate the trait mapping:
+
+- the default code method, which writes the canonical [data/traits.csv](data/traits.csv)
+- a separate ROBOT/SPARQL method, which writes [reasoning/robot/traits.csv](reasoning/robot/traits.csv) and a comparison report against the canonical file
+
+#### Method 1: Default Code Method
+
+Run the canonical rebuild from the repo root:
 
 ```bash
 python3 reasoning/refresh_traits.py
@@ -38,7 +45,7 @@ Compatibility wrapper:
 ./reasoning/get_traits.sh
 ```
 
-What this rebuild does:
+This method:
 
 - downloads the current PPO ontology from GitHub `main`
 - snapshots the exact ontology used under `reasoning/<version>/ppo.owl`
@@ -47,12 +54,58 @@ What this rebuild does:
 - publishes `docs/traits-data.json` for the static viewer
 - writes `reasoning/traits_build_metadata.json`
 
+#### Method 2: ROBOT/SPARQL Method
+
+The SPARQL query is kept in its own file for repeatability:
+
+- [reasoning/robot/traits_pairs.sparql](reasoning/robot/traits_pairs.sparql)
+
+The direct ROBOT query command is:
+
+```bash
+../robot/robot query \
+  --input reasoning/2026-05-06/ppo.owl \
+  --query reasoning/robot/traits_pairs.sparql reasoning/robot/traits_pairs.csv
+```
+
+That query emits flat trait-to-mapped-trait pairs. To group those pairs back into the Phenobase
+`traits.csv` shape and compare them with the canonical file, run:
+
+```bash
+python3 reasoning/refresh_traits_robot.py --skip-query \
+  --input-owl reasoning/2026-05-06/ppo.owl \
+  --pairs-output reasoning/robot/traits_pairs.csv
+```
+
+If you want the helper to run both the ROBOT query and the post-processing for you, use:
+
+```bash
+python3 reasoning/refresh_traits_robot.py
+```
+
+The ROBOT/SPARQL path writes:
+
+- `reasoning/robot/traits_pairs.csv`: raw ROBOT query output
+- `reasoning/robot/traits.csv`: grouped alternative traits output
+- `reasoning/robot/comparison.json`: comparison to `data/traits.csv`
+
+Current comparison summary for the local `2026-05-06` snapshot:
+
+- `189/189` traits matched by mapped-ID set semantics
+- `170/189` rows matched exactly
+- the remaining differences are ordering differences in `mappedTraitIDs` and `mappedTraits`
+
 Current reasoning artifacts:
 
 - [reasoning/refresh_traits.py](reasoning/refresh_traits.py)
+- [reasoning/refresh_traits_robot.py](reasoning/refresh_traits_robot.py)
 - [reasoning/traits_build_metadata.json](reasoning/traits_build_metadata.json)
 - [reasoning/2025-05-05/ppo.owl](reasoning/2025-05-05/ppo.owl)
 - [reasoning/2026-05-06/ppo.owl](reasoning/2026-05-06/ppo.owl)
+- [reasoning/robot/traits_pairs.sparql](reasoning/robot/traits_pairs.sparql)
+- [reasoning/robot/traits_pairs.csv](reasoning/robot/traits_pairs.csv)
+- [reasoning/robot/traits.csv](reasoning/robot/traits.csv)
+- [reasoning/robot/comparison.json](reasoning/robot/comparison.json)
 - [data/traits.csv](data/traits.csv)
 - [docs/traits.csv](docs/traits.csv)
 - [docs/traits-data.json](docs/traits-data.json)
@@ -62,6 +115,7 @@ Quick verification after a rebuild:
 ```bash
 python3 -m json.tool reasoning/traits_build_metadata.json
 git diff -- data/traits.csv docs/traits.csv docs/traits-data.json
+python3 -m json.tool reasoning/robot/comparison.json
 ```
 
 Trait mapping rules used by the rebuild:
