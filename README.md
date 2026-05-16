@@ -411,8 +411,11 @@ Published outputs:
 ## Requirements
 
 - Python 3.8+
-- Java 11+ is available locally, though the current trait rebuild script uses only the Python standard library
 - Elasticsearch reachable for ingestion or maintenance commands
+
+## License
+
+This repository is licensed under the [MIT License](LICENSE). Bundled ontology snapshots and other third-party source data may remain subject to their own upstream terms.
 
 ## Author
 
