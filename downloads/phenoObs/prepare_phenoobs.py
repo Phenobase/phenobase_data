@@ -22,10 +22,10 @@ if str(REPO_ROOT) not in sys.path:
 from trait_lookup import canonical_label_for_urn, load_traits_catalog
 
 
-DEFAULT_RAW_ROOT = REPO_ROOT / "data" / "phenoObs"
 DEFAULT_COORDS_XLSX = BASE_DIR / "Coordinates_PhenObs_Gardens.xlsx"
 DEFAULT_MAPPINGS_CSV = BASE_DIR / "mappings.csv"
 TRAITS_CSV = REPO_ROOT / "data" / "traits.csv"
+FALLBACK_RAW_ROOT = REPO_ROOT / "data" / "phenoObs"
 
 DATA_SOURCE = "PhenoObs"
 ANNOTATION_METHOD = "in_situ"
@@ -218,6 +218,13 @@ def raw_files(root):
                 yield Path(dirpath) / name
 
 
+def auto_raw_root():
+    for candidate in (BASE_DIR, FALLBACK_RAW_ROOT):
+        if any(raw_files(candidate)):
+            return candidate
+    return BASE_DIR
+
+
 def extract_genus(scientific_name):
     parts = scientific_name.split()
     return parts[0] if parts else ""
@@ -346,15 +353,21 @@ def main():
         description="Transform PhenoObs raw observations into one loader-ready CSV."
     )
     parser.add_argument(
-        "raw_root",
-        nargs="?",
-        default=str(DEFAULT_RAW_ROOT),
-        help="Directory containing rawdata_PhenObs_*.csv files. Defaults to data/phenoObs.",
+        "paths",
+        nargs="*",
+        help=(
+            "Optional paths. Use one CSV path for mappings, one directory path for raw_root, "
+            "or both as: <raw_root> <mappings_csv>."
+        ),
     )
     parser.add_argument(
-        "mappings_csv_path",
-        nargs="?",
-        default=str(DEFAULT_MAPPINGS_CSV),
+        "--raw-root",
+        default=None,
+        help="Directory containing rawdata_PhenObs_*.csv files. Defaults to auto-detecting downloads/phenoObs, then data/phenoObs.",
+    )
+    parser.add_argument(
+        "--mappings",
+        default=None,
         help="Trait mapping CSV. Defaults to downloads/phenoObs/mappings.csv.",
     )
     parser.add_argument(
@@ -369,12 +382,27 @@ def main():
     )
     args = parser.parse_args()
 
+    raw_root_arg = args.raw_root
+    mappings_arg = args.mappings
+    if len(args.paths) == 1:
+        only = Path(args.paths[0])
+        if only.suffix.lower() == ".csv":
+            mappings_arg = args.paths[0]
+        else:
+            raw_root_arg = args.paths[0]
+    elif len(args.paths) == 2:
+        raw_root_arg, mappings_arg = args.paths
+    elif len(args.paths) > 2:
+        parser.error("Expected at most two positional paths: <raw_root> <mappings_csv>")
+
     output_path = Path(args.output)
-    raw_root = Path(args.raw_root)
-    mappings_path = Path(args.mappings_csv_path)
+    raw_root = Path(raw_root_arg) if raw_root_arg else auto_raw_root()
+    mappings_path = Path(mappings_arg) if mappings_arg else DEFAULT_MAPPINGS_CSV
     coords_path = Path(args.coords)
 
     print(f"Output file: {output_path}")
+    print(f"Raw root: {raw_root}")
+    print(f"Mappings file: {mappings_path}")
 
     traits_catalog = load_traits_catalog(str(TRAITS_CSV))
     mappings = load_mappings(mappings_path, traits_catalog)
