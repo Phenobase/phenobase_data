@@ -200,6 +200,63 @@ python3 loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing
 python3 loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
 ```
 
+### Full Reload Synopsis
+
+For a clean rebuild, generate each dataset-specific loader CSV first, dry-run each directory, then run the real loads. The first real load should use `--drop-existing` so the Elasticsearch index starts fresh; every later dataset load should use `--no-drop-existing` so records are appended or updated into the same index.
+
+Refresh the source CSVs:
+
+```bash
+# NPN / NEON, from downloads/npn
+cd downloads/npn
+python3 fetchAndTransformNPNData.py 1956-01-01 2026-05-17 ./mappings.csv
+mkdir -p ingest
+mv npn_observations_1956-01-01_to_2026-05-17.csv ingest/
+cd ../..
+
+# PhenoObs, from repo root
+python3 downloads/phenoObs/prepare_phenoobs.py \
+  --raw-root downloads/phenoObs \
+  --mappings downloads/phenoObs/mappings.csv \
+  --output downloads/phenoObs/ingest/phenoObs_observations.csv
+
+# Budburst, from repo root
+python3 downloads/budburst/fetch_budburst.py \
+  --output downloads/budburst/ingest/budburst_observations.csv \
+  --workers 3 \
+  --timeout 300 \
+  --retries 8
+
+# SeasonWatch India, from repo root. Downloads the DwC-A only if missing.
+python3 downloads/seasonwatchindia/fetch_seasonwatchindia.py \
+  --output downloads/seasonwatchindia/ingest/seasonwatchindia_observations.csv
+```
+
+Run validation first:
+
+```bash
+python3 loader.py --mode=in_situ --test --no-drop-existing downloads/npn/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --test --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --test --no-drop-existing downloads/budburst/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --test --no-drop-existing downloads/seasonwatchindia/ingest --batch-size 5000 --progress-every 50000
+```
+
+Run the real in-situ reload. Drop the index only on the first dataset:
+
+```bash
+python3 loader.py --mode=in_situ --drop-existing downloads/npn/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --no-drop-existing downloads/budburst/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --no-drop-existing downloads/seasonwatchindia/ingest --batch-size 5000 --progress-every 50000
+```
+
+Load herbarium or machine-derived datasets after the in-situ sources. Keep using `--no-drop-existing`:
+
+```bash
+python3 loader.py --mode=herbarium --test --no-drop-existing downloads/herbarium --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=herbarium --no-drop-existing downloads/herbarium --batch-size 5000 --progress-every 50000
+```
+
 PhenoObs source preparation writes one loader-ready CSV, similar to the NPN transformer. The script auto-detects raw `rawdata_PhenObs_*.csv` files under `downloads/phenoObs` first, then falls back to `data/phenoObs`. The output should go into a clean loader directory that also contains `transform.yaml`:
 
 ```bash
