@@ -122,12 +122,18 @@ def request_text(url, *, params=None, headers=None, data=None, timeout=120, retr
                 return response.read().decode("utf-8")
         except urllib.error.HTTPError as err:
             detail = err.read().decode("utf-8", errors="replace")
-            if attempt >= retries or err.code < 500:
+            retryable = err.code == 429 or err.code >= 500
+            if attempt >= retries or not retryable:
                 raise RuntimeError(f"HTTP {err.code} from {full_url}: {detail[:1000]}") from err
+            retry_after = err.headers.get("Retry-After")
         except Exception:
             if attempt >= retries:
                 raise
-        sleep_seconds = min(30, 2 ** attempt)
+            retry_after = None
+        try:
+            sleep_seconds = int(retry_after) if retry_after else min(60, 2 ** attempt)
+        except Exception:
+            sleep_seconds = min(60, 2 ** attempt)
         print(f"Request failed for {full_url}; retrying in {sleep_seconds}s ({attempt}/{retries})...", flush=True)
         time.sleep(sleep_seconds)
     raise RuntimeError(f"Request failed after {retries} attempts: {full_url}")

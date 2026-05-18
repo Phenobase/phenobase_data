@@ -1,5 +1,9 @@
 data/*
 downloads/*
+!downloads/seasonwatchindia/
+downloads/seasonwatchindia/*
+!downloads/seasonwatchindia/fetch_seasonwatchindia.py
+!downloads/seasonwatchindia/mappings.csv
 !downloads/phenoObs/mappings.csv
 loading_errors.csv
 nohup.out
