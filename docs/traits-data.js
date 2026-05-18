@@ -1,0 +1,4529 @@
+window.TRAITS_DATA = {
+  "absent_count": 94,
+  "generated_at_utc": "2026-05-15T15:44:20+00:00",
+  "nodes": [
+    {
+      "direct_child_labels": [
+        "new vegetative shoot system present",
+        "vegetative bud present",
+        "vascular leaf present",
+        "reproductive structure present",
+        "non-vascular leaf present"
+      ],
+      "direct_children": [
+        "PPO:0002301",
+        "PPO:0002307",
+        "PPO:0002312",
+        "PPO:0002323",
+        "PPO:0002360"
+      ],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002300",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002300",
+      "label": "plant structure present",
+      "mapped_ids": [
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "new above-ground shoot-borne vegetative shoot system present",
+        "new vegetative shoot system emerging from ground present"
+      ],
+      "direct_children": [
+        "PPO:0002302",
+        "PPO:0002303"
+      ],
+      "direct_super_labels": [
+        "plant structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002300"
+      ],
+      "id": "PPO:0002301",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002301",
+      "label": "new vegetative shoot system present",
+      "mapped_ids": [
+        "PPO:0002301",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "new vegetative shoot system present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "breaking vegetative bud present"
+      ],
+      "direct_children": [
+        "PPO:0002311"
+      ],
+      "direct_super_labels": [
+        "new vegetative shoot system present"
+      ],
+      "direct_supers": [
+        "PPO:0002301"
+      ],
+      "id": "PPO:0002302",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002302",
+      "label": "new above-ground shoot-borne vegetative shoot system present",
+      "mapped_ids": [
+        "PPO:0002302",
+        "PPO:0002301",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "new above-ground shoot-borne vegetative shoot system present",
+        "new vegetative shoot system present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "new vegetative shoot system emerging from ground in first growth cycle present",
+        "new vegetative shoot system emerging from ground in later growth cycle present"
+      ],
+      "direct_children": [
+        "PPO:0002304",
+        "PPO:0002306"
+      ],
+      "direct_super_labels": [
+        "new vegetative shoot system present"
+      ],
+      "direct_supers": [
+        "PPO:0002301"
+      ],
+      "id": "PPO:0002303",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002303",
+      "label": "new vegetative shoot system emerging from ground present",
+      "mapped_ids": [
+        "PPO:0002303",
+        "PPO:0002301",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "new vegetative shoot system emerging from ground present",
+        "new vegetative shoot system present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "seedling present"
+      ],
+      "direct_children": [
+        "PPO:0002305"
+      ],
+      "direct_super_labels": [
+        "new vegetative shoot system emerging from ground present"
+      ],
+      "direct_supers": [
+        "PPO:0002303"
+      ],
+      "id": "PPO:0002304",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002304",
+      "label": "new vegetative shoot system emerging from ground in first growth cycle present",
+      "mapped_ids": [
+        "PPO:0002304",
+        "PPO:0002303",
+        "PPO:0002301",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "new vegetative shoot system emerging from ground in first growth cycle present",
+        "new vegetative shoot system emerging from ground present",
+        "new vegetative shoot system present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "new vegetative shoot system emerging from ground in first growth cycle present"
+      ],
+      "direct_supers": [
+        "PPO:0002304"
+      ],
+      "id": "PPO:0002305",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002305",
+      "label": "seedling present",
+      "mapped_ids": [
+        "PPO:0002305",
+        "PPO:0002304",
+        "PPO:0002303",
+        "PPO:0002301",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "seedling present",
+        "new vegetative shoot system emerging from ground in first growth cycle present",
+        "new vegetative shoot system emerging from ground present",
+        "new vegetative shoot system present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "new vegetative shoot system emerging from ground present"
+      ],
+      "direct_supers": [
+        "PPO:0002303"
+      ],
+      "id": "PPO:0002306",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002306",
+      "label": "new vegetative shoot system emerging from ground in later growth cycle present",
+      "mapped_ids": [
+        "PPO:0002306",
+        "PPO:0002303",
+        "PPO:0002301",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "new vegetative shoot system emerging from ground in later growth cycle present",
+        "new vegetative shoot system emerging from ground present",
+        "new vegetative shoot system present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "dormant vegetative bud present",
+        "non-dormant vegetative bud present"
+      ],
+      "direct_children": [
+        "PPO:0002308",
+        "PPO:0002309"
+      ],
+      "direct_super_labels": [
+        "plant structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002300"
+      ],
+      "id": "PPO:0002307",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002307",
+      "label": "vegetative bud present",
+      "mapped_ids": [
+        "PPO:0002307",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "vegetative bud present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "vegetative bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002307"
+      ],
+      "id": "PPO:0002308",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002308",
+      "label": "dormant vegetative bud present",
+      "mapped_ids": [
+        "PPO:0002308",
+        "PPO:0002307",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "dormant vegetative bud present",
+        "vegetative bud present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "swelling vegetative bud present",
+        "breaking vegetative bud present"
+      ],
+      "direct_children": [
+        "PPO:0002310",
+        "PPO:0002311"
+      ],
+      "direct_super_labels": [
+        "vegetative bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002307"
+      ],
+      "id": "PPO:0002309",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002309",
+      "label": "non-dormant vegetative bud present",
+      "mapped_ids": [
+        "PPO:0002309",
+        "PPO:0002307",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-dormant vegetative bud present",
+        "vegetative bud present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "non-dormant vegetative bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002309"
+      ],
+      "id": "PPO:0002310",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002310",
+      "label": "swelling vegetative bud present",
+      "mapped_ids": [
+        "PPO:0002310",
+        "PPO:0002309",
+        "PPO:0002307",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "swelling vegetative bud present",
+        "non-dormant vegetative bud present",
+        "vegetative bud present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "new above-ground shoot-borne vegetative shoot system present",
+        "non-dormant vegetative bud present",
+        "unfolding true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002302",
+        "PPO:0002309",
+        "PPO:0002314"
+      ],
+      "id": "PPO:0002311",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002311",
+      "label": "breaking vegetative bud present",
+      "mapped_ids": [
+        "PPO:0002311",
+        "PPO:0002302",
+        "PPO:0002301",
+        "PPO:0002300",
+        "PPO:0002309",
+        "PPO:0002307",
+        "PPO:0002314",
+        "PPO:0002322",
+        "PPO:0002313",
+        "PPO:0002312"
+      ],
+      "mapped_labels": [
+        "breaking vegetative bud present",
+        "new above-ground shoot-borne vegetative shoot system present",
+        "new vegetative shoot system present",
+        "plant structure present",
+        "non-dormant vegetative bud present",
+        "vegetative bud present",
+        "unfolding true leaf present",
+        "expanding true leaf present",
+        "true leaf present",
+        "vascular leaf present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "true leaf present"
+      ],
+      "direct_children": [
+        "PPO:0002313"
+      ],
+      "direct_super_labels": [
+        "plant structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002300"
+      ],
+      "id": "PPO:0002312",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002312",
+      "label": "vascular leaf present",
+      "mapped_ids": [
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "unfolded true leaf present",
+        "expanding true leaf present"
+      ],
+      "direct_children": [
+        "PPO:0002315",
+        "PPO:0002322"
+      ],
+      "direct_super_labels": [
+        "vascular leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002312"
+      ],
+      "id": "PPO:0002313",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002313",
+      "label": "true leaf present",
+      "mapped_ids": [
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "breaking vegetative bud present"
+      ],
+      "direct_children": [
+        "PPO:0002311"
+      ],
+      "direct_super_labels": [
+        "expanding true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002322"
+      ],
+      "id": "PPO:0002314",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002314",
+      "label": "unfolding true leaf present",
+      "mapped_ids": [
+        "PPO:0002314",
+        "PPO:0002322",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "unfolding true leaf present",
+        "expanding true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "non-senescing unfolded true leaf present",
+        "senescing true leaf present"
+      ],
+      "direct_children": [
+        "PPO:0002316",
+        "PPO:0002317"
+      ],
+      "direct_super_labels": [
+        "true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002313"
+      ],
+      "id": "PPO:0002315",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002315",
+      "label": "unfolded true leaf present",
+      "mapped_ids": [
+        "PPO:0002315",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "unfolded true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "immature unfolded true leaf present",
+        "mature true leaf present"
+      ],
+      "direct_children": [
+        "PPO:0002318",
+        "PPO:0002319"
+      ],
+      "direct_super_labels": [
+        "unfolded true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002315"
+      ],
+      "id": "PPO:0002316",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002316",
+      "label": "non-senescing unfolded true leaf present",
+      "mapped_ids": [
+        "PPO:0002316",
+        "PPO:0002315",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-senescing unfolded true leaf present",
+        "unfolded true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "senesced true leaf present"
+      ],
+      "direct_children": [
+        "PPO:0002370"
+      ],
+      "direct_super_labels": [
+        "unfolded true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002315"
+      ],
+      "id": "PPO:0002317",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002317",
+      "label": "senescing true leaf present",
+      "mapped_ids": [
+        "PPO:0002317",
+        "PPO:0002315",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senescing true leaf present",
+        "unfolded true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "expanding unfolded true leaf present",
+        "expanded immature true leaf present"
+      ],
+      "direct_children": [
+        "PPO:0002320",
+        "PPO:0002321"
+      ],
+      "direct_super_labels": [
+        "non-senescing unfolded true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002316"
+      ],
+      "id": "PPO:0002318",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002318",
+      "label": "immature unfolded true leaf present",
+      "mapped_ids": [
+        "PPO:0002318",
+        "PPO:0002316",
+        "PPO:0002315",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "immature unfolded true leaf present",
+        "non-senescing unfolded true leaf present",
+        "unfolded true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "non-senescing unfolded true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002316"
+      ],
+      "id": "PPO:0002319",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002319",
+      "label": "mature true leaf present",
+      "mapped_ids": [
+        "PPO:0002319",
+        "PPO:0002316",
+        "PPO:0002315",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "mature true leaf present",
+        "non-senescing unfolded true leaf present",
+        "unfolded true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "immature unfolded true leaf present",
+        "expanding true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002318",
+        "PPO:0002322"
+      ],
+      "id": "PPO:0002320",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002320",
+      "label": "expanding unfolded true leaf present",
+      "mapped_ids": [
+        "PPO:0002320",
+        "PPO:0002318",
+        "PPO:0002316",
+        "PPO:0002315",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300",
+        "PPO:0002322"
+      ],
+      "mapped_labels": [
+        "expanding unfolded true leaf present",
+        "immature unfolded true leaf present",
+        "non-senescing unfolded true leaf present",
+        "unfolded true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present",
+        "expanding true leaf present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "immature unfolded true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002318"
+      ],
+      "id": "PPO:0002321",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002321",
+      "label": "expanded immature true leaf present",
+      "mapped_ids": [
+        "PPO:0002321",
+        "PPO:0002318",
+        "PPO:0002316",
+        "PPO:0002315",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "expanded immature true leaf present",
+        "immature unfolded true leaf present",
+        "non-senescing unfolded true leaf present",
+        "unfolded true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "unfolding true leaf present",
+        "expanding unfolded true leaf present"
+      ],
+      "direct_children": [
+        "PPO:0002314",
+        "PPO:0002320"
+      ],
+      "direct_super_labels": [
+        "true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002313"
+      ],
+      "id": "PPO:0002322",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002322",
+      "label": "expanding true leaf present",
+      "mapped_ids": [
+        "PPO:0002322",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "expanding true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "reproductive shoot system present",
+        "simple fruit or compound fruit present"
+      ],
+      "direct_children": [
+        "PPO:0002324",
+        "PPO:0002342"
+      ],
+      "direct_super_labels": [
+        "plant structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002300"
+      ],
+      "id": "PPO:0002323",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002323",
+      "label": "reproductive structure present",
+      "mapped_ids": [
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "non-senesced reproductive shoot system present",
+        "flower present",
+        "inflorescence present",
+        "strobilus present",
+        "reproductive bud present"
+      ],
+      "direct_children": [
+        "PPO:0002325",
+        "PPO:0002330",
+        "PPO:0002336",
+        "PPO:0002346",
+        "PPO:0002384"
+      ],
+      "direct_super_labels": [
+        "reproductive structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002323"
+      ],
+      "id": "PPO:0002324",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002324",
+      "label": "reproductive shoot system present",
+      "mapped_ids": [
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "unopened reproductive shoot system present",
+        "open reproductive shoot system present"
+      ],
+      "direct_children": [
+        "PPO:0002326",
+        "PPO:0002327"
+      ],
+      "direct_super_labels": [
+        "reproductive shoot system present"
+      ],
+      "direct_supers": [
+        "PPO:0002324"
+      ],
+      "id": "PPO:0002325",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002325",
+      "label": "non-senesced reproductive shoot system present",
+      "mapped_ids": [
+        "PPO:0002325",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-senesced reproductive shoot system present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "non-senesced reproductive shoot system present"
+      ],
+      "direct_supers": [
+        "PPO:0002325"
+      ],
+      "id": "PPO:0002326",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002326",
+      "label": "unopened reproductive shoot system present",
+      "mapped_ids": [
+        "PPO:0002326",
+        "PPO:0002325",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "unopened reproductive shoot system present",
+        "non-senesced reproductive shoot system present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "pollen-releasing reproductive shoot system present"
+      ],
+      "direct_children": [
+        "PPO:0002328"
+      ],
+      "direct_super_labels": [
+        "non-senesced reproductive shoot system present",
+        "flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002325",
+        "PPO:0002330"
+      ],
+      "id": "PPO:0002327",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002327",
+      "label": "open reproductive shoot system present",
+      "mapped_ids": [
+        "PPO:0002327",
+        "PPO:0002325",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002330"
+      ],
+      "mapped_labels": [
+        "open reproductive shoot system present",
+        "non-senesced reproductive shoot system present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "flower present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "open reproductive shoot system present",
+        "pollen-releasing flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002327",
+        "PPO:0002334"
+      ],
+      "id": "PPO:0002328",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002328",
+      "label": "pollen-releasing reproductive shoot system present",
+      "mapped_ids": [
+        "PPO:0002328",
+        "PPO:0002327",
+        "PPO:0002325",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002330",
+        "PPO:0002334",
+        "PPO:0002333",
+        "PPO:0002331"
+      ],
+      "mapped_labels": [
+        "pollen-releasing reproductive shoot system present",
+        "open reproductive shoot system present",
+        "non-senesced reproductive shoot system present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "flower present",
+        "pollen-releasing flower present",
+        "open flower present",
+        "non-senesced flower present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "senesced flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002335"
+      ],
+      "id": "PPO:0002329",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002329",
+      "label": "senesced reproductive shoot system present",
+      "mapped_ids": [
+        "PPO:0002329",
+        "PPO:0002335",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced reproductive shoot system present",
+        "senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "open reproductive shoot system present",
+        "non-senesced flower present",
+        "senesced flower present"
+      ],
+      "direct_children": [
+        "PPO:0002327",
+        "PPO:0002331",
+        "PPO:0002335"
+      ],
+      "direct_super_labels": [
+        "reproductive shoot system present"
+      ],
+      "direct_supers": [
+        "PPO:0002324"
+      ],
+      "id": "PPO:0002330",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002330",
+      "label": "flower present",
+      "mapped_ids": [
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "unopened flower present",
+        "open flower present",
+        "non-senesced staminate flower present",
+        "non-senesced pistillate flower present"
+      ],
+      "direct_children": [
+        "PPO:0002332",
+        "PPO:0002333",
+        "PPO:0002365",
+        "PPO:0002366"
+      ],
+      "direct_super_labels": [
+        "flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002330"
+      ],
+      "id": "PPO:0002331",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002331",
+      "label": "non-senesced flower present",
+      "mapped_ids": [
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "unopened staminate flower present",
+        "unopened pistillate flower present"
+      ],
+      "direct_children": [
+        "PPO:0002363",
+        "PPO:0002364"
+      ],
+      "direct_super_labels": [
+        "non-senesced flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002331"
+      ],
+      "id": "PPO:0002332",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002332",
+      "label": "unopened flower present",
+      "mapped_ids": [
+        "PPO:0002332",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "unopened flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "pollen-releasing flower present",
+        "open inflorescence present",
+        "open pistillate flower present",
+        "open staminate flower present"
+      ],
+      "direct_children": [
+        "PPO:0002334",
+        "PPO:0002339",
+        "PPO:0002361",
+        "PPO:0002362"
+      ],
+      "direct_super_labels": [
+        "non-senesced flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002331"
+      ],
+      "id": "PPO:0002333",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002333",
+      "label": "open flower present",
+      "mapped_ids": [
+        "PPO:0002333",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "open flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "pollen-releasing reproductive shoot system present",
+        "pollen-releasing inflorescence present",
+        "pollen-releasing staminate flower present"
+      ],
+      "direct_children": [
+        "PPO:0002328",
+        "PPO:0002340",
+        "PPO:0002369"
+      ],
+      "direct_super_labels": [
+        "open flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002333"
+      ],
+      "id": "PPO:0002334",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002334",
+      "label": "pollen-releasing flower present",
+      "mapped_ids": [
+        "PPO:0002334",
+        "PPO:0002333",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "pollen-releasing flower present",
+        "open flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "senesced reproductive shoot system present",
+        "senesced staminate flower present",
+        "senesced pistillate flower present"
+      ],
+      "direct_children": [
+        "PPO:0002329",
+        "PPO:0002367",
+        "PPO:0002368"
+      ],
+      "direct_super_labels": [
+        "flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002330"
+      ],
+      "id": "PPO:0002335",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002335",
+      "label": "senesced flower present",
+      "mapped_ids": [
+        "PPO:0002335",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "non-senesced inflorescence present",
+        "senesced inflorescence present"
+      ],
+      "direct_children": [
+        "PPO:0002337",
+        "PPO:0002341"
+      ],
+      "direct_super_labels": [
+        "reproductive shoot system present"
+      ],
+      "direct_supers": [
+        "PPO:0002324"
+      ],
+      "id": "PPO:0002336",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002336",
+      "label": "inflorescence present",
+      "mapped_ids": [
+        "PPO:0002336",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "inflorescence present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "unopened inflorescence present",
+        "open inflorescence present"
+      ],
+      "direct_children": [
+        "PPO:0002338",
+        "PPO:0002339"
+      ],
+      "direct_super_labels": [
+        "inflorescence present"
+      ],
+      "direct_supers": [
+        "PPO:0002336"
+      ],
+      "id": "PPO:0002337",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002337",
+      "label": "non-senesced inflorescence present",
+      "mapped_ids": [
+        "PPO:0002337",
+        "PPO:0002336",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-senesced inflorescence present",
+        "inflorescence present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "non-senesced inflorescence present"
+      ],
+      "direct_supers": [
+        "PPO:0002337"
+      ],
+      "id": "PPO:0002338",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002338",
+      "label": "unopened inflorescence present",
+      "mapped_ids": [
+        "PPO:0002338",
+        "PPO:0002337",
+        "PPO:0002336",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "unopened inflorescence present",
+        "non-senesced inflorescence present",
+        "inflorescence present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "pollen-releasing inflorescence present"
+      ],
+      "direct_children": [
+        "PPO:0002340"
+      ],
+      "direct_super_labels": [
+        "open flower present",
+        "non-senesced inflorescence present"
+      ],
+      "direct_supers": [
+        "PPO:0002333",
+        "PPO:0002337"
+      ],
+      "id": "PPO:0002339",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002339",
+      "label": "open inflorescence present",
+      "mapped_ids": [
+        "PPO:0002339",
+        "PPO:0002333",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002337",
+        "PPO:0002336"
+      ],
+      "mapped_labels": [
+        "open inflorescence present",
+        "open flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-senesced inflorescence present",
+        "inflorescence present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "pollen-releasing flower present",
+        "open inflorescence present"
+      ],
+      "direct_supers": [
+        "PPO:0002334",
+        "PPO:0002339"
+      ],
+      "id": "PPO:0002340",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002340",
+      "label": "pollen-releasing inflorescence present",
+      "mapped_ids": [
+        "PPO:0002340",
+        "PPO:0002334",
+        "PPO:0002333",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002339",
+        "PPO:0002337",
+        "PPO:0002336"
+      ],
+      "mapped_labels": [
+        "pollen-releasing inflorescence present",
+        "pollen-releasing flower present",
+        "open flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "open inflorescence present",
+        "non-senesced inflorescence present",
+        "inflorescence present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "inflorescence present"
+      ],
+      "direct_supers": [
+        "PPO:0002336"
+      ],
+      "id": "PPO:0002341",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002341",
+      "label": "senesced inflorescence present",
+      "mapped_ids": [
+        "PPO:0002341",
+        "PPO:0002336",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced inflorescence present",
+        "inflorescence present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "ripe fruit present",
+        "developing fruit present",
+        "senescing fruit present",
+        "senesced fruit present"
+      ],
+      "direct_children": [
+        "PPO:0002345",
+        "PPO:0002377",
+        "PPO:0002379",
+        "PPO:0002388"
+      ],
+      "direct_super_labels": [
+        "reproductive structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002323"
+      ],
+      "id": "PPO:0002342",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002342",
+      "label": "simple fruit or compound fruit present",
+      "mapped_ids": [
+        "PPO:0002342",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "simple fruit or compound fruit present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002343",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002343",
+      "label": "ripening fruit present",
+      "mapped_ids": [
+        "PPO:0002343"
+      ],
+      "mapped_labels": [
+        "ripening fruit present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002344",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002344",
+      "label": "unripe fruit present",
+      "mapped_ids": [
+        "PPO:0002344"
+      ],
+      "mapped_labels": [
+        "unripe fruit present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "dehiscing ripe fruit present"
+      ],
+      "direct_children": [
+        "PPO:0002378"
+      ],
+      "direct_super_labels": [
+        "simple fruit or compound fruit present"
+      ],
+      "direct_supers": [
+        "PPO:0002342"
+      ],
+      "id": "PPO:0002345",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002345",
+      "label": "ripe fruit present",
+      "mapped_ids": [
+        "PPO:0002345",
+        "PPO:0002342",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "ripe fruit present",
+        "simple fruit or compound fruit present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "microsporangiate strobilus present",
+        "megasporangiate strobilus present"
+      ],
+      "direct_children": [
+        "PPO:0002347",
+        "PPO:0002351"
+      ],
+      "direct_super_labels": [
+        "reproductive shoot system present"
+      ],
+      "direct_supers": [
+        "PPO:0002324"
+      ],
+      "id": "PPO:0002346",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002346",
+      "label": "strobilus present",
+      "mapped_ids": [
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "non-senesced microsporangiate strobilus present",
+        "senesced microsporangiate strobilus present"
+      ],
+      "direct_children": [
+        "PPO:0002348",
+        "PPO:0002376"
+      ],
+      "direct_super_labels": [
+        "strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002346"
+      ],
+      "id": "PPO:0002347",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002347",
+      "label": "microsporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002347",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "microsporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "open microsporangiate strobilus present",
+        "unopened microsporangiate strobilus present"
+      ],
+      "direct_children": [
+        "PPO:0002349",
+        "PPO:0002375"
+      ],
+      "direct_super_labels": [
+        "microsporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002347"
+      ],
+      "id": "PPO:0002348",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002348",
+      "label": "non-senesced microsporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002348",
+        "PPO:0002347",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-senesced microsporangiate strobilus present",
+        "microsporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "pollen-releasing microsporangiate strobilus present"
+      ],
+      "direct_children": [
+        "PPO:0002350"
+      ],
+      "direct_super_labels": [
+        "non-senesced microsporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002348"
+      ],
+      "id": "PPO:0002349",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002349",
+      "label": "open microsporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002349",
+        "PPO:0002348",
+        "PPO:0002347",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "open microsporangiate strobilus present",
+        "non-senesced microsporangiate strobilus present",
+        "microsporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "open microsporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002349"
+      ],
+      "id": "PPO:0002350",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002350",
+      "label": "pollen-releasing microsporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002350",
+        "PPO:0002349",
+        "PPO:0002348",
+        "PPO:0002347",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "pollen-releasing microsporangiate strobilus present",
+        "open microsporangiate strobilus present",
+        "non-senesced microsporangiate strobilus present",
+        "microsporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "non-senesced megasporangiate strobilus present",
+        "dehisced megasporangiate strobilus present",
+        "senesced megasporangiate strobilus present"
+      ],
+      "direct_children": [
+        "PPO:0002352",
+        "PPO:0002374",
+        "PPO:0002387"
+      ],
+      "direct_super_labels": [
+        "strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002346"
+      ],
+      "id": "PPO:0002351",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002351",
+      "label": "megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "unopened megasporangiate strobilus present",
+        "open megasporangiate strobilus present"
+      ],
+      "direct_children": [
+        "PPO:0002354",
+        "PPO:0002371"
+      ],
+      "direct_super_labels": [
+        "megasporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002351"
+      ],
+      "id": "PPO:0002352",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002352",
+      "label": "non-senesced megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002352",
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-senesced megasporangiate strobilus present",
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002353",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002353",
+      "label": "ripening megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002353"
+      ],
+      "mapped_labels": [
+        "ripening megasporangiate strobilus present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "non-senesced megasporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002352"
+      ],
+      "id": "PPO:0002354",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002354",
+      "label": "unopened megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002354",
+        "PPO:0002352",
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "unopened megasporangiate strobilus present",
+        "non-senesced megasporangiate strobilus present",
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002355",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002355",
+      "label": "ripe megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002355"
+      ],
+      "mapped_labels": [
+        "ripe megasporangiate strobilus present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "abscised leaf present",
+        "abscised fruit present",
+        "abscised megasporangiate strobilus present"
+      ],
+      "direct_children": [
+        "PPO:0002357",
+        "PPO:0002358",
+        "PPO:0002359"
+      ],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002356",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002356",
+      "label": "abscised plant structure present",
+      "mapped_ids": [
+        "PPO:0002356"
+      ],
+      "mapped_labels": [
+        "abscised plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "abscised plant structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002356"
+      ],
+      "id": "PPO:0002357",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002357",
+      "label": "abscised leaf present",
+      "mapped_ids": [
+        "PPO:0002357",
+        "PPO:0002356"
+      ],
+      "mapped_labels": [
+        "abscised leaf present",
+        "abscised plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "abscised plant structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002356"
+      ],
+      "id": "PPO:0002358",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002358",
+      "label": "abscised fruit present",
+      "mapped_ids": [
+        "PPO:0002358",
+        "PPO:0002356"
+      ],
+      "mapped_labels": [
+        "abscised fruit present",
+        "abscised plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "abscised plant structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002356"
+      ],
+      "id": "PPO:0002359",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002359",
+      "label": "abscised megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002359",
+        "PPO:0002356"
+      ],
+      "mapped_labels": [
+        "abscised megasporangiate strobilus present",
+        "abscised plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "plant structure present"
+      ],
+      "direct_supers": [
+        "PPO:0002300"
+      ],
+      "id": "PPO:0002360",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002360",
+      "label": "non-vascular leaf present",
+      "mapped_ids": [
+        "PPO:0002360",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "open flower present",
+        "non-senesced pistillate flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002333",
+        "PPO:0002366"
+      ],
+      "id": "PPO:0002361",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002361",
+      "label": "open pistillate flower present",
+      "mapped_ids": [
+        "PPO:0002361",
+        "PPO:0002333",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002366"
+      ],
+      "mapped_labels": [
+        "open pistillate flower present",
+        "open flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-senesced pistillate flower present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "pollen-releasing staminate flower present"
+      ],
+      "direct_children": [
+        "PPO:0002369"
+      ],
+      "direct_super_labels": [
+        "open flower present",
+        "non-senesced staminate flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002333",
+        "PPO:0002365"
+      ],
+      "id": "PPO:0002362",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002362",
+      "label": "open staminate flower present",
+      "mapped_ids": [
+        "PPO:0002362",
+        "PPO:0002333",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002365"
+      ],
+      "mapped_labels": [
+        "open staminate flower present",
+        "open flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-senesced staminate flower present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "unopened flower present",
+        "non-senesced staminate flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002332",
+        "PPO:0002365"
+      ],
+      "id": "PPO:0002363",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002363",
+      "label": "unopened staminate flower present",
+      "mapped_ids": [
+        "PPO:0002363",
+        "PPO:0002332",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002365"
+      ],
+      "mapped_labels": [
+        "unopened staminate flower present",
+        "unopened flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-senesced staminate flower present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "unopened flower present",
+        "non-senesced pistillate flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002332",
+        "PPO:0002366"
+      ],
+      "id": "PPO:0002364",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002364",
+      "label": "unopened pistillate flower present",
+      "mapped_ids": [
+        "PPO:0002364",
+        "PPO:0002332",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002366"
+      ],
+      "mapped_labels": [
+        "unopened pistillate flower present",
+        "unopened flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-senesced pistillate flower present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "open staminate flower present",
+        "unopened staminate flower present"
+      ],
+      "direct_children": [
+        "PPO:0002362",
+        "PPO:0002363"
+      ],
+      "direct_super_labels": [
+        "non-senesced flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002331"
+      ],
+      "id": "PPO:0002365",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002365",
+      "label": "non-senesced staminate flower present",
+      "mapped_ids": [
+        "PPO:0002365",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-senesced staminate flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "open pistillate flower present",
+        "unopened pistillate flower present"
+      ],
+      "direct_children": [
+        "PPO:0002361",
+        "PPO:0002364"
+      ],
+      "direct_super_labels": [
+        "non-senesced flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002331"
+      ],
+      "id": "PPO:0002366",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002366",
+      "label": "non-senesced pistillate flower present",
+      "mapped_ids": [
+        "PPO:0002366",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-senesced pistillate flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "senesced flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002335"
+      ],
+      "id": "PPO:0002367",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002367",
+      "label": "senesced staminate flower present",
+      "mapped_ids": [
+        "PPO:0002367",
+        "PPO:0002335",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced staminate flower present",
+        "senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "senesced flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002335"
+      ],
+      "id": "PPO:0002368",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002368",
+      "label": "senesced pistillate flower present",
+      "mapped_ids": [
+        "PPO:0002368",
+        "PPO:0002335",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced pistillate flower present",
+        "senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "pollen-releasing flower present",
+        "open staminate flower present"
+      ],
+      "direct_supers": [
+        "PPO:0002334",
+        "PPO:0002362"
+      ],
+      "id": "PPO:0002369",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002369",
+      "label": "pollen-releasing staminate flower present",
+      "mapped_ids": [
+        "PPO:0002369",
+        "PPO:0002334",
+        "PPO:0002333",
+        "PPO:0002331",
+        "PPO:0002330",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002362",
+        "PPO:0002365"
+      ],
+      "mapped_labels": [
+        "pollen-releasing staminate flower present",
+        "pollen-releasing flower present",
+        "open flower present",
+        "non-senesced flower present",
+        "flower present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "open staminate flower present",
+        "non-senesced staminate flower present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "senescing true leaf present"
+      ],
+      "direct_supers": [
+        "PPO:0002317"
+      ],
+      "id": "PPO:0002370",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002370",
+      "label": "senesced true leaf present",
+      "mapped_ids": [
+        "PPO:0002370",
+        "PPO:0002317",
+        "PPO:0002315",
+        "PPO:0002313",
+        "PPO:0002312",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced true leaf present",
+        "senescing true leaf present",
+        "unfolded true leaf present",
+        "true leaf present",
+        "vascular leaf present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "immature post-fertilization megasporangiate strobilus present",
+        "mature megasporangiate strobilus present",
+        "immature pre-fertilization megasporangiate strobilus present"
+      ],
+      "direct_children": [
+        "PPO:0002372",
+        "PPO:0002373",
+        "PPO:0002381"
+      ],
+      "direct_super_labels": [
+        "non-senesced megasporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002352"
+      ],
+      "id": "PPO:0002371",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002371",
+      "label": "open megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002371",
+        "PPO:0002352",
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "open megasporangiate strobilus present",
+        "non-senesced megasporangiate strobilus present",
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "open megasporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002371"
+      ],
+      "id": "PPO:0002372",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002372",
+      "label": "immature post-fertilization megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002372",
+        "PPO:0002371",
+        "PPO:0002352",
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "immature post-fertilization megasporangiate strobilus present",
+        "open megasporangiate strobilus present",
+        "non-senesced megasporangiate strobilus present",
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "open megasporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002371"
+      ],
+      "id": "PPO:0002373",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002373",
+      "label": "mature megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002373",
+        "PPO:0002371",
+        "PPO:0002352",
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "mature megasporangiate strobilus present",
+        "open megasporangiate strobilus present",
+        "non-senesced megasporangiate strobilus present",
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "megasporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002351"
+      ],
+      "id": "PPO:0002374",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002374",
+      "label": "dehisced megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002374",
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "dehisced megasporangiate strobilus present",
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "non-senesced microsporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002348"
+      ],
+      "id": "PPO:0002375",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002375",
+      "label": "unopened microsporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002375",
+        "PPO:0002348",
+        "PPO:0002347",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "unopened microsporangiate strobilus present",
+        "non-senesced microsporangiate strobilus present",
+        "microsporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "microsporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002347"
+      ],
+      "id": "PPO:0002376",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002376",
+      "label": "senesced microsporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002376",
+        "PPO:0002347",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced microsporangiate strobilus present",
+        "microsporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "simple fruit or compound fruit present"
+      ],
+      "direct_supers": [
+        "PPO:0002342"
+      ],
+      "id": "PPO:0002377",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002377",
+      "label": "developing fruit present",
+      "mapped_ids": [
+        "PPO:0002377",
+        "PPO:0002342",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "developing fruit present",
+        "simple fruit or compound fruit present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "ripe fruit present"
+      ],
+      "direct_supers": [
+        "PPO:0002345"
+      ],
+      "id": "PPO:0002378",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002378",
+      "label": "dehiscing ripe fruit present",
+      "mapped_ids": [
+        "PPO:0002378",
+        "PPO:0002345",
+        "PPO:0002342",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "dehiscing ripe fruit present",
+        "ripe fruit present",
+        "simple fruit or compound fruit present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "dehisced senescing fruit present"
+      ],
+      "direct_children": [
+        "PPO:0002380"
+      ],
+      "direct_super_labels": [
+        "simple fruit or compound fruit present"
+      ],
+      "direct_supers": [
+        "PPO:0002342"
+      ],
+      "id": "PPO:0002379",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002379",
+      "label": "senescing fruit present",
+      "mapped_ids": [
+        "PPO:0002379",
+        "PPO:0002342",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senescing fruit present",
+        "simple fruit or compound fruit present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "senescing fruit present"
+      ],
+      "direct_supers": [
+        "PPO:0002379"
+      ],
+      "id": "PPO:0002380",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002380",
+      "label": "dehisced senescing fruit present",
+      "mapped_ids": [
+        "PPO:0002380",
+        "PPO:0002379",
+        "PPO:0002342",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "dehisced senescing fruit present",
+        "senescing fruit present",
+        "simple fruit or compound fruit present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "open megasporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002371"
+      ],
+      "id": "PPO:0002381",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002381",
+      "label": "immature pre-fertilization megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002381",
+        "PPO:0002371",
+        "PPO:0002352",
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "immature pre-fertilization megasporangiate strobilus present",
+        "open megasporangiate strobilus present",
+        "non-senesced megasporangiate strobilus present",
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "non-dormant flower bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002393"
+      ],
+      "id": "PPO:0002382",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002382",
+      "label": "breaking flower bud present",
+      "mapped_ids": [
+        "PPO:0002382",
+        "PPO:0002393",
+        "PPO:0002385",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002392"
+      ],
+      "mapped_labels": [
+        "breaking flower bud present",
+        "non-dormant flower bud present",
+        "flower bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-dormant reproductive bud present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "non-dormant inflorescence bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002394"
+      ],
+      "id": "PPO:0002383",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002383",
+      "label": "breaking inflorescence bud present",
+      "mapped_ids": [
+        "PPO:0002383",
+        "PPO:0002394",
+        "PPO:0002386",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002392"
+      ],
+      "mapped_labels": [
+        "breaking inflorescence bud present",
+        "non-dormant inflorescence bud present",
+        "inflorescence bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-dormant reproductive bud present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "flower bud present",
+        "inflorescence bud present",
+        "dormant reproductive bud present",
+        "non-dormant reproductive bud present"
+      ],
+      "direct_children": [
+        "PPO:0002385",
+        "PPO:0002386",
+        "PPO:0002389",
+        "PPO:0002392"
+      ],
+      "direct_super_labels": [
+        "reproductive shoot system present"
+      ],
+      "direct_supers": [
+        "PPO:0002324"
+      ],
+      "id": "PPO:0002384",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002384",
+      "label": "reproductive bud present",
+      "mapped_ids": [
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "dormant flower bud present",
+        "non-dormant flower bud present"
+      ],
+      "direct_children": [
+        "PPO:0002390",
+        "PPO:0002393"
+      ],
+      "direct_super_labels": [
+        "reproductive bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002384"
+      ],
+      "id": "PPO:0002385",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002385",
+      "label": "flower bud present",
+      "mapped_ids": [
+        "PPO:0002385",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "flower bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "dormant inflorescence bud present",
+        "non-dormant inflorescence bud present"
+      ],
+      "direct_children": [
+        "PPO:0002391",
+        "PPO:0002394"
+      ],
+      "direct_super_labels": [
+        "reproductive bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002384"
+      ],
+      "id": "PPO:0002386",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002386",
+      "label": "inflorescence bud present",
+      "mapped_ids": [
+        "PPO:0002386",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "inflorescence bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "megasporangiate strobilus present"
+      ],
+      "direct_supers": [
+        "PPO:0002351"
+      ],
+      "id": "PPO:0002387",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002387",
+      "label": "senesced megasporangiate strobilus present",
+      "mapped_ids": [
+        "PPO:0002387",
+        "PPO:0002351",
+        "PPO:0002346",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced megasporangiate strobilus present",
+        "megasporangiate strobilus present",
+        "strobilus present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "simple fruit or compound fruit present"
+      ],
+      "direct_supers": [
+        "PPO:0002342"
+      ],
+      "id": "PPO:0002388",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002388",
+      "label": "senesced fruit present",
+      "mapped_ids": [
+        "PPO:0002388",
+        "PPO:0002342",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "senesced fruit present",
+        "simple fruit or compound fruit present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "dormant flower bud present",
+        "dormant inflorescence bud present"
+      ],
+      "direct_children": [
+        "PPO:0002390",
+        "PPO:0002391"
+      ],
+      "direct_super_labels": [
+        "reproductive bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002384"
+      ],
+      "id": "PPO:0002389",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002389",
+      "label": "dormant reproductive bud present",
+      "mapped_ids": [
+        "PPO:0002389",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "dormant reproductive bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "flower bud present",
+        "dormant reproductive bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002385",
+        "PPO:0002389"
+      ],
+      "id": "PPO:0002390",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002390",
+      "label": "dormant flower bud present",
+      "mapped_ids": [
+        "PPO:0002390",
+        "PPO:0002385",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002389"
+      ],
+      "mapped_labels": [
+        "dormant flower bud present",
+        "flower bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "dormant reproductive bud present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [
+        "inflorescence bud present",
+        "dormant reproductive bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002386",
+        "PPO:0002389"
+      ],
+      "id": "PPO:0002391",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002391",
+      "label": "dormant inflorescence bud present",
+      "mapped_ids": [
+        "PPO:0002391",
+        "PPO:0002386",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002389"
+      ],
+      "mapped_labels": [
+        "dormant inflorescence bud present",
+        "inflorescence bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "dormant reproductive bud present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "non-dormant flower bud present",
+        "non-dormant inflorescence bud present"
+      ],
+      "direct_children": [
+        "PPO:0002393",
+        "PPO:0002394"
+      ],
+      "direct_super_labels": [
+        "reproductive bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002384"
+      ],
+      "id": "PPO:0002392",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002392",
+      "label": "non-dormant reproductive bud present",
+      "mapped_ids": [
+        "PPO:0002392",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300"
+      ],
+      "mapped_labels": [
+        "non-dormant reproductive bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "breaking flower bud present"
+      ],
+      "direct_children": [
+        "PPO:0002382"
+      ],
+      "direct_super_labels": [
+        "flower bud present",
+        "non-dormant reproductive bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002385",
+        "PPO:0002392"
+      ],
+      "id": "PPO:0002393",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002393",
+      "label": "non-dormant flower bud present",
+      "mapped_ids": [
+        "PPO:0002393",
+        "PPO:0002385",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002392"
+      ],
+      "mapped_labels": [
+        "non-dormant flower bud present",
+        "flower bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-dormant reproductive bud present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [
+        "breaking inflorescence bud present"
+      ],
+      "direct_children": [
+        "PPO:0002383"
+      ],
+      "direct_super_labels": [
+        "inflorescence bud present",
+        "non-dormant reproductive bud present"
+      ],
+      "direct_supers": [
+        "PPO:0002386",
+        "PPO:0002392"
+      ],
+      "id": "PPO:0002394",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002394",
+      "label": "non-dormant inflorescence bud present",
+      "mapped_ids": [
+        "PPO:0002394",
+        "PPO:0002386",
+        "PPO:0002384",
+        "PPO:0002324",
+        "PPO:0002323",
+        "PPO:0002300",
+        "PPO:0002392"
+      ],
+      "mapped_labels": [
+        "non-dormant inflorescence bud present",
+        "inflorescence bud present",
+        "reproductive bud present",
+        "reproductive shoot system present",
+        "reproductive structure present",
+        "plant structure present",
+        "non-dormant reproductive bud present"
+      ],
+      "type": "present"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002600",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002600",
+      "label": "new vegetative shoot system absent",
+      "mapped_ids": [
+        "PPO:0002600"
+      ],
+      "mapped_labels": [
+        "new vegetative shoot system absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002601",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002601",
+      "label": "new above-ground shoot-borne vegetative shoot system absent",
+      "mapped_ids": [
+        "PPO:0002601"
+      ],
+      "mapped_labels": [
+        "new above-ground shoot-borne vegetative shoot system absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002602",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002602",
+      "label": "new vegetative shoot system emerging from ground absent",
+      "mapped_ids": [
+        "PPO:0002602"
+      ],
+      "mapped_labels": [
+        "new vegetative shoot system emerging from ground absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002603",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002603",
+      "label": "new vegetative shoot system emerging from ground in first growth cycle absent",
+      "mapped_ids": [
+        "PPO:0002603"
+      ],
+      "mapped_labels": [
+        "new vegetative shoot system emerging from ground in first growth cycle absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002604",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002604",
+      "label": "seedling absent",
+      "mapped_ids": [
+        "PPO:0002604"
+      ],
+      "mapped_labels": [
+        "seedling absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002605",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002605",
+      "label": "new vegetative shoot system emerging from ground in later growth cycle absent",
+      "mapped_ids": [
+        "PPO:0002605"
+      ],
+      "mapped_labels": [
+        "new vegetative shoot system emerging from ground in later growth cycle absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002606",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002606",
+      "label": "vegetative bud absent",
+      "mapped_ids": [
+        "PPO:0002606"
+      ],
+      "mapped_labels": [
+        "vegetative bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002607",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002607",
+      "label": "dormant vegetative bud absent",
+      "mapped_ids": [
+        "PPO:0002607"
+      ],
+      "mapped_labels": [
+        "dormant vegetative bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002608",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002608",
+      "label": "non-dormant vegetative bud absent",
+      "mapped_ids": [
+        "PPO:0002608"
+      ],
+      "mapped_labels": [
+        "non-dormant vegetative bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002609",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002609",
+      "label": "swelling vegetative bud absent",
+      "mapped_ids": [
+        "PPO:0002609"
+      ],
+      "mapped_labels": [
+        "swelling vegetative bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002610",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002610",
+      "label": "breaking vegetative bud absent",
+      "mapped_ids": [
+        "PPO:0002610"
+      ],
+      "mapped_labels": [
+        "breaking vegetative bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002611",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002611",
+      "label": "vascular leaf absent",
+      "mapped_ids": [
+        "PPO:0002611"
+      ],
+      "mapped_labels": [
+        "vascular leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002612",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002612",
+      "label": "true leaf absent",
+      "mapped_ids": [
+        "PPO:0002612"
+      ],
+      "mapped_labels": [
+        "true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002613",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002613",
+      "label": "unfolding true leaf absent",
+      "mapped_ids": [
+        "PPO:0002613"
+      ],
+      "mapped_labels": [
+        "unfolding true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002614",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002614",
+      "label": "unfolded true leaf absent",
+      "mapped_ids": [
+        "PPO:0002614"
+      ],
+      "mapped_labels": [
+        "unfolded true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002615",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002615",
+      "label": "non-senescing unfolded true leaf absent",
+      "mapped_ids": [
+        "PPO:0002615"
+      ],
+      "mapped_labels": [
+        "non-senescing unfolded true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002616",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002616",
+      "label": "senescing true leaf absent",
+      "mapped_ids": [
+        "PPO:0002616"
+      ],
+      "mapped_labels": [
+        "senescing true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002617",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002617",
+      "label": "immature unfolded true leaf absent",
+      "mapped_ids": [
+        "PPO:0002617"
+      ],
+      "mapped_labels": [
+        "immature unfolded true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002618",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002618",
+      "label": "mature true leaf absent",
+      "mapped_ids": [
+        "PPO:0002618"
+      ],
+      "mapped_labels": [
+        "mature true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002619",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002619",
+      "label": "expanding unfolded true leaf absent",
+      "mapped_ids": [
+        "PPO:0002619"
+      ],
+      "mapped_labels": [
+        "expanding unfolded true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002620",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002620",
+      "label": "expanded immature true leaf absent",
+      "mapped_ids": [
+        "PPO:0002620"
+      ],
+      "mapped_labels": [
+        "expanded immature true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002621",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002621",
+      "label": "expanding true leaf absent",
+      "mapped_ids": [
+        "PPO:0002621"
+      ],
+      "mapped_labels": [
+        "expanding true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002622",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002622",
+      "label": "reproductive structure absent",
+      "mapped_ids": [
+        "PPO:0002622"
+      ],
+      "mapped_labels": [
+        "reproductive structure absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002623",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002623",
+      "label": "reproductive shoot system absent",
+      "mapped_ids": [
+        "PPO:0002623"
+      ],
+      "mapped_labels": [
+        "reproductive shoot system absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002624",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002624",
+      "label": "non-senesced reproductive shoot system absent",
+      "mapped_ids": [
+        "PPO:0002624"
+      ],
+      "mapped_labels": [
+        "non-senesced reproductive shoot system absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002625",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002625",
+      "label": "unopened reproductive shoot system absent",
+      "mapped_ids": [
+        "PPO:0002625"
+      ],
+      "mapped_labels": [
+        "unopened reproductive shoot system absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002626",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002626",
+      "label": "open reproductive shoot system absent",
+      "mapped_ids": [
+        "PPO:0002626"
+      ],
+      "mapped_labels": [
+        "open reproductive shoot system absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002627",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002627",
+      "label": "pollen-releasing reproductive shoot system absent",
+      "mapped_ids": [
+        "PPO:0002627"
+      ],
+      "mapped_labels": [
+        "pollen-releasing reproductive shoot system absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002628",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002628",
+      "label": "senesced reproductive shoot system absent",
+      "mapped_ids": [
+        "PPO:0002628"
+      ],
+      "mapped_labels": [
+        "senesced reproductive shoot system absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002629",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002629",
+      "label": "flower absent",
+      "mapped_ids": [
+        "PPO:0002629"
+      ],
+      "mapped_labels": [
+        "flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002630",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002630",
+      "label": "non-senesced flower absent",
+      "mapped_ids": [
+        "PPO:0002630"
+      ],
+      "mapped_labels": [
+        "non-senesced flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002631",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002631",
+      "label": "unopened flower absent",
+      "mapped_ids": [
+        "PPO:0002631"
+      ],
+      "mapped_labels": [
+        "unopened flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002632",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002632",
+      "label": "open flower absent",
+      "mapped_ids": [
+        "PPO:0002632"
+      ],
+      "mapped_labels": [
+        "open flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002633",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002633",
+      "label": "pollen-releasing flower absent",
+      "mapped_ids": [
+        "PPO:0002633"
+      ],
+      "mapped_labels": [
+        "pollen-releasing flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002634",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002634",
+      "label": "senesced flower absent",
+      "mapped_ids": [
+        "PPO:0002634"
+      ],
+      "mapped_labels": [
+        "senesced flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002635",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002635",
+      "label": "inflorescence absent",
+      "mapped_ids": [
+        "PPO:0002635"
+      ],
+      "mapped_labels": [
+        "inflorescence absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002636",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002636",
+      "label": "non-senesced inflorescence absent",
+      "mapped_ids": [
+        "PPO:0002636"
+      ],
+      "mapped_labels": [
+        "non-senesced inflorescence absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002637",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002637",
+      "label": "unopened inflorescence absent",
+      "mapped_ids": [
+        "PPO:0002637"
+      ],
+      "mapped_labels": [
+        "unopened inflorescence absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002638",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002638",
+      "label": "open inflorescence absent",
+      "mapped_ids": [
+        "PPO:0002638"
+      ],
+      "mapped_labels": [
+        "open inflorescence absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002639",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002639",
+      "label": "pollen-releasing inflorescence absent",
+      "mapped_ids": [
+        "PPO:0002639"
+      ],
+      "mapped_labels": [
+        "pollen-releasing inflorescence absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002640",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002640",
+      "label": "senesced inflorescence absent",
+      "mapped_ids": [
+        "PPO:0002640"
+      ],
+      "mapped_labels": [
+        "senesced inflorescence absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002641",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002641",
+      "label": "simple fruit or compound fruit absent",
+      "mapped_ids": [
+        "PPO:0002641"
+      ],
+      "mapped_labels": [
+        "simple fruit or compound fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002642",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002642",
+      "label": "ripening fruit absent",
+      "mapped_ids": [
+        "PPO:0002642"
+      ],
+      "mapped_labels": [
+        "ripening fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002643",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002643",
+      "label": "unripe fruit absent",
+      "mapped_ids": [
+        "PPO:0002643"
+      ],
+      "mapped_labels": [
+        "unripe fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002644",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002644",
+      "label": "ripe fruit absent",
+      "mapped_ids": [
+        "PPO:0002644"
+      ],
+      "mapped_labels": [
+        "ripe fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002645",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002645",
+      "label": "strobilus absent",
+      "mapped_ids": [
+        "PPO:0002645"
+      ],
+      "mapped_labels": [
+        "strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002646",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002646",
+      "label": "microsporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002646"
+      ],
+      "mapped_labels": [
+        "microsporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002647",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002647",
+      "label": "non-senesced microsporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002647"
+      ],
+      "mapped_labels": [
+        "non-senesced microsporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002648",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002648",
+      "label": "open microsporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002648"
+      ],
+      "mapped_labels": [
+        "open microsporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002649",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002649",
+      "label": "pollen-releasing microsporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002649"
+      ],
+      "mapped_labels": [
+        "pollen-releasing microsporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002650",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002650",
+      "label": "megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002650"
+      ],
+      "mapped_labels": [
+        "megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002651",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002651",
+      "label": "non-senesced megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002651"
+      ],
+      "mapped_labels": [
+        "non-senesced megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002652",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002652",
+      "label": "ripening megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002652"
+      ],
+      "mapped_labels": [
+        "ripening megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002653",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002653",
+      "label": "unopened megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002653"
+      ],
+      "mapped_labels": [
+        "unopened megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002654",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002654",
+      "label": "ripe megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002654"
+      ],
+      "mapped_labels": [
+        "ripe megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002655",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002655",
+      "label": "abscised plant structure absent",
+      "mapped_ids": [
+        "PPO:0002655"
+      ],
+      "mapped_labels": [
+        "abscised plant structure absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002656",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002656",
+      "label": "abscised leaf absent",
+      "mapped_ids": [
+        "PPO:0002656"
+      ],
+      "mapped_labels": [
+        "abscised leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002657",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002657",
+      "label": "abscised fruit absent",
+      "mapped_ids": [
+        "PPO:0002657"
+      ],
+      "mapped_labels": [
+        "abscised fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002658",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002658",
+      "label": "abscised megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002658"
+      ],
+      "mapped_labels": [
+        "abscised megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002659",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002659",
+      "label": "non-vascular leaf absent",
+      "mapped_ids": [
+        "PPO:0002659"
+      ],
+      "mapped_labels": [
+        "non-vascular leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002660",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002660",
+      "label": "open pistillate flower absent",
+      "mapped_ids": [
+        "PPO:0002660"
+      ],
+      "mapped_labels": [
+        "open pistillate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002661",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002661",
+      "label": "open staminate flower absent",
+      "mapped_ids": [
+        "PPO:0002661"
+      ],
+      "mapped_labels": [
+        "open staminate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002662",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002662",
+      "label": "unopened staminate flower absent",
+      "mapped_ids": [
+        "PPO:0002662"
+      ],
+      "mapped_labels": [
+        "unopened staminate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002663",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002663",
+      "label": "unopened pistillate flower absent",
+      "mapped_ids": [
+        "PPO:0002663"
+      ],
+      "mapped_labels": [
+        "unopened pistillate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002664",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002664",
+      "label": "non-senesced staminate flower absent",
+      "mapped_ids": [
+        "PPO:0002664"
+      ],
+      "mapped_labels": [
+        "non-senesced staminate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002665",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002665",
+      "label": "non-senesced pistillate flower absent",
+      "mapped_ids": [
+        "PPO:0002665"
+      ],
+      "mapped_labels": [
+        "non-senesced pistillate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002666",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002666",
+      "label": "senesced staminate flower absent",
+      "mapped_ids": [
+        "PPO:0002666"
+      ],
+      "mapped_labels": [
+        "senesced staminate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002667",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002667",
+      "label": "senesced pistillate flower absent",
+      "mapped_ids": [
+        "PPO:0002667"
+      ],
+      "mapped_labels": [
+        "senesced pistillate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002668",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002668",
+      "label": "pollen-releasing staminate flower absent",
+      "mapped_ids": [
+        "PPO:0002668"
+      ],
+      "mapped_labels": [
+        "pollen-releasing staminate flower absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002669",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002669",
+      "label": "senesced true leaf absent",
+      "mapped_ids": [
+        "PPO:0002669"
+      ],
+      "mapped_labels": [
+        "senesced true leaf absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002670",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002670",
+      "label": "open megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002670"
+      ],
+      "mapped_labels": [
+        "open megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002671",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002671",
+      "label": "immature post-fertilization megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002671"
+      ],
+      "mapped_labels": [
+        "immature post-fertilization megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002672",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002672",
+      "label": "mature megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002672"
+      ],
+      "mapped_labels": [
+        "mature megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002673",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002673",
+      "label": "dehisced megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002673"
+      ],
+      "mapped_labels": [
+        "dehisced megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002674",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002674",
+      "label": "unopened microsporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002674"
+      ],
+      "mapped_labels": [
+        "unopened microsporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002675",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002675",
+      "label": "senesced microsporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002675"
+      ],
+      "mapped_labels": [
+        "senesced microsporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002676",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002676",
+      "label": "developing fruit absent",
+      "mapped_ids": [
+        "PPO:0002676"
+      ],
+      "mapped_labels": [
+        "developing fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002677",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002677",
+      "label": "dehiscing ripe fruit absent",
+      "mapped_ids": [
+        "PPO:0002677"
+      ],
+      "mapped_labels": [
+        "dehiscing ripe fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002678",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002678",
+      "label": "senescing fruit absent",
+      "mapped_ids": [
+        "PPO:0002678"
+      ],
+      "mapped_labels": [
+        "senescing fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002679",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002679",
+      "label": "dehisced senescing fruit absent",
+      "mapped_ids": [
+        "PPO:0002679"
+      ],
+      "mapped_labels": [
+        "dehisced senescing fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002680",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002680",
+      "label": "immature pre-fertilization megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002680"
+      ],
+      "mapped_labels": [
+        "immature pre-fertilization megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002681",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002681",
+      "label": "breaking flower bud absent",
+      "mapped_ids": [
+        "PPO:0002681"
+      ],
+      "mapped_labels": [
+        "breaking flower bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002682",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002682",
+      "label": "breaking inflorescence bud absent",
+      "mapped_ids": [
+        "PPO:0002682"
+      ],
+      "mapped_labels": [
+        "breaking inflorescence bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002683",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002683",
+      "label": "reproductive bud absent",
+      "mapped_ids": [
+        "PPO:0002683"
+      ],
+      "mapped_labels": [
+        "reproductive bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002684",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002684",
+      "label": "flower bud absent",
+      "mapped_ids": [
+        "PPO:0002684"
+      ],
+      "mapped_labels": [
+        "flower bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002685",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002685",
+      "label": "inflorescence bud absent",
+      "mapped_ids": [
+        "PPO:0002685"
+      ],
+      "mapped_labels": [
+        "inflorescence bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002686",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002686",
+      "label": "senesced megasporangiate strobilus absent",
+      "mapped_ids": [
+        "PPO:0002686"
+      ],
+      "mapped_labels": [
+        "senesced megasporangiate strobilus absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002687",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002687",
+      "label": "senesced fruit absent",
+      "mapped_ids": [
+        "PPO:0002687"
+      ],
+      "mapped_labels": [
+        "senesced fruit absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002688",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002688",
+      "label": "dormant reproductive bud absent",
+      "mapped_ids": [
+        "PPO:0002688"
+      ],
+      "mapped_labels": [
+        "dormant reproductive bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002689",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002689",
+      "label": "dormant flower bud absent",
+      "mapped_ids": [
+        "PPO:0002689"
+      ],
+      "mapped_labels": [
+        "dormant flower bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002690",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002690",
+      "label": "dormant inflorescence bud absent",
+      "mapped_ids": [
+        "PPO:0002690"
+      ],
+      "mapped_labels": [
+        "dormant inflorescence bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002691",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002691",
+      "label": "non-dormant reproductive bud absent",
+      "mapped_ids": [
+        "PPO:0002691"
+      ],
+      "mapped_labels": [
+        "non-dormant reproductive bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002692",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002692",
+      "label": "non-dormant flower bud absent",
+      "mapped_ids": [
+        "PPO:0002692"
+      ],
+      "mapped_labels": [
+        "non-dormant flower bud absent"
+      ],
+      "type": "absent"
+    },
+    {
+      "direct_child_labels": [],
+      "direct_children": [],
+      "direct_super_labels": [],
+      "direct_supers": [],
+      "id": "PPO:0002693",
+      "iri": "http://purl.obolibrary.org/obo/PPO_0002693",
+      "label": "non-dormant inflorescence bud absent",
+      "mapped_ids": [
+        "PPO:0002693"
+      ],
+      "mapped_labels": [
+        "non-dormant inflorescence bud absent"
+      ],
+      "type": "absent"
+    }
+  ],
+  "present_count": 95,
+  "row_count": 189,
+  "source_url": "https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl",
+  "version_info": "2026-05-06",
+  "version_iri": "http://purl.obolibrary.org/obo/ppo/releases/2026-05-06/ppo.owl"
+};

@@ -1,0 +1,81 @@
+{
+  "compare_to": "/Users/jdeck/IdeaProjects/phenobase_data/data/traits.csv",
+  "exact_diff_examples": [
+    {
+      "reference_mappedTraitIDs": "PPO:0002311|PPO:0002302|PPO:0002301|PPO:0002300|PPO:0002309|PPO:0002307|PPO:0002314|PPO:0002322|PPO:0002313|PPO:0002312",
+      "robot_mappedTraitIDs": "PPO:0002322|PPO:0002314|PPO:0002313|PPO:0002312|PPO:0002311|PPO:0002309|PPO:0002307|PPO:0002302|PPO:0002301|PPO:0002300",
+      "trait": "breaking vegetative bud present",
+      "trait_urn": "PPO:0002311"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002314|PPO:0002322|PPO:0002313|PPO:0002312|PPO:0002300",
+      "robot_mappedTraitIDs": "PPO:0002322|PPO:0002314|PPO:0002313|PPO:0002312|PPO:0002300",
+      "trait": "unfolding true leaf present",
+      "trait_urn": "PPO:0002314"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002320|PPO:0002318|PPO:0002316|PPO:0002315|PPO:0002313|PPO:0002312|PPO:0002300|PPO:0002322",
+      "robot_mappedTraitIDs": "PPO:0002322|PPO:0002320|PPO:0002318|PPO:0002316|PPO:0002315|PPO:0002313|PPO:0002312|PPO:0002300",
+      "trait": "expanding unfolded true leaf present",
+      "trait_urn": "PPO:0002320"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002327|PPO:0002325|PPO:0002324|PPO:0002323|PPO:0002300|PPO:0002330",
+      "robot_mappedTraitIDs": "PPO:0002330|PPO:0002327|PPO:0002325|PPO:0002324|PPO:0002323|PPO:0002300",
+      "trait": "open reproductive shoot system present",
+      "trait_urn": "PPO:0002327"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002328|PPO:0002327|PPO:0002325|PPO:0002324|PPO:0002323|PPO:0002300|PPO:0002330|PPO:0002334|PPO:0002333|PPO:0002331",
+      "robot_mappedTraitIDs": "PPO:0002334|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002328|PPO:0002327|PPO:0002325|PPO:0002324|PPO:0002323|PPO:0002300",
+      "trait": "pollen-releasing reproductive shoot system present",
+      "trait_urn": "PPO:0002328"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002329|PPO:0002335|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300",
+      "robot_mappedTraitIDs": "PPO:0002335|PPO:0002330|PPO:0002329|PPO:0002324|PPO:0002323|PPO:0002300",
+      "trait": "senesced reproductive shoot system present",
+      "trait_urn": "PPO:0002329"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002339|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300|PPO:0002337|PPO:0002336",
+      "robot_mappedTraitIDs": "PPO:0002339|PPO:0002337|PPO:0002336|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300",
+      "trait": "open inflorescence present",
+      "trait_urn": "PPO:0002339"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002340|PPO:0002334|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300|PPO:0002339|PPO:0002337|PPO:0002336",
+      "robot_mappedTraitIDs": "PPO:0002340|PPO:0002339|PPO:0002337|PPO:0002336|PPO:0002334|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300",
+      "trait": "pollen-releasing inflorescence present",
+      "trait_urn": "PPO:0002340"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002361|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300|PPO:0002366",
+      "robot_mappedTraitIDs": "PPO:0002366|PPO:0002361|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300",
+      "trait": "open pistillate flower present",
+      "trait_urn": "PPO:0002361"
+    },
+    {
+      "reference_mappedTraitIDs": "PPO:0002362|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300|PPO:0002365",
+      "robot_mappedTraitIDs": "PPO:0002365|PPO:0002362|PPO:0002333|PPO:0002331|PPO:0002330|PPO:0002324|PPO:0002323|PPO:0002300",
+      "trait": "open staminate flower present",
+      "trait_urn": "PPO:0002362"
+    }
+  ],
+  "exact_row_match_count": 170,
+  "exact_rows_equal_for_all_shared_traits": false,
+  "input_owl": "/Users/jdeck/IdeaProjects/phenobase_data/reasoning/2026-05-06/ppo.owl",
+  "mapped_id_set_match_count": 189,
+  "mapped_id_sets_equal_for_all_shared_traits": true,
+  "output_path": "/Users/jdeck/IdeaProjects/phenobase_data/reasoning/robot/traits.csv",
+  "pairs_output": "/Users/jdeck/IdeaProjects/phenobase_data/reasoning/robot/traits_pairs.csv",
+  "present_order": "reverse-query",
+  "query_path": "/Users/jdeck/IdeaProjects/phenobase_data/reasoning/robot/traits_pairs.sparql",
+  "reference_only_traits": [],
+  "reference_row_count": 189,
+  "robot_only_traits": [],
+  "robot_path": "/Users/jdeck/IdeaProjects/robot/robot",
+  "robot_row_count": 189,
+  "set_diff_examples": [],
+  "shared_trait_count": 189
+}

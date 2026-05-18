@@ -1,178 +1,421 @@
-# Elasticsearch Loader Script
+# Phenobase Data Workflow
 
-## Overview
+## User Guide
 
-The `loader.py` script loads tabular data into Elasticsearch from CSV/TSV files. It performs validation using rules defined in `data/columns.csv` and data presence in `data/traits.csv`.
+Phenobase data loading prepares source observation releases for indexing in the Phenobase Elasticsearch datastore. The workflow begins by rebuilding the ontology-derived trait hierarchy, then uses that trait mapping during dataset normalization, validation, and loading so incoming observations can be indexed with consistent `trait` and `mappedTraits` values. For the current published trait outputs, use the [traits viewer](https://phenobase.github.io/phenobase_data/traits.html) and the [published `traits.csv`](https://phenobase.github.io/phenobase_data/traits.csv).
 
-The script supports three loading modes:
-- `machine`: for loading machine observation data
-- `in_situ`: for in_situ observations
-- `herbarium`: for herbarium record data
+- [View Traits](https://phenobase.github.io/phenobase_data/traits.html)
 
-Each mode uses specific required fields defined in `columns.csv`.
+## Technical Details And Implementation Guide
 
----
+### What This Repo Does
 
-## Usage
+This repository supports the Phenobase data pipeline around three core jobs:
 
-```bash
-usage: loader.py [-h] --mode {machine,in_situ,herbarium} [--test] [--strict] [--batch-size BATCH_SIZE] [--progress-every PROGRESS_EVERY] data_dir drop_existing
-loader.py: error: the following arguments are required: data_dir, drop_existing, --mode
-```
+1. Rebuild the ontology-derived trait hierarchy in `data/traits.csv`.
+2. Load source CSV datasets into the Elasticsearch index used by Phenobase.
+3. Maintain and inspect the live datastore with export and backfill helpers.
 
-### Options
+The trait reasoning step comes first. The loader depends on `data/traits.csv` to expand each incoming `trait` into the derived `mappedTraits` hierarchy used later for indexing and querying.
 
-```
-Positional
+### Reasoning
 
-data_dir Directory containing CSV files to load.
+Reasoning is the first step because it generates the trait lookup consumed during ingestion.
 
-Options
+Source of truth for the current workflow:
 
---mode {machine,in_situ,herbarium} (required)
---drop-existing / --no-drop-existing (default: --no-drop-existing)
---test Test mode (no ES insert).
---strict Reject rows with invalid field values after coercion.
---batch-size N Docs per bulk request (default: 5000).
---progress-every N Print progress every N rows (default: 50000).
-```
+- PPO GitHub `main`: `https://raw.githubusercontent.com/PlantPhenoOntology/ppo/refs/heads/main/ppo.owl`
 
-### Example
+For repeatability, this repo supports two ways to regenerate the trait mapping:
+
+- the default code method, which writes the canonical [data/traits.csv](data/traits.csv)
+- a separate ROBOT/SPARQL method, which writes [reasoning/robot/traits.csv](reasoning/robot/traits.csv) and a comparison report against the canonical file
+
+#### Method 1: Default Code Method
+
+Run the canonical rebuild from the repo root:
 
 ```bash
-# here is an example load script
-python loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing --batch-size 5000 --progress-every 50000
-python loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
+python3 reasoning/refresh_traits.py
 ```
 
-### Backfill `decadeStart` on the live index
-
-Use the helper script in the repo root to add the mapping and run `_update_by_query` against the existing index without reloading source files:
+Compatibility wrapper:
 
 ```bash
-python update_decade_start.py
+./reasoning/get_traits.sh
 ```
 
-Wait for completion synchronously:
+This method:
+
+- downloads the current PPO ontology from GitHub `main`
+- snapshots the exact ontology used under `reasoning/<version>/ppo.owl`
+- regenerates `data/traits.csv`
+- publishes `docs/traits.csv` for GitHub Pages
+- publishes `docs/traits-data.json` for the static viewer
+- writes `reasoning/traits_build_metadata.json`
+
+#### Method 2: ROBOT/SPARQL Method
+
+The SPARQL query is kept in its own file for repeatability:
+
+- [reasoning/robot/traits_pairs.sparql](reasoning/robot/traits_pairs.sparql)
+
+The direct ROBOT query command is:
 
 ```bash
-python update_decade_start.py --wait
+../robot/robot query \
+  --input reasoning/2026-05-06/ppo.owl \
+  --query reasoning/robot/traits_pairs.sparql reasoning/robot/traits_pairs.csv
 ```
 
-Throttle the job if needed:
+That query emits flat trait-to-mapped-trait pairs. To group those pairs back into the Phenobase
+`traits.csv` shape and compare them with the canonical file, run:
 
 ```bash
-python update_decade_start.py --requests-per-second 200
+python3 reasoning/refresh_traits_robot.py --skip-query \
+  --input-owl reasoning/2026-05-06/ppo.owl \
+  --pairs-output reasoning/robot/traits_pairs.csv
 ```
 
-### Download a CSV dump through the API
-
-Use the helper script in the repo root to call the public Phenobase query API and scroll through the index until all matching rows are written to a local CSV.
-
-The script follows the same double-slash proxy convention already used by `phenobase_interface`, so it works with the current `biscicol-server` path-rewrite behavior.
+If you want the helper to run both the ROBOT query and the post-processing for you, use:
 
 ```bash
-python download_csv_dump.py
+python3 reasoning/refresh_traits_robot.py
 ```
 
-By default this:
+The ROBOT/SPARQL path writes:
 
-- queries the `phenobase2` index
-- uses a Lucene query of `*`
-- requests 5,000 rows per scroll page
-- keeps scrolling until the API returns no more hits
-- writes the CSV to `downloads/phenobase_dump.csv`
+- `reasoning/robot/traits_pairs.csv`: raw ROBOT query output
+- `reasoning/robot/traits.csv`: grouped alternative traits output
+- `reasoning/robot/comparison.json`: comparison to `data/traits.csv`
 
-Export a filtered subset with a Lucene query:
+Current comparison summary for the local `2026-05-06` snapshot:
+
+- `189/189` traits matched by mapped-ID set semantics
+- `170/189` rows matched exactly
+- the remaining differences are ordering differences in `mappedTraitIDs` and `mappedTraits`
+
+Current reasoning artifacts:
+
+- [reasoning/refresh_traits.py](reasoning/refresh_traits.py)
+- [reasoning/refresh_traits_robot.py](reasoning/refresh_traits_robot.py)
+- [reasoning/traits_build_metadata.json](reasoning/traits_build_metadata.json)
+- [reasoning/2025-05-05/ppo.owl](reasoning/2025-05-05/ppo.owl)
+- [reasoning/2026-05-06/ppo.owl](reasoning/2026-05-06/ppo.owl)
+- [reasoning/robot/traits_pairs.sparql](reasoning/robot/traits_pairs.sparql)
+- [reasoning/robot/traits_pairs.csv](reasoning/robot/traits_pairs.csv)
+- [reasoning/robot/traits.csv](reasoning/robot/traits.csv)
+- [reasoning/robot/comparison.json](reasoning/robot/comparison.json)
+- [data/traits.csv](data/traits.csv)
+- [docs/traits.csv](docs/traits.csv)
+- [docs/traits-data.json](docs/traits-data.json)
+
+Quick verification after a rebuild:
 
 ```bash
-python download_csv_dump.py --query 'genus:Quercus AND year:[2000 TO 2025]' --output downloads/quercus.csv
+python3 -m json.tool reasoning/traits_build_metadata.json
+git diff -- data/traits.csv docs/traits.csv docs/traits-data.json
+python3 -m json.tool reasoning/robot/comparison.json
 ```
 
-Cap the export locally if needed:
+Trait mapping rules used by the rebuild:
+
+- labels ending in ` present` are included
+- labels ending in ` absent` are included
+- `present` traits map to themselves plus transitive named PPO superclass traits that also end in ` present`
+- `absent` traits map only to themselves
+
+### Ingest Procedure
+
+Use this sequence for a new Phenobase data release:
+
+1. Refresh the ontology-driven trait mapping with `python3 reasoning/refresh_traits.py`.
+2. Review `reasoning/traits_build_metadata.json` and diff `data/traits.csv`.
+3. Place source `.csv` files in the release directory you want to ingest.
+4. Add dataset-local `transform.yaml` if source-specific cleanup, case normalization, regex mapping, null handling, or trait remapping is needed.
+5. Confirm the loader inputs are in place:
+
+   - `data/columns.csv` defines field datatypes, requiredness, and system fields
+   - `data/traits.csv` provides the trait-to-`mappedTraits` expansion generated by the reasoning step
+   - `transform.yaml` is optional and only applies to the dataset directory being loaded
+
+6. Run a dry ingestion pass:
 
 ```bash
-python download_csv_dump.py --limit 100000
+python3 loader.py --mode=<machine|in_situ|herbarium> --test --no-drop-existing <data_dir>
 ```
 
-Tune the scroll page size or point at a different API base URL:
+7. Review `loading_errors.csv`. Common failures are:
+
+   - missing `annotationID`
+   - duplicate `annotationID` within an input file
+   - empty `trait`
+   - `trait` values not found in `data/traits.csv`
+   - strict-mode coercion failures for typed fields
+
+8. Fix the source files or the dataset-local `transform.yaml`, then rerun test mode until the release is acceptable.
+9. Run the real ingestion:
 
 ```bash
-python download_csv_dump.py --batch-size 10000 --scroll 1m
-python download_csv_dump.py --base-url https://biscicol.org/phenobase/api/v1/query --index phenobase2
+python3 loader.py --mode=<machine|in_situ|herbarium> --no-drop-existing <data_dir>
 ```
 
-This script uses `data/columns.csv` to define CSV column order, which keeps the output aligned with the schema used by the loader.
+10. If you are rebuilding the index from scratch rather than appending or updating, use:
 
----
-
-## Under the Hood
-
-### `traits.csv`
-
-- This file contains trait mappings from ontology trait terms to a pipe delimited list of parent terms
-
-### `columns.csv`
-
-- Defines schema for all fields that can be used in the Elasticsearch index.
-- Contains columns:
-  - `field`: The name of the field in the data.
-  - `datatype`: The expected type (e.g., `text`, `integer`, `float`, `boolean`, `date`, `keyword`, etc.)
-  - `machine_required`, `inat_required`, `herbarium_required`: Indicates if the field is required for a given mode.
-- Used for two purposes:
-  1. Validating presence of required fields.
-  2. Building Elasticsearch mappings dynamically.
-
-### `transform.yaml` (Optional)
-
-A per-dataset YAML file for applying simple value transformations before ingestion.
-If transform.yaml is present in the data_dir, it is loaded automatically.
-Only the trait field is currently transformed using this mechanism.
-
-Format:
+```bash
+python3 loader.py --mode=<machine|in_situ|herbarium> --drop-existing <data_dir>
 ```
+
+11. If the live index needs `decadeStart`, run:
+
+```bash
+python3 update_decade_start.py --wait
+```
+
+## Loading Data
+
+The main loader is [loader.py](loader.py).
+
+What the loader does during a run:
+
+- recursively finds `.csv` files under the provided dataset directory
+- applies optional row-level transforms from dataset-local `transform.yaml`
+- coerces values to the datatypes defined in `data/columns.csv`
+- computes system fields such as `mappedTraits` and `decadeStart`
+- rejects rows with missing `annotationID`, duplicate `annotationID` within a file, or unmapped traits
+- writes row-level failures to `loading_errors.csv`
+- indexes to `phenobase2` using `annotationID` as the Elasticsearch document `_id`
+
+Supported loading modes:
+
+- `machine`
+- `in_situ`
+- `herbarium`
+
+Example commands:
+
+```bash
+python3 loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
+```
+
+Main options:
+
+- `--test`: validate and simulate without writing to Elasticsearch
+- `--strict`: reject rows with coercion or validation problems
+- `--drop-existing`: recreate the target index before loading
+- `--batch-size`: bulk size for indexing
+- `--progress-every`: progress logging interval
+- `--no-drop-existing`: keep the current index and upsert documents into it
+
+What the loader relies on:
+
+- `data/columns.csv` for schema and required fields
+- `data/traits.csv` for trait-to-`mappedTraits` expansion
+- optional dataset-local `transform.yaml` for normalization rules
+
+## `transform.yaml` Structure
+
+Place `transform.yaml` inside the dataset directory being loaded. The loader checks for
+`<data_dir>/transform.yaml` automatically. If present, the file is applied row-by-row before
+datatype coercion, required-field checks, and `mappedTraits` derivation.
+
+Use `transform.yaml` for:
+
+- trimming and case-normalizing raw source fields
+- regex-based cleanup of source strings
+- mapping raw trait labels to canonical Phenobase trait labels
+- turning source-specific null tokens into empty values
+- adjusting parsing behavior for dates, booleans, and typed fields
+
+Supported top-level keys:
+
+- `fields`: per-field transform steps and field-level overrides
+- `trait_mappings`: exact mapping from lowercase raw `trait` text to canonical trait labels
+- `null_values`: string tokens treated as null across all fields
+- `coercions`: global parsing and fallback rules for booleans, dates, integers, floats, and text
+
+Minimal example:
+
+```yaml
+fields:
+  scientificName:
+    transforms:
+      - op: strip
+      - op: case
+        rule: scientific_name_standard
+
+  trait:
+    transforms:
+      - op: strip
+      - op: case
+        rule: lower
+
+  year:
+    datatype: integer
+
 trait_mappings:
-  green leaves present: non-senescing unfolded true leaves present
-  senescent leaves: senescing leaves present
-  red leaves: colored leaves (non-green)
+  breaking leaf buds: breaking leaf bud present
+  flowers: flower present
+
+null_values:
+  - ""
+  - na
+  - n/a
+  - "-"
+
+coercions:
+  text:
+    case: lower
+  date:
+    input_formats: ["%Y-%m-%d", "%m/%d/%Y"]
+    output_format: "%Y-%m-%d"
+    drop_invalid: true
+  boolean:
+    true_values: ["true", "t", "yes", "1"]
+    false_values: ["false", "f", "no", "0"]
+    drop_invalid: true
+  integer:
+    drop_invalid: true
+  float:
+    drop_invalid: true
 ```
-If a value in the trait column matches a key in trait_mappings (case-insensitive), it is replaced by the corresponding value before validation or Elasticsearch indexing.
 
-This allows for normalizing heterogeneous trait values across datasets without modifying the main loader script.
+### Per-field Structure
 
-### Elasticsearch Mapping
+Each entry under `fields` may define:
 
-- The script uses `columns.csv` to generate the index mapping.
-- If `--drop_index` is passed, the script deletes the existing index and re-creates it using the generated mapping.
+- `transforms`: ordered transform steps applied to that field
+- `datatype`: override datatype for coercion
+- `case`: field-level case rule applied during text coercion
+- `min`: numeric minimum for integer or float fields
+- `max`: numeric maximum for integer or float fields
+- `input_formats`: date parse formats for that field
+- `output_format`: normalized output date format for that field
 
-### Error Reporting
+Supported transform steps under `fields.<field>.transforms`:
 
-- Rows missing required fields or containing invalid values are logged.
-- A summary count of invalid rows is displayed after loading.
+- `op: strip`
+- `op: case` with `rule: lower|upper|title|capitalize_first|scientific_name_standard`
+- `op: regex_sub` with `pattern`, optional `replacement`, and optional `flags`
+- `op: regex_map` with `pattern`, `to`, and optional `flags`
+- `op: null_if_in` with `values`
+- `op: map` with exact `values` replacements
 
----
+Notes on behavior:
+
+- transform steps run in the order written
+- `trait_mappings` is only applied to the `trait` field after field transforms run
+- `trait_mappings` keys should be lowercase because the loader lowercases the incoming trait before lookup
+- `regex_map` uses regex `match`, so patterns should usually be anchored if you want full-value matching
+- supported regex flags are `IGNORECASE`, `MULTILINE`, and `DOTALL`
+- `null_values` is global, while `null_if_in` applies only to one field
+- `text.case` under `coercions` is a global default for text fields, but field-level `case` overrides it
+- invalid integers, floats, booleans, and dates are nulled by default unless `--strict` is used, in which case those coercion problems reject the row
+
+Example with more complete field transforms:
+
+```yaml
+fields:
+  recordedBy:
+    transforms:
+      - op: strip
+      - op: regex_sub
+        pattern: "\\s+"
+        replacement: " "
+
+  basisOfRecord:
+    transforms:
+      - op: strip
+      - op: map
+        values:
+          specimen: PreservedSpecimen
+          photo: HumanObservation
+
+  date:
+    input_formats: ["%Y-%m-%d", "%m/%d/%Y", "%Y/%m/%d"]
+    output_format: "%Y-%m-%d"
+
+  latitude:
+    datatype: float
+    min: -90
+    max: 90
+
+  longitude:
+    datatype: float
+    min: -180
+    max: 180
+
+  trait:
+    transforms:
+      - op: strip
+      - op: regex_map
+        pattern: "^open flowers?$"
+        to: flower present
+        flags: IGNORECASE
+
+trait_mappings:
+  flowering: flower present
+  no flowers: flower absent
+```
+
+## Export And Maintenance Utilities
+
+### Download A CSV Dump
+
+Use [download_csv_dump.py](download_csv_dump.py) to scroll through the public Phenobase query API and write a local CSV.
+
+```bash
+python3 download_csv_dump.py
+```
+
+Useful variations:
+
+```bash
+python3 download_csv_dump.py --query 'genus:Quercus AND year:[2000 TO 2025]' --output downloads/quercus.csv
+python3 download_csv_dump.py --limit 100000
+python3 download_csv_dump.py --batch-size 10000 --scroll 1m
+python3 download_csv_dump.py --request-timeout 60
+```
+
+### Backfill `decadeStart`
+
+Use [update_decade_start.py](update_decade_start.py) to add the mapping and backfill `decadeStart` on an existing live index without reloading source files.
+
+```bash
+python3 update_decade_start.py
+python3 update_decade_start.py --wait
+python3 update_decade_start.py --requests-per-second 200
+```
+
+## Pages And Shared Outputs
+
+The `docs/` folder is intended for GitHub Pages publication and for quick sharing with collaborators.
+
+Published outputs:
+
+- [docs/index.html](docs/index.html): GitHub Pages entry point redirecting to the traits viewer
+- [docs/traits.html](docs/traits.html): rendered trait explorer
+- [docs/traits.csv](docs/traits.csv): published CSV copy
+- [docs/traits-data.json](docs/traits-data.json): viewer payload
+
+## Core Files
+
+- [data/traits.csv](data/traits.csv): ontology-derived trait mapping
+- [data/columns.csv](data/columns.csv): field definitions and schema metadata
+- [loader.py](loader.py): ingestion driver
+- [reasoning/refresh_traits.py](reasoning/refresh_traits.py): reasoning rebuild driver
+- [download_csv_dump.py](download_csv_dump.py): API export helper
+- [update_decade_start.py](update_decade_start.py): live index backfill helper
 
 ## Requirements
 
 - Python 3.8+
-- Elasticsearch running locally or remotely (endpoint configured in script or via `.env` file)
-- `pandas`, `elasticsearch`, `python-dotenv`
+- Elasticsearch reachable for ingestion or maintenance commands
 
-Install dependencies:
+## License
 
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Notes
-
-- The index name is determined by mode (e.g., `inat-records`, `machine-records`, etc.)
-- Validation logic may be extended by modifying the script.
-- Ensure that `columns.csv` and `traits.csv` are present in the working directory or specified via `--data_dir`.
-
----
+This repository is licensed under the [MIT License](LICENSE). Bundled ontology snapshots and other third-party source data may remain subject to their own upstream terms.
 
 ## Author
 

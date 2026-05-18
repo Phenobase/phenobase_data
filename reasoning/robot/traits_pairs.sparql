@@ -1,0 +1,38 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Generic trait expansion query for PPO trait labels ending in
+# " present" or " absent".
+#
+# The query emits flat trait -> mapped-trait pairs:
+# - present terms expand across the full rdfs:subClassOf* chain, filtered
+#   to ancestor labels that also end in " present"
+# - absent terms map only to themselves
+#
+# Post-processing groups these pairs back into the Phenobase traits.csv shape.
+
+SELECT ?trait_id ?trait_label ?mapped_id ?mapped_label WHERE {
+  {
+    ?trait rdfs:label ?trait_label .
+    FILTER(REGEX(STR(?trait), "/PPO_[0-9]+$"))
+    FILTER(STRENDS(LCASE(STR(?trait_label)), " present"))
+
+    ?trait rdfs:subClassOf* ?mapped .
+    ?mapped rdfs:label ?mapped_label .
+    FILTER(STRENDS(LCASE(STR(?mapped_label)), " present"))
+  }
+  UNION
+  {
+    ?trait rdfs:label ?trait_label .
+    FILTER(REGEX(STR(?trait), "/PPO_[0-9]+$"))
+    FILTER(STRENDS(LCASE(STR(?trait_label)), " absent"))
+
+    BIND(?trait AS ?mapped)
+    BIND(?trait_label AS ?mapped_label)
+  }
+
+  BIND(REPLACE(STR(?trait), "^.*/(PPO_[0-9]+)$", "$1") AS ?trait_raw)
+  BIND(REPLACE(?trait_raw, "_", ":") AS ?trait_id)
+  BIND(REPLACE(STR(?mapped), "^.*/(PPO_[0-9]+)$", "$1") AS ?mapped_raw)
+  BIND(REPLACE(?mapped_raw, "_", ":") AS ?mapped_id)
+}
+ORDER BY ?trait_id ?mapped_id

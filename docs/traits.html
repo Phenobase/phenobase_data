@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhenoBase Traits Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="traits-page">
+  <main class="page-shell traits-shell">
+    <header class="traits-header">
+      <div>
+        <h1>View Traits</h1>
+        <p class="inline-links">
+          <a href="https://github.com/Phenobase/phenobase_data/blob/version2/README.md">README.md</a>
+          <span>·</span>
+          <a href="traits.html">View Traits</a>
+        </p>
+      </div>
+    </header>
+
+    <section class="stats-strip" id="statsStrip">
+      <div class="stat-card">
+        <span class="stat-label">Ontology Version</span>
+        <strong class="stat-value" id="versionValue">Loading...</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Total Traits</span>
+        <strong class="stat-value" id="rowCountValue">-</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Present Traits</span>
+        <strong class="stat-value" id="presentCountValue">-</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Absent Traits</span>
+        <strong class="stat-value" id="absentCountValue">-</strong>
+      </div>
+    </section>
+
+    <section class="explorer-layout">
+      <aside class="panel control-panel">
+        <label class="control-label" for="searchInput">Search Traits</label>
+        <input id="searchInput" class="search-input" type="search" placeholder="flower bud, ripe fruit, vegetative...">
+
+        <div class="filter-row" role="group" aria-label="Trait type filter">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="present">Present</button>
+          <button class="filter-chip" data-filter="absent">Absent</button>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-header">
+            <h2>Matching Traits</h2>
+            <span id="matchCount">0</span>
+          </div>
+          <div id="traitList" class="trait-list"></div>
+        </div>
+      </aside>
+
+      <section class="panel detail-panel">
+        <div id="detailEmpty" class="empty-state">
+          <h2>Select a trait</h2>
+          <p>Choose a trait from the list to inspect its direct parents, children, and mapped chain.</p>
+        </div>
+
+        <div id="detailCard" class="detail-card hidden">
+          <div class="detail-topline">
+            <p id="detailType" class="detail-type"></p>
+            <p id="detailId" class="detail-id"></p>
+          </div>
+          <h2 id="detailLabel"></h2>
+
+          <div class="detail-grid">
+            <section class="detail-section">
+              <h3>Direct Parents</h3>
+              <div id="detailParents" class="pill-list"></div>
+            </section>
+            <section class="detail-section">
+              <h3>Direct Children</h3>
+              <div id="detailChildren" class="pill-list"></div>
+            </section>
+            <section class="detail-section detail-section-wide">
+              <h3>Mapped Ancestor Chain</h3>
+              <ol id="detailMapped" class="mapped-chain"></ol>
+            </section>
+            <section class="detail-section detail-section-wide">
+              <h3>Source</h3>
+              <div class="source-links">
+                <a id="detailIri" class="button button-secondary" href="#" target="_blank" rel="noreferrer">Open Ontology IRI</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="traits-data.js"></script>
+  <script src="traits.js"></script>
+</body>
+</html>
