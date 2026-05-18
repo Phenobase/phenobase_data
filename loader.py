@@ -547,6 +547,11 @@ class ESLoader:
                 aid = (row.get('annotationID') or '').strip()
                 cleaned['annotationID'] = aid
 
+                # Trait identity is resolved from trait_urn inside assign_system_fields.
+                # Copy the normalized values back over the raw input values before indexing.
+                cleaned['trait_urn'] = row.get('trait_urn')
+                cleaned['trait'] = row.get('trait')
+
                 # Duplicate ID within this file?
                 if aid:
                     if aid in seen_ids:

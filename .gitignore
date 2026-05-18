@@ -1,4 +1,6 @@
 data/*
 downloads/*
+!downloads/phenoObs/
+!downloads/phenoObs/mappings.csv
 loading_errors.csv
 nohup.out

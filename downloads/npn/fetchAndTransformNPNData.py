@@ -51,7 +51,7 @@ LEGACY_LABEL_ALIAS = {
 
 
 def norm(value):
-    return str(value or "").strip()
+    return "" if value is None else str(value).strip()
 
 
 def normalize_key(value):
@@ -141,7 +141,7 @@ def resolve_trait_record(raw, trait_lookup):
 
 
 def parse_status(raw):
-    s = str(raw or "")
+    s = "" if raw is None else str(raw)
     s = "".join("-" if ch in "\u2212\u2012\u2013\u2014\u2015" else ch for ch in s)
     s = s.strip().lower()
 
