@@ -1,35 +1,30 @@
 # NPN Observations: Fetch + Transform
 
-This tool downloads USA-NPN observations for a given date range and **maps phenophase descriptions to standardized traits** using a `mappings.csv`. Rows are **dropped** if:
+This tool downloads USA-NPN observations for a given date range and maps phenophase descriptions to standardized PPO traits using a `mappings.csv`. Rows are dropped if:
 - the mapping marks that description as `status = -1` (drop),
-- there’s **no** mapping for the description/status,
-- or the resolved mapping’s `trait` is **empty**.
+- there’s no mapping for the description/status,
+- or the resolved mapping cannot be tied to a PPO ID / `trait_urn`.
 
-> **Script:** `fetchAndTransformNPNData.js`
+> **Script:** `fetchAndTransformNPNData.py`
 
 ---
 
 ## Prerequisites
 
-- **Node.js** v18+ (recommended)
+- **Python** 3.8+
 - An internet connection (calls the USA-NPN API)
 - A CSV file named `mappings.csv` with headers:
-  ```
-  verbatim_trait,status,trait
-  ```
 
-### Install dependencies
-
-```bash
-npm i axios fast-csv date-fns
+```csv
+verbatim_trait,status,trait_urn,trait
 ```
 
 ---
 
 ## Files
 
-- `fetchAndTransformNPNData.js` — main script
-- `mappings.csv` — mapping table (default path `/mnt/data/mappings.csv`, or pass a custom path)
+- `fetchAndTransformNPNData.py` - main script
+- `mappings.csv` - mapping table (default path `/mnt/data/mappings.csv`, or pass a custom path)
 - Output: `npn_observations_<start>_to_<end>.csv` in the current directory
 
 ---
@@ -37,7 +32,7 @@ npm i axios fast-csv date-fns
 ## Usage
 
 ```bash
-node fetchAndTransformNPNData.js <start_date> <end_date> [mappings_csv_path]
+python3 fetchAndTransformNPNData.py <start_date> <end_date> [mappings_csv_path]
 ```
 
 - `<start_date>` / `<end_date>`: `YYYY-MM-DD`
@@ -48,13 +43,13 @@ node fetchAndTransformNPNData.js <start_date> <end_date> [mappings_csv_path]
 Use default mappings path:
 
 ```bash
-node fetchAndTransformNPNData.js 2025-08-01 2025-08-02
+python3 fetchAndTransformNPNData.py 2025-08-01 2025-08-02
 ```
 
 Use a local mappings file:
 
 ```bash
-node fetchAndTransformNPNData.js 2025-08-01 2025-08-31 ./mappings.csv
+python3 fetchAndTransformNPNData.py 2025-08-01 2025-08-31 ./mappings.csv
 ```
 
 ---
@@ -63,20 +58,19 @@ node fetchAndTransformNPNData.js 2025-08-01 2025-08-31 ./mappings.csv
 
 - **`verbatim_trait`**: The exact phenophase description as returned by the API (matching is case- and whitespace-insensitive; non-breaking spaces are normalized).
 - **`status`**: One of `-1`, `0`, `1`.
-  - `-1` means **drop all rows** with this description (wins over any other mapping).
-  - `0` or `1` provides a **trait** to use when the observation’s `phenophase_status` is absent (`0`) or present (`1`).
-- **`trait`**: The standardized trait string to write into the output. If this is **empty**, the row is dropped.
+  - `-1` means drop all rows with this description.
+  - `0` or `1` provides the mapping used when the observation’s `phenophase_status` is absent (`0`) or present (`1`).
+- **`trait_urn`**: The PPO ID for the standardized trait. This is the stable key. The script resolves the current canonical `trait` label from `data/traits.csv`.
+- **`trait`**: The human-readable label for the trait. This is still written to output for compatibility, but the ID is the source of truth.
 
 Example:
 
 ```csv
-verbatim_trait,status,trait
-Open flowers,1,Phenophase: Open flowers (present)
-Open flowers,0,Phenophase: Open flowers (absent)
-Leaf out,-1,
+verbatim_trait,status,trait_urn,trait
+Open flowers,1,PPO:0002333,open flower present
+Open flowers,0,PPO:0002632,open flower absent
+Leaf out,-1,,
 ```
-
-> The loader is robust to Unicode minus signs (e.g., `−1`) and common text synonyms such as `present/absent/observed/yes/no/ignore/omit`.
 
 ---
 
@@ -87,18 +81,20 @@ Leaf out,-1,
 3. Normalizes each `phenophase_description` and looks it up in `mappings.csv`.
 4. Applies mapping rules:
    - Drop if `-1` mapping exists for that description.
-   - Otherwise prefer an **exact** mapping for the observation’s `phenophase_status` (0/1) with a **non-empty** `trait`.
+   - Otherwise prefer an exact mapping for the observation’s `phenophase_status` (`0`/`1`) with a non-empty trait.
    - If exact is missing, fallback to a non-empty `1` mapping, then `0`.
-   - If all else fails or trait is empty → **drop**.
+   - If all else fails or trait is empty, drop.
 5. Writes a CSV with columns:
-   ```
-   genus,species,observation_id,observation_date,year,dataset_id,day_of_year,
-   latitude,longitude,phenophase_description,phenophase_status,trait
-   ```
-   where `phenophase_status` is rendered as `Observed` / `Not Observed`.
+
+```text
+dataSource,scientificName,taxonRank,basisOfRecord,family,genus,species,
+annotationID,date,year,dataset_id,site_id,individual_id,dayOfYear,
+latitude,longitude,verbatimTrait,phenophase_status,trait_urn,trait
+```
 
 During the run, you’ll see summary counters:
-```
+
+```text
 Kept rows: <n> | Dropped (-1 map): <n> | Dropped (empty trait): <n> | Dropped (no map): <n> | Dropped (bad obs status): <n>
 ```
 
@@ -108,11 +104,11 @@ Kept rows: <n> | Dropped (-1 map): <n> | Dropped (empty trait): <n> | Dropped (n
 
 The script creates a file like:
 
-```
+```text
 npn_observations_2025-08-01_to_2025-08-02.csv
 ```
 
-Only rows with a valid, mapped **trait** are included.
+Only rows with a valid, mapped `trait_urn` and `trait` are included.
 
 ---
 
@@ -121,10 +117,7 @@ Only rows with a valid, mapped **trait** are included.
 After a successful run, copy the generated CSV into your dated folder:
 
 ```bash
-# Make sure the destination directory exists
 mkdir -p ../../data/npn.08.01.2025-08.02.2025
-
-# Replace the filename below with the actual output name from your run
 cp npn_observations_2025-08-01_to_2025-08-02.csv ../../data/npn.08.01.2025-08.02.2025/
 ```
 
@@ -135,18 +128,10 @@ If you run multiple ranges, copy each resulting `npn_observations_*.csv` you wan
 ## Troubleshooting
 
 - **Some descriptions aren’t mapping**
-  Ensure `verbatim_trait` in `mappings.csv` matches the API’s `phenophase_description` text (case and spacing don’t matter; trailing spaces / NBSPs are normalized). Add rows for missing descriptions.
+  Ensure `verbatim_trait` in `mappings.csv` matches the API’s `phenophase_description` text. Add rows for missing descriptions.
 
 - **`-1` rows not dropping**
-  Check that the `status` cell is truly `-1` and not blank or a typographic minus (the script normalizes both, but blanks are ignored). The loader also sets an internal drop flag for any description with `-1`, so drops should always win.
-
-- **`package.json` files ignored by git**
-  If you added `*.json` to `.gitignore`, use exceptions for `package.json` and `package-lock.json`:
-  ```gitignore
-  *.json
-  !package.json
-  !package-lock.json
-  ```
+  Check that the `status` cell is truly `-1` and not blank. The script treats any `-1` row for a description as a hard drop.
 
 ---
 

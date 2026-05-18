@@ -1,41 +1,29 @@
 #!/usr/bin/env python3
 import csv
 import os
-import re
 import zipfile
 import xml.etree.ElementTree as ET
+import sys
 from datetime import datetime
 
 BASE_DIR = os.path.dirname(__file__)
+REPO_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
+
+from trait_lookup import load_traits_catalog
+
 RAW_ROOT = BASE_DIR
 COORDS_XLSX = os.path.join(BASE_DIR, "Coordinates_PhenObs_Gardens.xlsx")
+MAPPINGS_CSV = os.path.join(BASE_DIR, "mappings.csv")
 OUT_DIR = os.path.join(BASE_DIR, "ingest")
+TRAITS_CATALOG = load_traits_catalog(os.path.join(REPO_ROOT, "data", "traits.csv"))
+TRAITS_BY_URN = TRAITS_CATALOG["by_urn"]
 
 DATA_SOURCE = "PhenoObs"
 ANNOTATION_METHOD = "in_situ"
-
-TRAIT_MAP = {
-    "Initial.vegetative.growth": (
-        "breaking vegetative bud present",
-        "breaking vegetative bud absent",
-    ),
-    "Young.leaves.unfolding": (
-        "unfolding true leaf present",
-        "unfolding true leaf absent",
-    ),
-    "Flowers.opening": (
-        "open flower present",
-        "open flower absent",
-    ),
-    "Ripe.fruits": (
-        "ripe fruit present",
-        "ripe fruit absent",
-    ),
-    "Senescence": (
-        "senescing true leaf present",
-        "senescing true leaf absent",
-    ),
-}
+YES_VALUES = {"y", "yes", "1", "true"}
+NO_VALUES = {"n", "no", "0", "false"}
 
 VALID_PRESENT = {"y", "yes"}
 VALID_ABSENT = {"no", "n"}
@@ -120,8 +108,33 @@ def read_coords_xlsx(path):
     return coords
 
 
-def slugify(value):
-    return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
+def trait_label_for_urn(trait_urn):
+    record = TRAITS_BY_URN.get(trait_urn)
+    if not record:
+        raise KeyError(f"Trait URN not found in traits.csv: {trait_urn}")
+    return record["trait"]
+
+
+def load_mappings(path):
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Missing mappings file: {path}")
+
+    mappings = {}
+    with open(path, newline="", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            field = (row.get("verbatim_trait") or row.get("source_field") or "").strip()
+            if not field:
+                continue
+            status = (row.get("status") or "").strip().lower()
+            trait_urn = (row.get("trait_urn") or "").strip()
+            trait = (row.get("trait") or "").strip()
+            mappings.setdefault(field, {})
+            if status in YES_VALUES:
+                mappings[field]["yes"] = {"trait_urn": trait_urn, "trait": trait}
+            elif status in NO_VALUES:
+                mappings[field]["no"] = {"trait_urn": trait_urn, "trait": trait}
+    return mappings
 
 
 def extract_genus(scientific_name):
@@ -150,7 +163,7 @@ def raw_files(root):
                 yield os.path.join(dirpath, name)
 
 
-def build_rows(raw_path, coords):
+def build_rows(raw_path, coords, mappings):
     with open(raw_path, newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f, delimiter=";")
         for row in reader:
@@ -171,18 +184,25 @@ def build_rows(raw_path, coords):
 
             occurrence_id = f"phenoobs:{species_id}:{date_norm}"
 
-            for col, (present_trait, absent_trait) in TRAIT_MAP.items():
+            for col, status_map in mappings.items():
                 raw_val = (row.get(col) or "").strip().lower()
                 if raw_val in VALID_PRESENT:
-                    trait = present_trait
+                    decision = status_map.get("yes")
                 elif raw_val in VALID_ABSENT:
-                    trait = absent_trait
+                    decision = status_map.get("no")
                 else:
                     continue
 
+                if not decision:
+                    continue
+
+                trait_urn = decision.get("trait_urn", "")
+                if not trait_urn:
+                    raise KeyError(f"Missing trait_urn mapping for {col} value '{raw_val}' in {MAPPINGS_CSV}")
+
+                trait = trait_label_for_urn(trait_urn)
                 genus = extract_genus(species)
-                trait_slug = slugify(trait)
-                annotation_id = f"{occurrence_id}:{trait_slug}"
+                annotation_id = f"{occurrence_id}:{trait_urn.replace(':', '_')}"
 
                 verbatim = f"{col}={raw_val}"
                 if col == "Flowers.opening":
@@ -199,6 +219,7 @@ def build_rows(raw_path, coords):
                     "dataSource": DATA_SOURCE,
                     "scientificName": species,
                     "genus": genus,
+                    "trait_urn": trait_urn,
                     "trait": trait,
                     "family": "",
                     "year": year,
@@ -215,12 +236,14 @@ def build_rows(raw_path, coords):
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     coords = read_coords_xlsx(COORDS_XLSX)
+    mappings = load_mappings(MAPPINGS_CSV)
 
     out_fields = [
         "annotationID",
         "dataSource",
         "scientificName",
         "genus",
+        "trait_urn",
         "trait",
         "family",
         "year",
@@ -241,7 +264,7 @@ def main():
         with open(out_path, "w", newline="", encoding="utf-8") as out_f:
             writer = csv.DictWriter(out_f, fieldnames=out_fields)
             writer.writeheader()
-            for row in build_rows(raw_path, coords):
+            for row in build_rows(raw_path, coords, mappings):
                 writer.writerow(row)
 
         print(f"Wrote {out_path}")

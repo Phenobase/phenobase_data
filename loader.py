@@ -10,6 +10,7 @@ import argparse
 from elasticsearch import Elasticsearch, helpers
 import yaml
 from datetime import datetime
+from trait_lookup import load_traits_catalog
 
 # Suppress warnings (e.g., LibreSSL)
 warnings.filterwarnings("ignore")
@@ -46,19 +47,7 @@ def build_es_mapping(column_metadata):
 # ----------------------------
 # Traits mapping
 # ----------------------------
-def load_traits_mapping(path='data/traits.csv'):
-    traits_mapping = {}
-    if not os.path.exists(path):
-        return traits_mapping
-    with open(path, newline='', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            trait = (row.get('trait') or '').strip().lower()
-            if trait:
-                traits_mapping[trait] = row.get('mappedTraits')
-    return traits_mapping
-
-traits_mapping = load_traits_mapping()
+traits_catalog = load_traits_catalog()
 
 # ----------------------------
 # YAML transforms
@@ -327,6 +316,9 @@ class ESLoader:
 
         self.mode = mode
         self.test_mode = test_mode
+        self.traits_catalog = traits_catalog
+        self.traits_by_urn = self.traits_catalog.get('by_urn', {})
+        self.traits_by_label = self.traits_catalog.get('by_label', {})
 
         self.batch_size = int(batch_size)
         self.progress_every = int(progress_every)
@@ -390,21 +382,31 @@ class ESLoader:
             except (TypeError, ValueError):
                 row['decadeStart'] = None
 
-        if 'mappedTraits' in self.system_fields:
-            trait_raw = (row.get('trait') or '').strip().lower()
-            if not trait_raw:
-                errors.append("Trait is empty — required for mappedTraits.")
-                row['mappedTraits'] = ''
+        trait_urn = (row.get('trait_urn') or '').strip()
+        trait_raw = (row.get('trait') or '').strip()
+
+        record = None
+        if trait_urn:
+            record = self.traits_by_urn.get(trait_urn)
+            if record is None:
+                errors.append(f"Trait URN '{trait_urn}' not found in traits mapping.")
+        elif trait_raw:
+            record = self.traits_by_label.get(trait_raw.lower())
+            if record is None:
+                errors.append(f"Trait '{trait_raw}' not found in traits mapping.")
+        else:
+            errors.append("Trait or trait_urn is empty — required for mappedTraits.")
+
+        if record:
+            row['trait_urn'] = record.get('trait_urn', trait_urn)
+            row['trait'] = record.get('trait', trait_raw)
+            mapped = record.get('mappedTraits', '')
+            if isinstance(mapped, str):
+                row['mappedTraits'] = [x.strip() for x in mapped.split("|") if x.strip()]
             else:
-                mapped = self.traits_mapping.get(trait_raw)
-                if mapped is None:
-                    errors.append(f"Trait '{trait_raw}' not found in traits mapping.")
-                    row['mappedTraits'] = ''
-                else:
-                    if isinstance(mapped, str):
-                        row['mappedTraits'] = [x.strip() for x in mapped.split("|") if x.strip()]
-                    else:
-                        row['mappedTraits'] = mapped
+                row['mappedTraits'] = mapped
+        else:
+            row['mappedTraits'] = ''
 
     def __load_file(self, file):
         start_ts = time.time()
