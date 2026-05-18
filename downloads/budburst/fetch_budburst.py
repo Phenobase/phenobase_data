@@ -85,6 +85,10 @@ def extract_genus(scientific_name):
     return parts[0] if parts else ""
 
 
+def format_coordinate(value):
+    return f"{float(norm(value)):.5f}"
+
+
 def load_config(path):
     if not path or not path.exists():
         return {}
@@ -271,9 +275,10 @@ def transform_observation(row, mappings, counters, include_youth):
         counters["droppedBadDate"] += 1
         return
 
-    latitude = norm(row.get("latitude"))
-    longitude = norm(row.get("longitude"))
-    if not latitude or not longitude:
+    try:
+        latitude = format_coordinate(row.get("latitude"))
+        longitude = format_coordinate(row.get("longitude"))
+    except Exception:
         counters["droppedMissingCoords"] += 1
         return
 
