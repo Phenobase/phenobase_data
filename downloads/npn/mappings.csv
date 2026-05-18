@@ -20,8 +20,8 @@ Initial growth (rushes),0,new shoot system absent
 Initial growth (rushes),1,new shoot system present
 "Young unfolded leaves (evergreen, 1 location)",0,immature unfolded true leaf absent
 "Young unfolded leaves (evergreen, 1 location)",1,immature unfolded true leaf present
-Increasing leaf size,0,
-Increasing leaf size,1,expanding unfolded true leaf present
+Early season leaf expansion,0,
+Early season leaf expansion,1,expanding unfolded true leaf present
 Young leaves (tree/shrub),0,immature unfolded true leaf absent
 Young leaves (tree/shrub),1,immature unfolded true leaf present
 Young needles (conifers),0,immature unfolded true leaf absent
@@ -106,6 +106,8 @@ End of flowering (lilac/honeysuckle),1,senesced flower present
 End bloom (historic western honeysuckle),1,senesced flower present
 Fruits,0,simple fruit or compound fruit absent
 Fruits,1,simple fruit or compound fruit present
+Seed cones,0,non-senesced megasporangiate strobilus absent
+Seed cones,1,non-senesced megasporangiate strobilus present
 Unripe seed cones,0,immature post-fertilization megasporangiate strobilus absent
 Unripe seed cones,1,immature post-fertilization megasporangiate strobilus present
 Ripe fruits (1 location),0,ripe fruit absent
