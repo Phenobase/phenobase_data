@@ -1,32 +1,95 @@
 #!/usr/bin/env python3
+"""Transform PhenoObs raw exports into one loader-ready CSV."""
+
+from __future__ import annotations
+
+import argparse
 import csv
 import os
+import sys
 import zipfile
 import xml.etree.ElementTree as ET
-import sys
+from collections import OrderedDict
 from datetime import datetime
+from pathlib import Path
 
-BASE_DIR = os.path.dirname(__file__)
-REPO_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
-if REPO_ROOT not in sys.path:
-    sys.path.insert(0, REPO_ROOT)
 
-from trait_lookup import load_traits_catalog
+BASE_DIR = Path(__file__).resolve().parent
+REPO_ROOT = BASE_DIR.parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
-RAW_ROOT = BASE_DIR
-COORDS_XLSX = os.path.join(BASE_DIR, "Coordinates_PhenObs_Gardens.xlsx")
-MAPPINGS_CSV = os.path.join(BASE_DIR, "mappings.csv")
-OUT_DIR = os.path.join(BASE_DIR, "ingest")
-TRAITS_CATALOG = load_traits_catalog(os.path.join(REPO_ROOT, "data", "traits.csv"))
-TRAITS_BY_URN = TRAITS_CATALOG["by_urn"]
+from trait_lookup import canonical_label_for_urn, load_traits_catalog
+
+
+DEFAULT_RAW_ROOT = REPO_ROOT / "data" / "phenoObs"
+DEFAULT_COORDS_XLSX = BASE_DIR / "Coordinates_PhenObs_Gardens.xlsx"
+DEFAULT_MAPPINGS_CSV = BASE_DIR / "mappings.csv"
+TRAITS_CSV = REPO_ROOT / "data" / "traits.csv"
 
 DATA_SOURCE = "PhenoObs"
 ANNOTATION_METHOD = "in_situ"
-YES_VALUES = {"y", "yes", "1", "true"}
-NO_VALUES = {"n", "no", "0", "false"}
+BASIS_OF_RECORD = "Human Observation"
 
-VALID_PRESENT = {"y", "yes"}
-VALID_ABSENT = {"no", "n"}
+VALID_PRESENT = {"y", "yes", "1", "true"}
+VALID_ABSENT = {"no", "n", "0", "false"}
+NULL_VALUES = {"", "na", "n/a", "null", "none", "-", "u", "m"}
+
+DEFAULT_COORDS = {
+    "Berlin": ("52.454", "13.305"),
+    "Edinburgh": ("55.965", "-3.209"),
+    "Frankfurt": ("50.123", "8.656"),
+    "Halle": ("51.488", "11.96"),
+    "Jena": ("50.93", "11.585"),
+    "Petrozavodsk": ("61.768", "34.401"),
+    "Potsdam": ("52.404", "13.025"),
+    "Prague": ("50.071", "14.42"),
+    "Rome": ("41.892", "12.462"),
+    "Srinagar": ("34.127", "74.832"),
+    "Trondheim": ("63.446", "10.452"),
+    "Tuebingen": ("48.539", "9.035"),
+    "Vienna": ("48.192", "16.38"),
+    "Xixon": ("43.52", "-5.614"),
+}
+
+OUTPUT_FIELDS = [
+    "dataSource",
+    "scientificName",
+    "taxonRank",
+    "basisOfRecord",
+    "family",
+    "genus",
+    "species",
+    "annotationID",
+    "date",
+    "year",
+    "dayOfYear",
+    "latitude",
+    "longitude",
+    "locationID",
+    "organismID",
+    "occurrenceID",
+    "annotation_method",
+    "verbatimTrait",
+    "phenophase_status",
+    "trait_urn",
+    "trait",
+]
+
+
+def norm(value):
+    return "" if value is None else str(value).strip()
+
+
+def normalize_status(value):
+    cleaned = norm(value).lower()
+    if cleaned in VALID_PRESENT:
+        return 1
+    if cleaned in VALID_ABSENT:
+        return 0
+    if cleaned in NULL_VALUES:
+        return None
+    return None
 
 
 def _col_letters_to_index(letters):
@@ -37,8 +100,8 @@ def _col_letters_to_index(letters):
 
 
 def read_coords_xlsx(path):
-    if not os.path.exists(path):
-        raise FileNotFoundError(f"Missing coordinates file: {path}")
+    if not path.exists():
+        return {}
 
     with zipfile.ZipFile(path) as zf:
         shared = []
@@ -46,15 +109,13 @@ def read_coords_xlsx(path):
             tree = ET.fromstring(zf.read("xl/sharedStrings.xml"))
             ns = {"s": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
             for si in tree.findall(".//s:si", ns):
-                parts = []
-                for t in si.findall(".//s:t", ns):
-                    parts.append(t.text or "")
+                parts = [t.text or "" for t in si.findall(".//s:t", ns)]
                 shared.append("".join(parts))
 
         sheets = [n for n in zf.namelist() if n.startswith("xl/worksheets/sheet")]
         sheets.sort()
         if not sheets:
-            raise ValueError("No worksheets found in coordinates file.")
+            raise ValueError(f"No worksheets found in coordinates file: {path}")
 
         sheet_xml = ET.fromstring(zf.read(sheets[0]))
         ns = {"s": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
@@ -84,57 +145,77 @@ def read_coords_xlsx(path):
                 rows.append(row_list)
 
     if not rows:
-        raise ValueError("No coordinate rows found in xlsx.")
+        return {}
 
     header = [h.strip() for h in rows[0]]
-    coord_rows = rows[1:]
-
     name_idx = header.index("Botanic_Garden")
     lat_idx = header.index("Latitude")
     lon_idx = header.index("Longitude")
 
     coords = {}
-    for r in coord_rows:
-        if len(r) <= max(name_idx, lat_idx, lon_idx):
+    for row in rows[1:]:
+        if len(row) <= max(name_idx, lat_idx, lon_idx):
             continue
-        name = (r[name_idx] or "").strip()
-        if not name:
-            continue
-        lat = (r[lat_idx] or "").strip()
-        lon = (r[lon_idx] or "").strip()
-        if not lat or not lon:
-            continue
-        coords[name] = (float(lat), float(lon))
+        name = norm(row[name_idx])
+        lat = norm(row[lat_idx])
+        lon = norm(row[lon_idx])
+        if name and lat and lon:
+            coords[name] = (lat, lon)
     return coords
 
 
-def trait_label_for_urn(trait_urn):
-    record = TRAITS_BY_URN.get(trait_urn)
-    if not record:
-        raise KeyError(f"Trait URN not found in traits.csv: {trait_urn}")
-    return record["trait"]
+def load_coords(path):
+    coords = dict(DEFAULT_COORDS)
+    coords.update(read_coords_xlsx(path))
+    return coords
 
 
-def load_mappings(path):
-    if not os.path.exists(path):
+def load_mappings(path, traits_catalog):
+    if not path.exists():
         raise FileNotFoundError(f"Missing mappings file: {path}")
 
     mappings = {}
-    with open(path, newline="", encoding="utf-8-sig") as f:
+    rows = 0
+    by_status = {"0": 0, "1": 0}
+    invalid_status = 0
+
+    with path.open(newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
-        for row in reader:
-            field = (row.get("verbatim_trait") or row.get("source_field") or "").strip()
+        for raw in reader:
+            rows += 1
+            field = norm(raw.get("verbatim_trait") or raw.get("source_field"))
+            status = normalize_status(raw.get("status"))
+            trait_urn = norm(raw.get("trait_urn") or raw.get("ppo_id") or raw.get("urn"))
             if not field:
                 continue
-            status = (row.get("status") or "").strip().lower()
-            trait_urn = (row.get("trait_urn") or "").strip()
-            trait = (row.get("trait") or "").strip()
-            mappings.setdefault(field, {})
-            if status in YES_VALUES:
-                mappings[field]["yes"] = {"trait_urn": trait_urn, "trait": trait}
-            elif status in NO_VALUES:
-                mappings[field]["no"] = {"trait_urn": trait_urn, "trait": trait}
+            if status is None:
+                invalid_status += 1
+                continue
+            if not trait_urn:
+                raise KeyError(f"Missing trait_urn mapping for {field} status {raw.get('status')}")
+
+            trait = canonical_label_for_urn(trait_urn, traits_catalog)
+            if not trait:
+                raise KeyError(f"Trait URN not found in traits.csv: {trait_urn}")
+
+            mappings.setdefault(field, {})[status] = {
+                "trait_urn": trait_urn,
+                "trait": trait,
+            }
+            by_status[str(status)] += 1
+
+    print(
+        f"Loaded {rows} mapping row(s) across {len(mappings)} source field(s) from {path}. "
+        f"Counts by status: 0={by_status['0']}, 1={by_status['1']}; invalid/blank={invalid_status}"
+    )
     return mappings
+
+
+def raw_files(root):
+    for dirpath, _, filenames in os.walk(root):
+        for name in filenames:
+            if name.startswith("rawdata_PhenObs_") and name.endswith(".csv"):
+                yield Path(dirpath) / name
 
 
 def extract_genus(scientific_name):
@@ -142,8 +223,13 @@ def extract_genus(scientific_name):
     return parts[0] if parts else ""
 
 
+def extract_species(scientific_name):
+    parts = scientific_name.split()
+    return parts[1] if len(parts) > 1 else ""
+
+
 def normalize_date(value):
-    value = (value or "").strip()
+    value = norm(value)
     if not value:
         return ""
     return datetime.strptime(value, "%d.%m.%Y").strftime("%Y-%m-%d")
@@ -156,118 +242,170 @@ def safe_int(value):
         return ""
 
 
-def raw_files(root):
-    for dirpath, _, filenames in os.walk(root):
-        for name in filenames:
-            if name.startswith("rawdata_PhenObs_") and name.endswith(".csv"):
-                yield os.path.join(dirpath, name)
+def make_verbatim_trait(field, raw_value, row):
+    verbatim = f"{field}={raw_value}"
+    if field == "Flowers.opening":
+        intensity = norm(row.get("Flowering.intensity"))
+        if intensity and intensity != "0":
+            verbatim = f"{verbatim}; Flowering.intensity={intensity}"
+    if field == "Senescence":
+        intensity = norm(row.get("Senescence.intensity"))
+        if intensity and intensity != "0":
+            verbatim = f"{verbatim}; Senescence.intensity={intensity}"
+    return verbatim
 
 
-def build_rows(raw_path, coords, mappings):
-    with open(raw_path, newline="", encoding="utf-8-sig") as f:
+def transform_raw_row(row, mappings, coords, counters, source_row_id):
+    counters["rawRows"] += 1
+
+    scientific_name = norm(row.get("Species"))
+    garden = norm(row.get("Botanic_Garden"))
+    organism_id = norm(row.get("Species_ID"))
+    if not scientific_name or not garden or not organism_id:
+        counters["droppedMissingCore"] += 1
+        return
+
+    try:
+        date_norm = normalize_date(row.get("Date"))
+    except Exception:
+        counters["droppedBadDate"] += 1
+        return
+    if not date_norm:
+        counters["droppedBadDate"] += 1
+        return
+
+    lat_lon = coords.get(garden)
+    if not lat_lon:
+        counters["droppedMissingCoords"] += 1
+        return
+    lat, lon = lat_lon
+
+    year = safe_int(date_norm.split("-")[0])
+    day_of_year = safe_int(row.get("Doy"))
+    occurrence_id = f"phenoobs:{organism_id}:{date_norm}"
+    genus = extract_genus(scientific_name)
+    species = extract_species(scientific_name)
+
+    for field, status_map in mappings.items():
+        raw_value = norm(row.get(field))
+        status = normalize_status(raw_value)
+        if status is None:
+            counters["droppedBadObsStatus"] += 1
+            continue
+
+        trait_record = status_map.get(status)
+        if not trait_record:
+            counters["droppedNoMap"] += 1
+            continue
+
+        trait_urn = trait_record["trait_urn"]
+        trait = trait_record["trait"]
+        annotation_id = f"{occurrence_id}:{field}:{status}:{trait_urn.replace(':', '_')}:{source_row_id}"
+
+        counters["keptCount"] += 1
+        yield OrderedDict(
+            [
+                ("dataSource", DATA_SOURCE),
+                ("scientificName", scientific_name),
+                ("taxonRank", "species"),
+                ("basisOfRecord", BASIS_OF_RECORD),
+                ("family", ""),
+                ("genus", genus),
+                ("species", species),
+                ("annotationID", annotation_id),
+                ("date", date_norm),
+                ("year", year),
+                ("dayOfYear", day_of_year),
+                ("latitude", lat),
+                ("longitude", lon),
+                ("locationID", garden),
+                ("organismID", organism_id),
+                ("occurrenceID", occurrence_id),
+                ("annotation_method", ANNOTATION_METHOD),
+                ("verbatimTrait", make_verbatim_trait(field, raw_value, row)),
+                ("phenophase_status", "Observed" if status == 1 else "Not Observed"),
+                ("trait_urn", trait_urn),
+                ("trait", trait),
+            ]
+        )
+
+
+def transform_file(raw_path, writer, mappings, coords, counters):
+    print(f"Processing {raw_path}...")
+    with raw_path.open(newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f, delimiter=";")
-        for row in reader:
-            species = (row.get("Species") or "").strip()
-            garden = (row.get("Botanic_Garden") or "").strip()
-            species_id = (row.get("Species_ID") or "").strip()
-            date_norm = normalize_date(row.get("Date"))
-            if not species or not garden or not date_norm:
-                continue
-
-            year = safe_int(date_norm.split("-")[0])
-            doy = safe_int(row.get("Doy"))
-
-            lat_lon = coords.get(garden)
-            if not lat_lon:
-                continue
-            lat, lon = lat_lon
-
-            occurrence_id = f"phenoobs:{species_id}:{date_norm}"
-
-            for col, status_map in mappings.items():
-                raw_val = (row.get(col) or "").strip().lower()
-                if raw_val in VALID_PRESENT:
-                    decision = status_map.get("yes")
-                elif raw_val in VALID_ABSENT:
-                    decision = status_map.get("no")
-                else:
-                    continue
-
-                if not decision:
-                    continue
-
-                trait_urn = decision.get("trait_urn", "")
-                if not trait_urn:
-                    raise KeyError(f"Missing trait_urn mapping for {col} value '{raw_val}' in {MAPPINGS_CSV}")
-
-                trait = trait_label_for_urn(trait_urn)
-                genus = extract_genus(species)
-                annotation_id = f"{occurrence_id}:{trait_urn.replace(':', '_')}"
-
-                verbatim = f"{col}={raw_val}"
-                if col == "Flowers.opening":
-                    intensity = (row.get("Flowering.intensity") or "").strip()
-                    if intensity and intensity != "0":
-                        verbatim = f"{verbatim}; Flowering.intensity={intensity}"
-                if col == "Senescence":
-                    intensity = (row.get("Senescence.intensity") or "").strip()
-                    if intensity and intensity != "0":
-                        verbatim = f"{verbatim}; Senescence.intensity={intensity}"
-
-                yield {
-                    "annotationID": annotation_id,
-                    "dataSource": DATA_SOURCE,
-                    "scientificName": species,
-                    "genus": genus,
-                    "trait_urn": trait_urn,
-                    "trait": trait,
-                    "family": "",
-                    "year": year,
-                    "dayOfYear": doy,
-                    "latitude": lat,
-                    "longitude": lon,
-                    "annotation_method": ANNOTATION_METHOD,
-                    "occurrenceID": occurrence_id,
-                    "date": date_norm,
-                    "verbatimTrait": verbatim,
-                }
+        source_name = raw_path.parent.name
+        for row_number, row in enumerate(reader, start=2):
+            source_row_id = f"{source_name}:row{row_number}"
+            for transformed in transform_raw_row(row, mappings, coords, counters, source_row_id):
+                writer.writerow(transformed)
 
 
 def main():
-    os.makedirs(OUT_DIR, exist_ok=True)
-    coords = read_coords_xlsx(COORDS_XLSX)
-    mappings = load_mappings(MAPPINGS_CSV)
+    parser = argparse.ArgumentParser(
+        description="Transform PhenoObs raw observations into one loader-ready CSV."
+    )
+    parser.add_argument(
+        "raw_root",
+        nargs="?",
+        default=str(DEFAULT_RAW_ROOT),
+        help="Directory containing rawdata_PhenObs_*.csv files. Defaults to data/phenoObs.",
+    )
+    parser.add_argument(
+        "mappings_csv_path",
+        nargs="?",
+        default=str(DEFAULT_MAPPINGS_CSV),
+        help="Trait mapping CSV. Defaults to downloads/phenoObs/mappings.csv.",
+    )
+    parser.add_argument(
+        "--output",
+        default="phenoObs_observations.csv",
+        help="Single output CSV path. Defaults to phenoObs_observations.csv in the current directory.",
+    )
+    parser.add_argument(
+        "--coords",
+        default=str(DEFAULT_COORDS_XLSX),
+        help="Optional coordinates xlsx with Botanic_Garden, Latitude, Longitude columns.",
+    )
+    args = parser.parse_args()
 
-    out_fields = [
-        "annotationID",
-        "dataSource",
-        "scientificName",
-        "genus",
-        "trait_urn",
-        "trait",
-        "family",
-        "year",
-        "dayOfYear",
-        "latitude",
-        "longitude",
-        "annotation_method",
-        "occurrenceID",
-        "date",
-        "verbatimTrait",
-    ]
+    output_path = Path(args.output)
+    raw_root = Path(args.raw_root)
+    mappings_path = Path(args.mappings_csv_path)
+    coords_path = Path(args.coords)
 
-    for raw_path in sorted(raw_files(RAW_ROOT)):
-        year_dir = os.path.basename(os.path.dirname(raw_path))
-        out_name = f"phenoObs_{year_dir}.csv"
-        out_path = os.path.join(OUT_DIR, out_name)
+    print(f"Output file: {output_path}")
 
-        with open(out_path, "w", newline="", encoding="utf-8") as out_f:
-            writer = csv.DictWriter(out_f, fieldnames=out_fields)
-            writer.writeheader()
-            for row in build_rows(raw_path, coords, mappings):
-                writer.writerow(row)
+    traits_catalog = load_traits_catalog(str(TRAITS_CSV))
+    mappings = load_mappings(mappings_path, traits_catalog)
+    coords = load_coords(coords_path)
+    files = sorted(raw_files(raw_root))
+    if not files:
+        raise FileNotFoundError(f"No rawdata_PhenObs_*.csv files found under {raw_root}")
 
-        print(f"Wrote {out_path}")
+    counters = {
+        "rawRows": 0,
+        "keptCount": 0,
+        "droppedMissingCore": 0,
+        "droppedBadDate": 0,
+        "droppedMissingCoords": 0,
+        "droppedBadObsStatus": 0,
+        "droppedNoMap": 0,
+    }
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", newline="", encoding="utf-8") as out_f:
+        writer = csv.DictWriter(out_f, fieldnames=OUTPUT_FIELDS)
+        writer.writeheader()
+        for raw_path in files:
+            transform_file(raw_path, writer, mappings, coords, counters)
+
+    print("Data transformation complete.")
+    print(
+        "Raw rows: {rawRows} | Kept rows: {keptCount} | Dropped missing core: {droppedMissingCore} | "
+        "Dropped bad date: {droppedBadDate} | Dropped missing coords: {droppedMissingCoords} | "
+        "Dropped bad obs status: {droppedBadObsStatus} | Dropped no map: {droppedNoMap}".format(**counters)
+    )
 
 
 if __name__ == "__main__":
