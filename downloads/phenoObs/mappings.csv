@@ -1,0 +1,11 @@
+verbatim_trait,status,trait_urn,trait
+Initial.vegetative.growth,1,PPO:0002301,new vegetative shoot system present
+Initial.vegetative.growth,0,PPO:0002600,new vegetative shoot system absent
+Young.leaves.unfolding,1,PPO:0002318,immature unfolded true leaf present
+Young.leaves.unfolding,0,PPO:0002617,immature unfolded true leaf absent
+Flowers.opening,1,PPO:0002333,open flower present
+Flowers.opening,0,PPO:0002632,open flower absent
+Ripe.fruits,1,PPO:0002345,ripe fruit present
+Ripe.fruits,0,PPO:0002644,ripe fruit absent
+Senescence,1,PPO:0002317,senescing true leaf present
+Senescence,0,PPO:0002616,senescing true leaf absent
