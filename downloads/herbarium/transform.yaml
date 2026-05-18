@@ -1,0 +1,43 @@
+null_values: ["", "NA", "na", "N/A", "n/a", "null", "None", "none", "-"]
+
+fields:
+  trait:
+    transforms:
+      - op: strip
+      - op: case
+        rule: lower
+
+  year:
+    datatype: integer
+
+  dayOfYear:
+    datatype: integer
+
+  latitude:
+    datatype: float
+    min: -90
+    max: 90
+
+  longitude:
+    datatype: float
+    min: -180
+    max: 180
+
+  date:
+    input_formats: ["%Y-%m-%d"]
+    output_format: "%Y-%m-%d"
+
+  coordinateUncertaintyInMeters:
+    datatype: integer
+
+  annotationMethod:
+    transforms:
+      - op: strip
+      - op: case
+        rule: lower
+
+trait_mappings:
+  flowers present: flower present
+  flower present: flower present
+  fruits present: simple fruit or compound fruit present
+  fruit present: simple fruit or compound fruit present

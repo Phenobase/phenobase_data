@@ -200,6 +200,22 @@ python3 loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing
 python3 loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
 ```
 
+PhenoObs source preparation writes one loader-ready CSV, similar to the NPN transformer. The script auto-detects raw `rawdata_PhenObs_*.csv` files under `downloads/phenoObs` first, then falls back to `data/phenoObs`. The output should go into a clean loader directory that also contains `transform.yaml`:
+
+```bash
+cd downloads/phenoObs
+python3 prepare_phenoobs.py ./mappings.csv --output ingest/phenoObs_observations.csv
+cd ../..
+python3 loader.py --mode=in_situ --test --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
+```
+
+From the repo root, the equivalent explicit form is:
+
+```bash
+python3 downloads/phenoObs/prepare_phenoobs.py --raw-root downloads/phenoObs --mappings downloads/phenoObs/mappings.csv --output downloads/phenoObs/ingest/phenoObs_observations.csv
+```
+
 Main options:
 
 - `--test`: validate and simulate without writing to Elasticsearch
