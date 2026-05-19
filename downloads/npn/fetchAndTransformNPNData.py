@@ -260,6 +260,7 @@ def fetch_data(start_date, end_date):
         "start_date": start_date,
         "end_date": end_date,
         "request_src": "custom_script",
+        "additional_field": "dataset_id",
     }
     try:
         print(f"Fetching data from API for dates: {start_date} to {end_date}...")
@@ -268,6 +269,15 @@ def fetch_data(start_date, end_date):
     except Exception as err:
         print(f"Error fetching data for dates: {start_date} to {end_date}: {err}")
         return []
+
+
+def resolve_data_source(obs):
+    dataset_id = norm(obs.get("dataset_id"))
+    partner_group = normalize_key(obs.get("partner_group"))
+
+    if dataset_id == "16" or partner_group == "neon":
+        return "National Ecological Observatory Network (USA)"
+    return "USA National Phenology Network"
 
 
 def write_rows(rows, output_path, write_header):
@@ -337,7 +347,7 @@ def transform_rows(observations, mapping_index, species_catalog, counters):
         transformed.append(
             OrderedDict(
                 [
-                    ("dataSource", "National Ecological Observatory Network (USA)" if str(obs.get("dataset_id")) == "16" else "USA National Phenology Network"),
+                    ("dataSource", resolve_data_source(obs)),
                     ("scientificName", scientific_name),
                     ("taxonRank", "species"),
                     ("basisOfRecord", "Human Observation"),
