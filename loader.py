@@ -680,7 +680,6 @@ if __name__ == '__main__':
         column_metadata=column_metadata,
         mode=args.mode,
         test_mode=args.test,
-        traits_mapping=traits_mapping,
         batch_size=args.batch_size,
         progress_every=args.progress_every
     )
