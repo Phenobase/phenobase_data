@@ -5,6 +5,7 @@ scientificName,TRUE,TRUE,TRUE,REQUIRED,REQUIRED,REQUIRED,,http://rs.tdwg.org/dwc
 trait,TRUE,TRUE,TRUE,REQUIRED,REQUIRED,REQUIRED,,https://biscicol.org/api/v1/inaan/ark:/92250/trait?info,text,user,"Human-readable trait label resolved from trait_urn during loading. Use the canonical label in traits.csv, e.g.  ""open flower present"" or ""ripe fruit absent""."
 trait_urn,TRUE,TRUE,TRUE,REQUIRED,REQUIRED,REQUIRED,,https://biscicol.org/api/v1/inaan/ark:/92250/traitUrn?info,keyword,user,Stable PPO identifier for the trait used as the canonical mapping key during loading. Use values such as PPO:0002333 instead of relying on label text.
 family,TRUE,TRUE,TRUE,REQUIRED,REQUIRED,REQUIRED,,http://rs.tdwg.org/dwc/terms/family,keyword,user,The full scientific name of the family in which the organism is classified.
+taxonSearch,FALSE,TRUE,TRUE,APPLICABLE,APPLICABLE,APPLICABLE,,https://biscicol.org/api/v1/inaan/ark:/92250/taxonSearch?info,keyword,system,Normalized taxonomy search terms derived from available family genus species and scientificName values.
 year,TRUE,TRUE,TRUE,REQUIRED,REQUIRED,REQUIRED,,http://rs.tdwg.org/dwc/terms/year,integer,user,year of the observation
 decadeStart,FALSE,FALSE,TRUE,REQUIRED,REQUIRED,REQUIRED,,https://biscicol.org/api/v1/inaan/ark:/92250/decadeStart?info,integer,system,Start year of the decade bucket derived from year. For example 1987 becomes 1980.
 dayOfYear,TRUE,TRUE,TRUE,REQUIRED,REQUIRED,REQUIRED,,https://biscicol.org/api/v1/inaan/ark:/92250/dayOfYear?info,integer,user,day of the year.  Must be between 1 and 366

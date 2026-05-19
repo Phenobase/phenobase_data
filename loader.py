@@ -214,6 +214,35 @@ def _apply_case(value, rule):
         return ' '.join([first] + rest)
     return v
 
+def build_taxon_search(row):
+    values = []
+
+    def add(value):
+        if value is None:
+            return
+        text = str(value).strip()
+        if not text:
+            return
+        collapsed = re.sub(r'\s+', ' ', text)
+        key = collapsed.lower()
+        if key not in seen:
+            seen.add(key)
+            values.append(collapsed)
+
+    seen = set()
+    add(row.get('family'))
+    add(row.get('genus'))
+    add(row.get('species') or row.get('specificEpithet'))
+    add(row.get('scientificName'))
+
+    scientific_name = (row.get('scientificName') or '').strip()
+    if scientific_name:
+        parts = scientific_name.split()
+        if len(parts) >= 2:
+            add(' '.join(parts[:2]))
+
+    return values
+
 def coerce_value(field, value, column_metadata, yaml_rules):
     if value is None:
         return None, None
@@ -381,6 +410,9 @@ class ESLoader:
                 row['decadeStart'] = (year_val // 10) * 10
             except (TypeError, ValueError):
                 row['decadeStart'] = None
+
+        if 'taxonSearch' in self.system_fields:
+            row['taxonSearch'] = build_taxon_search(row)
 
         trait_urn = (row.get('trait_urn') or '').strip()
         trait_raw = (row.get('trait') or '').strip()
