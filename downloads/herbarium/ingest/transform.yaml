@@ -1,6 +1,12 @@
 null_values: ["", "NA", "na", "N/A", "n/a", "null", "None", "none", "-"]
 
 fields:
+  dataSource:
+    transforms:
+      - op: regex_map
+        pattern: "^.*$"
+        to: Herbarium
+
   trait:
     transforms:
       - op: strip
