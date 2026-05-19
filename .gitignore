@@ -4,6 +4,11 @@ downloads/*
 downloads/seasonwatchindia/*
 !downloads/seasonwatchindia/fetch_seasonwatchindia.py
 !downloads/seasonwatchindia/mappings.csv
+!downloads/herbarium/
+downloads/herbarium/*
+!downloads/herbarium/ingest/
+downloads/herbarium/ingest/*
+!downloads/herbarium/ingest/transform.yaml
 !downloads/phenoObs/mappings.csv
 loading_errors.csv
 nohup.out

@@ -253,8 +253,12 @@ python3 loader.py --mode=in_situ --no-drop-existing downloads/seasonwatchindia/i
 Load herbarium or machine-derived datasets after the in-situ sources. Keep using `--no-drop-existing`:
 
 ```bash
-python3 loader.py --mode=herbarium --test --no-drop-existing downloads/herbarium --batch-size 5000 --progress-every 50000
-python3 loader.py --mode=herbarium --no-drop-existing downloads/herbarium --batch-size 5000 --progress-every 50000
+mkdir -p downloads/herbarium/ingest
+unzip -j downloads/herbarium/herb_flower_inference_9.8.25.csv.zip \
+  'flower_inference_formatted_edit_9.8.25.csv' \
+  -d downloads/herbarium/ingest
+python3 loader.py --mode=herbarium --test --no-drop-existing downloads/herbarium/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=herbarium --no-drop-existing downloads/herbarium/ingest --batch-size 5000 --progress-every 50000
 ```
 
 PhenoObs source preparation writes one loader-ready CSV, similar to the NPN transformer. The script auto-detects raw `rawdata_PhenObs_*.csv` files under `downloads/phenoObs` first, then falls back to `data/phenoObs`. The output should go into a clean loader directory that also contains `transform.yaml`:
