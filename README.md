@@ -230,6 +230,15 @@ python3 downloads/budburst/fetch_budburst.py \
 # SeasonWatch India, from repo root. Downloads the DwC-A only if missing.
 python3 downloads/seasonwatchindia/fetch_seasonwatchindia.py \
   --output downloads/seasonwatchindia/ingest/seasonwatchindia_observations.csv
+
+# iNaturalist
+# Note that we have another set of procedures to generate the iNaturalist archive not covered here
+unzip -j downloads/iNaturalist/ingest/inat.csv.gz
+
+# Herbarium
+# Note that we have another set of procedures to generate the herbarium archive not covered here
+mkdir -p downloads/herbarium/ingest
+unzip -j downloads/herbarium/herb_flower_inference_9.8.25.csv.zip 'flower_inference_formatted_edit_9.8.25.csv' -d downloads/herbarium/ingest
 ```
 
 Run validation first:
@@ -239,6 +248,7 @@ python3 loader.py --mode=in_situ --test --no-drop-existing downloads/npn/ingest 
 python3 loader.py --mode=in_situ --test --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
 python3 loader.py --mode=in_situ --test --no-drop-existing downloads/budburst/ingest --batch-size 5000 --progress-every 50000
 python3 loader.py --mode=in_situ --test --no-drop-existing downloads/seasonwatchindia/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --test --no-drop-existing downloads/iNaturalist/ingest --batch-size 5000 --progress-every 50000
 ```
 
 Run the real in-situ reload. Drop the index only on the first dataset:
@@ -248,15 +258,12 @@ python3 loader.py --mode=in_situ --drop-existing downloads/npn/ingest --batch-si
 python3 loader.py --mode=in_situ --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
 python3 loader.py --mode=in_situ --no-drop-existing downloads/budburst/ingest --batch-size 5000 --progress-every 50000
 python3 loader.py --mode=in_situ --no-drop-existing downloads/seasonwatchindia/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --no-drop-existing downloads/iNaturalist/ingest --batch-size 5000 --progress-every 50000
 ```
 
 Load herbarium or machine-derived datasets after the in-situ sources. Keep using `--no-drop-existing`:
 
 ```bash
-mkdir -p downloads/herbarium/ingest
-unzip -j downloads/herbarium/herb_flower_inference_9.8.25.csv.zip \
-  'flower_inference_formatted_edit_9.8.25.csv' \
-  -d downloads/herbarium/ingest
 python3 loader.py --mode=herbarium --test --no-drop-existing downloads/herbarium/ingest --batch-size 5000 --progress-every 50000
 python3 loader.py --mode=herbarium --no-drop-existing downloads/herbarium/ingest --batch-size 5000 --progress-every 50000
 ```
