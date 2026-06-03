@@ -10,6 +10,7 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import zipfile
 from collections import Counter, OrderedDict
@@ -26,6 +27,8 @@ from trait_lookup import canonical_label_for_urn, load_traits_catalog
 
 
 ARCHIVE_URL = "https://cloud.gbif.org/asia/archive.do?r=seasonwatch-ncfindia&v=1.6"
+GBIF_DATASET_KEY = "d85d848d-791e-4055-bda5-32c16619ab21"
+GBIF_OCCURRENCE_SEARCH_URL = "https://www.gbif.org/occurrence/search"
 DEFAULT_ARCHIVE = BASE_DIR / "seasonwatch-ncfindia.dwca.zip"
 DEFAULT_MAPPINGS = BASE_DIR / "mappings.csv"
 TRAITS_CSV = REPO_ROOT / "data" / "traits.csv"
@@ -50,6 +53,7 @@ OUTPUT_FIELDS = [
     "dayOfYear",
     "latitude",
     "longitude",
+    "observedMetadataUrl",
     "organismID",
     "occurrenceID",
     "annotation_method",
@@ -72,6 +76,16 @@ def normalize_key(value):
 
 def format_coordinate(value):
     return f"{float(norm(value)):.5f}"
+
+
+def gbif_occurrence_search_url(occurrence_id):
+    query = urllib.parse.urlencode(
+        {
+            "dataset_key": GBIF_DATASET_KEY,
+            "occurrence_id": occurrence_id,
+        }
+    )
+    return f"{GBIF_OCCURRENCE_SEARCH_URL}?{query}"
 
 
 def request_download(url, output_path, timeout=300, retries=5):
@@ -199,6 +213,10 @@ def transform_measurement(occurrence, measurement, mapping_record, counters):
             ("dayOfYear", obs_date.timetuple().tm_yday),
             ("latitude", latitude),
             ("longitude", longitude),
+            (
+                "observedMetadataUrl",
+                gbif_occurrence_search_url(occurrence_id) if occurrence_id else "",
+            ),
             ("organismID", organism_id),
             ("occurrenceID", occurrence_id),
             ("annotation_method", "in_situ"),

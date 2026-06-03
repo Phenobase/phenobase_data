@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import os
+import re
 import sys
 import zipfile
 import xml.etree.ElementTree as ET
@@ -30,6 +31,15 @@ FALLBACK_RAW_ROOT = REPO_ROOT / "data" / "phenoObs"
 DATA_SOURCE = "PhenoObs"
 ANNOTATION_METHOD = "in_situ"
 BASIS_OF_RECORD = "Human Observation"
+PHENOOBS_DATA_ACCESS_URL = "https://www.idiv.de/research/projects/phenobs/data-access/"
+PHENOOBS_METADATA_URLS_BY_YEAR = {
+    "2019": "https://doi.org/10.25829/idiv.3519-a6r94f",
+    "2020": "https://doi.org/10.25829/idiv.3535-6j8cmx",
+    "2021": "https://doi.org/10.25829/idiv.3536-o94ra8",
+    "2022": "https://doi.org/10.25829/idiv.3550-m3qf86",
+    "2023": "https://doi.org/10.25829/idiv.3560-d86jz5",
+    "2024": "https://doi.org/10.25829/idiv.3582-g9vb2e",
+}
 
 VALID_PRESENT = {"y", "yes", "1", "true"}
 VALID_ABSENT = {"no", "n", "0", "false"}
@@ -66,6 +76,7 @@ OUTPUT_FIELDS = [
     "dayOfYear",
     "latitude",
     "longitude",
+    "observedMetadataUrl",
     "locationID",
     "organismID",
     "occurrenceID",
@@ -262,7 +273,14 @@ def make_verbatim_trait(field, raw_value, row):
     return verbatim
 
 
-def transform_raw_row(row, mappings, coords, counters, source_row_id):
+def phenoobs_metadata_url(raw_path):
+    match = re.search(r"(20\d{2})", raw_path.name)
+    if not match:
+        return PHENOOBS_DATA_ACCESS_URL
+    return PHENOOBS_METADATA_URLS_BY_YEAR.get(match.group(1), PHENOOBS_DATA_ACCESS_URL)
+
+
+def transform_raw_row(row, mappings, coords, counters, source_row_id, observed_metadata_url):
     counters["rawRows"] += 1
 
     scientific_name = norm(row.get("Species"))
@@ -325,6 +343,7 @@ def transform_raw_row(row, mappings, coords, counters, source_row_id):
                 ("dayOfYear", day_of_year),
                 ("latitude", lat),
                 ("longitude", lon),
+                ("observedMetadataUrl", observed_metadata_url),
                 ("locationID", garden),
                 ("organismID", organism_id),
                 ("occurrenceID", occurrence_id),
@@ -339,12 +358,20 @@ def transform_raw_row(row, mappings, coords, counters, source_row_id):
 
 def transform_file(raw_path, writer, mappings, coords, counters):
     print(f"Processing {raw_path}...")
+    observed_metadata_url = phenoobs_metadata_url(raw_path)
     with raw_path.open(newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f, delimiter=";")
         source_name = raw_path.parent.name
         for row_number, row in enumerate(reader, start=2):
             source_row_id = f"{source_name}:row{row_number}"
-            for transformed in transform_raw_row(row, mappings, coords, counters, source_row_id):
+            for transformed in transform_raw_row(
+                row,
+                mappings,
+                coords,
+                counters,
+                source_row_id,
+                observed_metadata_url,
+            ):
                 writer.writerow(transformed)
 
 
