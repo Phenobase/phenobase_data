@@ -28,7 +28,7 @@ from trait_lookup import canonical_label_for_urn, load_traits_catalog
 
 TOKEN_URL = "https://budburst.org/api/sanctum/token"
 OBSERVATIONS_URL = "https://budburst.org/api/observations"
-OBSERVATION_METADATA_URL = "https://budburst.org/data/{observation_id}"
+OBSERVATION_METADATA_URL = "https://budburst.org/data/{report_id}"
 TRAITS_CSV = REPO_ROOT / "data" / "traits.csv"
 DEFAULT_MAPPINGS = BASE_DIR / "mappings.csv"
 
@@ -326,7 +326,9 @@ def transform_observation(row, mappings, counters, include_youth):
                 ("longitude", longitude),
                 (
                     "observedMetadataUrl",
-                    OBSERVATION_METADATA_URL.format(observation_id=observation_id) if observation_id else "",
+                    OBSERVATION_METADATA_URL.format(report_id=report_id or observation_id)
+                    if report_id or observation_id
+                    else "",
                 ),
                 ("organismID", organism_id),
                 ("occurrenceID", occurrence_id),

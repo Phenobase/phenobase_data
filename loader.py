@@ -327,6 +327,7 @@ class ESLoader:
                  host='149.165.170.158', column_metadata=None, mode='machine',
                  test_mode=False, traits_mapping=None,
                  batch_size=5000, progress_every=50000,
+                 drop_source_records=False, drop_poll_interval=10,
                  port=8081, scheme='http'):
         self.traits_mapping = traits_mapping or {}
         self.strict = False
@@ -337,6 +338,8 @@ class ESLoader:
         self.data_dir = data_dir
         self.index_name = index_name
         self.drop_existing = drop_existing
+        self.drop_source_records = drop_source_records
+        self.drop_poll_interval = int(drop_poll_interval)
         self.column_metadata = column_metadata or {}
         self.system_fields = [
             field for field, meta in self.column_metadata.items()
@@ -391,6 +394,97 @@ class ESLoader:
 
         # For test-mode run-wide fallback simulation
         self._sim_seen_ids = set()
+
+    def collect_input_data_sources(self):
+        data_sources = set()
+        files_without_data_source = []
+
+        for file in self.get_files(self.data_dir):
+            with open(file, encoding='utf-8', newline='') as f:
+                reader = csv.DictReader(f)
+                if not reader.fieldnames or 'dataSource' not in reader.fieldnames:
+                    files_without_data_source.append(file)
+                    continue
+                for row in reader:
+                    data_source = (row.get('dataSource') or '').strip()
+                    if data_source:
+                        data_sources.add(data_source)
+
+        if files_without_data_source:
+            print("⚠️ Files without a dataSource column were ignored for source-record dropping:")
+            for file in files_without_data_source:
+                print(f"   - {file}")
+
+        return sorted(data_sources)
+
+    def wait_for_task(self, task_id):
+        while True:
+            status = self.es.tasks.get(task_id=task_id)
+            if status.get('completed'):
+                response = status.get('response') or {}
+                if status.get('error'):
+                    raise RuntimeError(f"Elasticsearch task failed: {status['error']}")
+                return response
+
+            task = status.get('task') or {}
+            task_status = task.get('status') or {}
+            deleted = task_status.get('deleted')
+            total = task_status.get('total')
+            if deleted is not None and total is not None:
+                print(f"⏳ Source-record delete task {task_id}: deleted={deleted:,}/{total:,}", flush=True)
+            else:
+                print(f"⏳ Waiting for source-record delete task {task_id}...", flush=True)
+            time.sleep(max(self.drop_poll_interval, 1))
+
+    def delete_existing_source_records(self):
+        if not self.es:
+            raise RuntimeError("Cannot drop source records because Elasticsearch is not connected.")
+
+        if not self.es.indices.exists(index=self.index_name):
+            print(f"ℹ️ Index '{self.index_name}' does not exist; no source records to drop.")
+            return
+
+        data_sources = self.collect_input_data_sources()
+        if not data_sources:
+            raise RuntimeError(
+                "Cannot drop source records because no non-empty dataSource values were found in the input CSVs."
+            )
+
+        print(
+            f"🧹 Dropping existing records from index '{self.index_name}' for dataSource value(s): "
+            f"{', '.join(data_sources)}"
+        )
+
+        body = {
+            "query": {
+                "terms": {
+                    "dataSource": data_sources
+                }
+            }
+        }
+        response = self.es.delete_by_query(
+            index=self.index_name,
+            body=body,
+            conflicts='proceed',
+            refresh=True,
+            wait_for_completion=False,
+            slices='auto',
+            request_timeout=120,
+        )
+        task_id = response.get('task')
+        if task_id:
+            response = self.wait_for_task(task_id)
+
+        deleted = response.get('deleted', 0)
+        batches = response.get('batches', 0)
+        version_conflicts = response.get('version_conflicts', 0)
+        failures = response.get('failures') or []
+        print(
+            f"✅ Dropped {deleted:,} existing source record(s) "
+            f"({batches:,} batch(es), version_conflicts={version_conflicts:,})."
+        )
+        if failures:
+            raise RuntimeError(f"Source-record drop reported failures: {failures[:3]}")
 
     def assign_system_fields(self, row, errors):
         """
@@ -649,12 +743,16 @@ class ESLoader:
             if self.drop_existing and self.es and self.es.indices.exists(index=self.index_name):
                 print(f"🔁 Dropping index '{self.index_name}'")
                 self.es.indices.delete(index=self.index_name)
+            elif self.drop_source_records:
+                self.delete_existing_source_records()
 
             if self.es and not self.es.indices.exists(index=self.index_name):
                 print(f"📦 Creating index '{self.index_name}'")
                 self.__create_index()
         else:
             print(f"📄 Skipping index creation in test mode.")
+            if self.drop_source_records:
+                print("📄 Skipping source-record drop in test mode.")
 
         total_docs = 0
         for file in self.get_files(self.data_dir):
@@ -700,6 +798,20 @@ if __name__ == '__main__':
         default=False,
         help='Drop the existing index before loading (default: false)'
     )
+    parser.add_argument(
+        '--drop-source-records',
+        action='store_true',
+        help=(
+            'Before loading, delete existing docs in the target index whose dataSource matches '
+            'dataSource value(s) found in the input CSVs. Preserves other sources in the index.'
+        )
+    )
+    parser.add_argument(
+        '--drop-poll-interval',
+        type=int,
+        default=10,
+        help='Seconds between Elasticsearch task status checks for --drop-source-records (default: 10)'
+    )
 
     args = parser.parse_args()
     column_metadata = load_column_metadata()
@@ -713,7 +825,9 @@ if __name__ == '__main__':
         mode=args.mode,
         test_mode=args.test,
         batch_size=args.batch_size,
-        progress_every=args.progress_every
+        progress_every=args.progress_every,
+        drop_source_records=args.drop_source_records,
+        drop_poll_interval=args.drop_poll_interval
     )
     loader.strict = args.strict
     loader.load()

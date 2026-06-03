@@ -161,13 +161,23 @@ python3 loader.py --mode=<machine|in_situ|herbarium> --test --no-drop-existing <
 python3 loader.py --mode=<machine|in_situ|herbarium> --no-drop-existing <data_dir>
 ```
 
-10. If you are rebuilding the index from scratch rather than appending or updating, use:
+10. If you are refreshing a complete source dataset in the current index, use:
+
+```bash
+python3 loader.py --mode=<machine|in_situ|herbarium> --drop-source-records <data_dir>
+```
+
+This deletes existing records whose `dataSource` matches the input CSVs, then loads the new
+records into the same index. It prevents stale records from surviving when regenerated
+`annotationID` values change.
+
+11. If you are rebuilding the index from scratch rather than appending or updating, use:
 
 ```bash
 python3 loader.py --mode=<machine|in_situ|herbarium> --drop-existing <data_dir>
 ```
 
-11. If the live index needs `decadeStart`, run:
+12. If the live index needs `decadeStart`, run:
 
 ```bash
 python3 update_decade_start.py --wait
@@ -183,6 +193,7 @@ What the loader does during a run:
 - applies optional row-level transforms from dataset-local `transform.yaml`
 - coerces values to the datatypes defined in `data/columns.csv`
 - computes system fields such as `mappedTraits` and `decadeStart`
+- optionally deletes existing records for the input `dataSource` value(s) with `--drop-source-records`
 - rejects rows with missing `annotationID`, duplicate `annotationID` within a file, or unmapped traits
 - writes row-level failures to `loading_errors.csv`
 - indexes to `phenobase2` using `annotationID` as the Elasticsearch document `_id`
@@ -202,7 +213,7 @@ python3 loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-exist
 
 ### Full Reload Synopsis
 
-For a clean rebuild, generate each dataset-specific loader CSV first, dry-run each directory, then run the real loads. The first real load should use `--drop-existing` so the Elasticsearch index starts fresh; every later dataset load should use `--no-drop-existing` so records are appended or updated into the same index.
+For a source refresh in the current Elasticsearch index, generate each dataset-specific loader CSV first, dry-run each directory, then run the real loads with `--drop-source-records`. That option scans the input CSVs for `dataSource` values, deletes existing records in `phenobase2` for those values, and then indexes the regenerated records. Use `--drop-existing` only when intentionally rebuilding the whole index from scratch.
 
 Refresh the source CSVs:
 
@@ -228,6 +239,8 @@ python3 downloads/budburst/fetch_budburst.py \
   --retries 8
 
 # SeasonWatch India, from repo root. Downloads the DwC-A only if missing.
+# By default this resolves GBIF occurrence keys into direct GBIF record URLs
+# and caches them in downloads/seasonwatchindia/seasonwatchindia_gbif_keys.csv.
 python3 downloads/seasonwatchindia/fetch_seasonwatchindia.py \
   --output downloads/seasonwatchindia/ingest/seasonwatchindia_observations.csv
 
@@ -251,21 +264,23 @@ python3 loader.py --mode=in_situ --test --no-drop-existing downloads/seasonwatch
 python3 loader.py --mode=in_situ --test --no-drop-existing downloads/iNaturalist/ingest --batch-size 5000 --progress-every 50000
 ```
 
-Run the real in-situ reload. Drop the index only on the first dataset:
+Run the real in-situ reload. Each command drops only the matching source records in the
+current index before loading:
 
 ```bash
-python3 loader.py --mode=in_situ --drop-existing downloads/npn/ingest --batch-size 5000 --progress-every 50000
-python3 loader.py --mode=in_situ --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
-python3 loader.py --mode=in_situ --no-drop-existing downloads/budburst/ingest --batch-size 5000 --progress-every 50000
-python3 loader.py --mode=in_situ --no-drop-existing downloads/seasonwatchindia/ingest --batch-size 5000 --progress-every 50000
-python3 loader.py --mode=in_situ --no-drop-existing downloads/iNaturalist/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --drop-source-records downloads/npn/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --drop-source-records downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --drop-source-records downloads/budburst/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --drop-source-records downloads/seasonwatchindia/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --drop-source-records downloads/iNaturalist/ingest --batch-size 5000 --progress-every 50000
 ```
 
-Load herbarium or machine-derived datasets after the in-situ sources. Keep using `--no-drop-existing`:
+Load herbarium or machine-derived datasets after the in-situ sources. Use `--drop-source-records`
+for a full source refresh, or `--no-drop-existing` for append/update-only loads:
 
 ```bash
 python3 loader.py --mode=herbarium --test --no-drop-existing downloads/herbarium/ingest --batch-size 5000 --progress-every 50000
-python3 loader.py --mode=herbarium --no-drop-existing downloads/herbarium/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=herbarium --drop-source-records downloads/herbarium/ingest --batch-size 5000 --progress-every 50000
 ```
 
 PhenoObs source preparation writes one loader-ready CSV, similar to the NPN transformer. The script auto-detects raw `rawdata_PhenObs_*.csv` files under `downloads/phenoObs` first, then falls back to `data/phenoObs`. The output should go into a clean loader directory that also contains `transform.yaml`:
@@ -275,7 +290,7 @@ cd downloads/phenoObs
 python3 prepare_phenoobs.py ./mappings.csv --output ingest/phenoObs_observations.csv
 cd ../..
 python3 loader.py --mode=in_situ --test --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
-python3 loader.py --mode=in_situ --no-drop-existing downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ --drop-source-records downloads/phenoObs/ingest --batch-size 5000 --progress-every 50000
 ```
 
 From the repo root, the equivalent explicit form is:
@@ -284,11 +299,20 @@ From the repo root, the equivalent explicit form is:
 python3 downloads/phenoObs/prepare_phenoobs.py --raw-root downloads/phenoObs --mappings downloads/phenoObs/mappings.csv --output downloads/phenoObs/ingest/phenoObs_observations.csv
 ```
 
+SeasonWatch India source preparation writes `observedMetadataUrl` as direct GBIF occurrence
+pages by default, for example `https://www.gbif.org/occurrence/4943546900`. The DwC-A
+does not include GBIF occurrence keys, so the fetcher resolves them from the GBIF API and
+writes a reusable cache at `downloads/seasonwatchindia/seasonwatchindia_gbif_keys.csv`.
+Use `--no-gbif-direct-links` only when you need to skip this lookup and accept GBIF
+occurrence search URLs instead.
+
 Main options:
 
 - `--test`: validate and simulate without writing to Elasticsearch
 - `--strict`: reject rows with coercion or validation problems
 - `--drop-existing`: recreate the target index before loading
+- `--drop-source-records`: delete existing docs in the target index whose `dataSource` matches the input CSVs, then load the new records
+- `--drop-poll-interval`: seconds between internal Elasticsearch task checks for `--drop-source-records`
 - `--batch-size`: bulk size for indexing
 - `--progress-every`: progress logging interval
 - `--no-drop-existing`: keep the current index and upsert documents into it
@@ -480,6 +504,7 @@ The `docs/` folder is intended for GitHub Pages publication and for quick sharin
 Published outputs:
 
 - [docs/index.html](docs/index.html): GitHub Pages entry point redirecting to the traits viewer
+- [docs/data-loading.md](docs/data-loading.md): source preparation notes and linkback URL behavior
 - [docs/traits.html](docs/traits.html): rendered trait explorer
 - [docs/traits.csv](docs/traits.csv): published CSV copy
 - [docs/traits-data.json](docs/traits-data.json): viewer payload
