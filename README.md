@@ -155,21 +155,23 @@ python3 loader.py --mode=<machine|in_situ|herbarium> --test --no-drop-existing <
    - strict-mode coercion failures for typed fields
 
 8. Fix the source files or the dataset-local `transform.yaml`, then rerun test mode until the release is acceptable.
-9. Run the real ingestion:
-
-```bash
-python3 loader.py --mode=<machine|in_situ|herbarium> --no-drop-existing <data_dir>
-```
-
-10. If you are refreshing a complete source dataset in the current index, use:
+9. Run the production reload:
 
 ```bash
 python3 loader.py --mode=<machine|in_situ|herbarium> --drop-source-records <data_dir>
 ```
 
-This deletes existing records whose `dataSource` matches the input CSVs, then loads the new
-records into the same index. It prevents stale records from surviving when regenerated
-`annotationID` values change.
+This is the default production pattern for a complete source refresh. It deletes existing
+records whose `dataSource` matches the input CSVs, then loads the regenerated records into
+the same index. It prevents stale records from surviving when regenerated `annotationID`
+values change.
+
+10. If you are only appending new records or intentionally upserting by existing
+`annotationID` values without deleting stale source records, use:
+
+```bash
+python3 loader.py --mode=<machine|in_situ|herbarium> --no-drop-existing <data_dir>
+```
 
 11. If you are rebuilding the index from scratch rather than appending or updating, use:
 
@@ -207,8 +209,8 @@ Supported loading modes:
 Example commands:
 
 ```bash
-python3 loader.py --mode=machine data/annotations.07.25.2025/ --no-drop-existing --batch-size 5000 --progress-every 50000
-python3 loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --no-drop-existing --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=machine data/annotations.07.25.2025/ --drop-source-records --batch-size 5000 --progress-every 50000
+python3 loader.py --mode=in_situ data/npn.1956.01.01-2025.08.31/ --drop-source-records --batch-size 5000 --progress-every 50000
 ```
 
 ### Full Reload Synopsis
