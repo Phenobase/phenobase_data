@@ -18,6 +18,7 @@ from pathlib import Path
 
 API_URL = "https://services.usanpn.org/npn_portal/observations/getObservations.json"
 SPECIES_URL = "https://services.usanpn.org/npn_portal/species/getSpecies.json"
+OBSERVATION_METADATA_URL = "https://services.usanpn.org/npn_portal/observations/getObservations.json"
 DEFAULT_MAPPINGS_PATH = "/mnt/data/mappings.csv"
 TRAITS_PATH = Path(__file__).resolve().parents[2] / "data" / "traits.csv"
 
@@ -38,6 +39,7 @@ OUTPUT_FIELDS = [
     "dayOfYear",
     "latitude",
     "longitude",
+    "observedMetadataUrl",
     "verbatimTrait",
     "phenophase_status",
     "trait_urn",
@@ -271,6 +273,27 @@ def fetch_data(start_date, end_date):
         return []
 
 
+def observation_metadata_url(obs):
+    observation_date = norm(obs.get("observation_date"))
+    individual_id = norm(obs.get("individual_id"))
+    phenophase_id = norm(obs.get("phenophase_id"))
+    if not observation_date or not individual_id or not phenophase_id:
+        return ""
+    query = urllib.parse.urlencode(
+        OrderedDict(
+            [
+                ("start_date", observation_date),
+                ("end_date", observation_date),
+                ("individual_id", individual_id),
+                ("phenophase_id", phenophase_id),
+                ("request_src", "phenobase"),
+                ("additional_field", "dataset_id"),
+            ]
+        )
+    )
+    return f"{OBSERVATION_METADATA_URL}?{query}"
+
+
 def resolve_data_source(obs):
     dataset_id = norm(obs.get("dataset_id"))
     partner_group = normalize_key(obs.get("partner_group"))
@@ -363,6 +386,7 @@ def transform_rows(observations, mapping_index, species_catalog, counters):
                     ("dayOfYear", obs.get("day_of_year")),
                     ("latitude", obs.get("latitude")),
                     ("longitude", obs.get("longitude")),
+                    ("observedMetadataUrl", observation_metadata_url(obs)),
                     ("verbatimTrait", f"{cleaned_description} ({raw_status})"),
                     ("phenophase_status", "Observed" if raw_status == 1 else "Not Observed"),
                     ("trait_urn", trait_urn),
