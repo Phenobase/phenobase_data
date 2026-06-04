@@ -489,6 +489,52 @@ python3 download_csv_dump.py --batch-size 10000 --scroll 1m
 python3 download_csv_dump.py --request-timeout 60
 ```
 
+### Build A Zenodo Package
+
+Use [build_zenodo_package.py](build_zenodo_package.py) to export all current records and
+build a compressed package for public release or Zenodo submission.
+
+```bash
+python3 build_zenodo_package.py
+```
+
+The package is written under `downloads/zenodo/<package-name>/` and, by default, also as
+`downloads/zenodo/<package-name>.zip`. It contains:
+
+- `phenobase_observations.csv.gz`: single compressed CSV export of all matching records
+- `data_dictionary.csv`: column metadata derived from `data/columns.csv`
+- `column_metadata.json`: JSON form of the same column metadata
+- `source_summary.csv`: record counts by `dataSource`
+- `record_summary.json`: export parameters, row counts, date/year ranges, and missing-link counts
+- `zenodo_metadata.json`: editable Zenodo metadata template
+- `manifest-sha256.txt`: checksums and byte sizes
+- `README.md`: package documentation
+
+By default, the CSV includes fields where `data/columns.csv` has `visible_on_archive=TRUE`.
+Use `--include-all-columns` to export every field listed in `data/columns.csv`.
+
+Production example:
+
+```bash
+python3 build_zenodo_package.py \
+  --package-name phenobase-zenodo-2026-06-04 \
+  --version 2026-06-04 \
+  --publication-date 2026-06-04 \
+  --creator "Phenobase Project" \
+  --batch-size 10000 \
+  --scroll 5m \
+  --request-timeout 120
+```
+
+Smoke-test the package structure without exporting the full database:
+
+```bash
+python3 build_zenodo_package.py --limit 100 --package-name phenobase-zenodo-smoke-test
+```
+
+The public API currently reports tens of millions of records, so run the full package build
+on the server in `screen` or `tmux`.
+
 ### Backfill `decadeStart`
 
 Use [update_decade_start.py](update_decade_start.py) to add the mapping and backfill `decadeStart` on an existing live index without reloading source files.
@@ -507,6 +553,7 @@ Published outputs:
 
 - [docs/index.html](docs/index.html): GitHub Pages entry point redirecting to the traits viewer
 - [docs/data-loading.md](docs/data-loading.md): source preparation notes and linkback URL behavior
+- [docs/zenodo-package.md](docs/zenodo-package.md): public release and Zenodo package workflow
 - [docs/traits.html](docs/traits.html): rendered trait explorer
 - [docs/traits.csv](docs/traits.csv): published CSV copy
 - [docs/traits-data.json](docs/traits-data.json): viewer payload
