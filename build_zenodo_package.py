@@ -35,10 +35,12 @@ from download_csv_dump import (
     DEFAULT_REQUEST_TIMEOUT,
     DEFAULT_SCROLL,
     build_csv_row,
+    enrich_download_record,
     fetch_initial_page,
     fetch_scroll_page,
     get_total_hits,
 )
+from export_schema import load_export_column_metadata
 
 
 DEFAULT_COLUMNS_PATH = "data/columns.csv"
@@ -90,7 +92,7 @@ def parse_args():
     parser.add_argument(
         "--include-all-columns",
         action="store_true",
-        help="Export every field in columns.csv instead of only fields with visible_on_archive=TRUE.",
+        help="Export every non-excluded field in columns.csv instead of only fields with visible_on_download=TRUE.",
     )
     parser.add_argument(
         "--skip-zip",
@@ -100,10 +102,6 @@ def parse_args():
     return parser.parse_args()
 
 
-def parse_bool(value):
-    return str(value or "").strip().lower() in {"true", "t", "yes", "y", "1"}
-
-
 def ensure_clean_dir(path):
     if path.exists():
         shutil.rmtree(path)
@@ -111,21 +109,9 @@ def ensure_clean_dir(path):
 
 
 def load_column_metadata(columns_path, include_all_columns=False):
-    rows = []
-    fields = []
-    with open(columns_path, newline="", encoding="utf-8-sig") as fh:
-        reader = csv.DictReader(fh)
-        for row in reader:
-            clean = {key: (value.strip() if isinstance(value, str) else value) for key, value in row.items()}
-            field = clean.get("field", "")
-            if not field:
-                continue
-            if include_all_columns or parse_bool(clean.get("visible_on_archive")):
-                rows.append(clean)
-                fields.append(field)
-
+    rows, fields = load_export_column_metadata(columns_path, include_all_columns)
     if not fields:
-        raise RuntimeError(f"No archive-visible fields found in {columns_path}")
+        raise RuntimeError(f"No export-visible fields found in {columns_path}")
     return rows, fields
 
 
@@ -143,14 +129,14 @@ def update_export_stats(stats, source):
     except Exception:
         pass
 
-    obs_date = source.get("date")
+    obs_date = source.get("eventDate") or source.get("date")
     if obs_date:
         obs_date = str(obs_date)
         stats["min_date"] = obs_date if stats["min_date"] is None else min(stats["min_date"], obs_date)
         stats["max_date"] = obs_date if stats["max_date"] is None else max(stats["max_date"], obs_date)
 
-    if not source.get("observedMetadataUrl"):
-        stats["missing_observedMetadataUrl"] += 1
+    if not (source.get("sourceRecordUrl") or source.get("observedMetadataUrl")):
+        stats["missing_sourceRecordUrl"] += 1
 
 
 def print_page_progress(page_number, page_hits, total_written, expected_total, page_elapsed):
@@ -176,7 +162,7 @@ def export_observations(args, csv_gz_path, field_order):
         "max_year": None,
         "min_date": None,
         "max_date": None,
-        "missing_observedMetadataUrl": 0,
+        "missing_sourceRecordUrl": 0,
     }
 
     response = fetch_initial_page(
@@ -207,7 +193,7 @@ def export_observations(args, csv_gz_path, field_order):
                 if args.limit > 0 and stats["rows"] >= args.limit:
                     print(f"Reached client-side limit of {args.limit:,} rows.", flush=True)
                     return stats, expected_total
-                source = hit.get("_source") or {}
+                source = enrich_download_record(hit.get("_source") or {})
                 writer.writerow(build_csv_row(source, field_order))
                 update_export_stats(stats, source)
 
@@ -323,7 +309,7 @@ def write_summary_json(path, args, stats, expected_total, field_order):
             ("fields", field_order),
             ("dateRange", [stats["min_date"], stats["max_date"]]),
             ("yearRange", [stats["min_year"], stats["max_year"]]),
-            ("missingObservedMetadataUrl", stats["missing_observedMetadataUrl"]),
+            ("missingSourceRecordUrl", stats["missing_sourceRecordUrl"]),
             ("sourceCounts", OrderedDict(sorted(stats["data_sources"].items()))),
         ]
     )
@@ -357,7 +343,7 @@ def write_readme(path, args, stats, field_order):
         f"Fields exported: {len(field_order):,}",
         f"Date range: {stats['min_date'] or ''} to {stats['max_date'] or ''}",
         f"Year range: {stats['min_year'] or ''} to {stats['max_year'] or ''}",
-        f"Records missing observedMetadataUrl: {stats['missing_observedMetadataUrl']:,}",
+        f"Records missing sourceRecordUrl: {stats['missing_sourceRecordUrl']:,}",
         "",
         "CSV arrays are pipe-delimited inside a cell. Nested objects, if any, are JSON-encoded inside a cell.",
         "",

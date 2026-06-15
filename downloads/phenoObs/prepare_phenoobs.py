@@ -29,7 +29,7 @@ TRAITS_CSV = REPO_ROOT / "data" / "traits.csv"
 FALLBACK_RAW_ROOT = REPO_ROOT / "data" / "phenoObs"
 
 DATA_SOURCE = "PhenoObs"
-ANNOTATION_METHOD = "in_situ"
+ANNOTATION_METHOD = "human"
 BASIS_OF_RECORD = "Human Observation"
 PHENOOBS_DATA_ACCESS_URL = "https://www.idiv.de/research/projects/phenobs/data-access/"
 PHENOOBS_METADATA_URLS_BY_YEAR = {
@@ -261,15 +261,15 @@ def safe_int(value):
 
 
 def make_verbatim_trait(field, raw_value, row):
-    verbatim = f"{field}={raw_value}"
+    verbatim = f"{field} = {raw_value}"
     if field == "Flowers.opening":
         intensity = norm(row.get("Flowering.intensity"))
         if intensity and intensity != "0":
-            verbatim = f"{verbatim}; Flowering.intensity={intensity}"
+            verbatim = f"{verbatim}; Flowering.intensity = {intensity}"
     if field == "Senescence":
         intensity = norm(row.get("Senescence.intensity"))
         if intensity and intensity != "0":
-            verbatim = f"{verbatim}; Senescence.intensity={intensity}"
+            verbatim = f"{verbatim}; Senescence.intensity = {intensity}"
     return verbatim
 
 

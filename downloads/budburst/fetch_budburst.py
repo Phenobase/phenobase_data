@@ -302,7 +302,7 @@ def transform_observation(row, mappings, counters, include_youth):
     report_id = norm(row.get("report_id"))
     occurrence_id = f"budburst:{observation_id}" if observation_id else ""
     organism_id = f"budburst:site_species:{site_species_id}" if site_species_id else ""
-    verbatim_trait = f"{plant_group}:{phenophase}"
+    verbatim_trait = f"plantGroup = {plant_group}; phenophase = {phenophase}"
 
     for idx, trait_record in enumerate(trait_records, start=1):
         trait_urn = trait_record["trait_urn"]
@@ -332,7 +332,7 @@ def transform_observation(row, mappings, counters, include_youth):
                 ),
                 ("organismID", organism_id),
                 ("occurrenceID", occurrence_id),
-                ("annotation_method", "in_situ"),
+                ("annotation_method", "human"),
                 ("verbatimTrait", verbatim_trait),
                 ("phenophase_id", phenophase),
                 ("plant_group_id", plant_group),

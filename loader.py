@@ -531,8 +531,14 @@ class ESLoader:
                 row['mappedTraits'] = [x.strip() for x in mapped.split("|") if x.strip()]
             else:
                 row['mappedTraits'] = mapped
+            mapped_ids = record.get('mappedTraitIDs', '')
+            if isinstance(mapped_ids, str):
+                row['mappedTraitUrn'] = [x.strip() for x in mapped_ids.split("|") if x.strip()]
+            else:
+                row['mappedTraitUrn'] = mapped_ids
         else:
             row['mappedTraits'] = ''
+            row['mappedTraitUrn'] = ''
 
     def __load_file(self, file):
         start_ts = time.time()
@@ -677,6 +683,7 @@ class ESLoader:
                 # Copy the normalized values back over the raw input values before indexing.
                 cleaned['trait_urn'] = row.get('trait_urn')
                 cleaned['trait'] = row.get('trait')
+                cleaned['mappedTraitUrn'] = row.get('mappedTraitUrn')
 
                 # Duplicate ID within this file?
                 if aid:

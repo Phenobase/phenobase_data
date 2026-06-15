@@ -5,12 +5,15 @@ import argparse
 import csv
 import json
 import os
+import re
 import socket
 import sys
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+
+from export_schema import load_export_field_order, project_export_record
 
 
 DEFAULT_BASE_URL = "https://biscicol.org/phenobase/api/v1/query"
@@ -22,6 +25,9 @@ DEFAULT_LIMIT = 0
 DEFAULT_OUTPUT = "downloads/phenobase_dump.csv"
 DEFAULT_COLUMNS_PATH = "data/columns.csv"
 DEFAULT_REQUEST_TIMEOUT = 60
+NPN_OBSERVATION_METADATA_URL = (
+    "https://services.usanpn.org/npn_portal/observations/getObservationById.json"
+)
 
 
 def parse_args():
@@ -100,16 +106,7 @@ def ensure_parent_dir(path):
 
 
 def load_field_order(columns_path):
-    field_order = []
-    seen = set()
-    with open(columns_path, newline="", encoding="utf-8-sig") as fh:
-        reader = csv.DictReader(fh)
-        for row in reader:
-            field = (row.get("field") or "").strip()
-            if field and field not in seen:
-                seen.add(field)
-                field_order.append(field)
-    return field_order
+    return load_export_field_order(columns_path)
 
 
 def build_initial_body(query, batch_size):
@@ -164,11 +161,49 @@ def serialize_value(value):
     return value
 
 
+def derive_observed_metadata_url(record):
+    existing_url = str(
+        (record or {}).get("sourceRecordUrl")
+        or (record or {}).get("observedMetadataUrl")
+        or ""
+    ).strip()
+    if existing_url:
+        return existing_url
+
+    raw_id = str((record or {}).get("annotationID") or "").strip()
+    data_source = str((record or {}).get("dataSource") or "")
+    npn_id = ""
+
+    if raw_id.startswith("npn:"):
+        npn_id = raw_id[4:]
+    elif re.fullmatch(r"\d+", raw_id) and re.search(r"national phenology network", data_source, re.IGNORECASE):
+        npn_id = raw_id
+
+    if not npn_id:
+        return ""
+
+    query = urllib.parse.urlencode(
+        {
+            "request_src": "PPO",
+            "observation_id": npn_id,
+            "pretty": "1",
+        }
+    )
+    return f"{NPN_OBSERVATION_METADATA_URL}?{query}"
+
+
+def enrich_download_record(record):
+    enriched = dict(record or {})
+    if not str(enriched.get("sourceRecordUrl") or enriched.get("observedMetadataUrl") or "").strip():
+        derived_url = derive_observed_metadata_url(enriched)
+        if derived_url:
+            enriched["observedMetadataUrl"] = derived_url
+    return enriched
+
+
 def build_csv_row(source, field_order):
-    row = {}
-    for field in field_order:
-        row[field] = serialize_value(source.get(field))
-    return row
+    projected = project_export_record(enrich_download_record(source), field_order)
+    return {field: serialize_value(projected.get(field)) for field in field_order}
 
 
 def fetch_initial_page(base_url, index_name, query, batch_size, scroll, timeout_seconds):

@@ -510,8 +510,12 @@ The package is written under `downloads/zenodo/<package-name>/` and, by default,
 - `manifest-sha256.txt`: checksums and byte sizes
 - `README.md`: package documentation
 
-By default, the CSV includes fields where `data/columns.csv` has `visible_on_archive=TRUE`.
-Use `--include-all-columns` to export every field listed in `data/columns.csv`.
+By default, the CSV uses the same curated export field set as portal downloads. Field
+projection is handled by `export_schema.py`: internal names such as `date`,
+`observedMetadataUrl`, `locationID`, `trait_urn`, and `annotation_method` are exported
+as `eventDate`, `sourceRecordUrl`, `siteID`, `traitUrn`, and `annotationMethod`.
+`taxonSearch`, `decadeStart`, and model QA fields are excluded. Use
+`--include-all-columns` to include every non-excluded field listed in `data/columns.csv`.
 
 Production example:
 
@@ -530,6 +534,13 @@ Smoke-test the package structure without exporting the full database:
 
 ```bash
 python3 build_zenodo_package.py --limit 100 --package-name phenobase-zenodo-smoke-test
+```
+
+Generate a focused three-source package with one live record each from iNaturalist,
+Herbarium, and USA-NPN:
+
+```bash
+python3 build_zenodo_three_source_smoke_test.py
 ```
 
 The public API currently reports tens of millions of records, so run the full package build

@@ -18,7 +18,7 @@ from pathlib import Path
 
 API_URL = "https://services.usanpn.org/npn_portal/observations/getObservations.json"
 SPECIES_URL = "https://services.usanpn.org/npn_portal/species/getSpecies.json"
-OBSERVATION_METADATA_URL = "https://services.usanpn.org/npn_portal/observations/getObservations.json"
+OBSERVATION_METADATA_URL = "https://services.usanpn.org/npn_portal/observations/getObservationById.json"
 DEFAULT_MAPPINGS_PATH = "/mnt/data/mappings.csv"
 TRAITS_PATH = Path(__file__).resolve().parents[2] / "data" / "traits.csv"
 
@@ -34,12 +34,14 @@ OUTPUT_FIELDS = [
     "date",
     "year",
     "dataset_id",
-    "site_id",
-    "individual_id",
+    "siteID",
+    "organismID",
+    "occurrenceID",
     "dayOfYear",
     "latitude",
     "longitude",
     "observedMetadataUrl",
+    "annotation_method",
     "verbatimTrait",
     "phenophase_status",
     "trait_urn",
@@ -274,20 +276,15 @@ def fetch_data(start_date, end_date):
 
 
 def observation_metadata_url(obs):
-    observation_date = norm(obs.get("observation_date"))
-    individual_id = norm(obs.get("individual_id"))
-    phenophase_id = norm(obs.get("phenophase_id"))
-    if not observation_date or not individual_id or not phenophase_id:
+    observation_id = norm(obs.get("observation_id"))
+    if not observation_id:
         return ""
     query = urllib.parse.urlencode(
         OrderedDict(
             [
-                ("start_date", observation_date),
-                ("end_date", observation_date),
-                ("individual_id", individual_id),
-                ("phenophase_id", phenophase_id),
-                ("request_src", "phenobase"),
-                ("additional_field", "dataset_id"),
+                ("request_src", "PPO"),
+                ("observation_id", observation_id),
+                ("pretty", "1"),
             ]
         )
     )
@@ -381,13 +378,15 @@ def transform_rows(observations, mapping_index, species_catalog, counters):
                     ("date", observation_date),
                     ("year", obs_date.year),
                     ("dataset_id", obs.get("dataset_id")),
-                    ("site_id", obs.get("site_id")),
-                    ("individual_id", obs.get("individual_id")),
+                    ("siteID", obs.get("site_id")),
+                    ("organismID", obs.get("individual_id")),
+                    ("occurrenceID", obs.get("observation_id")),
                     ("dayOfYear", obs.get("day_of_year")),
                     ("latitude", obs.get("latitude")),
                     ("longitude", obs.get("longitude")),
                     ("observedMetadataUrl", observation_metadata_url(obs)),
-                    ("verbatimTrait", f"{cleaned_description} ({raw_status})"),
+                    ("annotation_method", "human"),
+                    ("verbatimTrait", f"{cleaned_description} = {raw_status}"),
                     ("phenophase_status", "Observed" if raw_status == 1 else "Not Observed"),
                     ("trait_urn", trait_urn),
                     ("trait", trait),

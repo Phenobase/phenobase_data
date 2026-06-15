@@ -24,6 +24,13 @@ Small test run:
 python3 build_zenodo_package.py --limit 100 --package-name phenobase-zenodo-smoke-test
 ```
 
+Three-source smoke test with one live record each from iNaturalist, Herbarium, and
+USA-NPN:
+
+```bash
+python3 build_zenodo_three_source_smoke_test.py
+```
+
 ## Package Contents
 
 - `phenobase_observations.csv.gz`: compressed CSV export of matching Phenobase records.
@@ -35,12 +42,16 @@ python3 build_zenodo_package.py --limit 100 --package-name phenobase-zenodo-smok
 - `manifest-sha256.txt`: SHA-256 checksums and byte sizes.
 - `README.md`: package documentation.
 
-By default the CSV includes fields marked `visible_on_archive=TRUE` in `data/columns.csv`.
-Use `--include-all-columns` to include every field listed in `data/columns.csv`.
+By default the CSV uses the same curated export field set as portal downloads. Internal
+fields such as `date`, `observedMetadataUrl`, `locationID`, `trait_urn`, and
+`annotation_method` are projected to `eventDate`, `sourceRecordUrl`, `siteID`,
+`traitUrn`, and `annotationMethod`; `taxonSearch`, `decadeStart`, and model QA fields
+are excluded. Use `--include-all-columns` to include every non-excluded field listed in
+`data/columns.csv`.
 
 ## Zenodo Review Checklist
 
-- Review `record_summary.json`, especially `missingObservedMetadataUrl`, before depositing.
+- Review `record_summary.json`, especially `missingSourceRecordUrl`, before depositing.
 - Review and edit `zenodo_metadata.json`; creators, affiliations, funders, related identifiers,
   community, and license must be confirmed by the submitting team.
 - Keep the number of uploaded files low. The generated ZIP is intended to be the main Zenodo upload.

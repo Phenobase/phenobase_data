@@ -88,12 +88,14 @@ Leaf out,-1,,
 
 ```text
 dataSource,scientificName,taxonRank,basisOfRecord,family,genus,species,
-annotationID,date,year,dataset_id,site_id,individual_id,dayOfYear,
-latitude,longitude,observedMetadataUrl,verbatimTrait,phenophase_status,trait_urn,trait
+annotationID,date,year,dataset_id,siteID,organismID,occurrenceID,dayOfYear,
+latitude,longitude,observedMetadataUrl,annotation_method,verbatimTrait,
+phenophase_status,trait_urn,trait
 ```
 
-`observedMetadataUrl` is an official USA-NPN `getObservations.json` API URL filtered to
-the observation date, individual ID, and phenophase ID for the source status record.
+`observedMetadataUrl` is an official USA-NPN `getObservationById.json` API URL filtered to
+the source `observation_id`. USA-NPN `site_id`, `individual_id`, and `observation_id`
+are mapped to `siteID`, `organismID`, and `occurrenceID`; `annotation_method` is `human`.
 
 During the run, you’ll see summary counters:
 

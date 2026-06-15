@@ -2,11 +2,11 @@
 
 ## Source Linkback URLs
 
-Prepared ingest CSVs should include `observedMetadataUrl` whenever the source can provide a stable linkback target.
+Prepared ingest CSVs should include `observedMetadataUrl` whenever the source can provide a stable linkback target. Exports rename this value to `sourceRecordUrl`.
 
 - Budburst uses the public report page URL: `https://budburst.org/data/{report_id}`.
-- NPN uses the official USA-NPN `getObservations.json` API filtered to the source
-  observation date, individual ID, and phenophase ID.
+- NPN uses the official USA-NPN `getObservationById.json` API filtered to the source
+  `observation_id`.
 - PhenoObs uses the annual iDiv dataset DOI because the raw data do not expose public per-observation pages.
 - SeasonWatch India uses direct GBIF occurrence pages by default: `https://www.gbif.org/occurrence/{gbif_key}`.
 
