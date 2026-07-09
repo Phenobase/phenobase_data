@@ -2,7 +2,7 @@
 
 ## Source Linkback URLs
 
-Prepared ingest CSVs should include `observedMetadataUrl` whenever the source can provide a stable linkback target.
+Prepared ingest CSVs should include `observedMetadataUrl` whenever the source can provide a stable linkback target. The loader normalizes that source-side field to the version2 public field `sourceRecordUrl`.
 
 - Budburst uses the public report page URL: `https://budburst.org/data/{report_id}`.
 - NPN uses the official USA-NPN `getObservations.json` API filtered to the source

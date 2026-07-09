@@ -12,6 +12,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+from trait_lookup import load_traits_catalog, resolve_trait
+
 
 DEFAULT_BASE_URL = "https://biscicol.org/phenobase/api/v1/query"
 DEFAULT_INDEX = "phenobase2"
@@ -22,6 +24,66 @@ DEFAULT_LIMIT = 0
 DEFAULT_OUTPUT = "downloads/phenobase_dump.csv"
 DEFAULT_COLUMNS_PATH = "data/columns.csv"
 DEFAULT_REQUEST_TIMEOUT = 60
+DOI_RESOLVER_PREFIX = "https://doi.org/"
+DEFAULT_TRAITS_PATH = "data/traits.csv"
+FIELD_FALLBACKS = {
+    "annotationMethod": ("annotation_method",),
+    "annotation_method": ("annotationMethod",),
+    "sourceRecordUrl": (
+        "observedMetadataUrl",
+        "observedMetadataURL",
+        "observed_metadata_url",
+        "observationMetadataUrl",
+        "observationMetadatUrl",
+    ),
+    "observedMetadataUrl": (
+        "sourceRecordUrl",
+        "observedMetadataURL",
+        "observed_metadata_url",
+        "observationMetadataUrl",
+        "observationMetadatUrl",
+    ),
+    "verbatimFamily": ("family", "verbatim_family"),
+    "family": ("verbatimFamily", "verbatim_family"),
+    "gbifFamily": ("gbif_family",),
+    "traitUrn": ("trait_urn", "traitURN", "traitURI"),
+    "trait_urn": ("traitUrn",),
+    "mappedTraitsUrns": (
+        "mappedTraitIDs",
+        "mappedTraitsUrn",
+        "mappedTraitUrn",
+        "mapped_traits_urns",
+        "mapped_trait_urns",
+    ),
+    "modelUri": ("ModelUri", "modelURI", "model_uri"),
+    "predictionProbability": ("preditionProbability", "prediction_probability", "prediction_prob"),
+    "preditionProbability": ("predictionProbability", "prediction_probability", "prediction_prob"),
+    "predictionClass": ("prediction_class",),
+    "accuracyExcludingUncertainFamily": ("accuracy_excluding_low_certainty_family",),
+    "proportionCertaintyFamily": ("proportion_low_certainty_family",),
+    "countFamily": ("count_family",),
+    "occurrenceID": ("observation_id",),
+    "organismID": ("individual_id", "individualID"),
+    "locationID": ("site_id",),
+    "recordedBy": (
+        "recorded_by",
+        "recordedByID",
+        "observer_id",
+        "observerID",
+        "observer_name",
+        "observer",
+        "user_id",
+        "username",
+        "person_id",
+        "participant_id",
+    ),
+    "coordinateUncertaintyInMeters": ("coordinate_uncertainty_meters", "positional_accuracy"),
+}
+ANNOTATION_METHOD_BY_BASIS = {
+    "humanobservation": "in_situ",
+    "machineobservation": "machine",
+}
+_TRAITS_CATALOG = None
 
 
 def parse_args():
@@ -164,10 +226,119 @@ def serialize_value(value):
     return value
 
 
+def normalize_key(value):
+    return "".join(ch for ch in str(value or "").lower() if ch.isalnum())
+
+
+def normalize_model_uri(value):
+    if value is None:
+        return value
+
+    text = str(value).strip()
+    if not text:
+        return value
+
+    lower = text.lower()
+    if lower.startswith(("http://", "https://")):
+        return text
+    if lower.startswith("doi:"):
+        return DOI_RESOLVER_PREFIX + text.split(":", 1)[1].strip()
+    if lower.startswith("doi.org/"):
+        return DOI_RESOLVER_PREFIX + text.split("/", 1)[1].strip()
+    if text.startswith("10."):
+        return DOI_RESOLVER_PREFIX + text
+    return text
+
+
+def date_has_month(value):
+    text = str(value or "").strip()
+    if not text:
+        return False
+    if len(text) >= 7 and text[:4].isdigit() and text[4] == "-" and text[5:7].isdigit():
+        return True
+    return False
+
+
+def is_year_only_herbarium_record(source):
+    if normalize_key(source.get("dataSource")) != "herbarium":
+        return False
+
+    date_value = str(source.get("date") or "").strip()
+    if date_has_month(date_value):
+        return False
+    if date_value and date_value.isdigit() and len(date_value) == 4:
+        return True
+    return bool(str(source.get("year") or "").strip()) and not date_value
+
+
+def should_skip_source(source):
+    return is_year_only_herbarium_record(source)
+
+
+def derive_annotation_method(source):
+    basis_key = normalize_key(source.get("basisOfRecord"))
+    return ANNOTATION_METHOD_BY_BASIS.get(basis_key)
+
+
+def traits_catalog():
+    global _TRAITS_CATALOG
+    if _TRAITS_CATALOG is None:
+        _TRAITS_CATALOG = load_traits_catalog(DEFAULT_TRAITS_PATH)
+    return _TRAITS_CATALOG
+
+
+def resolve_trait_record(source):
+    trait_urn = source.get("traitUrn") or source.get("trait_urn")
+    trait = source.get("trait")
+    return resolve_trait(traits_catalog(), trait_urn=trait_urn, trait=trait)
+
+
+def derive_trait_value(source, field):
+    record = resolve_trait_record(source)
+    if not record:
+        return None
+    if field in {"traitUrn", "trait_urn"}:
+        return record.get("trait_urn")
+    if field == "trait":
+        return record.get("trait")
+    if field == "mappedTraits":
+        return record.get("mappedTraits")
+    if field == "mappedTraitsUrns":
+        return record.get("mappedTraitIDs")
+    return None
+
+
+def normalize_export_value(field, value):
+    if field in {"modelUri", "ModelUri"}:
+        return normalize_model_uri(value)
+    return value
+
+
+def get_source_value(source, field):
+    value = source.get(field)
+    if value not in (None, ""):
+        return normalize_export_value(field, value)
+
+    for fallback in FIELD_FALLBACKS.get(field, ()):
+        value = source.get(fallback)
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+
+    if field in {"annotation_method", "annotationMethod"}:
+        value = derive_annotation_method(source)
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+    if field in {"trait", "traitUrn", "trait_urn", "mappedTraits", "mappedTraitsUrns"}:
+        value = derive_trait_value(source, field)
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+    return normalize_export_value(field, source.get(field))
+
+
 def build_csv_row(source, field_order):
     row = {}
     for field in field_order:
-        row[field] = serialize_value(source.get(field))
+        row[field] = serialize_value(get_source_value(source, field))
     return row
 
 
@@ -230,7 +401,10 @@ def export_rows(args):
                 if args.limit > 0 and total_written >= args.limit:
                     print(f"Reached client-side limit of {args.limit:,} rows.")
                     return total_written, expected_total
-                writer.writerow(build_csv_row(hit.get("_source") or {}, field_order))
+                source = hit.get("_source") or {}
+                if should_skip_source(source):
+                    continue
+                writer.writerow(build_csv_row(source, field_order))
                 total_written += 1
             fh.flush()
             page_elapsed = time.monotonic() - page_started_at

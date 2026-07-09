@@ -89,11 +89,14 @@ Leaf out,-1,,
 ```text
 dataSource,scientificName,taxonRank,basisOfRecord,family,genus,species,
 annotationID,date,year,dataset_id,site_id,individual_id,dayOfYear,
-latitude,longitude,observedMetadataUrl,verbatimTrait,phenophase_status,trait_urn,trait
+locationID,organismID,occurrenceID,latitude,longitude,observedMetadataUrl,
+annotation_method,recordedBy,verbatimTrait,phenophase_status,trait_urn,trait
 ```
 
 `observedMetadataUrl` is an official USA-NPN `getObservations.json` API URL filtered to
 the observation date, individual ID, and phenophase ID for the source status record.
+`recordedBy` is populated from the USA-NPN `observer_id` additional field when the API
+includes it.
 
 During the run, you’ll see summary counters:
 
@@ -112,6 +115,8 @@ npn_observations_2025-08-01_to_2025-08-02.csv
 ```
 
 Only rows with a valid, mapped `trait_urn` and `trait` are included.
+During loading, `trait_urn` is normalized to `traitUrn`, `observedMetadataUrl` to
+`sourceRecordUrl`, `family` to `verbatimFamily`, and `gbifFamily` is filled from GBIF.
 
 ---
 

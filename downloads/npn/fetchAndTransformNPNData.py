@@ -36,10 +36,15 @@ OUTPUT_FIELDS = [
     "dataset_id",
     "site_id",
     "individual_id",
+    "locationID",
+    "organismID",
+    "occurrenceID",
     "dayOfYear",
     "latitude",
     "longitude",
     "observedMetadataUrl",
+    "annotation_method",
+    "recordedBy",
     "verbatimTrait",
     "phenophase_status",
     "trait_urn",
@@ -81,7 +86,7 @@ def month_chunks(start_date, end_date):
 
 
 def fetch_json(url, params=None, timeout=60):
-    query = urllib.parse.urlencode(params or {})
+    query = urllib.parse.urlencode(params or {}, doseq=True)
     full_url = f"{url}?{query}" if query else url
     request = urllib.request.Request(full_url, headers={"User-Agent": "Phenobase-NPN-Loader/1.0"})
     with urllib.request.urlopen(request, timeout=timeout) as response:
@@ -262,7 +267,7 @@ def fetch_data(start_date, end_date):
         "start_date": start_date,
         "end_date": end_date,
         "request_src": "custom_script",
-        "additional_field": "dataset_id",
+        "additional_field": ["dataset_id", "observer_id"],
     }
     try:
         print(f"Fetching data from API for dates: {start_date} to {end_date}...")
@@ -292,6 +297,25 @@ def observation_metadata_url(obs):
         )
     )
     return f"{OBSERVATION_METADATA_URL}?{query}"
+
+
+def recorded_by(obs):
+    for field in (
+        "recordedBy",
+        "recorded_by",
+        "observer_id",
+        "observerID",
+        "observer_name",
+        "observer",
+        "user_id",
+        "username",
+        "person_id",
+        "participant_id",
+    ):
+        value = norm(obs.get(field))
+        if value:
+            return value
+    return ""
 
 
 def resolve_data_source(obs):
@@ -383,10 +407,15 @@ def transform_rows(observations, mapping_index, species_catalog, counters):
                     ("dataset_id", obs.get("dataset_id")),
                     ("site_id", obs.get("site_id")),
                     ("individual_id", obs.get("individual_id")),
+                    ("locationID", obs.get("site_id")),
+                    ("organismID", obs.get("individual_id")),
+                    ("occurrenceID", obs.get("observation_id")),
                     ("dayOfYear", obs.get("day_of_year")),
                     ("latitude", obs.get("latitude")),
                     ("longitude", obs.get("longitude")),
                     ("observedMetadataUrl", observation_metadata_url(obs)),
+                    ("annotation_method", "in_situ"),
+                    ("recordedBy", recorded_by(obs)),
                     ("verbatimTrait", f"{cleaned_description} ({raw_status})"),
                     ("phenophase_status", "Observed" if raw_status == 1 else "Not Observed"),
                     ("trait_urn", trait_urn),

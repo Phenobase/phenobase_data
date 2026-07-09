@@ -11,9 +11,64 @@ from elasticsearch import Elasticsearch, helpers
 import yaml
 from datetime import datetime
 from trait_lookup import load_traits_catalog
+from gbif_family import DEFAULT_GBIF_CACHE, GbifFamilyResolver
 
 # Suppress warnings (e.g., LibreSSL)
 warnings.filterwarnings("ignore")
+
+FIELD_ALIASES = {
+    'annotation_method': 'annotationMethod',
+    'observedMetadataUrl': 'sourceRecordUrl',
+    'observedMetadataURL': 'sourceRecordUrl',
+    'observed_metadata_url': 'sourceRecordUrl',
+    'observationMetadataUrl': 'sourceRecordUrl',
+    'observationMetadatUrl': 'sourceRecordUrl',
+    'family': 'verbatimFamily',
+    'verbatim_family': 'verbatimFamily',
+    'gbif_family': 'gbifFamily',
+    'trait_urn': 'traitUrn',
+    'traitURN': 'traitUrn',
+    'traitURI': 'traitUrn',
+    'mappedTraitIDs': 'mappedTraitsUrns',
+    'mappedTraitsUrn': 'mappedTraitsUrns',
+    'mappedTraitUrn': 'mappedTraitsUrns',
+    'ModelUri': 'modelUri',
+    'modelURI': 'modelUri',
+    'model_uri': 'modelUri',
+    'preditionProbability': 'predictionProbability',
+    'prediction_probability': 'predictionProbability',
+    'prediction_prob': 'predictionProbability',
+    'prediction_class': 'predictionClass',
+    'accuracy_excluding_low_certainty_family': 'accuracyExcludingUncertainFamily',
+    'proportion_low_certainty_family': 'proportionCertaintyFamily',
+    'count_family': 'countFamily',
+    'observation_id': 'occurrenceID',
+    'individual_id': 'organismID',
+    'individualID': 'organismID',
+    'site_id': 'locationID',
+    'recorded_by': 'recordedBy',
+    'recordedByID': 'recordedBy',
+    'observer_id': 'recordedBy',
+    'observerID': 'recordedBy',
+    'observer_name': 'recordedBy',
+    'observer': 'recordedBy',
+    'user_id': 'recordedBy',
+    'username': 'recordedBy',
+    'person_id': 'recordedBy',
+    'participant_id': 'recordedBy',
+    'coordinate_uncertainty_meters': 'coordinateUncertaintyInMeters',
+    'positional_accuracy': 'coordinateUncertaintyInMeters',
+}
+DOI_RESOLVER_PREFIX = 'https://doi.org/'
+ANNOTATION_METHOD_BY_BASIS = {
+    'humanobservation': 'in_situ',
+    'machineobservation': 'machine',
+}
+ANNOTATION_METHOD_BY_MODE = {
+    'herbarium': 'machine',
+    'in_situ': 'in_situ',
+    'machine': 'machine',
+}
 
 # ----------------------------
 # Metadata and ES mapping
@@ -163,6 +218,35 @@ def make_row_transformer(transform_path):
 def _lower_str(x):
     return x.lower().strip() if isinstance(x, str) else x
 
+def _is_blank_value(value):
+    return value is None or (isinstance(value, str) and value.strip() == '')
+
+def _normalize_key(value):
+    return ''.join(ch for ch in str(value or '').lower() if ch.isalnum())
+
+def normalize_model_uri(value):
+    if value is None:
+        return value
+    text = str(value).strip()
+    if not text:
+        return value
+    lower = text.lower()
+    if lower.startswith(('http://', 'https://')):
+        return text
+    if lower.startswith('doi:'):
+        return DOI_RESOLVER_PREFIX + text.split(':', 1)[1].strip()
+    if lower.startswith('doi.org/'):
+        return DOI_RESOLVER_PREFIX + text.split('/', 1)[1].strip()
+    if text.startswith('10.'):
+        return DOI_RESOLVER_PREFIX + text
+    return text
+
+def derive_annotation_method(row, mode=None):
+    basis_key = _normalize_key(row.get('basisOfRecord'))
+    if basis_key in ANNOTATION_METHOD_BY_BASIS:
+        return ANNOTATION_METHOD_BY_BASIS[basis_key]
+    return ANNOTATION_METHOD_BY_MODE.get(mode)
+
 def _is_null_token(v, yaml_rules):
     nulls = set([_lower_str(n) for n in (yaml_rules.get('null_values') or [])])
     return isinstance(v, str) and _lower_str(v) in nulls
@@ -230,7 +314,8 @@ def build_taxon_search(row):
             values.append(collapsed)
 
     seen = set()
-    add(row.get('family'))
+    add(row.get('gbifFamily'))
+    add(row.get('verbatimFamily') or row.get('family'))
     add(row.get('genus'))
     add(row.get('species') or row.get('specificEpithet'))
     add(row.get('scientificName'))
@@ -328,7 +413,8 @@ class ESLoader:
                  test_mode=False, traits_mapping=None,
                  batch_size=5000, progress_every=50000,
                  drop_source_records=False, drop_poll_interval=10,
-                 port=8081, scheme='http'):
+                 port=8081, scheme='http', gbif_cache=DEFAULT_GBIF_CACHE,
+                 resolve_gbif_family=True, gbif_timeout=30):
         self.traits_mapping = traits_mapping or {}
         self.strict = False
 
@@ -351,6 +437,11 @@ class ESLoader:
         self.traits_catalog = traits_catalog
         self.traits_by_urn = self.traits_catalog.get('by_urn', {})
         self.traits_by_label = self.traits_catalog.get('by_label', {})
+        self.gbif_resolver = GbifFamilyResolver(
+            cache_path=gbif_cache,
+            enabled=resolve_gbif_family,
+            timeout=gbif_timeout,
+        )
 
         self.batch_size = int(batch_size)
         self.progress_every = int(progress_every)
@@ -358,7 +449,7 @@ class ESLoader:
         relevance_field = {
             'machine': 'machine_annotation_inat_relevance',
             'herbarium': 'machine_annotation_herbarium_relevance',
-            'in_situ': 'machine_annotation_inat_relevance'
+            'in_situ': 'in_situ_relevance'
         }[mode]
 
         self.required_fields = [
@@ -409,6 +500,7 @@ class ESLoader:
                     data_source = (row.get('dataSource') or '').strip()
                     if data_source:
                         data_sources.add(data_source)
+                        data_sources.add(self.normalize_data_source(data_source))
 
         if files_without_data_source:
             print("⚠️ Files without a dataSource column were ignored for source-record dropping:")
@@ -416,6 +508,52 @@ class ESLoader:
                 print(f"   - {file}")
 
         return sorted(data_sources)
+
+    @staticmethod
+    def normalize_data_source(value):
+        text = (value or '').strip()
+        if text == 'SeasonWatch India':
+            return 'SeasonWatch (India)'
+        return text
+
+    def normalize_row_fields(self, row):
+        for source_field, target_field in FIELD_ALIASES.items():
+            if _is_blank_value(row.get(target_field)) and not _is_blank_value(row.get(source_field)):
+                row[target_field] = row.get(source_field)
+            if source_field in row:
+                row.pop(source_field)
+
+        if not _is_blank_value(row.get('dataSource')):
+            row['dataSource'] = self.normalize_data_source(row.get('dataSource'))
+
+        if _is_blank_value(row.get('annotationMethod')):
+            annotation_method = derive_annotation_method(row, self.mode)
+            if annotation_method:
+                row['annotationMethod'] = annotation_method
+
+        if not _is_blank_value(row.get('modelUri')):
+            row['modelUri'] = normalize_model_uri(row.get('modelUri'))
+
+        return row
+
+    def get_discard_reason(self, row):
+        if self.mode != 'herbarium':
+            return None
+
+        date_value = str(row.get('date') or '').strip()
+        has_month_date = (
+            len(date_value) >= 7
+            and date_value[:4].isdigit()
+            and date_value[4] == '-'
+            and date_value[5:7].isdigit()
+        )
+        if has_month_date:
+            return None
+        if date_value and date_value.isdigit() and len(date_value) == 4:
+            return 'Herbarium record has only year precision and no month.'
+        if not date_value and not _is_blank_value(row.get('year')):
+            return 'Herbarium record has year but no month-bearing date.'
+        return None
 
     def wait_for_task(self, task_id):
         while True:
@@ -505,10 +643,13 @@ class ESLoader:
             except (TypeError, ValueError):
                 row['decadeStart'] = None
 
+        if 'gbifFamily' in self.system_fields and _is_blank_value(row.get('gbifFamily')):
+            row['gbifFamily'] = self.gbif_resolver.family_for(row.get('scientificName'))
+
         if 'taxonSearch' in self.system_fields:
             row['taxonSearch'] = build_taxon_search(row)
 
-        trait_urn = (row.get('trait_urn') or '').strip()
+        trait_urn = (row.get('traitUrn') or row.get('trait_urn') or '').strip()
         trait_raw = (row.get('trait') or '').strip()
 
         record = None
@@ -521,18 +662,24 @@ class ESLoader:
             if record is None:
                 errors.append(f"Trait '{trait_raw}' not found in traits mapping.")
         else:
-            errors.append("Trait or trait_urn is empty — required for mappedTraits.")
+            errors.append("Trait or traitUrn is empty — required for mappedTraits.")
 
         if record:
-            row['trait_urn'] = record.get('trait_urn', trait_urn)
+            row['traitUrn'] = record.get('trait_urn', trait_urn)
             row['trait'] = record.get('trait', trait_raw)
             mapped = record.get('mappedTraits', '')
             if isinstance(mapped, str):
                 row['mappedTraits'] = [x.strip() for x in mapped.split("|") if x.strip()]
             else:
                 row['mappedTraits'] = mapped
+            mapped_ids = record.get('mappedTraitIDs', '')
+            if isinstance(mapped_ids, str):
+                row['mappedTraitsUrns'] = [x.strip() for x in mapped_ids.split("|") if x.strip()]
+            else:
+                row['mappedTraitsUrns'] = mapped_ids
         else:
             row['mappedTraits'] = ''
+            row['mappedTraitsUrns'] = ''
 
     def __load_file(self, file):
         start_ts = time.time()
@@ -653,6 +800,17 @@ class ESLoader:
                 # Optional row transform (from transform.yaml)
                 if self.transform_row:
                     row = self.transform_row(row)
+                row = self.normalize_row_fields(row)
+
+                discard_reason = self.get_discard_reason(row)
+                if discard_reason:
+                    rejected += 1
+                    aid = (row.get('annotationID') or '').strip() or 'UNKNOWN'
+                    if self.test_mode and rejected <= 5:
+                        print(f"\n❌ Row rejected (annotationID={aid}):")
+                        print("   -", discard_reason)
+                    self.log_error(aid, [discard_reason])
+                    continue
 
                 cleaned = {}
                 field_errors = []
@@ -673,9 +831,9 @@ class ESLoader:
                 aid = (row.get('annotationID') or '').strip()
                 cleaned['annotationID'] = aid
 
-                # Trait identity is resolved from trait_urn inside assign_system_fields.
+                # Trait identity is resolved from traitUrn inside assign_system_fields.
                 # Copy the normalized values back over the raw input values before indexing.
-                cleaned['trait_urn'] = row.get('trait_urn')
+                cleaned['traitUrn'] = row.get('traitUrn')
                 cleaned['trait'] = row.get('trait')
 
                 # Duplicate ID within this file?
@@ -812,6 +970,22 @@ if __name__ == '__main__':
         default=10,
         help='Seconds between Elasticsearch task status checks for --drop-source-records (default: 10)'
     )
+    parser.add_argument(
+        '--gbif-cache',
+        default=DEFAULT_GBIF_CACHE,
+        help=f'CSV cache for scientificName to GBIF family resolution (default: {DEFAULT_GBIF_CACHE})'
+    )
+    parser.add_argument(
+        '--no-gbif-family',
+        action='store_true',
+        help='Do not call GBIF when populating gbifFamily; already cached values remain usable.'
+    )
+    parser.add_argument(
+        '--gbif-timeout',
+        type=float,
+        default=30,
+        help='Per-request timeout in seconds for GBIF family resolution (default: 30)'
+    )
 
     args = parser.parse_args()
     column_metadata = load_column_metadata()
@@ -827,7 +1001,10 @@ if __name__ == '__main__':
         batch_size=args.batch_size,
         progress_every=args.progress_every,
         drop_source_records=args.drop_source_records,
-        drop_poll_interval=args.drop_poll_interval
+        drop_poll_interval=args.drop_poll_interval,
+        gbif_cache=args.gbif_cache,
+        resolve_gbif_family=not args.no_gbif_family,
+        gbif_timeout=args.gbif_timeout,
     )
     loader.strict = args.strict
     loader.load()

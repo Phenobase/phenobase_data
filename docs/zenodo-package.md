@@ -24,13 +24,24 @@ Small test run:
 python3 build_zenodo_package.py --limit 100 --package-name phenobase-zenodo-smoke-test
 ```
 
+All-datasets example package with 20 records per `dataSource` and exact live source counts:
+
+```bash
+python3 build_zenodo_package.py \
+  --sample-per-datasource 20 \
+  --package-name phenobase-zenodo-example-all-datasets-2026-07-06 \
+  --version 2026-07-06 \
+  --publication-date 2026-07-06 \
+  --request-timeout 120
+```
+
 ## Package Contents
 
 - `phenobase_observations.csv.gz`: compressed CSV export of matching Phenobase records.
 - `data_dictionary.csv`: data dictionary generated from `data/columns.csv`.
 - `column_metadata.json`: JSON copy of the column metadata.
 - `source_summary.csv`: exported record counts by `dataSource`.
-- `record_summary.json`: export parameters, row counts, date/year ranges, and missing-link counts.
+- `record_summary.json`: export parameters, row counts, date/year ranges, missing-link counts, and skipped year-only herbarium records.
 - `zenodo_metadata.json`: editable Zenodo deposition metadata template.
 - `manifest-sha256.txt`: SHA-256 checksums and byte sizes.
 - `README.md`: package documentation.
@@ -40,7 +51,7 @@ Use `--include-all-columns` to include every field listed in `data/columns.csv`.
 
 ## Zenodo Review Checklist
 
-- Review `record_summary.json`, especially `missingObservedMetadataUrl`, before depositing.
+- Review `record_summary.json`, especially `missingSourceRecordUrl`, before depositing.
 - Review and edit `zenodo_metadata.json`; creators, affiliations, funders, related identifiers,
   community, and license must be confirmed by the submitting team.
 - Keep the number of uploaded files low. The generated ZIP is intended to be the main Zenodo upload.
