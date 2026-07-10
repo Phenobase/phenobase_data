@@ -981,6 +981,11 @@ if __name__ == '__main__':
         help='Do not call GBIF when populating gbifFamily; already cached values remain usable.'
     )
     parser.add_argument(
+        '--gbif-cache-only',
+        action='store_true',
+        help='Populate gbifFamily from --gbif-cache only; do not make live GBIF requests.'
+    )
+    parser.add_argument(
         '--gbif-timeout',
         type=float,
         default=30,
@@ -1003,7 +1008,7 @@ if __name__ == '__main__':
         drop_source_records=args.drop_source_records,
         drop_poll_interval=args.drop_poll_interval,
         gbif_cache=args.gbif_cache,
-        resolve_gbif_family=not args.no_gbif_family,
+        resolve_gbif_family=not (args.no_gbif_family or args.gbif_cache_only),
         gbif_timeout=args.gbif_timeout,
     )
     loader.strict = args.strict
