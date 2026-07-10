@@ -52,6 +52,8 @@ class GbifFamilyResolver:
         self.cache_fields = list(CACHE_FIELDS)
         self.requests = 0
         self.cache_hits = 0
+        self.cache_misses = 0
+        self.disabled_misses = 0
         self.errors = 0
         self.load_cache()
 
@@ -96,7 +98,9 @@ class GbifFamilyResolver:
             self.cache_hits += 1
             return cached
 
+        self.cache_misses += 1
         if not self.enabled:
+            self.disabled_misses += 1
             row = {"scientificName": name, "family": "", "error": "resolution disabled"}
             self.cache[key] = row
             return row

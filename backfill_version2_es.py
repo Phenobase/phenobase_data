@@ -85,6 +85,25 @@ class ScrollInterrupted(RuntimeError):
     """Raised when a long-running scroll should be restarted from a fresh query."""
 
 
+def is_restartable_direct_scroll_error(exc):
+    status_code = getattr(exc, "status_code", None) or getattr(exc, "status", None)
+    if status_code in {404, 429, 500, 502, 503, 504}:
+        return True
+
+    text = str(exc)
+    if "No search context found" in text:
+        return True
+
+    class_name = exc.__class__.__name__
+    return class_name in {
+        "ConnectionError",
+        "ConnectionTimeout",
+        "ReadTimeoutError",
+        "TimeoutError",
+        "TransportError",
+    }
+
+
 def is_blank(value):
     return value is None or value == "" or value == []
 
@@ -410,11 +429,16 @@ def scroll_hits_direct(es, args):
                 break
             for hit in hits:
                 yield hit
-            response = es.scroll(
-                scroll_id=scroll_id,
-                scroll=args.scroll,
-                request_timeout=args.request_timeout,
-            )
+            try:
+                response = es.scroll(
+                    scroll_id=scroll_id,
+                    scroll=args.scroll,
+                    request_timeout=args.request_timeout,
+                )
+            except Exception as exc:
+                if is_restartable_direct_scroll_error(exc):
+                    raise ScrollInterrupted(f"direct scroll request failed: {exc}") from exc
+                raise
             scroll_id = response.get("_scroll_id", scroll_id)
     finally:
         if scroll_id:
@@ -510,6 +534,11 @@ def parse_args():
     parser.add_argument("--gbif-cache", default=DEFAULT_GBIF_CACHE)
     parser.add_argument("--gbif-timeout", type=float, default=30)
     parser.add_argument("--no-gbif", action="store_true", help="Skip GBIF resolution.")
+    parser.add_argument(
+        "--gbif-cache-only",
+        action="store_true",
+        help="Populate gbifFamily only from --gbif-cache; do not make live GBIF requests.",
+    )
     parser.add_argument("--overwrite", action="store_true", help="Recompute fields even when already present.")
     parser.add_argument("--apply", action="store_true", help="Write updates to Elasticsearch. Default is dry-run.")
     parser.add_argument("--ensure-mapping", action="store_true", help="Ensure version2 ES field mappings during dry-run.")
@@ -542,7 +571,10 @@ def parse_args():
     )
     parser.add_argument("--request-timeout", type=float, default=120)
     parser.add_argument("--report", default=DEFAULT_REPORT_PATH)
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.no_gbif and args.gbif_cache_only:
+        parser.error("--no-gbif and --gbif-cache-only cannot be used together")
+    return args
 
 
 def main():
@@ -569,7 +601,7 @@ def main():
     traits_catalog = load_traits_catalog(args.traits_path)
     gbif_resolver = GbifFamilyResolver(
         cache_path=args.gbif_cache,
-        enabled=not args.no_gbif,
+        enabled=not args.no_gbif and not args.gbif_cache_only,
         timeout=args.gbif_timeout,
     )
 
@@ -681,8 +713,11 @@ def main():
             ("gbif", OrderedDict(
                 [
                     ("cachePath", args.gbif_cache),
+                    ("cacheOnly", args.gbif_cache_only),
                     ("cacheSize", len(gbif_resolver.cache)),
                     ("cacheHits", gbif_resolver.cache_hits),
+                    ("cacheMisses", gbif_resolver.cache_misses),
+                    ("disabledMisses", gbif_resolver.disabled_misses),
                     ("requests", gbif_resolver.requests),
                     ("errors", gbif_resolver.errors),
                 ]
