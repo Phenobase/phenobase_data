@@ -43,8 +43,10 @@ SOURCE_FIELDS = [
     "annotationID",
     "dataSource",
     "scientificName",
+    "taxonRank",
     "family",
     "verbatimFamily",
+    "standardizedFamily",
     "gbifFamily",
     "genus",
     "species",
@@ -63,21 +65,28 @@ SOURCE_FIELDS = [
     "sourceRecordUrl",
     "annotation_method",
     "annotationMethod",
+    "collectionMethod",
     "basisOfRecord",
     "modelUri",
     "ModelUri",
     "model_uri",
+    "accuracyFamily",
+    "accuracyIncludingUncertainFamily",
+    "accuracyExcludingUncertainFamily",
 ]
 
 MAPPING_PROPERTIES = {
     "verbatimFamily": {"type": "keyword"},
-    "gbifFamily": {"type": "keyword"},
+    "standardizedFamily": {"type": "keyword"},
     "traitUrn": {"type": "keyword"},
     "mappedTraitsUrns": {"type": "keyword"},
     "sourceRecordUrl": {"type": "text"},
     "annotationMethod": {"type": "text"},
+    "collectionMethod": {"type": "keyword"},
     "taxonSearch": {"type": "keyword"},
     "modelUri": {"type": "text"},
+    "accuracyIncludingUncertainFamily": {"type": "text"},
+    "accuracyFamily": {"type": "text"},
 }
 
 
@@ -126,6 +135,22 @@ def normalize_key(value):
     return "".join(ch for ch in str(value or "").lower() if ch.isalnum())
 
 
+def derive_standardized_family(source):
+    scientific_name = str(source.get("scientificName") or "").strip()
+    if not scientific_name:
+        return ""
+
+    if normalize_key(source.get("taxonRank")) == "family":
+        return scientific_name
+
+    for field in ("verbatimFamily", "family"):
+        family = str(source.get(field) or "").strip()
+        if family and family.casefold() == scientific_name.casefold():
+            return scientific_name
+
+    return ""
+
+
 def normalize_model_uri(value):
     if value is None:
         return value
@@ -145,7 +170,7 @@ def normalize_model_uri(value):
 
 
 def derive_annotation_method(source):
-    return ANNOTATION_METHOD_BY_BASIS.get(normalize_key(source.get("basisOfRecord")))
+    return ANNOTATION_METHOD_BY_BASIS.get(normalize_key(source.get("collectionMethod") or source.get("basisOfRecord")))
 
 
 def build_taxon_search(row):
@@ -164,7 +189,7 @@ def build_taxon_search(row):
             seen.add(key)
             values.append(collapsed)
 
-    add(row.get("gbifFamily"))
+    add(row.get("standardizedFamily") or row.get("gbifFamily"))
     add(row.get("verbatimFamily") or row.get("family"))
     add(row.get("genus"))
     add(row.get("species") or row.get("specificEpithet"))
@@ -247,6 +272,13 @@ def derive_updates(source, traits_catalog, gbif_resolver, overwrite=False, resol
         first_value(source, "sourceRecordUrl", "observedMetadataUrl", "observed_metadata_url"),
         overwrite=overwrite,
     )
+    set_update(
+        updates,
+        source,
+        "collectionMethod",
+        first_value(source, "collectionMethod", "basisOfRecord"),
+        overwrite=overwrite,
+    )
 
     annotation_method = first_value(source, "annotationMethod", "annotation_method")
     if not annotation_method:
@@ -259,9 +291,28 @@ def derive_updates(source, traits_catalog, gbif_resolver, overwrite=False, resol
 
     derive_trait_updates(source, updates, traits_catalog, overwrite=overwrite)
 
-    if resolve_gbif and (overwrite or is_blank(source.get("gbifFamily"))):
+    set_update(
+        updates,
+        source,
+        "accuracyFamily",
+        first_value(source, "accuracyExcludingUncertainFamily"),
+        overwrite=overwrite,
+    )
+    set_update(
+        updates,
+        source,
+        "accuracyIncludingUncertainFamily",
+        first_value(source, "accuracyIncludingUncertainFamily", "accuracyFamily"),
+        overwrite=overwrite,
+    )
+
+    standardized_family = first_value(source, "standardizedFamily", "gbifFamily")
+    if is_blank(standardized_family):
+        standardized_family = derive_standardized_family(source)
+    set_update(updates, source, "standardizedFamily", standardized_family, overwrite=overwrite)
+    if resolve_gbif and (overwrite or is_blank(first_value(source, "standardizedFamily", "gbifFamily"))):
         gbif_family = gbif_resolver.family_for(source.get("scientificName"))
-        set_update(updates, source, "gbifFamily", gbif_family, overwrite=overwrite)
+        set_update(updates, source, "standardizedFamily", gbif_family, overwrite=overwrite)
 
     if overwrite or is_blank(source.get("taxonSearch")):
         taxon_search = build_taxon_search(merged_source(source, updates))
@@ -396,12 +447,15 @@ def build_query(args):
     should = [
         {"term": {"dataSource": "SeasonWatch India"}},
         {"bool": {"must": [{"exists": {"field": "family"}}], "must_not": [{"exists": {"field": "verbatimFamily"}}]}},
-        {"bool": {"must": [{"exists": {"field": "scientificName"}}], "must_not": [{"exists": {"field": "gbifFamily"}}]}},
+        {"bool": {"must": [{"exists": {"field": "gbifFamily"}}], "must_not": [{"exists": {"field": "standardizedFamily"}}]}},
+        {"bool": {"must": [{"exists": {"field": "scientificName"}}], "must_not": [{"exists": {"field": "standardizedFamily"}}]}},
         {"bool": {"must": [{"exists": {"field": "trait_urn"}}], "must_not": [{"exists": {"field": "traitUrn"}}]}},
         {"bool": {"must": [{"exists": {"field": "traitUrn"}}], "must_not": [{"exists": {"field": "mappedTraitsUrns"}}]}},
         {"bool": {"must": [{"exists": {"field": "trait_urn"}}], "must_not": [{"exists": {"field": "mappedTraitsUrns"}}]}},
         {"bool": {"must": [{"exists": {"field": "observedMetadataUrl"}}], "must_not": [{"exists": {"field": "sourceRecordUrl"}}]}},
+        {"bool": {"must": [{"exists": {"field": "basisOfRecord"}}], "must_not": [{"exists": {"field": "collectionMethod"}}]}},
         {"bool": {"must": [{"exists": {"field": "annotation_method"}}], "must_not": [{"exists": {"field": "annotationMethod"}}]}},
+        {"bool": {"must": [{"exists": {"field": "accuracyExcludingUncertainFamily"}}], "must_not": [{"exists": {"field": "accuracyFamily"}}]}},
     ]
     if "match_all" in base_query:
         return {"bool": {"should": should, "minimum_should_match": 1}}
@@ -537,7 +591,7 @@ def parse_args():
     parser.add_argument(
         "--gbif-cache-only",
         action="store_true",
-        help="Populate gbifFamily only from --gbif-cache; do not make live GBIF requests.",
+        help="Populate standardizedFamily only from --gbif-cache; do not make live GBIF requests.",
     )
     parser.add_argument("--overwrite", action="store_true", help="Recompute fields even when already present.")
     parser.add_argument("--apply", action="store_true", help="Write updates to Elasticsearch. Default is dry-run.")

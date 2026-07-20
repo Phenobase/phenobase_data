@@ -96,8 +96,8 @@ def build_query(args):
         must.append({"query_string": {"query": args.query, "analyze_wildcard": True}})
 
     query = {"bool": {"must": must}}
-    if not args.include_existing_gbif_family:
-        query["bool"]["must_not"] = [{"exists": {"field": "gbifFamily"}}]
+    if not args.include_existing_standardized_family:
+        query["bool"]["must_not"] = [{"exists": {"field": "standardizedFamily"}}]
     return query
 
 
@@ -532,9 +532,16 @@ def parse_args():
     parser.add_argument("--index", default=DEFAULT_INDEX)
     parser.add_argument("--query", default="*")
     parser.add_argument(
-        "--include-existing-gbif-family",
+        "--include-existing-standardized-family",
+        dest="include_existing_standardized_family",
         action="store_true",
-        help="Collect names from all records with scientificName, not just records missing gbifFamily.",
+        help="Collect names from all records with scientificName, not just records missing standardizedFamily.",
+    )
+    parser.add_argument(
+        "--include-existing-gbif-family",
+        dest="include_existing_standardized_family",
+        action="store_true",
+        help=argparse.SUPPRESS,
     )
     parser.add_argument("--name-source", choices=["auto", "composite", "scroll"], default="auto")
     parser.add_argument("--name-field", default="scientificName.keyword")
@@ -590,7 +597,7 @@ def main():
             ("elapsedSeconds", round(time.time() - started, 3)),
             ("index", args.index),
             ("query", args.query),
-            ("missingGbifFamilyOnly", not args.include_existing_gbif_family),
+            ("missingStandardizedFamilyOnly", not args.include_existing_standardized_family),
             ("nameSource", "csv" if args.names_from_csv else args.name_source),
             ("nameField", args.name_field),
             ("namesFromCsv", args.names_from_csv),

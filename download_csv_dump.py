@@ -45,7 +45,8 @@ FIELD_FALLBACKS = {
     ),
     "verbatimFamily": ("family", "verbatim_family"),
     "family": ("verbatimFamily", "verbatim_family"),
-    "gbifFamily": ("gbif_family",),
+    "standardizedFamily": ("gbifFamily", "gbif_family"),
+    "gbifFamily": ("standardizedFamily", "gbif_family"),
     "traitUrn": ("trait_urn", "traitURN", "traitURI"),
     "trait_urn": ("traitUrn",),
     "mappedTraitsUrns": (
@@ -56,10 +57,14 @@ FIELD_FALLBACKS = {
         "mapped_trait_urns",
     ),
     "modelUri": ("ModelUri", "modelURI", "model_uri"),
+    "collectionMethod": ("basisOfRecord", "basis_of_record"),
+    "basisOfRecord": ("collectionMethod", "basis_of_record"),
     "predictionProbability": ("preditionProbability", "prediction_probability", "prediction_prob"),
     "preditionProbability": ("predictionProbability", "prediction_probability", "prediction_prob"),
     "predictionClass": ("prediction_class",),
-    "accuracyExcludingUncertainFamily": ("accuracy_excluding_low_certainty_family",),
+    "accuracyFamily": ("accuracyExcludingUncertainFamily", "accuracy_excluding_low_certainty_family"),
+    "accuracyIncludingUncertainFamily": ("accuracyFamily", "accuracy_including_uncertain_family"),
+    "accuracyExcludingUncertainFamily": ("accuracyFamily", "accuracy_excluding_low_certainty_family"),
     "proportionCertaintyFamily": ("proportion_low_certainty_family",),
     "countFamily": ("count_family",),
     "occurrenceID": ("observation_id",),
@@ -230,6 +235,22 @@ def normalize_key(value):
     return "".join(ch for ch in str(value or "").lower() if ch.isalnum())
 
 
+def derive_standardized_family(source):
+    scientific_name = str(source.get("scientificName") or "").strip()
+    if not scientific_name:
+        return ""
+
+    if normalize_key(source.get("taxonRank")) == "family":
+        return scientific_name
+
+    for field in ("verbatimFamily", "family"):
+        family = str(source.get(field) or "").strip()
+        if family and family.casefold() == scientific_name.casefold():
+            return scientific_name
+
+    return ""
+
+
 def normalize_model_uri(value):
     if value is None:
         return value
@@ -276,7 +297,7 @@ def should_skip_source(source):
 
 
 def derive_annotation_method(source):
-    basis_key = normalize_key(source.get("basisOfRecord"))
+    basis_key = normalize_key(source.get("collectionMethod") or source.get("basisOfRecord"))
     return ANNOTATION_METHOD_BY_BASIS.get(basis_key)
 
 
@@ -314,7 +335,36 @@ def normalize_export_value(field, value):
     return value
 
 
+def first_nonblank(source, fields):
+    for fallback in fields:
+        value = source.get(fallback)
+        if value not in (None, ""):
+            return value
+    return None
+
+
 def get_source_value(source, field):
+    if field == "standardizedFamily":
+        value = source.get(field)
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+        value = first_nonblank(source, FIELD_FALLBACKS.get(field, ()))
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+        value = derive_standardized_family(source)
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+        return normalize_export_value(field, source.get(field))
+
+    if field == "accuracyFamily":
+        value = first_nonblank(source, FIELD_FALLBACKS.get(field, ()))
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+        value = source.get(field)
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+        return normalize_export_value(field, source.get(field))
+
     value = source.get(field)
     if value not in (None, ""):
         return normalize_export_value(field, value)

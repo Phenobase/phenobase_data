@@ -25,7 +25,9 @@ FIELD_ALIASES = {
     'observationMetadatUrl': 'sourceRecordUrl',
     'family': 'verbatimFamily',
     'verbatim_family': 'verbatimFamily',
-    'gbif_family': 'gbifFamily',
+    'gbifFamily': 'standardizedFamily',
+    'gbif_family': 'standardizedFamily',
+    'standardized_family': 'standardizedFamily',
     'trait_urn': 'traitUrn',
     'traitURN': 'traitUrn',
     'traitURI': 'traitUrn',
@@ -35,11 +37,15 @@ FIELD_ALIASES = {
     'ModelUri': 'modelUri',
     'modelURI': 'modelUri',
     'model_uri': 'modelUri',
+    'basisOfRecord': 'collectionMethod',
+    'basis_of_record': 'collectionMethod',
     'preditionProbability': 'predictionProbability',
     'prediction_probability': 'predictionProbability',
     'prediction_prob': 'predictionProbability',
     'prediction_class': 'predictionClass',
-    'accuracy_excluding_low_certainty_family': 'accuracyExcludingUncertainFamily',
+    'accuracyExcludingUncertainFamily': 'accuracyFamily',
+    'accuracy_excluding_low_certainty_family': 'accuracyFamily',
+    'accuracy_including_uncertain_family': 'accuracyIncludingUncertainFamily',
     'proportion_low_certainty_family': 'proportionCertaintyFamily',
     'count_family': 'countFamily',
     'observation_id': 'occurrenceID',
@@ -224,6 +230,21 @@ def _is_blank_value(value):
 def _normalize_key(value):
     return ''.join(ch for ch in str(value or '').lower() if ch.isalnum())
 
+def derive_standardized_family(row):
+    scientific_name = str(row.get('scientificName') or '').strip()
+    if not scientific_name:
+        return ''
+
+    if _normalize_key(row.get('taxonRank')) == 'family':
+        return scientific_name
+
+    for field in ('verbatimFamily', 'family'):
+        family = str(row.get(field) or '').strip()
+        if family and family.casefold() == scientific_name.casefold():
+            return scientific_name
+
+    return ''
+
 def normalize_model_uri(value):
     if value is None:
         return value
@@ -242,7 +263,7 @@ def normalize_model_uri(value):
     return text
 
 def derive_annotation_method(row, mode=None):
-    basis_key = _normalize_key(row.get('basisOfRecord'))
+    basis_key = _normalize_key(row.get('collectionMethod') or row.get('basisOfRecord'))
     if basis_key in ANNOTATION_METHOD_BY_BASIS:
         return ANNOTATION_METHOD_BY_BASIS[basis_key]
     return ANNOTATION_METHOD_BY_MODE.get(mode)
@@ -314,7 +335,7 @@ def build_taxon_search(row):
             values.append(collapsed)
 
     seen = set()
-    add(row.get('gbifFamily'))
+    add(row.get('standardizedFamily') or row.get('gbifFamily'))
     add(row.get('verbatimFamily') or row.get('family'))
     add(row.get('genus'))
     add(row.get('species') or row.get('specificEpithet'))
@@ -643,8 +664,10 @@ class ESLoader:
             except (TypeError, ValueError):
                 row['decadeStart'] = None
 
-        if 'gbifFamily' in self.system_fields and _is_blank_value(row.get('gbifFamily')):
-            row['gbifFamily'] = self.gbif_resolver.family_for(row.get('scientificName'))
+        if 'standardizedFamily' in self.system_fields and _is_blank_value(row.get('standardizedFamily')):
+            row['standardizedFamily'] = derive_standardized_family(row)
+            if _is_blank_value(row.get('standardizedFamily')):
+                row['standardizedFamily'] = self.gbif_resolver.family_for(row.get('scientificName'))
 
         if 'taxonSearch' in self.system_fields:
             row['taxonSearch'] = build_taxon_search(row)
@@ -978,12 +1001,12 @@ if __name__ == '__main__':
     parser.add_argument(
         '--no-gbif-family',
         action='store_true',
-        help='Do not call GBIF when populating gbifFamily; already cached values remain usable.'
+        help='Do not call GBIF when populating standardizedFamily; already cached values remain usable.'
     )
     parser.add_argument(
         '--gbif-cache-only',
         action='store_true',
-        help='Populate gbifFamily from --gbif-cache only; do not make live GBIF requests.'
+        help='Populate standardizedFamily from --gbif-cache only; do not make live GBIF requests.'
     )
     parser.add_argument(
         '--gbif-timeout',
