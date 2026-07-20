@@ -202,7 +202,7 @@ What the loader does during a run:
 - recursively finds `.csv` files under the provided dataset directory
 - applies optional row-level transforms from dataset-local `transform.yaml`
 - coerces values to the datatypes defined in `data/columns.csv`
-- computes system fields such as `gbifFamily`, `mappedTraits`, `mappedTraitsUrns`, and `taxonSearch`
+- computes system fields such as `standardizedFamily`, `mappedTraits`, `mappedTraitsUrns`, and `taxonSearch`
 - optionally deletes existing records for the input `dataSource` value(s) with `--drop-source-records`
 - rejects rows with missing `annotationID`, duplicate `annotationID` within a file, or unmapped traits
 - writes row-level failures to `loading_errors.csv`
@@ -223,7 +223,7 @@ python3 loader.py --mode=in_situ --drop-source-records --gbif-cache-only data/np
 
 ### GBIF Family Cache For Normal Loads
 
-`gbifFamily` is a system field derived from `scientificName`. The shared cache lives at:
+`standardizedFamily` is a system field derived from `scientificName`. The shared cache lives at:
 
 ```text
 downloads/taxonomy_family_compare/gbif_family_cache.csv
@@ -372,8 +372,8 @@ Main options:
 - `--drop-existing`: recreate the target index before loading
 - `--drop-source-records`: delete existing docs in the target index whose `dataSource` matches the input CSVs, then load the new records
 - `--drop-poll-interval`: seconds between internal Elasticsearch task checks for `--drop-source-records`
-- `--gbif-cache`: CSV cache used to populate `gbifFamily` from `scientificName`
-- `--gbif-cache-only`: populate `gbifFamily` from `--gbif-cache` only, with no live GBIF requests
+- `--gbif-cache`: CSV cache used to populate `standardizedFamily` from `scientificName`
+- `--gbif-cache-only`: populate `standardizedFamily` from `--gbif-cache` only, with no live GBIF requests
 - `--no-gbif-family`: backward-compatible alias for cache-only GBIF family behavior
 - `--batch-size`: bulk size for indexing
 - `--progress-every`: progress logging interval
@@ -495,7 +495,7 @@ fields:
         pattern: "\\s+"
         replacement: " "
 
-  basisOfRecord:
+  collectionMethod:
     transforms:
       - op: strip
       - op: map
@@ -570,7 +570,7 @@ The package is written under `downloads/zenodo/<package-name>/` and, by default,
 - `manifest-sha256.txt`: checksums and byte sizes
 - `README.md`: package documentation
 
-By default, the CSV includes fields where `data/columns.csv` has `visible_on_archive=TRUE`.
+By default, the CSV includes fields where `data/columns.csv` has `visible_on_download=TRUE`.
 Use `--include-all-columns` to export every field listed in `data/columns.csv`.
 
 Production example:
@@ -608,11 +608,11 @@ on the server in `screen` or `tmux`.
 
 ### Backfill Version 2 Fields
 
-Use [backfill_version2_es.py](backfill_version2_es.py) to add version2 field mappings and backfill existing live records without reloading every source file. The script copies old field names into the version2 names, renames `SeasonWatch India` to `SeasonWatch (India)`, derives `mappedTraitsUrns` from `data/traits.csv`, and fills `gbifFamily` from a reusable cache.
+Use [backfill_version2_es.py](backfill_version2_es.py) to add version2 field mappings and backfill existing live records without reloading every source file. The script copies old field names into the version2 names, renames `SeasonWatch India` to `SeasonWatch (India)`, derives `mappedTraitsUrns` from `data/traits.csv`, and fills `standardizedFamily` from a reusable GBIF cache.
 
 For large GBIF family updates, use the two-phase process below. This avoids blocking Elasticsearch writes on live GBIF requests.
 
-First build or extend the GBIF family cache from live ES records that have `scientificName` but are missing `gbifFamily`:
+First build or extend the GBIF family cache from live ES records that have `scientificName` but are missing `standardizedFamily`:
 
 ```bash
 python3 prepare_gbif_family_cache.py \
@@ -653,6 +653,37 @@ python3 backfill_version2_es.py \
 ```
 
 Do not use `--overwrite` for a restart or resume. Already-updated records should fall out of the default query. The default run is read-only; use `--apply` to write updates to Elasticsearch. If direct ES access is unavailable, run the same backfill command with `--base-url https://biscicol.org/phenobase/api/v1/query` instead of `--host`, `--port`, and `--scheme`.
+
+### Rename Legacy ES Fields
+
+Use [rename_es_fields.py](rename_es_fields.py) for the one-time in-place ES rename:
+
+- `gbifFamily` -> `standardizedFamily`
+- `basisOfRecord` -> `collectionMethod`
+- `accuracyExcludingUncertainFamily` -> `accuracyFamily`
+- legacy `accuracyFamily` -> `accuracyIncludingUncertainFamily`
+
+Dry-run through the proxy first:
+
+```bash
+python3 rename_es_fields.py \
+  --base-url https://biscicol.org/phenobase/api/v1/query \
+  --migrate-legacy-accuracy-family \
+  --request-timeout 300
+```
+
+Apply the rename asynchronously:
+
+```bash
+python3 rename_es_fields.py \
+  --base-url https://biscicol.org/phenobase/api/v1/query \
+  --apply \
+  --migrate-legacy-accuracy-family \
+  --batch-size 5000 \
+  --request-timeout 300
+```
+
+Use `--migrate-legacy-accuracy-family` only for the current legacy index migration. Future loads should write the new `accuracyFamily` meaning directly, so do not run that flag repeatedly after the legacy index has been converted.
 
 ## Pages And Shared Outputs
 
