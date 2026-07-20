@@ -46,7 +46,7 @@ python3 build_zenodo_package.py \
 - `manifest-sha256.txt`: SHA-256 checksums and byte sizes.
 - `README.md`: package documentation.
 
-By default the CSV includes fields marked `visible_on_archive=TRUE` in `data/columns.csv`.
+By default the CSV includes fields marked `visible_on_download=TRUE` in `data/columns.csv`.
 Use `--include-all-columns` to include every field listed in `data/columns.csv`.
 
 ## Zenodo Review Checklist

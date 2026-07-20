@@ -5,8 +5,8 @@
 
 The package contains a compressed single-table CSV export, data dictionary files
 derived from data/columns.csv, source counts, checksums, and a Zenodo metadata
-template. The export uses the public Phenobase query API, matching
-download_csv_dump.py.
+template. The default export uses the data/columns.csv field order for fields
+marked visible_on_download=TRUE.
 """
 
 from __future__ import annotations
@@ -112,7 +112,7 @@ def parse_args():
     parser.add_argument(
         "--include-all-columns",
         action="store_true",
-        help="Export every field in columns.csv instead of only fields with visible_on_archive=TRUE.",
+        help="Export every field in columns.csv instead of only fields with visible_on_download=TRUE.",
     )
     parser.add_argument(
         "--skip-zip",
@@ -142,12 +142,12 @@ def load_column_metadata(columns_path, include_all_columns=False):
             field = clean.get("field", "")
             if not field:
                 continue
-            if include_all_columns or parse_bool(clean.get("visible_on_archive")):
+            if include_all_columns or parse_bool(clean.get("visible_on_download")):
                 rows.append(clean)
                 fields.append(field)
 
     if not fields:
-        raise RuntimeError(f"No archive-visible fields found in {columns_path}")
+        raise RuntimeError(f"No download-visible fields found in {columns_path}")
     return rows, fields
 
 
@@ -504,6 +504,7 @@ def write_summary_json(path, args, stats, expected_total, field_order):
             ("query", args.query),
             ("exportMode", export_mode),
             ("samplePerDataSource", args.sample_per_datasource),
+            ("fieldVisibility", "all" if args.include_all_columns else "visible_on_download"),
             ("expectedTotalFromApi", expected_total),
             ("rowsExported", stats["rows"]),
             ("limit", args.limit),
@@ -522,6 +523,10 @@ def write_summary_json(path, args, stats, expected_total, field_order):
 
 
 def write_readme(path, args, stats, field_order):
+    if args.include_all_columns:
+        field_note = "CSV fields follow the full row order in `data/columns.csv`."
+    else:
+        field_note = "CSV fields follow the order of rows in `data/columns.csv` where `visible_on_download=TRUE`."
     lines = [
         "# Phenobase Zenodo Data Package",
         "",
@@ -550,6 +555,7 @@ def write_readme(path, args, stats, field_order):
         f"Skipped year-only herbarium records: {stats['skipped_year_only_herbarium']:,}",
         "",
         "CSV arrays are pipe-delimited inside a cell. Nested objects, if any, are JSON-encoded inside a cell.",
+        field_note,
         "",
         "## Generation Command",
         "",
