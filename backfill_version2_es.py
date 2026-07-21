@@ -135,6 +135,14 @@ def normalize_key(value):
     return "".join(ch for ch in str(value or "").lower() if ch.isalnum())
 
 
+def source_family_value(source):
+    for field in ("verbatimFamily", "family"):
+        family = str(source.get(field) or "").strip()
+        if family:
+            return family
+    return ""
+
+
 def derive_standardized_family(source):
     scientific_name = str(source.get("scientificName") or "").strip()
     if not scientific_name:
@@ -143,12 +151,32 @@ def derive_standardized_family(source):
     if normalize_key(source.get("taxonRank")) == "family":
         return scientific_name
 
-    for field in ("verbatimFamily", "family"):
-        family = str(source.get(field) or "").strip()
-        if family and family.casefold() == scientific_name.casefold():
-            return scientific_name
+    family = source_family_value(source)
+    if family and family.casefold() == scientific_name.casefold():
+        return scientific_name
 
     return ""
+
+
+def resolve_standardized_family(source, gbif_resolver, resolve_gbif=True):
+    family = first_value(source, "standardizedFamily", "gbifFamily")
+    if not is_blank(family):
+        return family
+
+    family = derive_standardized_family(source)
+    if not is_blank(family):
+        return family
+
+    if resolve_gbif:
+        family = gbif_resolver.family_for(source.get("scientificName"))
+        if not is_blank(family):
+            return family
+
+        family = gbif_resolver.family_for(source.get("genus"))
+        if not is_blank(family):
+            return family
+
+    return source_family_value(source)
 
 
 def normalize_model_uri(value):
@@ -306,13 +334,8 @@ def derive_updates(source, traits_catalog, gbif_resolver, overwrite=False, resol
         overwrite=overwrite,
     )
 
-    standardized_family = first_value(source, "standardizedFamily", "gbifFamily")
-    if is_blank(standardized_family):
-        standardized_family = derive_standardized_family(source)
+    standardized_family = resolve_standardized_family(source, gbif_resolver, resolve_gbif=resolve_gbif)
     set_update(updates, source, "standardizedFamily", standardized_family, overwrite=overwrite)
-    if resolve_gbif and (overwrite or is_blank(first_value(source, "standardizedFamily", "gbifFamily"))):
-        gbif_family = gbif_resolver.family_for(source.get("scientificName"))
-        set_update(updates, source, "standardizedFamily", gbif_family, overwrite=overwrite)
 
     if overwrite or is_blank(source.get("taxonSearch")):
         taxon_search = build_taxon_search(merged_source(source, updates))

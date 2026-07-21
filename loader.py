@@ -230,6 +230,13 @@ def _is_blank_value(value):
 def _normalize_key(value):
     return ''.join(ch for ch in str(value or '').lower() if ch.isalnum())
 
+def source_family_value(row):
+    for field in ('verbatimFamily', 'family'):
+        family = str(row.get(field) or '').strip()
+        if family:
+            return family
+    return ''
+
 def derive_standardized_family(row):
     scientific_name = str(row.get('scientificName') or '').strip()
     if not scientific_name:
@@ -238,12 +245,27 @@ def derive_standardized_family(row):
     if _normalize_key(row.get('taxonRank')) == 'family':
         return scientific_name
 
-    for field in ('verbatimFamily', 'family'):
-        family = str(row.get(field) or '').strip()
-        if family and family.casefold() == scientific_name.casefold():
-            return scientific_name
+    family = source_family_value(row)
+    if family and family.casefold() == scientific_name.casefold():
+        return scientific_name
 
     return ''
+
+def resolve_standardized_family(row, gbif_resolver=None):
+    family = derive_standardized_family(row)
+    if not _is_blank_value(family):
+        return family
+
+    if gbif_resolver is not None:
+        family = gbif_resolver.family_for(row.get('scientificName'))
+        if not _is_blank_value(family):
+            return family
+
+        family = gbif_resolver.family_for(row.get('genus'))
+        if not _is_blank_value(family):
+            return family
+
+    return source_family_value(row)
 
 def normalize_model_uri(value):
     if value is None:
@@ -665,9 +687,7 @@ class ESLoader:
                 row['decadeStart'] = None
 
         if 'standardizedFamily' in self.system_fields and _is_blank_value(row.get('standardizedFamily')):
-            row['standardizedFamily'] = derive_standardized_family(row)
-            if _is_blank_value(row.get('standardizedFamily')):
-                row['standardizedFamily'] = self.gbif_resolver.family_for(row.get('scientificName'))
+            row['standardizedFamily'] = resolve_standardized_family(row, self.gbif_resolver)
 
         if 'taxonSearch' in self.system_fields:
             row['taxonSearch'] = build_taxon_search(row)
