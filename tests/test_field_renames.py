@@ -2,7 +2,9 @@ import unittest
 
 import backfill_version2_es
 import download_csv_dump
+import loader
 import rename_es_fields
+import source_record_url
 
 
 class FakeGbifResolver:
@@ -112,6 +114,125 @@ class FieldRenameTests(unittest.TestCase):
                 only_standardized_family=True,
             ),
             {"standardizedFamily": "Bruniaceae"},
+        )
+
+    def test_backfill_can_filter_to_herbarium_collection_method_only(self):
+        self.assertEqual(
+            backfill_version2_es.filter_updates(
+                {
+                    "collectionMethod": "Preserved Specimen",
+                    "annotationMethod": "machine",
+                },
+                only_herbarium_collection_method=True,
+            ),
+            {"collectionMethod": "Preserved Specimen"},
+        )
+
+    def test_backfill_can_filter_to_source_record_url_only(self):
+        self.assertEqual(
+            backfill_version2_es.filter_updates(
+                {
+                    "sourceRecordUrl": "https://example.org/source",
+                    "collectionMethod": "Human Observation",
+                },
+                only_source_record_url=True,
+            ),
+            {"sourceRecordUrl": "https://example.org/source"},
+        )
+
+    def test_backfill_forces_herbarium_collection_method(self):
+        updates = backfill_version2_es.derive_updates(
+            {
+                "dataSource": "Herbarium",
+                "collectionMethod": "PreservedSpecimen",
+            },
+            {"by_urn": {}, "by_label": {}},
+            FakeGbifResolver({}),
+        )
+
+        self.assertEqual(updates["collectionMethod"], "Preserved Specimen")
+        self.assertEqual(updates["annotationMethod"], "machine")
+
+    def test_loader_forces_herbarium_collection_method(self):
+        es_loader = loader.ESLoader.__new__(loader.ESLoader)
+        es_loader.mode = "herbarium"
+
+        row = es_loader.normalize_row_fields(
+            {
+                "dataSource": "Anything",
+                "basisOfRecord": "PreservedSpecimen",
+            }
+        )
+
+        self.assertEqual(row["dataSource"], "Anything")
+        self.assertEqual(row["collectionMethod"], "Preserved Specimen")
+        self.assertEqual(row["annotationMethod"], "machine")
+
+    def test_source_record_url_uses_npn_annotation_id(self):
+        self.assertEqual(
+            source_record_url.source_record_url_for_record(
+                {
+                    "dataSource": "USA National Phenology Network",
+                    "annotationID": "npn:335790",
+                }
+            ),
+            "https://services.usanpn.org/npn_portal/observations/getObservationById.json?request_src=PPO&observation_id=335790&pretty=1",
+        )
+
+    def test_source_record_url_uses_neon_occurrence_id(self):
+        self.assertEqual(
+            source_record_url.source_record_url_for_record(
+                {
+                    "dataSource": "National Ecological Observatory Network (USA)",
+                    "occurrenceID": "45570664",
+                }
+            ),
+            "https://services.usanpn.org/npn_portal/observations/getObservationById.json?request_src=PPO&observation_id=45570664&pretty=1",
+        )
+
+    def test_loader_derives_npn_source_record_url(self):
+        es_loader = loader.ESLoader.__new__(loader.ESLoader)
+        es_loader.mode = "in_situ"
+
+        row = es_loader.normalize_row_fields(
+            {
+                "dataSource": "USA National Phenology Network",
+                "annotationID": "npn:335790",
+            }
+        )
+
+        self.assertEqual(
+            row["sourceRecordUrl"],
+            "https://services.usanpn.org/npn_portal/observations/getObservationById.json?request_src=PPO&observation_id=335790&pretty=1",
+        )
+
+    def test_backfill_derives_npn_source_record_url(self):
+        updates = backfill_version2_es.derive_updates(
+            {
+                "dataSource": "USA National Phenology Network",
+                "annotationID": "npn:335790",
+            },
+            {"by_urn": {}, "by_label": {}},
+            FakeGbifResolver({}),
+        )
+
+        self.assertEqual(
+            updates["sourceRecordUrl"],
+            "https://services.usanpn.org/npn_portal/observations/getObservationById.json?request_src=PPO&observation_id=335790&pretty=1",
+        )
+
+    def test_export_derives_npn_source_record_url(self):
+        row = download_csv_dump.build_csv_row(
+            {
+                "dataSource": "USA National Phenology Network",
+                "annotationID": "npn:335790",
+            },
+            ["sourceRecordUrl"],
+        )
+
+        self.assertEqual(
+            row["sourceRecordUrl"],
+            "https://services.usanpn.org/npn_portal/observations/getObservationById.json?request_src=PPO&observation_id=335790&pretty=1",
         )
 
     def test_rename_query_omits_legacy_accuracy_family_by_default(self):

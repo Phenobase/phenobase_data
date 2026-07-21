@@ -7,11 +7,21 @@ import gc
 import time
 import warnings
 import argparse
-from elasticsearch import Elasticsearch, helpers
-import yaml
 from datetime import datetime
 from trait_lookup import load_traits_catalog
 from gbif_family import DEFAULT_GBIF_CACHE, GbifFamilyResolver
+from source_record_url import source_record_url_for_record
+
+try:
+    import yaml
+except ModuleNotFoundError:
+    yaml = None
+
+try:
+    from elasticsearch import Elasticsearch, helpers
+except ModuleNotFoundError:
+    Elasticsearch = None
+    helpers = None
 
 # Suppress warnings (e.g., LibreSSL)
 warnings.filterwarnings("ignore")
@@ -69,9 +79,11 @@ FIELD_ALIASES = {
     'positional_accuracy': 'coordinateUncertaintyInMeters',
 }
 DOI_RESOLVER_PREFIX = 'https://doi.org/'
+HERBARIUM_COLLECTION_METHOD = 'Preserved Specimen'
 ANNOTATION_METHOD_BY_BASIS = {
     'humanobservation': 'in_situ',
     'machineobservation': 'machine',
+    'preservedspecimen': 'machine',
 }
 ANNOTATION_METHOD_BY_MODE = {
     'herbarium': 'machine',
@@ -120,6 +132,8 @@ def load_yaml_mapping(path):
     if not os.path.exists(path):
         print(f"⚠️ No transform.yaml found at {path}")
         return {}
+    if yaml is None:
+        raise RuntimeError("PyYAML is required to read transform.yaml files. Install pyyaml and retry.")
     with open(path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f) or {}
 
@@ -571,6 +585,13 @@ class ESLoader:
 
         if not _is_blank_value(row.get('dataSource')):
             row['dataSource'] = self.normalize_data_source(row.get('dataSource'))
+
+        if self.mode == 'herbarium':
+            row['collectionMethod'] = HERBARIUM_COLLECTION_METHOD
+
+        source_record_url = source_record_url_for_record(row)
+        if source_record_url:
+            row['sourceRecordUrl'] = source_record_url
 
         if _is_blank_value(row.get('annotationMethod')):
             annotation_method = derive_annotation_method(row, self.mode)

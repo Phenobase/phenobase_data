@@ -16,6 +16,7 @@ import urllib.request
 from collections import Counter, OrderedDict
 
 from gbif_family import DEFAULT_GBIF_CACHE, GbifFamilyResolver
+from source_record_url import source_record_url_for_record
 from trait_lookup import load_traits_catalog, resolve_trait
 
 try:
@@ -33,9 +34,11 @@ DEFAULT_TRAITS_PATH = "data/traits.csv"
 DEFAULT_REPORT_PATH = "downloads/version2_backfill_report.json"
 DEFAULT_BASE_URL = "https://biscicol.org/phenobase/api/v1/query"
 DOI_RESOLVER_PREFIX = "https://doi.org/"
+HERBARIUM_COLLECTION_METHOD = "Preserved Specimen"
 ANNOTATION_METHOD_BY_BASIS = {
     "humanobservation": "in_situ",
     "machineobservation": "machine",
+    "preservedspecimen": "machine",
 }
 TRANSIENT_HTTP_CODES = {429, 500, 502, 503, 504}
 
@@ -63,6 +66,8 @@ SOURCE_FIELDS = [
     "observedMetadataUrl",
     "observed_metadata_url",
     "sourceRecordUrl",
+    "occurrenceID",
+    "observation_id",
     "annotation_method",
     "annotationMethod",
     "collectionMethod",
@@ -201,6 +206,10 @@ def derive_annotation_method(source):
     return ANNOTATION_METHOD_BY_BASIS.get(normalize_key(source.get("collectionMethod") or source.get("basisOfRecord")))
 
 
+def is_herbarium_source(source):
+    return normalize_data_source(source.get("dataSource")) == "Herbarium"
+
+
 def build_taxon_search(row):
     values = []
     seen = set()
@@ -252,10 +261,19 @@ def merged_source(source, updates):
     return merged
 
 
-def filter_updates(updates, only_standardized_family=False):
-    if not only_standardized_family:
-        return updates
-    return {field: value for field, value in updates.items() if field == "standardizedFamily"}
+def filter_updates(
+    updates,
+    only_standardized_family=False,
+    only_herbarium_collection_method=False,
+    only_source_record_url=False,
+):
+    if only_standardized_family:
+        return {field: value for field, value in updates.items() if field == "standardizedFamily"}
+    if only_herbarium_collection_method:
+        return {field: value for field, value in updates.items() if field == "collectionMethod"}
+    if only_source_record_url:
+        return {field: value for field, value in updates.items() if field == "sourceRecordUrl"}
+    return updates
 
 
 def derive_trait_updates(source, updates, traits_catalog, overwrite=False):
@@ -306,6 +324,9 @@ def derive_updates(source, traits_catalog, gbif_resolver, overwrite=False, resol
         first_value(source, "sourceRecordUrl", "observedMetadataUrl", "observed_metadata_url"),
         overwrite=overwrite,
     )
+    source_record_url = source_record_url_for_record(merged_source(source, updates))
+    if source_record_url:
+        set_update(updates, source, "sourceRecordUrl", source_record_url, overwrite=True)
     set_update(
         updates,
         source,
@@ -313,10 +334,18 @@ def derive_updates(source, traits_catalog, gbif_resolver, overwrite=False, resol
         first_value(source, "collectionMethod", "basisOfRecord"),
         overwrite=overwrite,
     )
+    if is_herbarium_source(merged_source(source, updates)):
+        set_update(
+            updates,
+            source,
+            "collectionMethod",
+            HERBARIUM_COLLECTION_METHOD,
+            overwrite=True,
+        )
 
     annotation_method = first_value(source, "annotationMethod", "annotation_method")
     if not annotation_method:
-        annotation_method = derive_annotation_method(source)
+        annotation_method = derive_annotation_method(merged_source(source, updates))
     set_update(updates, source, "annotationMethod", annotation_method, overwrite=overwrite)
 
     model_uri = first_value(source, "modelUri", "ModelUri", "model_uri")
@@ -467,6 +496,31 @@ def ensure_mapping_proxy(args):
 
 
 def build_query(args):
+    if args.only_source_record_url:
+        return {
+            "bool": {
+                "filter": [
+                    {
+                        "terms": {
+                            "dataSource": [
+                                "USA National Phenology Network",
+                                "National Ecological Observatory Network (USA)",
+                            ]
+                        }
+                    }
+                ],
+                "must_not": [{"exists": {"field": "sourceRecordUrl"}}],
+            }
+        }
+
+    if args.only_herbarium_collection_method:
+        return {
+            "bool": {
+                "filter": [{"term": {"dataSource": "Herbarium"}}],
+                "must_not": [{"term": {"collectionMethod": HERBARIUM_COLLECTION_METHOD}}],
+            }
+        }
+
     base_query = {"match_all": {}} if args.query.strip() in {"", "*"} else {
         "query_string": {"query": args.query, "analyze_wildcard": True}
     }
@@ -482,7 +536,28 @@ def build_query(args):
         {"bool": {"must": [{"exists": {"field": "traitUrn"}}], "must_not": [{"exists": {"field": "mappedTraitsUrns"}}]}},
         {"bool": {"must": [{"exists": {"field": "trait_urn"}}], "must_not": [{"exists": {"field": "mappedTraitsUrns"}}]}},
         {"bool": {"must": [{"exists": {"field": "observedMetadataUrl"}}], "must_not": [{"exists": {"field": "sourceRecordUrl"}}]}},
+        {
+            "bool": {
+                "filter": [
+                    {
+                        "terms": {
+                            "dataSource": [
+                                "USA National Phenology Network",
+                                "National Ecological Observatory Network (USA)",
+                            ]
+                        }
+                    }
+                ],
+                "must_not": [{"exists": {"field": "sourceRecordUrl"}}],
+            }
+        },
         {"bool": {"must": [{"exists": {"field": "basisOfRecord"}}], "must_not": [{"exists": {"field": "collectionMethod"}}]}},
+        {
+            "bool": {
+                "filter": [{"term": {"dataSource": "Herbarium"}}],
+                "must_not": [{"term": {"collectionMethod": HERBARIUM_COLLECTION_METHOD}}],
+            }
+        },
         {"bool": {"must": [{"exists": {"field": "annotation_method"}}], "must_not": [{"exists": {"field": "annotationMethod"}}]}},
         {"bool": {"must": [{"exists": {"field": "accuracyExcludingUncertainFamily"}}], "must_not": [{"exists": {"field": "accuracyFamily"}}]}},
     ]
@@ -629,6 +704,16 @@ def parse_args():
         action="store_true",
         help="Only write standardizedFamily updates, even if other version2 field updates are derivable.",
     )
+    parser.add_argument(
+        "--only-herbarium-collection-method",
+        action="store_true",
+        help="Only write collectionMethod='Preserved Specimen' updates for Herbarium records.",
+    )
+    parser.add_argument(
+        "--only-source-record-url",
+        action="store_true",
+        help="Only write derived sourceRecordUrl updates for NPN/NEON records.",
+    )
     parser.add_argument("--ensure-mapping", action="store_true", help="Ensure version2 ES field mappings during dry-run.")
     parser.add_argument("--limit", type=int, default=0, help="Maximum docs to inspect. Use 0 for no limit.")
     parser.add_argument("--batch-size", type=int, default=2000)
@@ -662,6 +747,10 @@ def parse_args():
     args = parser.parse_args()
     if args.no_gbif and args.gbif_cache_only:
         parser.error("--no-gbif and --gbif-cache-only cannot be used together")
+    if args.only_standardized_family and args.only_herbarium_collection_method:
+        parser.error("--only-standardized-family and --only-herbarium-collection-method cannot be used together")
+    if args.only_source_record_url and (args.only_standardized_family or args.only_herbarium_collection_method):
+        parser.error("--only-source-record-url cannot be combined with other --only-* filters")
     return args
 
 
@@ -743,7 +832,12 @@ def main():
                     overwrite=args.overwrite,
                     resolve_gbif=not args.no_gbif,
                 )
-                updates = filter_updates(updates, only_standardized_family=args.only_standardized_family)
+                updates = filter_updates(
+                    updates,
+                    only_standardized_family=args.only_standardized_family,
+                    only_herbarium_collection_method=args.only_herbarium_collection_method,
+                    only_source_record_url=args.only_source_record_url,
+                )
                 if not updates:
                     stats["noops"] += 1
                     continue

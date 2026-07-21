@@ -15,10 +15,15 @@ from collections import OrderedDict
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from source_record_url import build_npn_observation_url
+
 
 API_URL = "https://services.usanpn.org/npn_portal/observations/getObservations.json"
 SPECIES_URL = "https://services.usanpn.org/npn_portal/species/getSpecies.json"
-OBSERVATION_METADATA_URL = "https://services.usanpn.org/npn_portal/observations/getObservations.json"
 DEFAULT_MAPPINGS_PATH = "/mnt/data/mappings.csv"
 TRAITS_PATH = Path(__file__).resolve().parents[2] / "data" / "traits.csv"
 
@@ -285,24 +290,7 @@ def fetch_data(start_date, end_date):
 
 
 def observation_metadata_url(obs):
-    observation_date = norm(obs.get("observation_date"))
-    individual_id = norm(obs.get("individual_id"))
-    phenophase_id = norm(obs.get("phenophase_id"))
-    if not observation_date or not individual_id or not phenophase_id:
-        return ""
-    query = urllib.parse.urlencode(
-        OrderedDict(
-            [
-                ("start_date", observation_date),
-                ("end_date", observation_date),
-                ("individual_id", individual_id),
-                ("phenophase_id", phenophase_id),
-                ("request_src", "phenobase"),
-                ("additional_field", "dataset_id"),
-            ]
-        )
-    )
-    return f"{OBSERVATION_METADATA_URL}?{query}"
+    return build_npn_observation_url(obs.get("observation_id"))
 
 
 def recorded_by(obs):

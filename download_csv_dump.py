@@ -12,6 +12,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+from source_record_url import source_record_url_for_record
 from trait_lookup import load_traits_catalog, resolve_trait
 
 
@@ -354,6 +355,11 @@ def first_nonblank(source, fields):
 
 
 def get_source_value(source, field):
+    if field == "sourceRecordUrl":
+        value = source_record_url_for_record(source)
+        if value not in (None, ""):
+            return normalize_export_value(field, value)
+
     if field == "standardizedFamily":
         value = source.get(field)
         if value not in (None, ""):
