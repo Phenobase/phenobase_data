@@ -28,6 +28,9 @@ DEFAULT_REPORT = "downloads/npn/npn_recorded_by_backfill_report.json"
 RECORDED_BY_FIELDS = (
     "recordedBy",
     "recorded_by",
+    "observedby_person_id",
+    "submittedby_person_id",
+    "updatedby_person_id",
     "observer_id",
     "observerID",
     "observer_name",
@@ -113,7 +116,13 @@ def fetch_npn_observations(start_date, end_date, args):
         "start_date": start_date,
         "end_date": end_date,
         "request_src": "phenobase_recorded_by_backfill",
-        "additional_field": ["observer_id"],
+        "additional_field": [
+            "dataset_id",
+            "observedby_person_id",
+            "submittedby_person_id",
+            "updatedby_person_id",
+            "partner_group",
+        ],
     }
     url = build_query_url(NPN_OBSERVATIONS_URL, params)
     data = request_json(

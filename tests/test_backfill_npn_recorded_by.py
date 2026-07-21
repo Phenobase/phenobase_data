@@ -8,7 +8,7 @@ class NpnRecordedByBackfillTests(unittest.TestCase):
         action, skip_reason = action_from_observation(
             {
                 "observation_id": 27252552,
-                "observer_id": 12345,
+                "observedby_person_id": 12345,
             },
             "phenobase2",
         )
@@ -17,6 +17,18 @@ class NpnRecordedByBackfillTests(unittest.TestCase):
         self.assertEqual(action["_index"], "phenobase2")
         self.assertEqual(action["_id"], "npn:27252552")
         self.assertEqual(action["doc"], {"occurrenceID": "27252552", "recordedBy": "12345"})
+
+    def test_action_falls_back_to_submitted_by_person_id(self):
+        action, skip_reason = action_from_observation(
+            {
+                "observation_id": 27252553,
+                "submittedby_person_id": 67890,
+            },
+            "phenobase2",
+        )
+
+        self.assertEqual(skip_reason, "")
+        self.assertEqual(action["doc"], {"occurrenceID": "27252553", "recordedBy": "67890"})
 
     def test_action_updates_occurrence_id_without_recorded_by(self):
         action, skip_reason = action_from_observation(

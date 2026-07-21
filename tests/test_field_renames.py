@@ -22,6 +22,7 @@ class FieldRenameTests(unittest.TestCase):
             "basisOfRecord": "Human Observation",
             "accuracyFamily": "0.75",
             "accuracyExcludingUncertainFamily": "0.91",
+            "observedby_person_id": "41422",
         }
         row = download_csv_dump.build_csv_row(
             source,
@@ -30,6 +31,7 @@ class FieldRenameTests(unittest.TestCase):
                 "collectionMethod",
                 "accuracyIncludingUncertainFamily",
                 "accuracyFamily",
+                "recordedBy",
             ],
         )
 
@@ -37,6 +39,7 @@ class FieldRenameTests(unittest.TestCase):
         self.assertEqual(row["collectionMethod"], "Human Observation")
         self.assertEqual(row["accuracyIncludingUncertainFamily"], "0.75")
         self.assertEqual(row["accuracyFamily"], "0.91")
+        self.assertEqual(row["recordedBy"], "41422")
 
     def test_export_derives_standardized_family_for_family_level_names(self):
         row = download_csv_dump.build_csv_row(

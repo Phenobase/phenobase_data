@@ -267,7 +267,13 @@ def fetch_data(start_date, end_date):
         "start_date": start_date,
         "end_date": end_date,
         "request_src": "custom_script",
-        "additional_field": ["dataset_id", "observer_id"],
+        "additional_field": [
+            "dataset_id",
+            "observedby_person_id",
+            "submittedby_person_id",
+            "updatedby_person_id",
+            "partner_group",
+        ],
     }
     try:
         print(f"Fetching data from API for dates: {start_date} to {end_date}...")
@@ -303,6 +309,9 @@ def recorded_by(obs):
     for field in (
         "recordedBy",
         "recorded_by",
+        "observedby_person_id",
+        "submittedby_person_id",
+        "updatedby_person_id",
         "observer_id",
         "observerID",
         "observer_name",

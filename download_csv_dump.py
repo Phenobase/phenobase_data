@@ -73,6 +73,9 @@ FIELD_FALLBACKS = {
     "recordedBy": (
         "recorded_by",
         "recordedByID",
+        "observedby_person_id",
+        "submittedby_person_id",
+        "updatedby_person_id",
         "observer_id",
         "observerID",
         "observer_name",
