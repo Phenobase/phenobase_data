@@ -99,6 +99,18 @@ class FieldRenameTests(unittest.TestCase):
         self.assertEqual(updates["standardizedFamily"], "Bruniaceae")
         self.assertEqual(resolver.calls, ["Brunia nodiflora L.", "Brunia"])
 
+    def test_backfill_can_filter_to_standardized_family_only(self):
+        self.assertEqual(
+            backfill_version2_es.filter_updates(
+                {
+                    "standardizedFamily": "Bruniaceae",
+                    "accuracyIncludingUncertainFamily": "0.75",
+                },
+                only_standardized_family=True,
+            ),
+            {"standardizedFamily": "Bruniaceae"},
+        )
+
     def test_rename_query_omits_legacy_accuracy_family_by_default(self):
         body = rename_es_fields.build_update_body()
         script = body["script"]["source"]

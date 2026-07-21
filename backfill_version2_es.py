@@ -252,6 +252,12 @@ def merged_source(source, updates):
     return merged
 
 
+def filter_updates(updates, only_standardized_family=False):
+    if not only_standardized_family:
+        return updates
+    return {field: value for field, value in updates.items() if field == "standardizedFamily"}
+
+
 def derive_trait_updates(source, updates, traits_catalog, overwrite=False):
     current = merged_source(source, updates)
     record = resolve_trait(
@@ -618,6 +624,11 @@ def parse_args():
     )
     parser.add_argument("--overwrite", action="store_true", help="Recompute fields even when already present.")
     parser.add_argument("--apply", action="store_true", help="Write updates to Elasticsearch. Default is dry-run.")
+    parser.add_argument(
+        "--only-standardized-family",
+        action="store_true",
+        help="Only write standardizedFamily updates, even if other version2 field updates are derivable.",
+    )
     parser.add_argument("--ensure-mapping", action="store_true", help="Ensure version2 ES field mappings during dry-run.")
     parser.add_argument("--limit", type=int, default=0, help="Maximum docs to inspect. Use 0 for no limit.")
     parser.add_argument("--batch-size", type=int, default=2000)
@@ -732,6 +743,7 @@ def main():
                     overwrite=args.overwrite,
                     resolve_gbif=not args.no_gbif,
                 )
+                updates = filter_updates(updates, only_standardized_family=args.only_standardized_family)
                 if not updates:
                     stats["noops"] += 1
                     continue
