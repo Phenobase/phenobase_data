@@ -1,0 +1,48 @@
+# data/sample/transform.yaml
+null_values: ["", "na", "n/a", "null", "none", "-"]
+
+coercions:
+  integer:
+    default: null           # null => send None/omit
+    drop_invalid: true      # if invalid, use default; if strict mode on, reject row
+  float:
+    default: null
+    drop_invalid: true
+  boolean:
+    true_values: ["true","t","yes","y","1"]
+    false_values: ["false","f","no","n","0"]
+    default: null
+    drop_invalid: true
+  date:
+    input_formats: ["%Y-%m-%d", "%m/%d/%Y", "%Y/%m/%d"]
+    output_format: "%Y-%m-%d"   # normalized output string
+    default: null
+    drop_invalid: true
+
+fields:
+  coordinateUncertaintyInMeters:
+    datatype: integer
+    min: 0
+  date:
+    datatype: date
+    input_formats: ["%Y-%m-%d", "%m/%d/%Y"]
+    output_format: "%Y-%m-%d"
+  accuracyExcludingUncertainFamily:
+    datatype: float
+    min: 0
+    max: 1
+  scientific_name:
+    case: scientific_name_standard
+  genus:
+    case: capitalize_first
+  species:
+    case: lower
+  family:
+    case: capitalize_first
+
+
+trait_mappings:
+  green leaves present: non-senescing unfolded true leaf present
+  breaking buds present: breaking vegetative bud present
+  colored leaves present: senescing true leaf present
+  fruit present: simple fruit or compound fruit present
