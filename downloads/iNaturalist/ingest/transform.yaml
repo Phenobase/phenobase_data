@@ -23,6 +23,11 @@ fields:
   coordinateUncertaintyInMeters:
     datatype: integer
     min: 0
+  verbatimTrait:
+    transforms:
+      - op: map
+        values:
+          flower: open flowers
   date:
     datatype: date
     input_formats: ["%Y-%m-%d", "%m/%d/%Y"]
@@ -42,6 +47,7 @@ fields:
 
 
 trait_mappings:
+  flower present: open flower present
   green leaves present: non-senescing unfolded true leaf present
   breaking buds present: breaking vegetative bud present
   colored leaves present: senescing true leaf present

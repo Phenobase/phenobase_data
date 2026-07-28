@@ -18,6 +18,33 @@ class FakeGbifResolver:
 
 
 class FieldRenameTests(unittest.TestCase):
+    def inaturalist_transform(self):
+        yaml_rules = {
+            "fields": {
+                "verbatimTrait": {
+                    "transforms": [
+                        {
+                            "op": "map",
+                            "values": {"flower": "open flowers"},
+                        }
+                    ]
+                }
+            },
+            "trait_mappings": {
+                "flower present": "open flower present",
+                "green leaves present": "non-senescing unfolded true leaf present",
+                "breaking buds present": "breaking vegetative bud present",
+                "colored leaves present": "senescing true leaf present",
+                "fruit present": "simple fruit or compound fruit present",
+            },
+        }
+        original_load_yaml_mapping = loader.load_yaml_mapping
+        try:
+            loader.load_yaml_mapping = lambda _path: yaml_rules
+            return loader.make_row_transformer("downloads/iNaturalist/ingest/transform.yaml")
+        finally:
+            loader.load_yaml_mapping = original_load_yaml_mapping
+
     def test_export_reads_legacy_es_fields_into_new_columns(self):
         source = {
             "gbifFamily": "Fagaceae",
@@ -167,6 +194,84 @@ class FieldRenameTests(unittest.TestCase):
         self.assertEqual(row["dataSource"], "Anything")
         self.assertEqual(row["collectionMethod"], "Preserved Specimen")
         self.assertEqual(row["annotationMethod"], "machine")
+
+    def test_inaturalist_transform_yaml_contains_open_flower_mapping(self):
+        with open("downloads/iNaturalist/ingest/transform.yaml", encoding="utf-8") as fh:
+            transform_yaml = fh.read()
+
+        self.assertIn("verbatimTrait:", transform_yaml)
+        self.assertIn("flower: open flowers", transform_yaml)
+        self.assertIn("flower present: open flower present", transform_yaml)
+
+    def test_inaturalist_transform_maps_flower_to_open_flower(self):
+        transform = self.inaturalist_transform()
+        es_loader = loader.ESLoader.__new__(loader.ESLoader)
+        es_loader.system_fields = set()
+        es_loader.traits_by_urn = loader.traits_catalog["by_urn"]
+        es_loader.traits_by_label = loader.traits_catalog["by_label"]
+
+        row = transform(
+            {
+                "dataSource": "iNaturalist",
+                "annotationID": "inat-flower-1",
+                "trait": "flower present",
+                "verbatimTrait": "flower",
+            }
+        )
+        errors = []
+        es_loader.assign_system_fields(row, errors)
+
+        self.assertEqual(errors, [])
+        self.assertEqual(row["verbatimTrait"], "open flowers")
+        self.assertEqual(row["trait"], "open flower present")
+        self.assertEqual(row["traitUrn"], "PPO:0002333")
+        self.assertEqual(
+            row["mappedTraits"],
+            [
+                "open flower present",
+                "non-senesced flower present",
+                "flower present",
+                "reproductive shoot system present",
+                "reproductive structure present",
+                "plant structure present",
+            ],
+        )
+        self.assertEqual(
+            row["mappedTraitsUrns"],
+            [
+                "PPO:0002333",
+                "PPO:0002331",
+                "PPO:0002330",
+                "PPO:0002324",
+                "PPO:0002323",
+                "PPO:0002300",
+            ],
+        )
+
+    def test_inaturalist_transform_preserves_non_flower_verbatim_traits(self):
+        transform = self.inaturalist_transform()
+
+        fruit = transform(
+            {
+                "dataSource": "iNaturalist",
+                "annotationID": "inat-fruit-1",
+                "trait": "fruit present",
+                "verbatimTrait": "fruit",
+            }
+        )
+        leaves = transform(
+            {
+                "dataSource": "iNaturalist",
+                "annotationID": "inat-leaves-1",
+                "trait": "green leaves present",
+                "verbatimTrait": "green leaves",
+            }
+        )
+
+        self.assertEqual(fruit["trait"], "simple fruit or compound fruit present")
+        self.assertEqual(fruit["verbatimTrait"], "fruit")
+        self.assertEqual(leaves["trait"], "non-senescing unfolded true leaf present")
+        self.assertEqual(leaves["verbatimTrait"], "green leaves")
 
     def test_source_record_url_uses_npn_annotation_id(self):
         self.assertEqual(
