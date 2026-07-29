@@ -413,7 +413,7 @@ def transform_rows(observations, mapping_index, species_catalog, counters):
                     ("observedMetadataUrl", observation_metadata_url(obs)),
                     ("annotation_method", "in_situ"),
                     ("recordedBy", recorded_by(obs)),
-                    ("verbatimTrait", f"{cleaned_description} ({raw_status})"),
+                    ("verbatimTrait", f"{cleaned_description}={raw_status}"),
                     ("phenophase_status", "Observed" if raw_status == 1 else "Not Observed"),
                     ("trait_urn", trait_urn),
                     ("trait", trait),
