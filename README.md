@@ -500,8 +500,8 @@ fields:
       - op: strip
       - op: map
         values:
-          specimen: PreservedSpecimen
-          photo: HumanObservation
+          specimen: herbarium specimen image
+          photo: human observation
 
   date:
     input_formats: ["%Y-%m-%d", "%m/%d/%Y", "%Y/%m/%d"]

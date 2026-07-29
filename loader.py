@@ -79,15 +79,31 @@ FIELD_ALIASES = {
     'positional_accuracy': 'coordinateUncertaintyInMeters',
 }
 DOI_RESOLVER_PREFIX = 'https://doi.org/'
-HERBARIUM_COLLECTION_METHOD = 'Preserved Specimen'
+HUMAN_COLLECTION_METHOD = 'human observation'
+HERBARIUM_COLLECTION_METHOD = 'herbarium specimen image'
+LIVE_PLANT_COLLECTION_METHOD = 'live plant image'
+COLLECTION_METHOD_BY_BASIS = {
+    'humanobservation': HUMAN_COLLECTION_METHOD,
+    'machineobservation': LIVE_PLANT_COLLECTION_METHOD,
+    'preservedspecimen': HERBARIUM_COLLECTION_METHOD,
+    'herbariumspecimenimage': HERBARIUM_COLLECTION_METHOD,
+    'liveplantimage': LIVE_PLANT_COLLECTION_METHOD,
+}
 ANNOTATION_METHOD_BY_BASIS = {
-    'humanobservation': 'in_situ',
+    'humanobservation': 'human',
     'machineobservation': 'machine',
     'preservedspecimen': 'machine',
+    'herbariumspecimenimage': 'machine',
+    'liveplantimage': 'machine',
+}
+ANNOTATION_METHOD_BY_KEY = {
+    'insitu': 'human',
+    'human': 'human',
+    'machine': 'machine',
 }
 ANNOTATION_METHOD_BY_MODE = {
     'herbarium': 'machine',
-    'in_situ': 'in_situ',
+    'in_situ': 'human',
     'machine': 'machine',
 }
 
@@ -246,6 +262,18 @@ def _is_blank_value(value):
 
 def _normalize_key(value):
     return ''.join(ch for ch in str(value or '').lower() if ch.isalnum())
+
+def normalize_collection_method(value):
+    if _is_blank_value(value):
+        return value
+    text = str(value).strip()
+    return COLLECTION_METHOD_BY_BASIS.get(_normalize_key(text), text)
+
+def normalize_annotation_method(value):
+    if _is_blank_value(value):
+        return value
+    text = str(value).strip()
+    return ANNOTATION_METHOD_BY_KEY.get(_normalize_key(text), text)
 
 def source_family_value(row):
     for field in ('verbatimFamily', 'family'):
@@ -586,6 +614,9 @@ class ESLoader:
         if not _is_blank_value(row.get('dataSource')):
             row['dataSource'] = self.normalize_data_source(row.get('dataSource'))
 
+        if not _is_blank_value(row.get('collectionMethod')):
+            row['collectionMethod'] = normalize_collection_method(row.get('collectionMethod'))
+
         if self.mode == 'herbarium':
             row['collectionMethod'] = HERBARIUM_COLLECTION_METHOD
 
@@ -597,6 +628,8 @@ class ESLoader:
             annotation_method = derive_annotation_method(row, self.mode)
             if annotation_method:
                 row['annotationMethod'] = annotation_method
+        else:
+            row['annotationMethod'] = normalize_annotation_method(row.get('annotationMethod'))
 
         if not _is_blank_value(row.get('modelUri')):
             row['modelUri'] = normalize_model_uri(row.get('modelUri'))

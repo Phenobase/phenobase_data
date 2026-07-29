@@ -34,11 +34,27 @@ DEFAULT_TRAITS_PATH = "data/traits.csv"
 DEFAULT_REPORT_PATH = "downloads/version2_backfill_report.json"
 DEFAULT_BASE_URL = "https://biscicol.org/phenobase/api/v1/query"
 DOI_RESOLVER_PREFIX = "https://doi.org/"
-HERBARIUM_COLLECTION_METHOD = "Preserved Specimen"
+HUMAN_COLLECTION_METHOD = "human observation"
+HERBARIUM_COLLECTION_METHOD = "herbarium specimen image"
+LIVE_PLANT_COLLECTION_METHOD = "live plant image"
+COLLECTION_METHOD_BY_KEY = {
+    "humanobservation": HUMAN_COLLECTION_METHOD,
+    "machineobservation": LIVE_PLANT_COLLECTION_METHOD,
+    "preservedspecimen": HERBARIUM_COLLECTION_METHOD,
+    "herbariumspecimenimage": HERBARIUM_COLLECTION_METHOD,
+    "liveplantimage": LIVE_PLANT_COLLECTION_METHOD,
+}
 ANNOTATION_METHOD_BY_BASIS = {
-    "humanobservation": "in_situ",
+    "humanobservation": "human",
     "machineobservation": "machine",
     "preservedspecimen": "machine",
+    "herbariumspecimenimage": "machine",
+    "liveplantimage": "machine",
+}
+ANNOTATION_METHOD_BY_KEY = {
+    "insitu": "human",
+    "human": "human",
+    "machine": "machine",
 }
 TRANSIENT_HTTP_CODES = {429, 500, 502, 503, 504}
 
@@ -138,6 +154,20 @@ def split_pipe(value):
 
 def normalize_key(value):
     return "".join(ch for ch in str(value or "").lower() if ch.isalnum())
+
+
+def normalize_collection_method(value):
+    if is_blank(value):
+        return value
+    text = str(value).strip()
+    return COLLECTION_METHOD_BY_KEY.get(normalize_key(text), text)
+
+
+def normalize_annotation_method(value):
+    if is_blank(value):
+        return value
+    text = str(value).strip()
+    return ANNOTATION_METHOD_BY_KEY.get(normalize_key(text), text)
 
 
 def source_family_value(source):
@@ -327,12 +357,16 @@ def derive_updates(source, traits_catalog, gbif_resolver, overwrite=False, resol
     source_record_url = source_record_url_for_record(merged_source(source, updates))
     if source_record_url:
         set_update(updates, source, "sourceRecordUrl", source_record_url, overwrite=True)
+    collection_method = first_value(source, "collectionMethod", "basisOfRecord")
+    normalized_collection_method = normalize_collection_method(collection_method)
     set_update(
         updates,
         source,
         "collectionMethod",
-        first_value(source, "collectionMethod", "basisOfRecord"),
-        overwrite=overwrite,
+        normalized_collection_method,
+        overwrite=overwrite or (
+            not is_blank(collection_method) and normalized_collection_method != collection_method
+        ),
     )
     if is_herbarium_source(merged_source(source, updates)):
         set_update(
@@ -346,7 +380,16 @@ def derive_updates(source, traits_catalog, gbif_resolver, overwrite=False, resol
     annotation_method = first_value(source, "annotationMethod", "annotation_method")
     if not annotation_method:
         annotation_method = derive_annotation_method(merged_source(source, updates))
-    set_update(updates, source, "annotationMethod", annotation_method, overwrite=overwrite)
+    normalized_annotation_method = normalize_annotation_method(annotation_method)
+    set_update(
+        updates,
+        source,
+        "annotationMethod",
+        normalized_annotation_method,
+        overwrite=overwrite or (
+            not is_blank(annotation_method) and normalized_annotation_method != annotation_method
+        ),
+    )
 
     model_uri = first_value(source, "modelUri", "ModelUri", "model_uri")
     normalized_model_uri = normalize_model_uri(model_uri)
@@ -707,7 +750,7 @@ def parse_args():
     parser.add_argument(
         "--only-herbarium-collection-method",
         action="store_true",
-        help="Only write collectionMethod='Preserved Specimen' updates for Herbarium records.",
+        help="Only write collectionMethod='herbarium specimen image' updates for Herbarium records.",
     )
     parser.add_argument(
         "--only-source-record-url",

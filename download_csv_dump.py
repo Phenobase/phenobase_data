@@ -88,9 +88,27 @@ FIELD_FALLBACKS = {
     ),
     "coordinateUncertaintyInMeters": ("coordinate_uncertainty_meters", "positional_accuracy"),
 }
+HUMAN_COLLECTION_METHOD = "human observation"
+HERBARIUM_COLLECTION_METHOD = "herbarium specimen image"
+LIVE_PLANT_COLLECTION_METHOD = "live plant image"
+COLLECTION_METHOD_BY_KEY = {
+    "humanobservation": HUMAN_COLLECTION_METHOD,
+    "machineobservation": LIVE_PLANT_COLLECTION_METHOD,
+    "preservedspecimen": HERBARIUM_COLLECTION_METHOD,
+    "herbariumspecimenimage": HERBARIUM_COLLECTION_METHOD,
+    "liveplantimage": LIVE_PLANT_COLLECTION_METHOD,
+}
 ANNOTATION_METHOD_BY_BASIS = {
-    "humanobservation": "in_situ",
+    "humanobservation": "human",
     "machineobservation": "machine",
+    "preservedspecimen": "machine",
+    "herbariumspecimenimage": "machine",
+    "liveplantimage": "machine",
+}
+ANNOTATION_METHOD_BY_KEY = {
+    "insitu": "human",
+    "human": "human",
+    "machine": "machine",
 }
 _TRAITS_CATALOG = None
 
@@ -239,6 +257,24 @@ def normalize_key(value):
     return "".join(ch for ch in str(value or "").lower() if ch.isalnum())
 
 
+def normalize_collection_method(value):
+    if value in (None, ""):
+        return value
+    text = str(value).strip()
+    if not text:
+        return value
+    return COLLECTION_METHOD_BY_KEY.get(normalize_key(text), text)
+
+
+def normalize_annotation_method(value):
+    if value in (None, ""):
+        return value
+    text = str(value).strip()
+    if not text:
+        return value
+    return ANNOTATION_METHOD_BY_KEY.get(normalize_key(text), text)
+
+
 def source_family_value(source):
     for field in ("verbatimFamily", "family"):
         family = str(source.get(field) or "").strip()
@@ -343,6 +379,10 @@ def derive_trait_value(source, field):
 def normalize_export_value(field, value):
     if field in {"modelUri", "ModelUri"}:
         return normalize_model_uri(value)
+    if field in {"collectionMethod", "basisOfRecord", "basis_of_record"}:
+        return normalize_collection_method(value)
+    if field in {"annotationMethod", "annotation_method"}:
+        return normalize_annotation_method(value)
     return value
 
 
