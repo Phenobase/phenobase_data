@@ -702,6 +702,8 @@ Published outputs:
 
 - [data/traits.csv](data/traits.csv): ontology-derived trait mapping
 - [data/columns.csv](data/columns.csv): field definitions and schema metadata
+- [data/datasource.csv](data/datasource.csv): source-level citation, license, and data-use metadata for release exports
+- [data/datasource_definitions.csv](data/datasource_definitions.csv): definitions for source-level citation metadata fields
 - [trait_lookup.py](trait_lookup.py): local helper for resolving PPO IDs to current labels
 - [loader.py](loader.py): ingestion driver
 - [reasoning/refresh_traits.py](reasoning/refresh_traits.py): reasoning rebuild driver

@@ -1,4 +1,6 @@
 data/*
+!data/datasource.csv
+!data/datasource_definitions.csv
 downloads/*
 !downloads/seasonwatchindia/
 downloads/seasonwatchindia/*
