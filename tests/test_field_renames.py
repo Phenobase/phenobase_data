@@ -49,6 +49,7 @@ class FieldRenameTests(unittest.TestCase):
         source = {
             "gbifFamily": "Fagaceae",
             "basisOfRecord": "Human Observation",
+            "annotation_method": "in_situ",
             "accuracyFamily": "0.75",
             "accuracyExcludingUncertainFamily": "0.91",
             "observedby_person_id": "41422",
@@ -58,6 +59,7 @@ class FieldRenameTests(unittest.TestCase):
             [
                 "standardizedFamily",
                 "collectionMethod",
+                "annotationMethod",
                 "accuracyIncludingUncertainFamily",
                 "accuracyFamily",
                 "recordedBy",
@@ -65,10 +67,23 @@ class FieldRenameTests(unittest.TestCase):
         )
 
         self.assertEqual(row["standardizedFamily"], "Fagaceae")
-        self.assertEqual(row["collectionMethod"], "Human Observation")
+        self.assertEqual(row["collectionMethod"], "human observation")
+        self.assertEqual(row["annotationMethod"], "human")
         self.assertEqual(row["accuracyIncludingUncertainFamily"], "0.75")
         self.assertEqual(row["accuracyFamily"], "0.91")
         self.assertEqual(row["recordedBy"], "41422")
+
+    def test_export_normalizes_collection_method_values(self):
+        cases = [
+            ({"basisOfRecord": "HumanObservation"}, "human observation"),
+            ({"collectionMethod": "Preserved Specimen"}, "herbarium specimen image"),
+            ({"collectionMethod": "MachineObservation"}, "live plant image"),
+        ]
+
+        for source, expected in cases:
+            with self.subTest(source=source):
+                row = download_csv_dump.build_csv_row(source, ["collectionMethod"])
+                self.assertEqual(row["collectionMethod"], expected)
 
     def test_export_derives_standardized_family_for_family_level_names(self):
         row = download_csv_dump.build_csv_row(
@@ -147,12 +162,12 @@ class FieldRenameTests(unittest.TestCase):
         self.assertEqual(
             backfill_version2_es.filter_updates(
                 {
-                    "collectionMethod": "Preserved Specimen",
+                    "collectionMethod": "herbarium specimen image",
                     "annotationMethod": "machine",
                 },
                 only_herbarium_collection_method=True,
             ),
-            {"collectionMethod": "Preserved Specimen"},
+            {"collectionMethod": "herbarium specimen image"},
         )
 
     def test_backfill_can_filter_to_source_record_url_only(self):
@@ -160,12 +175,25 @@ class FieldRenameTests(unittest.TestCase):
             backfill_version2_es.filter_updates(
                 {
                     "sourceRecordUrl": "https://example.org/source",
-                    "collectionMethod": "Human Observation",
+                    "collectionMethod": "human observation",
                 },
                 only_source_record_url=True,
             ),
             {"sourceRecordUrl": "https://example.org/source"},
         )
+
+    def test_backfill_normalizes_legacy_collection_and_annotation_methods(self):
+        updates = backfill_version2_es.derive_updates(
+            {
+                "collectionMethod": "Human Observation",
+                "annotationMethod": "in_situ",
+            },
+            {"by_urn": {}, "by_label": {}},
+            FakeGbifResolver({}),
+        )
+
+        self.assertEqual(updates["collectionMethod"], "human observation")
+        self.assertEqual(updates["annotationMethod"], "human")
 
     def test_backfill_forces_herbarium_collection_method(self):
         updates = backfill_version2_es.derive_updates(
@@ -177,7 +205,7 @@ class FieldRenameTests(unittest.TestCase):
             FakeGbifResolver({}),
         )
 
-        self.assertEqual(updates["collectionMethod"], "Preserved Specimen")
+        self.assertEqual(updates["collectionMethod"], "herbarium specimen image")
         self.assertEqual(updates["annotationMethod"], "machine")
 
     def test_loader_forces_herbarium_collection_method(self):
@@ -192,7 +220,7 @@ class FieldRenameTests(unittest.TestCase):
         )
 
         self.assertEqual(row["dataSource"], "Anything")
-        self.assertEqual(row["collectionMethod"], "Preserved Specimen")
+        self.assertEqual(row["collectionMethod"], "herbarium specimen image")
         self.assertEqual(row["annotationMethod"], "machine")
 
     def test_inaturalist_transform_yaml_contains_open_flower_mapping(self):
