@@ -5,8 +5,8 @@
 
 The package contains a compressed single-table CSV export, data dictionary files
 derived from data/columns.csv, source counts, checksums, and a Zenodo metadata
-template. The export uses the public Phenobase query API, matching
-download_csv_dump.py.
+template. The default export uses the data/columns.csv field order for fields
+marked visible_on_download=TRUE.
 """
 
 from __future__ import annotations
@@ -34,11 +34,13 @@ from download_csv_dump import (
     DEFAULT_QUERY,
     DEFAULT_REQUEST_TIMEOUT,
     DEFAULT_SCROLL,
+    build_es_url,
     build_csv_row,
-    enrich_download_record,
     fetch_initial_page,
     fetch_scroll_page,
     get_total_hits,
+    post_json,
+    should_skip_source,
 )
 from export_schema import load_export_column_metadata
 
@@ -56,6 +58,16 @@ DEFAULT_KEYWORDS = [
     "biodiversity",
     "observations",
 ]
+DEFAULT_SAMPLE_SOURCE_ORDER = [
+    "Budburst",
+    "Herbarium",
+    "National Ecological Observatory Network (USA)",
+    "PhenoObs",
+    "SeasonWatch (India)",
+    "SeasonWatch India",
+    "USA National Phenology Network",
+    "iNaturalist",
+]
 
 
 def parse_args():
@@ -69,6 +81,15 @@ def parse_args():
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE, help=f"Hits per scroll page (default: {DEFAULT_BATCH_SIZE})")
     parser.add_argument("--scroll", default=DEFAULT_SCROLL, help=f"Scroll keepalive (default: {DEFAULT_SCROLL})")
     parser.add_argument("--limit", type=int, default=0, help="Maximum rows to export. Use 0 for all rows (default: 0).")
+    parser.add_argument(
+        "--sample-per-datasource",
+        type=int,
+        default=0,
+        help=(
+            "Export up to N records per dataSource instead of scrolling the full query. "
+            "Also writes live_dataset_counts.csv with exact live counts."
+        ),
+    )
     parser.add_argument("--request-timeout", type=float, default=DEFAULT_REQUEST_TIMEOUT, help=f"Per-request timeout in seconds (default: {DEFAULT_REQUEST_TIMEOUT})")
     parser.add_argument("--columns-path", default=DEFAULT_COLUMNS_PATH, help=f"Column metadata CSV path (default: {DEFAULT_COLUMNS_PATH})")
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR, help=f"Destination parent directory (default: {DEFAULT_OUTPUT_DIR})")
@@ -92,7 +113,7 @@ def parse_args():
     parser.add_argument(
         "--include-all-columns",
         action="store_true",
-        help="Export every non-excluded field in columns.csv instead of only fields with visible_on_download=TRUE.",
+        help="Export every field in columns.csv instead of only fields with visible_on_download=TRUE.",
     )
     parser.add_argument(
         "--skip-zip",
@@ -111,17 +132,31 @@ def ensure_clean_dir(path):
 def load_column_metadata(columns_path, include_all_columns=False):
     rows, fields = load_export_column_metadata(columns_path, include_all_columns)
     if not fields:
-        raise RuntimeError(f"No export-visible fields found in {columns_path}")
+        raise RuntimeError(f"No download-visible fields found in {columns_path}")
     return rows, fields
 
 
-def update_export_stats(stats, source):
+def make_export_stats():
+    return {
+        "rows": 0,
+        "data_sources": Counter(),
+        "min_year": None,
+        "max_year": None,
+        "min_date": None,
+        "max_date": None,
+        "missing_sourceRecordUrl": 0,
+        "skipped_year_only_herbarium": 0,
+    }
+
+
+def update_export_stats(stats, source, csv_row=None):
+    csv_row = csv_row or {}
     stats["rows"] += 1
-    data_source = source.get("dataSource")
+    data_source = csv_row.get("dataSource") or source.get("dataSource")
     if data_source:
         stats["data_sources"][str(data_source)] += 1
 
-    year = source.get("year")
+    year = csv_row.get("year") or source.get("year")
     try:
         year_int = int(year)
         stats["min_year"] = year_int if stats["min_year"] is None else min(stats["min_year"], year_int)
@@ -129,13 +164,18 @@ def update_export_stats(stats, source):
     except Exception:
         pass
 
-    obs_date = source.get("eventDate") or source.get("date")
+    obs_date = csv_row.get("date") or csv_row.get("eventDate") or source.get("date") or source.get("eventDate")
     if obs_date:
         obs_date = str(obs_date)
         stats["min_date"] = obs_date if stats["min_date"] is None else min(stats["min_date"], obs_date)
         stats["max_date"] = obs_date if stats["max_date"] is None else max(stats["max_date"], obs_date)
 
-    if not (source.get("sourceRecordUrl") or source.get("observedMetadataUrl")):
+    if not (
+        csv_row.get("sourceRecordUrl")
+        or source.get("sourceRecordUrl")
+        or source.get("observedMetadataUrl")
+        or source.get("observed_metadata_url")
+    ):
         stats["missing_sourceRecordUrl"] += 1
 
 
@@ -155,15 +195,7 @@ def print_page_progress(page_number, page_hits, total_written, expected_total, p
 
 
 def export_observations(args, csv_gz_path, field_order):
-    stats = {
-        "rows": 0,
-        "data_sources": Counter(),
-        "min_year": None,
-        "max_year": None,
-        "min_date": None,
-        "max_date": None,
-        "missing_sourceRecordUrl": 0,
-    }
+    stats = make_export_stats()
 
     response = fetch_initial_page(
         args.base_url,
@@ -193,9 +225,13 @@ def export_observations(args, csv_gz_path, field_order):
                 if args.limit > 0 and stats["rows"] >= args.limit:
                     print(f"Reached client-side limit of {args.limit:,} rows.", flush=True)
                     return stats, expected_total
-                source = enrich_download_record(hit.get("_source") or {})
-                writer.writerow(build_csv_row(source, field_order))
-                update_export_stats(stats, source)
+                source = hit.get("_source") or {}
+                if should_skip_source(source):
+                    stats["skipped_year_only_herbarium"] += 1
+                    continue
+                csv_row = build_csv_row(source, field_order)
+                writer.writerow(csv_row)
+                update_export_stats(stats, source, csv_row)
 
             fh.flush()
             page_elapsed = time.monotonic() - page_started_at
@@ -210,6 +246,137 @@ def export_observations(args, csv_gz_path, field_order):
             scroll_id = response.get("_scroll_id")
 
     return stats, expected_total
+
+
+def build_query_clause(query):
+    if query.strip() in {"", "*"}:
+        return {"match_all": {}}
+    return {
+        "query_string": {
+            "query": query,
+            "analyze_wildcard": True,
+        }
+    }
+
+
+def build_sample_query(query, data_source):
+    base_query = build_query_clause(query)
+    filters = [{"term": {"dataSource": data_source}}]
+    if "match_all" in base_query:
+        return {"bool": {"filter": filters}}
+    return {"bool": {"must": [base_query], "filter": filters}}
+
+
+def post_es_search(args, body):
+    url = build_es_url(args.base_url, f"{args.index}/_search")
+    return post_json(url, body, args.request_timeout)
+
+
+def collect_live_dataset_counts(args):
+    response = post_es_search(
+        args,
+        {
+            "size": 0,
+            "track_total_hits": True,
+            "query": build_query_clause(args.query),
+            "aggs": {
+                "data_sources": {
+                    "terms": {
+                        "field": "dataSource",
+                        "size": 1000,
+                        "order": {"_key": "asc"},
+                    }
+                }
+            },
+        },
+    )
+    buckets = (((response or {}).get("aggregations") or {}).get("data_sources") or {}).get("buckets") or []
+    return OrderedDict((bucket["key"], int(bucket.get("doc_count") or 0)) for bucket in buckets)
+
+
+def ordered_sample_sources(live_counts):
+    ordered = [source for source in DEFAULT_SAMPLE_SOURCE_ORDER if source in live_counts]
+    ordered.extend(source for source in live_counts if source not in set(ordered))
+    return ordered
+
+
+def fetch_datasource_sample(args, data_source):
+    rows = []
+    offset = 0
+    skipped = 0
+    live_total = None
+    first_id = ""
+    last_id = ""
+    page_size = max(args.batch_size, args.sample_per_datasource)
+
+    while len(rows) < args.sample_per_datasource:
+        response = post_es_search(
+            args,
+            {
+                "from": offset,
+                "size": page_size,
+                "track_total_hits": True,
+                "sort": ["_doc"],
+                "query": build_sample_query(args.query, data_source),
+            },
+        )
+        if live_total is None:
+            live_total = get_total_hits(response)
+        hits = (((response or {}).get("hits") or {}).get("hits") or [])
+        if not hits:
+            break
+
+        for hit in hits:
+            source = hit.get("_source") or {}
+            if should_skip_source(source):
+                skipped += 1
+                continue
+            rows.append(source)
+            annotation_id = str(source.get("annotationID") or "")
+            if not first_id:
+                first_id = annotation_id
+            last_id = annotation_id
+            if len(rows) >= args.sample_per_datasource:
+                break
+        offset += len(hits)
+
+    return rows, int(live_total or 0), skipped, first_id, last_id
+
+
+def export_sampled_observations(args, csv_gz_path, field_order):
+    stats = make_export_stats()
+    live_counts = collect_live_dataset_counts(args)
+    live_rows = []
+
+    with gzip.open(csv_gz_path, "wt", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(fh, fieldnames=field_order, extrasaction="ignore")
+        writer.writeheader()
+        for data_source in ordered_sample_sources(live_counts):
+            rows, live_total, skipped, first_id, last_id = fetch_datasource_sample(args, data_source)
+            stats["skipped_year_only_herbarium"] += skipped
+            live_rows.append(
+                OrderedDict(
+                    [
+                        ("dataSource", data_source),
+                        ("liveRecordCount", live_total or live_counts.get(data_source, 0)),
+                        ("includedRecordCount", len(rows)),
+                        ("firstSampleAnnotationID", first_id),
+                        ("lastSampleAnnotationID", last_id),
+                    ]
+                )
+            )
+            print(
+                f"{data_source}: live={live_rows[-1]['liveRecordCount']:,}; "
+                f"included={len(rows):,}; skipped={skipped:,}",
+                flush=True,
+            )
+            for source in rows:
+                csv_row = build_csv_row(source, field_order)
+                writer.writerow(csv_row)
+                update_export_stats(stats, source, csv_row)
+
+    expected_total = sum(row["liveRecordCount"] for row in live_rows)
+    return stats, expected_total, live_rows
 
 
 def write_data_dictionary(path, column_rows):
@@ -233,6 +400,23 @@ def write_source_summary(path, data_sources):
         writer.writeheader()
         for data_source, count in sorted(data_sources.items()):
             writer.writerow({"dataSource": data_source, "recordCount": count})
+
+
+def write_live_dataset_counts(path, live_rows):
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(
+            fh,
+            fieldnames=[
+                "dataSource",
+                "liveRecordCount",
+                "includedRecordCount",
+                "firstSampleAnnotationID",
+                "lastSampleAnnotationID",
+            ],
+        )
+        writer.writeheader()
+        for row in live_rows:
+            writer.writerow(row)
 
 
 def description_html():
@@ -296,12 +480,16 @@ def write_zenodo_metadata(path, args, stats):
 
 
 def write_summary_json(path, args, stats, expected_total, field_order):
+    export_mode = "sample_per_datasource" if args.sample_per_datasource > 0 else "scroll"
     payload = OrderedDict(
         [
             ("generatedAtUtc", datetime.now(timezone.utc).replace(microsecond=0).isoformat()),
             ("baseUrl", args.base_url),
             ("index", args.index),
             ("query", args.query),
+            ("exportMode", export_mode),
+            ("samplePerDataSource", args.sample_per_datasource),
+            ("fieldVisibility", "all" if args.include_all_columns else "visible_on_download"),
             ("expectedTotalFromApi", expected_total),
             ("rowsExported", stats["rows"]),
             ("limit", args.limit),
@@ -310,6 +498,7 @@ def write_summary_json(path, args, stats, expected_total, field_order):
             ("dateRange", [stats["min_date"], stats["max_date"]]),
             ("yearRange", [stats["min_year"], stats["max_year"]]),
             ("missingSourceRecordUrl", stats["missing_sourceRecordUrl"]),
+            ("skippedYearOnlyHerbariumRecords", stats["skipped_year_only_herbarium"]),
             ("sourceCounts", OrderedDict(sorted(stats["data_sources"].items()))),
         ]
     )
@@ -319,6 +508,10 @@ def write_summary_json(path, args, stats, expected_total, field_order):
 
 
 def write_readme(path, args, stats, field_order):
+    if args.include_all_columns:
+        field_note = "CSV fields follow the full row order in `data/columns.csv`."
+    else:
+        field_note = "CSV fields follow the order of rows in `data/columns.csv` where `visible_on_download=TRUE`."
     lines = [
         "# Phenobase Zenodo Data Package",
         "",
@@ -344,15 +537,18 @@ def write_readme(path, args, stats, field_order):
         f"Date range: {stats['min_date'] or ''} to {stats['max_date'] or ''}",
         f"Year range: {stats['min_year'] or ''} to {stats['max_year'] or ''}",
         f"Records missing sourceRecordUrl: {stats['missing_sourceRecordUrl']:,}",
+        f"Skipped year-only herbarium records: {stats['skipped_year_only_herbarium']:,}",
         "",
         "CSV arrays are pipe-delimited inside a cell. Nested objects, if any, are JSON-encoded inside a cell.",
+        field_note,
         "",
         "## Generation Command",
         "",
         "```bash",
         "python3 build_zenodo_package.py \\",
         f"  --query {json.dumps(args.query)} \\",
-        f"  --package-name {json.dumps(args.package_name)}",
+        f"  --package-name {json.dumps(args.package_name)}" + (" \\" if args.sample_per_datasource > 0 else ""),
+        *([f"  --sample-per-datasource {args.sample_per_datasource}"] if args.sample_per_datasource > 0 else []),
         "```",
         "",
         "## Zenodo Notes",
@@ -399,6 +595,10 @@ def validate_args(args):
         raise RuntimeError("--batch-size must be greater than 0.")
     if args.limit < 0:
         raise RuntimeError("--limit must be 0 or greater.")
+    if args.sample_per_datasource < 0:
+        raise RuntimeError("--sample-per-datasource must be 0 or greater.")
+    if args.limit > 0 and args.sample_per_datasource > 0:
+        raise RuntimeError("--limit and --sample-per-datasource cannot be used together.")
     if args.request_timeout <= 0:
         raise RuntimeError("--request-timeout must be greater than 0.")
 
@@ -415,11 +615,17 @@ def main():
         column_rows, field_order = load_column_metadata(args.columns_path, args.include_all_columns)
         csv_gz_path = package_dir / "phenobase_observations.csv.gz"
 
-        stats, expected_total = export_observations(args, csv_gz_path, field_order)
+        live_rows = None
+        if args.sample_per_datasource > 0:
+            stats, expected_total, live_rows = export_sampled_observations(args, csv_gz_path, field_order)
+        else:
+            stats, expected_total = export_observations(args, csv_gz_path, field_order)
 
         write_data_dictionary(package_dir / "data_dictionary.csv", column_rows)
         write_column_metadata_json(package_dir / "column_metadata.json", column_rows)
         write_source_summary(package_dir / "source_summary.csv", stats["data_sources"])
+        if live_rows is not None:
+            write_live_dataset_counts(package_dir / "live_dataset_counts.csv", live_rows)
         write_summary_json(package_dir / "record_summary.json", args, stats, expected_total, field_order)
         write_zenodo_metadata(package_dir / "zenodo_metadata.json", args, stats)
         write_readme(package_dir / "README.md", args, stats, field_order)

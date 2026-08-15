@@ -47,7 +47,7 @@ OUTPUT_FIELDS = [
     "dataSource",
     "scientificName",
     "taxonRank",
-    "basisOfRecord",
+    "collectionMethod",
     "family",
     "genus",
     "species",
@@ -309,10 +309,10 @@ def transform_measurement(occurrence, measurement, mapping_record, counters, gbi
     counters["keptCount"] += 1
     yield OrderedDict(
         [
-            ("dataSource", "SeasonWatch India"),
+            ("dataSource", "SeasonWatch (India)"),
             ("scientificName", scientific_name),
             ("taxonRank", norm(occurrence.get("taxonRank")) or "species"),
-            ("basisOfRecord", "Human Observation"),
+            ("collectionMethod", "human observation"),
             ("family", ""),
             ("genus", norm(occurrence.get("genus"))),
             ("species", norm(occurrence.get("specificEpithet"))),

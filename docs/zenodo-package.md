@@ -24,11 +24,15 @@ Small test run:
 python3 build_zenodo_package.py --limit 100 --package-name phenobase-zenodo-smoke-test
 ```
 
-Three-source smoke test with one live record each from iNaturalist, Herbarium, and
-USA-NPN:
+All-datasets example package with 20 records per `dataSource` and exact live source counts:
 
 ```bash
-python3 build_zenodo_three_source_smoke_test.py
+python3 build_zenodo_package.py \
+  --sample-per-datasource 20 \
+  --package-name phenobase-zenodo-example-all-datasets-2026-07-06 \
+  --version 2026-07-06 \
+  --publication-date 2026-07-06 \
+  --request-timeout 120
 ```
 
 ## Package Contents
@@ -37,17 +41,13 @@ python3 build_zenodo_three_source_smoke_test.py
 - `data_dictionary.csv`: data dictionary generated from `data/columns.csv`.
 - `column_metadata.json`: JSON copy of the column metadata.
 - `source_summary.csv`: exported record counts by `dataSource`.
-- `record_summary.json`: export parameters, row counts, date/year ranges, and missing-link counts.
+- `record_summary.json`: export parameters, row counts, date/year ranges, missing-link counts, and skipped year-only herbarium records.
 - `zenodo_metadata.json`: editable Zenodo deposition metadata template.
 - `manifest-sha256.txt`: SHA-256 checksums and byte sizes.
 - `README.md`: package documentation.
 
-By default the CSV uses the same curated export field set as portal downloads. Internal
-fields such as `date`, `observedMetadataUrl`, `locationID`, `trait_urn`, and
-`annotation_method` are projected to `eventDate`, `sourceRecordUrl`, `siteID`,
-`traitUrn`, and `annotationMethod`; `taxonSearch`, `decadeStart`, and model QA fields
-are excluded. Use `--include-all-columns` to include every non-excluded field listed in
-`data/columns.csv`.
+By default the CSV includes fields marked `visible_on_download=TRUE` in `data/columns.csv`.
+Use `--include-all-columns` to include every field listed in `data/columns.csv`.
 
 ## Zenodo Review Checklist
 

@@ -15,10 +15,15 @@ from collections import OrderedDict
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from source_record_url import build_npn_observation_url
+
 
 API_URL = "https://services.usanpn.org/npn_portal/observations/getObservations.json"
 SPECIES_URL = "https://services.usanpn.org/npn_portal/species/getSpecies.json"
-OBSERVATION_METADATA_URL = "https://services.usanpn.org/npn_portal/observations/getObservationById.json"
 DEFAULT_MAPPINGS_PATH = "/mnt/data/mappings.csv"
 TRAITS_PATH = Path(__file__).resolve().parents[2] / "data" / "traits.csv"
 
@@ -34,7 +39,9 @@ OUTPUT_FIELDS = [
     "date",
     "year",
     "dataset_id",
-    "siteID",
+    "site_id",
+    "individual_id",
+    "locationID",
     "organismID",
     "occurrenceID",
     "dayOfYear",
@@ -42,6 +49,7 @@ OUTPUT_FIELDS = [
     "longitude",
     "observedMetadataUrl",
     "annotation_method",
+    "recordedBy",
     "verbatimTrait",
     "phenophase_status",
     "trait_urn",
@@ -83,7 +91,7 @@ def month_chunks(start_date, end_date):
 
 
 def fetch_json(url, params=None, timeout=60):
-    query = urllib.parse.urlencode(params or {})
+    query = urllib.parse.urlencode(params or {}, doseq=True)
     full_url = f"{url}?{query}" if query else url
     request = urllib.request.Request(full_url, headers={"User-Agent": "Phenobase-NPN-Loader/1.0"})
     with urllib.request.urlopen(request, timeout=timeout) as response:
@@ -264,7 +272,13 @@ def fetch_data(start_date, end_date):
         "start_date": start_date,
         "end_date": end_date,
         "request_src": "custom_script",
-        "additional_field": "dataset_id",
+        "additional_field": [
+            "dataset_id",
+            "observedby_person_id",
+            "submittedby_person_id",
+            "updatedby_person_id",
+            "partner_group",
+        ],
     }
     try:
         print(f"Fetching data from API for dates: {start_date} to {end_date}...")
@@ -276,19 +290,29 @@ def fetch_data(start_date, end_date):
 
 
 def observation_metadata_url(obs):
-    observation_id = norm(obs.get("observation_id"))
-    if not observation_id:
-        return ""
-    query = urllib.parse.urlencode(
-        OrderedDict(
-            [
-                ("request_src", "PPO"),
-                ("observation_id", observation_id),
-                ("pretty", "1"),
-            ]
-        )
-    )
-    return f"{OBSERVATION_METADATA_URL}?{query}"
+    return build_npn_observation_url(obs.get("observation_id"))
+
+
+def recorded_by(obs):
+    for field in (
+        "recordedBy",
+        "recorded_by",
+        "observedby_person_id",
+        "submittedby_person_id",
+        "updatedby_person_id",
+        "observer_id",
+        "observerID",
+        "observer_name",
+        "observer",
+        "user_id",
+        "username",
+        "person_id",
+        "participant_id",
+    ):
+        value = norm(obs.get(field))
+        if value:
+            return value
+    return ""
 
 
 def resolve_data_source(obs):
@@ -378,15 +402,18 @@ def transform_rows(observations, mapping_index, species_catalog, counters):
                     ("date", observation_date),
                     ("year", obs_date.year),
                     ("dataset_id", obs.get("dataset_id")),
-                    ("siteID", obs.get("site_id")),
+                    ("site_id", obs.get("site_id")),
+                    ("individual_id", obs.get("individual_id")),
+                    ("locationID", obs.get("site_id")),
                     ("organismID", obs.get("individual_id")),
                     ("occurrenceID", obs.get("observation_id")),
                     ("dayOfYear", obs.get("day_of_year")),
                     ("latitude", obs.get("latitude")),
                     ("longitude", obs.get("longitude")),
                     ("observedMetadataUrl", observation_metadata_url(obs)),
-                    ("annotation_method", "human"),
-                    ("verbatimTrait", f"{cleaned_description} = {raw_status}"),
+                    ("annotation_method", "in_situ"),
+                    ("recordedBy", recorded_by(obs)),
+                    ("verbatimTrait", f"{cleaned_description}={raw_status}"),
                     ("phenophase_status", "Observed" if raw_status == 1 else "Not Observed"),
                     ("trait_urn", trait_urn),
                     ("trait", trait),

@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import csv
 import gzip
-from collections import Counter
 from datetime import date
 from pathlib import Path
 from types import SimpleNamespace
@@ -21,6 +20,7 @@ from build_zenodo_package import (
     create_zip,
     ensure_clean_dir,
     load_column_metadata,
+    make_export_stats,
     update_export_stats,
     validate_args,
     write_column_metadata_json,
@@ -118,8 +118,8 @@ def enrich_trait_fields(record, traits_catalog):
     )
     mapped_ids, mapped_traits = mapped_traits_for_urn(trait_urn, traits_catalog)
 
-    if mapped_ids and not enriched.get("mappedTraitUrn"):
-        enriched["mappedTraitUrn"] = mapped_ids.split("|")
+    if mapped_ids and not enriched.get("mappedTraitsUrns"):
+        enriched["mappedTraitsUrns"] = mapped_ids.split("|")
     if mapped_traits and not enriched.get("mappedTraits"):
         enriched["mappedTraits"] = mapped_traits.split("|")
     return enriched
@@ -149,23 +149,16 @@ def build_args_for_package(args):
 
 
 def write_observations(csv_gz_path, field_order, records):
-    stats = {
-        "rows": 0,
-        "data_sources": Counter(),
-        "min_year": None,
-        "max_year": None,
-        "min_date": None,
-        "max_date": None,
-        "missing_sourceRecordUrl": 0,
-    }
+    stats = make_export_stats()
 
     with gzip.open(csv_gz_path, "wt", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=field_order, extrasaction="ignore")
         writer.writeheader()
         for source in records:
             enriched = enrich_download_record(source)
-            writer.writerow(build_csv_row(enriched, field_order))
-            update_export_stats(stats, enriched)
+            csv_row = build_csv_row(enriched, field_order)
+            writer.writerow(csv_row)
+            update_export_stats(stats, enriched, csv_row)
 
     return stats
 

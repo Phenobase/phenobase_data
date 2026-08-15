@@ -5,7 +5,6 @@ import argparse
 import csv
 import json
 import os
-import re
 import socket
 import sys
 import time
@@ -13,7 +12,12 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from export_schema import load_export_field_order, project_export_record
+from export_schema import (
+    enrich_export_record,
+    load_export_field_order,
+    project_export_record,
+    should_skip_source,
+)
 
 
 DEFAULT_BASE_URL = "https://biscicol.org/phenobase/api/v1/query"
@@ -25,9 +29,6 @@ DEFAULT_LIMIT = 0
 DEFAULT_OUTPUT = "downloads/phenobase_dump.csv"
 DEFAULT_COLUMNS_PATH = "data/columns.csv"
 DEFAULT_REQUEST_TIMEOUT = 60
-NPN_OBSERVATION_METADATA_URL = (
-    "https://services.usanpn.org/npn_portal/observations/getObservationById.json"
-)
 
 
 def parse_args():
@@ -161,44 +162,8 @@ def serialize_value(value):
     return value
 
 
-def derive_observed_metadata_url(record):
-    existing_url = str(
-        (record or {}).get("sourceRecordUrl")
-        or (record or {}).get("observedMetadataUrl")
-        or ""
-    ).strip()
-    if existing_url:
-        return existing_url
-
-    raw_id = str((record or {}).get("annotationID") or "").strip()
-    data_source = str((record or {}).get("dataSource") or "")
-    npn_id = ""
-
-    if raw_id.startswith("npn:"):
-        npn_id = raw_id[4:]
-    elif re.fullmatch(r"\d+", raw_id) and re.search(r"national phenology network", data_source, re.IGNORECASE):
-        npn_id = raw_id
-
-    if not npn_id:
-        return ""
-
-    query = urllib.parse.urlencode(
-        {
-            "request_src": "PPO",
-            "observation_id": npn_id,
-            "pretty": "1",
-        }
-    )
-    return f"{NPN_OBSERVATION_METADATA_URL}?{query}"
-
-
 def enrich_download_record(record):
-    enriched = dict(record or {})
-    if not str(enriched.get("sourceRecordUrl") or enriched.get("observedMetadataUrl") or "").strip():
-        derived_url = derive_observed_metadata_url(enriched)
-        if derived_url:
-            enriched["observedMetadataUrl"] = derived_url
-    return enriched
+    return enrich_export_record(record)
 
 
 def build_csv_row(source, field_order):
@@ -265,7 +230,10 @@ def export_rows(args):
                 if args.limit > 0 and total_written >= args.limit:
                     print(f"Reached client-side limit of {args.limit:,} rows.")
                     return total_written, expected_total
-                writer.writerow(build_csv_row(hit.get("_source") or {}, field_order))
+                source = hit.get("_source") or {}
+                if should_skip_source(source):
+                    continue
+                writer.writerow(build_csv_row(source, field_order))
                 total_written += 1
             fh.flush()
             page_elapsed = time.monotonic() - page_started_at

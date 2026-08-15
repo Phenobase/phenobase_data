@@ -1,11 +1,3 @@
-MaterialEntity
-PreservedSpecimen
-FossilSpecimen
-LivingSpecimen
-MaterialSample
-Event
-HumanObservation
-MachineObservation
-Taxon
-Occurrence
-MaterialCitation
+human observation
+herbarium specimen image
+live plant image

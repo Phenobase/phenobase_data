@@ -1,4 +1,6 @@
 data/*
+!data/datasource.csv
+!data/datasource_definitions.csv
 downloads/*
 !downloads/seasonwatchindia/
 downloads/seasonwatchindia/*
@@ -12,4 +14,6 @@ downloads/herbarium/ingest/*
 !downloads/phenoObs/mappings.csv
 loading_errors.csv
 nohup.out
-__pycache__/*
+__pycache__/
+**/__pycache__/
+*.py[cod]

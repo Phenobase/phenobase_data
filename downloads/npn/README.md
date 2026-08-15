@@ -88,14 +88,16 @@ Leaf out,-1,,
 
 ```text
 dataSource,scientificName,taxonRank,basisOfRecord,family,genus,species,
-annotationID,date,year,dataset_id,siteID,organismID,occurrenceID,dayOfYear,
-latitude,longitude,observedMetadataUrl,annotation_method,verbatimTrait,
-phenophase_status,trait_urn,trait
+annotationID,date,year,dataset_id,site_id,individual_id,dayOfYear,
+locationID,organismID,occurrenceID,latitude,longitude,observedMetadataUrl,
+annotation_method,recordedBy,verbatimTrait,phenophase_status,trait_urn,trait
 ```
 
 `observedMetadataUrl` is an official USA-NPN `getObservationById.json` API URL filtered to
 the source `observation_id`. USA-NPN `site_id`, `individual_id`, and `observation_id`
-are mapped to `siteID`, `organismID`, and `occurrenceID`; `annotation_method` is `human`.
+are mapped to `locationID`, `organismID`, and `occurrenceID`.
+`recordedBy` is populated from the USA-NPN `observer_id` additional field when the API
+includes it.
 
 During the run, you’ll see summary counters:
 
@@ -114,6 +116,8 @@ npn_observations_2025-08-01_to_2025-08-02.csv
 ```
 
 Only rows with a valid, mapped `trait_urn` and `trait` are included.
+During loading, `trait_urn` is normalized to `traitUrn`, `observedMetadataUrl` to
+`sourceRecordUrl`, `family` to `verbatimFamily`, and `gbifFamily` is filled from GBIF.
 
 ---
 
