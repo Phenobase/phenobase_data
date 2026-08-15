@@ -68,6 +68,13 @@ DEFAULT_SAMPLE_SOURCE_ORDER = [
     "USA National Phenology Network",
     "iNaturalist",
 ]
+DEFAULT_TRAIT_CATEGORY_TERMS = OrderedDict(
+    [
+        ("flower", ("flower", "inflorescence")),
+        ("fruit", ("fruit",)),
+        ("leaf", ("leaf", "leaves")),
+    ]
+)
 
 
 def parse_args():
@@ -88,6 +95,16 @@ def parse_args():
         help=(
             "Export up to N records per dataSource instead of scrolling the full query. "
             "Also writes live_dataset_counts.csv with exact live counts."
+        ),
+    )
+    parser.add_argument(
+        "--sample-per-datasource-trait-category",
+        type=int,
+        default=0,
+        help=(
+            "Export up to N records for each default trait category "
+            "(flower, fruit, leaf) within each dataSource. Also writes "
+            "trait_category_sample_counts.csv with exact live category counts."
         ),
     )
     parser.add_argument("--request-timeout", type=float, default=DEFAULT_REQUEST_TIMEOUT, help=f"Per-request timeout in seconds (default: {DEFAULT_REQUEST_TIMEOUT})")
@@ -267,6 +284,31 @@ def build_sample_query(query, data_source):
     return {"bool": {"must": [base_query], "filter": filters}}
 
 
+def build_trait_category_clause(category):
+    terms = DEFAULT_TRAIT_CATEGORY_TERMS[category]
+    fields = ("trait", "mappedTraits", "verbatimTrait")
+    query_terms = [
+        f"{field}:*{term}*"
+        for field in fields
+        for term in terms
+    ]
+    return {
+        "query_string": {
+            "query": " OR ".join(query_terms),
+            "analyze_wildcard": True,
+        }
+    }
+
+
+def build_trait_category_sample_query(query, data_source, category):
+    base_query = build_query_clause(query)
+    filters = [{"term": {"dataSource": data_source}}]
+    category_query = build_trait_category_clause(category)
+    if "match_all" in base_query:
+        return {"bool": {"must": [category_query], "filter": filters}}
+    return {"bool": {"must": [base_query, category_query], "filter": filters}}
+
+
 def post_es_search(args, body):
     url = build_es_url(args.base_url, f"{args.index}/_search")
     return post_json(url, body, args.request_timeout)
@@ -343,6 +385,50 @@ def fetch_datasource_sample(args, data_source):
     return rows, int(live_total or 0), skipped, first_id, last_id
 
 
+def fetch_datasource_trait_category_sample(args, data_source, category):
+    rows = []
+    offset = 0
+    skipped = 0
+    live_total = None
+    first_id = ""
+    last_id = ""
+    sample_size = args.sample_per_datasource_trait_category
+    page_size = max(args.batch_size, sample_size)
+
+    while len(rows) < sample_size:
+        response = post_es_search(
+            args,
+            {
+                "from": offset,
+                "size": page_size,
+                "track_total_hits": True,
+                "sort": ["_doc"],
+                "query": build_trait_category_sample_query(args.query, data_source, category),
+            },
+        )
+        if live_total is None:
+            live_total = get_total_hits(response)
+        hits = (((response or {}).get("hits") or {}).get("hits") or [])
+        if not hits:
+            break
+
+        for hit in hits:
+            source = hit.get("_source") or {}
+            if should_skip_source(source):
+                skipped += 1
+                continue
+            rows.append(source)
+            annotation_id = str(source.get("annotationID") or "")
+            if not first_id:
+                first_id = annotation_id
+            last_id = annotation_id
+            if len(rows) >= sample_size:
+                break
+        offset += len(hits)
+
+    return rows, int(live_total or 0), skipped, first_id, last_id
+
+
 def export_sampled_observations(args, csv_gz_path, field_order):
     stats = make_export_stats()
     live_counts = collect_live_dataset_counts(args)
@@ -377,6 +463,48 @@ def export_sampled_observations(args, csv_gz_path, field_order):
 
     expected_total = sum(row["liveRecordCount"] for row in live_rows)
     return stats, expected_total, live_rows
+
+
+def export_trait_category_sampled_observations(args, csv_gz_path, field_order):
+    stats = make_export_stats()
+    live_counts = collect_live_dataset_counts(args)
+    trait_category_rows = []
+
+    with gzip.open(csv_gz_path, "wt", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(fh, fieldnames=field_order, extrasaction="ignore")
+        writer.writeheader()
+        for data_source in ordered_sample_sources(live_counts):
+            for category in DEFAULT_TRAIT_CATEGORY_TERMS:
+                rows, live_total, skipped, first_id, last_id = fetch_datasource_trait_category_sample(
+                    args,
+                    data_source,
+                    category,
+                )
+                stats["skipped_year_only_herbarium"] += skipped
+                trait_category_rows.append(
+                    OrderedDict(
+                        [
+                            ("dataSource", data_source),
+                            ("traitCategory", category),
+                            ("liveRecordCount", live_total),
+                            ("includedRecordCount", len(rows)),
+                            ("firstSampleAnnotationID", first_id),
+                            ("lastSampleAnnotationID", last_id),
+                        ]
+                    )
+                )
+                print(
+                    f"{data_source} / {category}: live={live_total:,}; "
+                    f"included={len(rows):,}; skipped={skipped:,}",
+                    flush=True,
+                )
+                for source in rows:
+                    csv_row = build_csv_row(source, field_order)
+                    writer.writerow(csv_row)
+                    update_export_stats(stats, source, csv_row)
+
+    expected_total = sum(row["liveRecordCount"] for row in trait_category_rows)
+    return stats, expected_total, trait_category_rows
 
 
 def write_data_dictionary(path, column_rows):
@@ -416,6 +544,24 @@ def write_live_dataset_counts(path, live_rows):
         )
         writer.writeheader()
         for row in live_rows:
+            writer.writerow(row)
+
+
+def write_trait_category_sample_counts(path, trait_category_rows):
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(
+            fh,
+            fieldnames=[
+                "dataSource",
+                "traitCategory",
+                "liveRecordCount",
+                "includedRecordCount",
+                "firstSampleAnnotationID",
+                "lastSampleAnnotationID",
+            ],
+        )
+        writer.writeheader()
+        for row in trait_category_rows:
             writer.writerow(row)
 
 
@@ -480,7 +626,12 @@ def write_zenodo_metadata(path, args, stats):
 
 
 def write_summary_json(path, args, stats, expected_total, field_order):
-    export_mode = "sample_per_datasource" if args.sample_per_datasource > 0 else "scroll"
+    if args.sample_per_datasource_trait_category > 0:
+        export_mode = "sample_per_datasource_trait_category"
+    elif args.sample_per_datasource > 0:
+        export_mode = "sample_per_datasource"
+    else:
+        export_mode = "scroll"
     payload = OrderedDict(
         [
             ("generatedAtUtc", datetime.now(timezone.utc).replace(microsecond=0).isoformat()),
@@ -489,6 +640,13 @@ def write_summary_json(path, args, stats, expected_total, field_order):
             ("query", args.query),
             ("exportMode", export_mode),
             ("samplePerDataSource", args.sample_per_datasource),
+            ("samplePerDataSourceTraitCategory", args.sample_per_datasource_trait_category),
+            (
+                "traitCategories",
+                list(DEFAULT_TRAIT_CATEGORY_TERMS.keys())
+                if args.sample_per_datasource_trait_category > 0
+                else [],
+            ),
             ("fieldVisibility", "all" if args.include_all_columns else "visible_on_download"),
             ("expectedTotalFromApi", expected_total),
             ("rowsExported", stats["rows"]),
@@ -512,6 +670,39 @@ def write_readme(path, args, stats, field_order):
         field_note = "CSV fields follow the full row order in `data/columns.csv`."
     else:
         field_note = "CSV fields follow the order of rows in `data/columns.csv` where `visible_on_download=TRUE`."
+    file_lines = [
+        "- `phenobase_observations.csv.gz`: compressed CSV export of Phenobase records.",
+        "- `data_dictionary.csv`: column-level metadata derived from `data/columns.csv`.",
+        "- `column_metadata.json`: JSON representation of the same column metadata.",
+        "- `source_summary.csv`: exported record counts by `dataSource`.",
+    ]
+    if args.sample_per_datasource > 0:
+        file_lines.append("- `live_dataset_counts.csv`: exact live and included record counts by `dataSource`.")
+    if args.sample_per_datasource_trait_category > 0:
+        file_lines.append(
+            "- `trait_category_sample_counts.csv`: exact live and included record counts by `dataSource` and trait category."
+        )
+    file_lines.extend(
+        [
+            "- `record_summary.json`: export parameters and record counts.",
+            "- `zenodo_metadata.json`: editable Zenodo deposition metadata template.",
+            "- `manifest-sha256.txt`: SHA-256 checksums and byte sizes for package files.",
+        ]
+    )
+
+    command_lines = [
+        "python3 build_zenodo_package.py \\",
+        f"  --query {json.dumps(args.query)} \\",
+    ]
+    if args.sample_per_datasource > 0:
+        command_lines.append(f"  --package-name {json.dumps(args.package_name)} \\")
+        command_lines.append(f"  --sample-per-datasource {args.sample_per_datasource}")
+    elif args.sample_per_datasource_trait_category > 0:
+        command_lines.append(f"  --package-name {json.dumps(args.package_name)} \\")
+        command_lines.append(f"  --sample-per-datasource-trait-category {args.sample_per_datasource_trait_category}")
+    else:
+        command_lines.append(f"  --package-name {json.dumps(args.package_name)}")
+
     lines = [
         "# Phenobase Zenodo Data Package",
         "",
@@ -522,13 +713,7 @@ def write_readme(path, args, stats, field_order):
         "",
         "## Files",
         "",
-        "- `phenobase_observations.csv.gz`: compressed CSV export of Phenobase records.",
-        "- `data_dictionary.csv`: column-level metadata derived from `data/columns.csv`.",
-        "- `column_metadata.json`: JSON representation of the same column metadata.",
-        "- `source_summary.csv`: exported record counts by `dataSource`.",
-        "- `record_summary.json`: export parameters and record counts.",
-        "- `zenodo_metadata.json`: editable Zenodo deposition metadata template.",
-        "- `manifest-sha256.txt`: SHA-256 checksums and byte sizes for package files.",
+        *file_lines,
         "",
         "## CSV",
         "",
@@ -545,10 +730,7 @@ def write_readme(path, args, stats, field_order):
         "## Generation Command",
         "",
         "```bash",
-        "python3 build_zenodo_package.py \\",
-        f"  --query {json.dumps(args.query)} \\",
-        f"  --package-name {json.dumps(args.package_name)}" + (" \\" if args.sample_per_datasource > 0 else ""),
-        *([f"  --sample-per-datasource {args.sample_per_datasource}"] if args.sample_per_datasource > 0 else []),
+        *command_lines,
         "```",
         "",
         "## Zenodo Notes",
@@ -597,8 +779,17 @@ def validate_args(args):
         raise RuntimeError("--limit must be 0 or greater.")
     if args.sample_per_datasource < 0:
         raise RuntimeError("--sample-per-datasource must be 0 or greater.")
-    if args.limit > 0 and args.sample_per_datasource > 0:
-        raise RuntimeError("--limit and --sample-per-datasource cannot be used together.")
+    if args.sample_per_datasource_trait_category < 0:
+        raise RuntimeError("--sample-per-datasource-trait-category must be 0 or greater.")
+    sample_modes = [
+        args.limit > 0,
+        args.sample_per_datasource > 0,
+        args.sample_per_datasource_trait_category > 0,
+    ]
+    if sum(1 for enabled in sample_modes if enabled) > 1:
+        raise RuntimeError(
+            "--limit, --sample-per-datasource, and --sample-per-datasource-trait-category are mutually exclusive."
+        )
     if args.request_timeout <= 0:
         raise RuntimeError("--request-timeout must be greater than 0.")
 
@@ -616,7 +807,14 @@ def main():
         csv_gz_path = package_dir / "phenobase_observations.csv.gz"
 
         live_rows = None
-        if args.sample_per_datasource > 0:
+        trait_category_rows = None
+        if args.sample_per_datasource_trait_category > 0:
+            stats, expected_total, trait_category_rows = export_trait_category_sampled_observations(
+                args,
+                csv_gz_path,
+                field_order,
+            )
+        elif args.sample_per_datasource > 0:
             stats, expected_total, live_rows = export_sampled_observations(args, csv_gz_path, field_order)
         else:
             stats, expected_total = export_observations(args, csv_gz_path, field_order)
@@ -626,6 +824,8 @@ def main():
         write_source_summary(package_dir / "source_summary.csv", stats["data_sources"])
         if live_rows is not None:
             write_live_dataset_counts(package_dir / "live_dataset_counts.csv", live_rows)
+        if trait_category_rows is not None:
+            write_trait_category_sample_counts(package_dir / "trait_category_sample_counts.csv", trait_category_rows)
         write_summary_json(package_dir / "record_summary.json", args, stats, expected_total, field_order)
         write_zenodo_metadata(package_dir / "zenodo_metadata.json", args, stats)
         write_readme(package_dir / "README.md", args, stats, field_order)

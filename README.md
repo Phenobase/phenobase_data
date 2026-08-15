@@ -565,6 +565,8 @@ The package is written under `downloads/zenodo/<package-name>/` and, by default,
 - `data_dictionary.csv`: column metadata derived from `data/columns.csv`
 - `column_metadata.json`: JSON form of the same column metadata
 - `source_summary.csv`: record counts by `dataSource`
+- `live_dataset_counts.csv`: optional exact live and included counts by `dataSource` for `--sample-per-datasource`
+- `trait_category_sample_counts.csv`: optional exact live and included counts by `dataSource` and trait category for `--sample-per-datasource-trait-category`
 - `record_summary.json`: export parameters, row counts, date/year ranges, missing-link counts, and skipped year-only herbarium records
 - `zenodo_metadata.json`: editable Zenodo metadata template
 - `manifest-sha256.txt`: checksums and byte sizes
@@ -602,6 +604,20 @@ python3 build_zenodo_package.py \
   --publication-date 2026-07-06 \
   --request-timeout 120
 ```
+
+Build a broader trait-coverage example package with up to 20 flower, fruit, and leaf records per `dataSource`:
+
+```bash
+python3 build_zenodo_package.py \
+  --sample-per-datasource-trait-category 20 \
+  --package-name phenobase-zenodo-trait-coverage-example-2026-08-15 \
+  --version 2026-08-15 \
+  --publication-date 2026-08-15 \
+  --request-timeout 120
+```
+
+This writes `trait_category_sample_counts.csv` with the live and included counts for each
+`dataSource` and trait category pair.
 
 The public API currently reports tens of millions of records, so run the full package build
 on the server in `screen` or `tmux`.

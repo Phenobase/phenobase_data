@@ -131,6 +131,8 @@ def build_args_for_package(args):
         index=args.index,
         query=" OR ".join(f'dataSource:"{source}"' for source in SMOKE_SOURCES),
         limit=args.rows,
+        sample_per_datasource=0,
+        sample_per_datasource_trait_category=0,
         batch_size=args.rows,
         scroll="none",
         request_timeout=args.request_timeout,

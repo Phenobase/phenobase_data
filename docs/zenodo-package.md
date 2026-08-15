@@ -35,12 +35,25 @@ python3 build_zenodo_package.py \
   --request-timeout 120
 ```
 
+Trait-coverage example package with up to 20 flower, fruit, and leaf records per `dataSource`:
+
+```bash
+python3 build_zenodo_package.py \
+  --sample-per-datasource-trait-category 20 \
+  --package-name phenobase-zenodo-trait-coverage-example-2026-08-15 \
+  --version 2026-08-15 \
+  --publication-date 2026-08-15 \
+  --request-timeout 120
+```
+
 ## Package Contents
 
 - `phenobase_observations.csv.gz`: compressed CSV export of matching Phenobase records.
 - `data_dictionary.csv`: data dictionary generated from `data/columns.csv`.
 - `column_metadata.json`: JSON copy of the column metadata.
 - `source_summary.csv`: exported record counts by `dataSource`.
+- `live_dataset_counts.csv`: optional exact live and included counts by `dataSource` for `--sample-per-datasource`.
+- `trait_category_sample_counts.csv`: optional exact live and included counts by `dataSource` and trait category for `--sample-per-datasource-trait-category`.
 - `record_summary.json`: export parameters, row counts, date/year ranges, missing-link counts, and skipped year-only herbarium records.
 - `zenodo_metadata.json`: editable Zenodo deposition metadata template.
 - `manifest-sha256.txt`: SHA-256 checksums and byte sizes.

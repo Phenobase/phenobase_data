@@ -204,6 +204,106 @@ class ZenodoPackageTests(unittest.TestCase):
             zenodo.collect_live_dataset_counts = original_collect
             zenodo.fetch_datasource_sample = original_fetch
 
+    def test_trait_category_sampled_package_covers_default_categories_by_source(self):
+        original_argv = sys.argv
+        original_collect = zenodo.collect_live_dataset_counts
+        original_fetch = zenodo.fetch_datasource_trait_category_sample
+        calls = []
+
+        def fake_collect(_args):
+            return OrderedDict(
+                [
+                    ("Source A", 90),
+                    ("Source B", 80),
+                ]
+            )
+
+        def fake_fetch(_args, data_source, category):
+            calls.append((data_source, category))
+            source = {
+                "annotationID": f"{data_source}-{category}-1",
+                "scientificName": "Quercus agrifolia",
+                "verbatimFamily": "Fagaceae",
+                "standardizedFamily": "Fagaceae",
+                "trait": f"{category} present",
+                "traitUrn": f"PPO:{category}",
+                "mappedTraits": [f"{category} present"],
+                "mappedTraitsUrns": [f"PPO:{category}"],
+                "date": "2020-05-01",
+                "year": 2020,
+                "dayOfYear": 122,
+                "dataSource": data_source,
+                "sourceRecordUrl": f"https://example.org/{data_source}/{category}",
+            }
+            return [source], 7, 0, source["annotationID"], source["annotationID"]
+
+        try:
+            with tempfile.TemporaryDirectory() as tmpdir:
+                zenodo.collect_live_dataset_counts = fake_collect
+                zenodo.fetch_datasource_trait_category_sample = fake_fetch
+                sys.argv = [
+                    "build_zenodo_package.py",
+                    "--sample-per-datasource-trait-category",
+                    "1",
+                    "--output-dir",
+                    tmpdir,
+                    "--package-name",
+                    "phenobase-zenodo-trait-category-test",
+                    "--skip-zip",
+                ]
+
+                self.assertEqual(zenodo.main(), 0)
+
+                package_dir = Path(tmpdir) / "phenobase-zenodo-trait-category-test"
+                categories = list(zenodo.DEFAULT_TRAIT_CATEGORY_TERMS.keys())
+                expected_calls = [
+                    (data_source, category)
+                    for data_source in ["Source A", "Source B"]
+                    for category in categories
+                ]
+                self.assertEqual(calls, expected_calls)
+
+                with gzip.open(package_dir / "phenobase_observations.csv.gz", "rt", newline="", encoding="utf-8") as fh:
+                    rows = list(csv.DictReader(fh))
+                self.assertEqual(len(rows), 6)
+                self.assertEqual(
+                    [(row["dataSource"], row["trait"]) for row in rows],
+                    [(data_source, f"{category} present") for data_source, category in expected_calls],
+                )
+
+                validate_package_against_columns(self, package_dir)
+                self.assertTrue((package_dir / "trait_category_sample_counts.csv").exists())
+                self.assertFalse((package_dir / "live_dataset_counts.csv").exists())
+                self.assertFalse((Path(tmpdir) / "phenobase-zenodo-trait-category-test.zip").exists())
+
+                with open(package_dir / "trait_category_sample_counts.csv", newline="", encoding="utf-8") as fh:
+                    sample_rows = list(csv.DictReader(fh))
+                self.assertEqual(len(sample_rows), 6)
+                self.assertEqual(
+                    [(row["dataSource"], row["traitCategory"]) for row in sample_rows],
+                    expected_calls,
+                )
+                self.assertTrue(all(row["liveRecordCount"] == "7" for row in sample_rows))
+                self.assertTrue(all(row["includedRecordCount"] == "1" for row in sample_rows))
+
+                with open(package_dir / "record_summary.json", encoding="utf-8") as fh:
+                    summary = json.load(fh)
+                self.assertEqual(summary["exportMode"], "sample_per_datasource_trait_category")
+                self.assertEqual(summary["samplePerDataSource"], 0)
+                self.assertEqual(summary["samplePerDataSourceTraitCategory"], 1)
+                self.assertEqual(summary["traitCategories"], categories)
+                self.assertEqual(summary["expectedTotalFromApi"], 42)
+                self.assertEqual(summary["rowsExported"], 6)
+                self.assertEqual(summary["sourceCounts"], {"Source A": 3, "Source B": 3})
+
+                readme_text = (package_dir / "README.md").read_text(encoding="utf-8")
+                self.assertIn("trait_category_sample_counts.csv", readme_text)
+                self.assertIn("--sample-per-datasource-trait-category 1", readme_text)
+        finally:
+            sys.argv = original_argv
+            zenodo.collect_live_dataset_counts = original_collect
+            zenodo.fetch_datasource_trait_category_sample = original_fetch
+
     @unittest.skipUnless(
         os.environ.get("PHENOBASE_ZENODO_PACKAGE_DIR"),
         "Set PHENOBASE_ZENODO_PACKAGE_DIR to validate a generated Zenodo package.",
