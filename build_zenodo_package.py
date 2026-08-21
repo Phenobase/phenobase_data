@@ -107,6 +107,15 @@ def parse_args():
             "trait_category_sample_counts.csv with exact live category counts."
         ),
     )
+    parser.add_argument(
+        "--sample-random-seed",
+        type=int,
+        default=None,
+        help=(
+            "Use Elasticsearch random_score with this seed for sample modes. "
+            "Omit to keep the existing _doc-order sample behavior."
+        ),
+    )
     parser.add_argument("--request-timeout", type=float, default=DEFAULT_REQUEST_TIMEOUT, help=f"Per-request timeout in seconds (default: {DEFAULT_REQUEST_TIMEOUT})")
     parser.add_argument("--columns-path", default=DEFAULT_COLUMNS_PATH, help=f"Column metadata CSV path (default: {DEFAULT_COLUMNS_PATH})")
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR, help=f"Destination parent directory (default: {DEFAULT_OUTPUT_DIR})")
@@ -314,6 +323,28 @@ def post_es_search(args, body):
     return post_json(url, body, args.request_timeout)
 
 
+def build_sample_search_body(args, query, offset, page_size):
+    sample_query = query
+    body = {
+        "from": offset,
+        "size": page_size,
+        "track_total_hits": True,
+        "query": sample_query,
+    }
+    if args.sample_random_seed is None:
+        body["sort"] = ["_doc"]
+    else:
+        body["query"] = {
+            "function_score": {
+                "query": sample_query,
+                "random_score": {
+                    "seed": args.sample_random_seed,
+                },
+            }
+        }
+    return body
+
+
 def collect_live_dataset_counts(args):
     response = post_es_search(
         args,
@@ -354,13 +385,12 @@ def fetch_datasource_sample(args, data_source):
     while len(rows) < args.sample_per_datasource:
         response = post_es_search(
             args,
-            {
-                "from": offset,
-                "size": page_size,
-                "track_total_hits": True,
-                "sort": ["_doc"],
-                "query": build_sample_query(args.query, data_source),
-            },
+            build_sample_search_body(
+                args,
+                build_sample_query(args.query, data_source),
+                offset,
+                page_size,
+            ),
         )
         if live_total is None:
             live_total = get_total_hits(response)
@@ -398,13 +428,12 @@ def fetch_datasource_trait_category_sample(args, data_source, category):
     while len(rows) < sample_size:
         response = post_es_search(
             args,
-            {
-                "from": offset,
-                "size": page_size,
-                "track_total_hits": True,
-                "sort": ["_doc"],
-                "query": build_trait_category_sample_query(args.query, data_source, category),
-            },
+            build_sample_search_body(
+                args,
+                build_trait_category_sample_query(args.query, data_source, category),
+                offset,
+                page_size,
+            ),
         )
         if live_total is None:
             live_total = get_total_hits(response)
@@ -641,6 +670,7 @@ def write_summary_json(path, args, stats, expected_total, field_order):
             ("exportMode", export_mode),
             ("samplePerDataSource", args.sample_per_datasource),
             ("samplePerDataSourceTraitCategory", args.sample_per_datasource_trait_category),
+            ("sampleRandomSeed", args.sample_random_seed),
             (
                 "traitCategories",
                 list(DEFAULT_TRAIT_CATEGORY_TERMS.keys())
@@ -696,9 +726,13 @@ def write_readme(path, args, stats, field_order):
     ]
     if args.sample_per_datasource > 0:
         command_lines.append(f"  --package-name {json.dumps(args.package_name)} \\")
+        if args.sample_random_seed is not None:
+            command_lines.append(f"  --sample-random-seed {args.sample_random_seed} \\")
         command_lines.append(f"  --sample-per-datasource {args.sample_per_datasource}")
     elif args.sample_per_datasource_trait_category > 0:
         command_lines.append(f"  --package-name {json.dumps(args.package_name)} \\")
+        if args.sample_random_seed is not None:
+            command_lines.append(f"  --sample-random-seed {args.sample_random_seed} \\")
         command_lines.append(f"  --sample-per-datasource-trait-category {args.sample_per_datasource_trait_category}")
     else:
         command_lines.append(f"  --package-name {json.dumps(args.package_name)}")

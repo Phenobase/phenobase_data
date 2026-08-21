@@ -304,6 +304,28 @@ class ZenodoPackageTests(unittest.TestCase):
             zenodo.collect_live_dataset_counts = original_collect
             zenodo.fetch_datasource_trait_category_sample = original_fetch
 
+    def test_sample_search_body_uses_random_score_when_seeded(self):
+        args = type("Args", (), {"sample_random_seed": 20260821})()
+        query = {"bool": {"filter": [{"term": {"dataSource": "Source A"}}]}}
+
+        body = zenodo.build_sample_search_body(args, query, 0, 400)
+
+        self.assertNotIn("sort", body)
+        self.assertEqual(body["from"], 0)
+        self.assertEqual(body["size"], 400)
+        self.assertEqual(body["track_total_hits"], True)
+        self.assertEqual(body["query"]["function_score"]["query"], query)
+        self.assertEqual(body["query"]["function_score"]["random_score"]["seed"], 20260821)
+
+    def test_sample_search_body_keeps_doc_order_without_seed(self):
+        args = type("Args", (), {"sample_random_seed": None})()
+        query = {"match_all": {}}
+
+        body = zenodo.build_sample_search_body(args, query, 0, 20)
+
+        self.assertEqual(body["query"], query)
+        self.assertEqual(body["sort"], ["_doc"])
+
     @unittest.skipUnless(
         os.environ.get("PHENOBASE_ZENODO_PACKAGE_DIR"),
         "Set PHENOBASE_ZENODO_PACKAGE_DIR to validate a generated Zenodo package.",

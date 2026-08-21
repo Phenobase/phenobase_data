@@ -610,6 +610,7 @@ Build a broader trait-coverage example package with up to 20 flower, fruit, and 
 ```bash
 python3 build_zenodo_package.py \
   --sample-per-datasource-trait-category 20 \
+  --sample-random-seed 20260821 \
   --package-name phenobase-zenodo-trait-coverage-example-2026-08-15 \
   --version 2026-08-15 \
   --publication-date 2026-08-15 \
@@ -617,7 +618,8 @@ python3 build_zenodo_package.py \
 ```
 
 This writes `trait_category_sample_counts.csv` with the live and included counts for each
-`dataSource` and trait category pair.
+`dataSource` and trait category pair. `--sample-random-seed` makes the sample order
+random but reproducible; omit it to use the older `_doc`-order sample behavior.
 
 The public API currently reports tens of millions of records, so run the full package build
 on the server in `screen` or `tmux`.
