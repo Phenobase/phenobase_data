@@ -25,8 +25,10 @@ from build_zenodo_package import (
     validate_args,
     write_column_metadata_json,
     write_data_dictionary,
+    write_citation_markdown,
     write_manifest,
     write_readme,
+    write_source_citations,
     write_source_summary,
     write_summary_json,
     write_zenodo_metadata,
@@ -177,13 +179,16 @@ def build_package(args, records, expected_total):
     column_rows, field_order = load_column_metadata(package_args.columns_path)
     csv_gz_path = package_dir / "phenobase_observations.csv.gz"
     stats = write_observations(csv_gz_path, field_order, records)
+    access_date = date.today()
 
     write_data_dictionary(package_dir / "data_dictionary.csv", column_rows)
     write_column_metadata_json(package_dir / "column_metadata.json", column_rows)
     write_source_summary(package_dir / "source_summary.csv", stats["data_sources"])
-    write_summary_json(package_dir / "record_summary.json", package_args, stats, expected_total, field_order)
-    write_zenodo_metadata(package_dir / "zenodo_metadata.json", package_args, stats)
-    write_readme(package_dir / "README.md", package_args, stats, field_order)
+    write_source_citations(package_dir / "source_citations.csv", stats["data_sources"], access_date)
+    write_citation_markdown(package_dir / "CITATION.md", stats["data_sources"], access_date)
+    write_summary_json(package_dir / "record_summary.json", package_args, stats, expected_total, field_order, access_date)
+    write_zenodo_metadata(package_dir / "zenodo_metadata.json", package_args, stats, access_date)
+    write_readme(package_dir / "README.md", package_args, stats, field_order, access_date)
     write_manifest(package_dir / "manifest-sha256.txt", package_dir)
 
     if not package_args.skip_zip:

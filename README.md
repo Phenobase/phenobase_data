@@ -547,7 +547,11 @@ python3 download_csv_dump.py --query 'genus:Quercus AND year:[2000 TO 2025]' --o
 python3 download_csv_dump.py --limit 100000
 python3 download_csv_dump.py --batch-size 10000 --scroll 1m
 python3 download_csv_dump.py --request-timeout 60
+python3 download_csv_dump.py --citations-output downloads/quercus_citations.md
 ```
+
+The CSV dump helper also writes a citation Markdown sidecar at
+`<output-stem>_citations.md` by default. Use `--no-citations` to suppress it.
 
 ### Build A Zenodo Package
 
@@ -565,9 +569,11 @@ The package is written under `downloads/zenodo/<package-name>/` and, by default,
 - `data_dictionary.csv`: column metadata derived from `data/columns.csv`
 - `column_metadata.json`: JSON form of the same column metadata
 - `source_summary.csv`: record counts by `dataSource`
+- `source_citations.csv`: citation text for each exported `dataSource`
+- `CITATION.md`: human-readable source citations and acknowledgements
 - `live_dataset_counts.csv`: optional exact live and included counts by `dataSource` for `--sample-per-datasource`
 - `trait_category_sample_counts.csv`: optional exact live and included counts by `dataSource` and trait category for `--sample-per-datasource-trait-category`
-- `record_summary.json`: export parameters, row counts, date/year ranges, missing-link counts, and skipped year-only herbarium records
+- `record_summary.json`: export parameters, row counts, date/year ranges, source citations, missing-link counts, and skipped year-only herbarium records
 - `zenodo_metadata.json`: editable Zenodo metadata template
 - `manifest-sha256.txt`: checksums and byte sizes
 - `README.md`: package documentation

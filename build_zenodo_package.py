@@ -43,6 +43,12 @@ from download_csv_dump import (
     should_skip_source,
 )
 from export_schema import load_export_column_metadata
+from source_citations import (
+    acknowledgements_for_data_sources,
+    citation_markdown,
+    citations_for_data_sources,
+    source_citation_rows,
+)
 
 
 DEFAULT_COLUMNS_PATH = "data/columns.csv"
@@ -559,6 +565,18 @@ def write_source_summary(path, data_sources):
             writer.writerow({"dataSource": data_source, "recordCount": count})
 
 
+def write_source_citations(path, data_sources, access_date=None):
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(fh, fieldnames=["dataSource", "recordCount", "citationText"])
+        writer.writeheader()
+        for row in source_citation_rows(data_sources, access_date):
+            writer.writerow(row)
+
+
+def write_citation_markdown(path, data_sources, access_date=None):
+    path.write_text(citation_markdown(data_sources, access_date), encoding="utf-8")
+
+
 def write_live_dataset_counts(path, live_rows):
     with open(path, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(
@@ -603,9 +621,11 @@ def description_html():
     )
 
 
-def write_zenodo_metadata(path, args, stats):
+def write_zenodo_metadata(path, args, stats, access_date=None):
     creators = args.creator or [DEFAULT_CREATOR]
     keywords = args.keyword or DEFAULT_KEYWORDS
+    source_citations = citations_for_data_sources(stats["data_sources"], access_date)
+    acknowledgements = acknowledgements_for_data_sources(stats["data_sources"])
     metadata = OrderedDict(
         [
             ("metadata", OrderedDict(
@@ -621,7 +641,8 @@ def write_zenodo_metadata(path, args, stats):
                     (
                         "notes",
                         "Template metadata generated for Zenodo submission. Review creators, "
-                        "affiliations, funders, related identifiers, communities, and license before upload.",
+                        "affiliations, funders, related identifiers, communities, and license before upload. "
+                        "Source citations and acknowledgements are included in CITATION.md.",
                     ),
                     (
                         "related_identifiers",
@@ -642,6 +663,8 @@ def write_zenodo_metadata(path, args, stats):
                                 ("record_count", stats["rows"]),
                                 ("date_range", [stats["min_date"], stats["max_date"]]),
                                 ("year_range", [stats["min_year"], stats["max_year"]]),
+                                ("source_citations", source_citations),
+                                ("acknowledgements", acknowledgements),
                             ]
                         ),
                     ),
@@ -654,7 +677,7 @@ def write_zenodo_metadata(path, args, stats):
         fh.write("\n")
 
 
-def write_summary_json(path, args, stats, expected_total, field_order):
+def write_summary_json(path, args, stats, expected_total, field_order, access_date=None):
     if args.sample_per_datasource_trait_category > 0:
         export_mode = "sample_per_datasource_trait_category"
     elif args.sample_per_datasource > 0:
@@ -688,6 +711,8 @@ def write_summary_json(path, args, stats, expected_total, field_order):
             ("missingSourceRecordUrl", stats["missing_sourceRecordUrl"]),
             ("skippedYearOnlyHerbariumRecords", stats["skipped_year_only_herbarium"]),
             ("sourceCounts", OrderedDict(sorted(stats["data_sources"].items()))),
+            ("sourceCitations", citations_for_data_sources(stats["data_sources"], access_date)),
+            ("acknowledgements", acknowledgements_for_data_sources(stats["data_sources"])),
         ]
     )
     with open(path, "w", encoding="utf-8") as fh:
@@ -695,7 +720,7 @@ def write_summary_json(path, args, stats, expected_total, field_order):
         fh.write("\n")
 
 
-def write_readme(path, args, stats, field_order):
+def write_readme(path, args, stats, field_order, access_date=None):
     if args.include_all_columns:
         field_note = "CSV fields follow the full row order in `data/columns.csv`."
     else:
@@ -705,6 +730,8 @@ def write_readme(path, args, stats, field_order):
         "- `data_dictionary.csv`: column-level metadata derived from `data/columns.csv`.",
         "- `column_metadata.json`: JSON representation of the same column metadata.",
         "- `source_summary.csv`: exported record counts by `dataSource`.",
+        "- `source_citations.csv`: source citation text for each exported `dataSource`.",
+        "- `CITATION.md`: human-readable source citations and acknowledgements.",
     ]
     if args.sample_per_datasource > 0:
         file_lines.append("- `live_dataset_counts.csv`: exact live and included record counts by `dataSource`.")
@@ -737,6 +764,19 @@ def write_readme(path, args, stats, field_order):
     else:
         command_lines.append(f"  --package-name {json.dumps(args.package_name)}")
 
+    citation_lines = []
+    for data_source, citation in citations_for_data_sources(stats["data_sources"], access_date).items():
+        citation_lines.extend([f"### {data_source}", "", citation, ""])
+    if not citation_lines:
+        citation_lines.extend(["No source records were exported.", ""])
+
+    acknowledgement_lines = []
+    acknowledgements = acknowledgements_for_data_sources(stats["data_sources"])
+    if acknowledgements:
+        acknowledgement_lines.extend(["## Acknowledgements", ""])
+        for acknowledgement in acknowledgements:
+            acknowledgement_lines.extend([acknowledgement, ""])
+
     lines = [
         "# Phenobase Zenodo Data Package",
         "",
@@ -761,6 +801,13 @@ def write_readme(path, args, stats, field_order):
         "CSV arrays are pipe-delimited inside a cell. Nested objects, if any, are JSON-encoded inside a cell.",
         field_note,
         "",
+        "## Citations",
+        "",
+        "Use the citation below for each data source included in this download. "
+        "Bracketed placeholders such as [Date range of data used] are intentionally retained for users to complete.",
+        "",
+        *citation_lines,
+        *acknowledgement_lines,
         "## Generation Command",
         "",
         "```bash",
@@ -853,16 +900,19 @@ def main():
         else:
             stats, expected_total = export_observations(args, csv_gz_path, field_order)
 
+        access_date = date.today()
         write_data_dictionary(package_dir / "data_dictionary.csv", column_rows)
         write_column_metadata_json(package_dir / "column_metadata.json", column_rows)
         write_source_summary(package_dir / "source_summary.csv", stats["data_sources"])
+        write_source_citations(package_dir / "source_citations.csv", stats["data_sources"], access_date)
+        write_citation_markdown(package_dir / "CITATION.md", stats["data_sources"], access_date)
         if live_rows is not None:
             write_live_dataset_counts(package_dir / "live_dataset_counts.csv", live_rows)
         if trait_category_rows is not None:
             write_trait_category_sample_counts(package_dir / "trait_category_sample_counts.csv", trait_category_rows)
-        write_summary_json(package_dir / "record_summary.json", args, stats, expected_total, field_order)
-        write_zenodo_metadata(package_dir / "zenodo_metadata.json", args, stats)
-        write_readme(package_dir / "README.md", args, stats, field_order)
+        write_summary_json(package_dir / "record_summary.json", args, stats, expected_total, field_order, access_date)
+        write_zenodo_metadata(package_dir / "zenodo_metadata.json", args, stats, access_date)
+        write_readme(package_dir / "README.md", args, stats, field_order, access_date)
         write_manifest(package_dir / "manifest-sha256.txt", package_dir)
 
         if not args.skip_zip:

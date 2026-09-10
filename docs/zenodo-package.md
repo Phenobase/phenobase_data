@@ -52,9 +52,11 @@ python3 build_zenodo_package.py \
 - `data_dictionary.csv`: data dictionary generated from `data/columns.csv`.
 - `column_metadata.json`: JSON copy of the column metadata.
 - `source_summary.csv`: exported record counts by `dataSource`.
+- `source_citations.csv`: citation text for each exported `dataSource`.
+- `CITATION.md`: human-readable source citations and acknowledgements.
 - `live_dataset_counts.csv`: optional exact live and included counts by `dataSource` for `--sample-per-datasource`.
 - `trait_category_sample_counts.csv`: optional exact live and included counts by `dataSource` and trait category for `--sample-per-datasource-trait-category`.
-- `record_summary.json`: export parameters, row counts, date/year ranges, missing-link counts, and skipped year-only herbarium records.
+- `record_summary.json`: export parameters, row counts, date/year ranges, source citations, missing-link counts, and skipped year-only herbarium records.
 - `zenodo_metadata.json`: editable Zenodo deposition metadata template.
 - `manifest-sha256.txt`: SHA-256 checksums and byte sizes.
 - `README.md`: package documentation.
@@ -65,6 +67,7 @@ Use `--include-all-columns` to include every field listed in `data/columns.csv`.
 ## Zenodo Review Checklist
 
 - Review `record_summary.json`, especially `missingSourceRecordUrl`, before depositing.
+- Review `CITATION.md` and fill bracketed placeholders such as `[Date range of data used]` before publication when needed.
 - Review and edit `zenodo_metadata.json`; creators, affiliations, funders, related identifiers,
   community, and license must be confirmed by the submitting team.
 - Keep the number of uploaded files low. The generated ZIP is intended to be the main Zenodo upload.

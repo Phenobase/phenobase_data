@@ -11,6 +11,8 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from collections import Counter
+from datetime import date
 
 from export_schema import (
     enrich_export_record,
@@ -18,6 +20,7 @@ from export_schema import (
     project_export_record,
     should_skip_source,
 )
+from source_citations import citation_markdown
 
 
 DEFAULT_BASE_URL = "https://biscicol.org/phenobase/api/v1/query"
@@ -73,6 +76,16 @@ def parse_args():
         help=f"Destination CSV path (default: {DEFAULT_OUTPUT})",
     )
     parser.add_argument(
+        "--citations-output",
+        default=None,
+        help="Destination citation Markdown sidecar. Default: <output-stem>_citations.md",
+    )
+    parser.add_argument(
+        "--no-citations",
+        action="store_true",
+        help="Do not write a citation Markdown sidecar for the exported data sources.",
+    )
+    parser.add_argument(
         "--columns-path",
         default=DEFAULT_COLUMNS_PATH,
         help=f"Schema file used for CSV column order (default: {DEFAULT_COLUMNS_PATH})",
@@ -104,6 +117,17 @@ def ensure_parent_dir(path):
     parent = os.path.dirname(os.path.abspath(path))
     if parent:
         os.makedirs(parent, exist_ok=True)
+
+
+def default_citations_output(output):
+    root, _extension = os.path.splitext(output)
+    return f"{root}_citations.md"
+
+
+def write_citations(path, data_sources, access_date=None):
+    ensure_parent_dir(path)
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(citation_markdown(data_sources, access_date))
 
 
 def load_field_order(columns_path):
@@ -203,6 +227,7 @@ def export_rows(args):
 
     total_written = 0
     page_number = 0
+    data_sources = Counter()
     response = fetch_initial_page(
         args.base_url,
         args.index,
@@ -229,12 +254,15 @@ def export_rows(args):
             for hit in hits:
                 if args.limit > 0 and total_written >= args.limit:
                     print(f"Reached client-side limit of {args.limit:,} rows.")
-                    return total_written, expected_total
+                    return total_written, expected_total, data_sources
                 source = hit.get("_source") or {}
                 if should_skip_source(source):
                     continue
                 writer.writerow(build_csv_row(source, field_order))
                 total_written += 1
+                data_source = source.get("dataSource")
+                if data_source:
+                    data_sources[str(data_source)] += 1
             fh.flush()
             page_elapsed = time.monotonic() - page_started_at
             print_page_progress(page_number, len(hits), total_written, expected_total, page_elapsed)
@@ -247,7 +275,7 @@ def export_rows(args):
             response = fetch_scroll_page(args.base_url, scroll_id, args.scroll, args.request_timeout)
             scroll_id = response.get("_scroll_id")
 
-    return total_written, expected_total
+    return total_written, expected_total, data_sources
 
 
 def main():
@@ -263,7 +291,10 @@ def main():
         return 1
 
     try:
-        written, expected_total = export_rows(args)
+        written, expected_total, data_sources = export_rows(args)
+        if not args.no_citations:
+            citations_output = args.citations_output or default_citations_output(args.output)
+            write_citations(citations_output, data_sources, date.today())
     except FileNotFoundError as exc:
         print(f"Missing file: {exc.filename}", file=sys.stderr)
         return 1
@@ -284,6 +315,8 @@ def main():
         return 1
 
     print(f"Saved CSV dump to {os.path.abspath(args.output)}")
+    if not args.no_citations:
+        print(f"Saved citation sidecar to {os.path.abspath(citations_output)}")
     if expected_total:
         print(f"Rows written: {written:,} of {expected_total:,} reported by the API.")
     else:

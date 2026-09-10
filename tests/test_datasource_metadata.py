@@ -84,6 +84,14 @@ class DatasourceMetadataTests(unittest.TestCase):
                 self.assertTrue(row["citationText"] or row["dataUseNotes"])
                 self.assertTrue(row["phenobaseProcessingSummary"])
 
+    def test_required_citation_text_is_present(self):
+        _fieldnames, rows = load_datasource_rows()
+
+        for row in rows:
+            with self.subTest(dataSource=row["dataSource"]):
+                self.assertTrue(row["citationText"])
+                self.assertNotIn("Confirm whether", row["citationText"])
+
     def test_datasource_definitions_cover_every_datasource_column(self):
         datasource_fieldnames, _rows = load_datasource_rows()
         definition_fieldnames, definition_rows = load_definition_rows()

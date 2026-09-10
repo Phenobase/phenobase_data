@@ -9,7 +9,7 @@ sourceVersion,"Source dataset version, release identifier, or release date when 
 licenseId,"Machine-readable or normalized license identifier, such as cc-by-4.0, cc-by-nc-4.0, cc-by-nc-sa-4.0, mixed, or unknown."
 licenseName,"Human-readable license name for citation and data-use notes."
 licenseUrl,"Public URL for the license or source-specific terms of use."
-citationText,"Preferred citation text for the source when available from the source provider."
+citationText,"Preferred citation text or citation template for the source when available from the source provider."
 dataUseNotes,"Source-specific attribution, redistribution, license, or interpretation notes that should accompany downloads and releases."
 phenobaseProcessingSummary,"Short description of how Phenobase transforms, normalizes, annotates, or maps records from this source."
 citationSourceUrl,"URL where the citation, license, or data-use guidance was found."

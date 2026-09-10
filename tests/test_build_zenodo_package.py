@@ -52,9 +52,11 @@ def validate_package_against_columns(testcase, package_dir, columns_path="data/c
     expected_fields = [row["field"] for row in expected_rows]
     required_files = {
         "phenobase_observations.csv.gz",
+        "CITATION.md",
         "data_dictionary.csv",
         "column_metadata.json",
         "source_summary.csv",
+        "source_citations.csv",
         "record_summary.json",
         "zenodo_metadata.json",
         "manifest-sha256.txt",
@@ -86,6 +88,22 @@ def validate_package_against_columns(testcase, package_dir, columns_path="data/c
             for row in csv.DictReader(fh)
         }
     testcase.assertEqual(source_summary, summary["sourceCounts"])
+
+    with open(package_dir / "source_citations.csv", newline="", encoding="utf-8") as fh:
+        source_citations = {
+            row["dataSource"]: {
+                "recordCount": int(row["recordCount"]),
+                "citationText": row["citationText"],
+            }
+            for row in csv.DictReader(fh)
+        }
+    testcase.assertEqual(
+        {data_source: row["recordCount"] for data_source, row in source_citations.items()},
+        source_summary,
+    )
+    testcase.assertEqual(set(source_citations), set(summary["sourceCitations"]))
+    testcase.assertTrue(all(row["citationText"] for row in source_citations.values()))
+    testcase.assertTrue((package_dir / "CITATION.md").read_text(encoding="utf-8").startswith("# Citations"))
 
     manifest_entries = {}
     with open(package_dir / "manifest-sha256.txt", encoding="utf-8") as fh:
